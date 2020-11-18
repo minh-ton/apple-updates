@@ -1,0 +1,30 @@
+{
+  "name": "applebot",
+  "version": "1.0.0",
+  "description": "Software Catalog Discord Bot",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "author": "MinhTon",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.20.0",
+    "discord.js": "^12.3.1",
+    "fast-xml-parser": "^3.17.4",
+    "fs": "0.0.1-security",
+    "he": "^1.2.0",
+    "http": "0.0.1-security",
+    "https": "^1.0.0",
+    "node-fetch": "^2.6.0",
+    "plist": "^3.0.1",
+    "quick.db": "^7.1.1",
+    "request": "^2.88.2",
+    "simple-plist": "^1.1.0",
+    "sleep": "^6.3.0",
+    "xml-js": "^1.6.11",
+    "xml2js": "^0.4.23"
+  },
+  "devDependencies": {},
+  "keywords": []
+}
