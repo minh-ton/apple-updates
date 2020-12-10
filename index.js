@@ -6,6 +6,7 @@ const request = require('request');
 const convert = require('xml-js');
 var plist = require('plist');
 const quickdb = require('quick.db');
+var https = require('https');
 
 // https://discordapp.com/api/webhooks/750862907683766272/CC4hBTJWfm7xZzV25uhLqsoEadUNzApJOugIU3zpQtQdyi3vqeavmgAHuIddu6c39gv-
 
@@ -35,12 +36,16 @@ let audioos_catalog_url = `https://api.ipsw.me/v4/device/AudioAccessory1,1?type=
 let macos_catalog_url = `https://api.ipsw.me/v4/device/MacBookPro17,1?type=ipsw`
 let ios_beta_catalog_url = `https://mesu.apple.com/assets/iOS14DeveloperSeed/com_apple_MobileAsset_SoftwareUpdate/com_apple_MobileAsset_SoftwareUpdate.xml`;
 let ipados_beta_catalog_url = `https://mesu.apple.com/assets/iOS14DeveloperSeed/com_apple_MobileAsset_SoftwareUpdate/com_apple_MobileAsset_SoftwareUpdate.xml`;
+let macos_beta_catalog_url = `https://swscan.apple.com/content/catalogs/others/index-10.16seed-10.16-10.15-10.14-10.13-10.12-10.11-10.10-10.9-mountainlion-lion-snowleopard-leopard.merged-1.sucatalog`;
+let macos_public_url = `https://swscan.apple.com/content/catalogs/others/index-11-10.15-10.14-10.13-10.12-10.11-10.10-10.9-mountainlion-lion-snowleopard-leopard.merged-1.sucatalog`;
 
 var ios_public_value = quickdb.fetch(`ios_public_build`);
 var ipados_public_value = quickdb.fetch(`ipados_public_build`);
 var tvos_public_value = quickdb.fetch(`tvos_public_build`);
 var audioos_public_value = quickdb.fetch(`audioos_public_build`);
 var macos_public_value = quickdb.fetch(`macos_public_build`);
+var macos_beta_value = quickdb.fetch(`macos_beta_version`);
+var macos_intel_url = quickdb.fetch(`macos_url_version`);
 var ios_beta_value = quickdb.fetch(`ios_beta_build`);
 var ipados_beta_value = quickdb.fetch(`ipados_beta_build`);
 
@@ -50,8 +55,10 @@ function update_existed_values() {
   tvos_public_value = quickdb.fetch(`tvos_public_build`);
   audioos_public_value = quickdb.fetch(`audioos_public_build`);
   macos_public_value = quickdb.fetch(`macos_public_build`);
+  macos_beta_value = quickdb.fetch(`macos_beta_version`);
   ios_beta_value = quickdb.fetch(`ios_beta_build`);
   ipados_beta_value = quickdb.fetch(`ipados_beta_build`);
+  macos_intel_url = quickdb.fetch(`macos_url_version`);
 }
 
 function send_embeds(title, description, type) {
@@ -276,6 +283,112 @@ function pull_ipados_beta_catalog() {
 function pull_macos_beta_catalog() {
   update_existed_values();
 
+  request(macos_beta_catalog_url, function(error, response, body) {
+    let catalog_content = plist.parse(body);
+    for (let product in catalog_content.Products) {
+      for (let package in catalog_content.Products[product].Packages) {
+        if (catalog_content.Products[product].Packages[package].URL.endsWith('InstallAssistant.pkg')) {
+
+          const pkg_info = catalog_content.Products[product].Distributions.English;
+
+          https.get(pkg_info, function(result) {
+            result.on('data', function(data) {
+              const jsonData = JSON.parse(convert.xml2json(data, {
+                compact: true,
+                spaces: 2
+              }));
+
+              send_embeds(`Pulling macOS Beta Updates...`, `macOS Beta_ OLD: ${macos_beta_value}; New: ${jsonData['installer-gui-script'].auxinfo.dict.string[1]._text}`, `macos_beta`);
+
+              if (!macos_beta_value) {
+                quickdb.set('macos_beta_version', jsonData['installer-gui-script'].auxinfo.dict.string[1]._text);
+                return;
+              }
+
+              if (macos_beta_value <= jsonData['installer-gui-script'].auxinfo.dict.string[1]._text) return;
+
+              const randomColor = "#000000".replace(/0/g, function() {
+                return (~~(Math.random() * 16)).toString(16);
+              });
+
+              const embed = new Discord.MessageEmbed()
+                .setTitle(`💻 New macOS Beta Release!`)
+                .setDescription(`> For Intel Macs: ${catalog_content.Products[product].Packages[package].URL}`)
+                .setAuthor(`macOS on Unsupported Macs`, `https://i.imgur.com/71KNcHE.png`)
+                .addField(`Version`, jsonData['installer-gui-script'].auxinfo.dict.string[1]._text, true)
+                .addField(`Build`, jsonData['installer-gui-script'].auxinfo.dict.string[0]._text, true)
+                .addField(`Size`, formatBytes(catalog_content.Products[product].Packages[package].Size), true)
+                .setThumbnail(`https://ipsw.me/assets/devices/MacBookPro17,1.png`)
+                .setColor(randomColor)
+                .setTimestamp();
+              client.send(embed);
+              client.send("<@&757663043126820991>");
+              quickdb.set('macos_beta_version', jsonData['installer-gui-script'].auxinfo.dict.string[1]._text);
+            });
+          });
+
+        }
+      }
+    }
+  });
+}
+
+function pull_macos_public_url() {
+  update_existed_values();
+
+  request(macos_public_url, function(error, response, body) {
+    let catalog_content = plist.parse(body);
+    for (let product in catalog_content.Products) {
+      for (let package in catalog_content.Products[product].Packages) {
+        if (catalog_content.Products[product].Packages[package].URL.endsWith('InstallAssistant.pkg')) {
+
+          const pkg_info = catalog_content.Products[product].Distributions.English;
+
+          https.get(pkg_info, function(result) {
+            result.on('data', function(data) {
+              const jsonData = JSON.parse(convert.xml2json(data, {
+                compact: true,
+                spaces: 2
+              }));
+
+              send_embeds(`Pulling macOS Public URL Updates...`, `macOS URL_ OLD: ${macos_intel_url}; New: ${jsonData['installer-gui-script'].auxinfo.dict.string[1]._text}`, `macos_url`);
+
+              if (!macos_intel_url) {
+                quickdb.set('macos_url_version', jsonData['installer-gui-script'].auxinfo.dict.string[1]._text);
+                return;
+              }
+
+              if (macos_intel_url <= jsonData['installer-gui-script'].auxinfo.dict.string[1]._text) return;
+
+              const randomColor = "#000000".replace(/0/g, function() {
+                return (~~(Math.random() * 16)).toString(16);
+              });
+
+              const embed = new Discord.MessageEmbed()
+                .setTitle(`💻 New macOS Public Release [Intel] !`)
+                .setDescription(`> ${catalog_content.Products[product].Packages[package].URL}`)
+                .setAuthor(`macOS on Unsupported Macs`, `https://i.imgur.com/71KNcHE.png`)
+                .addField(`Version`, jsonData['installer-gui-script'].auxinfo.dict.string[1]._text, true)
+                .addField(`Build`, jsonData['installer-gui-script'].auxinfo.dict.string[0]._text, true)
+                .addField(`Size`, formatBytes(catalog_content.Products[product].Packages[package].Size), true)
+                .setThumbnail(`https://ipsw.me/assets/devices/MacBookPro17,1.png`)
+                .setColor(randomColor)
+                .setTimestamp();
+              client.send(embed);
+              client.send("<@&757663043126820991>");
+              quickdb.set('macos_url_version', jsonData['installer-gui-script'].auxinfo.dict.string[1]._text);
+            });
+          });
+
+        }
+      }
+    }
+  });
+}
+
+function pull_macos_public_catalog() {
+  update_existed_values();
+
   fetch(macos_catalog_url).then(function(macos) {
     return macos.json()
   }).then(function(send_macos) {
@@ -289,7 +402,7 @@ function pull_macos_beta_catalog() {
       return (~~(Math.random() * 16)).toString(16);
     });
     const embed = new Discord.MessageEmbed()
-      .setTitle(`💻 New macOS Public Release!`)
+      .setTitle(`💻 New macOS Public Release [ARM] !`)
       .setDescription(`> ${send_macos.firmwares[0].url}`)
       .setAuthor(`macOS on Unsupported Macs`, `https://i.imgur.com/71KNcHE.png`)
       .addField(`Version`, send_macos.firmwares[0].version, true)
@@ -305,46 +418,6 @@ function pull_macos_beta_catalog() {
   }).catch(function(err) {
     console.log(err);
   });
-
-  /* axios.post('https://gdmf.apple.com/v2/assets', {
-      AssetAudience: "ca60afc6-5954-46fd-8cb9-60dde6ac39fd",
-      HWModelStr: "Mac-06F11F11946D27C5",
-      CertIssuanceDay: "2019-09-06",
-      ClientVersion: 2,
-      AssetType: "com.apple.MobileAsset.MacSoftwareUpdate"
-    })
-    .then(res => {
-      var arr = res.data.split(".");
-      let buff = new Buffer.from(arr[1], 'base64');
-      let text = JSON.parse(buff.toString('utf8'));
-      const randomColor = "#000000".replace(/0/g, function() {
-        return (~~(Math.random() * 16)).toString(16);
-      });
-
-      send_embeds(`Pulling macOS Beta Updates...`, `macOS Beta_ OLD: ${macos_beta_value}; New: ${text.Assets[0].Build}`, `macos_beta`);
-      if (!macos_beta_value) {
-        quickdb.set('macos_beta_build', text.Assets[0].Build);
-        return;
-      }
-      if (macos_beta_value == text.Assets[0].Build) return;
-
-      const embed = new Discord.MessageEmbed()
-        .setTitle(`💻 New macOS Beta Release!`)
-        .setAuthor(`macOS on Unsupported Macs`, `https://i.imgur.com/71KNcHE.png`)
-        .addField(`Version`, `macOS ${text.Assets[0].OSVersion} (${text.Assets[0].SUDocumentationID})`, true)
-        .addField(`Build`, text.Assets[0].Build, true)
-        .addField(`Size`, formatBytes(text.Assets[0]._DownloadSize), true)
-        .setDescription(`> ${text.Assets[0].__BaseURL}${text.Assets[0].__RelativePath}`)
-        .setThumbnail(`https://i.imgur.com/nxTPLLH.png`)
-        .setColor(randomColor)
-        .setTimestamp();
-      client.send(embed);
-      client.send("<@&757663043126820991>");
-      quickdb.set('macos_beta_build', text.Assets[0].Build);
-    })
-    .catch(error => {
-      console.error(error)
-    }); */
 }
 
 function update_all() {
@@ -352,7 +425,9 @@ function update_all() {
   pull_ios_public_catalog();
   pull_ipados_public_catalog();
   pull_audioos_public_catalog();
+  pull_macos_public_catalog();
   pull_macos_beta_catalog();
+  pull_macos_public_url();
 }
 
 // STARTED....
