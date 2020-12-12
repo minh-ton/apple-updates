@@ -426,7 +426,7 @@ function update_all() {
   pull_ipados_public_catalog();
   pull_audioos_public_catalog();
   pull_macos_public_catalog();
-  pull_macos_beta_catalog();
+  // pull_macos_beta_catalog();
   pull_macos_public_url();
 }
 
