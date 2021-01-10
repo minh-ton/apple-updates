@@ -401,9 +401,9 @@ function pull_macos_public_catalog() {
     const randomColor = "#000000".replace(/0/g, function() {
       return (~~(Math.random() * 16)).toString(16);
     });
+    // .setDescription(`> ${send_macos.firmwares[0].url}`)
     const embed = new Discord.MessageEmbed()
-      .setTitle(`💻 New macOS Public Release [ARM] !`)
-      .setDescription(`> ${send_macos.firmwares[0].url}`)
+      .setTitle(`💻 New macOS Public Release!`)
       .setAuthor(`macOS on Unsupported Macs`, `https://i.imgur.com/71KNcHE.png`)
       .addField(`Version`, send_macos.firmwares[0].version, true)
       .addField(`Build`, send_macos.firmwares[0].buildid, true)
