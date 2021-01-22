@@ -325,6 +325,7 @@ function pull_macos_public_url() {
                     .setColor(randomColor)
                     .setTimestamp();
                   client.send(embed);
+                  client.send(`> ${catalog_content.Products[product].Packages[package].URL}`);
                   client.send("<@&757663043126820991>");
 
                   // write the new build to file
@@ -413,6 +414,7 @@ function pull_download_links() {
             .setColor(randomColor)
             .setTimestamp();
           client.send(embed);
+          client.send(`> ${text.Assets[0].__BaseURL}${text.Assets[0].__RelativePath}`);
           client.send("<@&757663043126820991>");
 
           // write the new build to file
