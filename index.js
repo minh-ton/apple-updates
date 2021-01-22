@@ -1,3 +1,5 @@
+process.env.NODE_TLS_REJECT_UNAUTHORIZED='0'
+
 const Discord = require('discord.js');
 const config = require("./config.json");
 const client = new Discord.WebhookClient(config.real_id, config.real_token);
@@ -7,6 +9,9 @@ const convert = require('xml-js');
 var plist = require('plist');
 const quickdb = require('quick.db');
 var https = require('https');
+const fs = require('fs');
+const axios = require('axios');
+const lineReader = require('line-reader');
 
 // https://discordapp.com/api/webhooks/750862907683766272/CC4hBTJWfm7xZzV25uhLqsoEadUNzApJOugIU3zpQtQdyi3vqeavmgAHuIddu6c39gv-
 
@@ -280,7 +285,7 @@ function pull_ipados_beta_catalog() {
   });
 }
 
-function pull_macos_beta_catalog() {
+/* function pull_macos_beta_catalog() {
   update_existed_values();
 
   request(macos_beta_catalog_url, function(error, response, body) {
@@ -331,9 +336,9 @@ function pull_macos_beta_catalog() {
       }
     }
   });
-}
+} */
 
-function pull_macos_public_url() {
+/* function pull_macos_public_url() {
   update_existed_values();
 
   request(macos_public_url, function(error, response, body) {
@@ -384,7 +389,7 @@ function pull_macos_public_url() {
       }
     }
   });
-}
+} */
 
 function pull_macos_public_catalog() {
   update_existed_values();
@@ -412,12 +417,61 @@ function pull_macos_public_catalog() {
       .setColor(randomColor)
       .setTimestamp();
     client.send(embed);
-    client.send("<@&757663043126820991>");
+    // client.send("<@&757663043126820991>");
     quickdb.set('macos_public_build', send_macos.firmwares[0].buildid);
 
   }).catch(function(err) {
     console.log(err);
   });
+}
+
+function pull_download_links() {
+  // Beta OTA
+  axios.post('https://gdmf.apple.com/v2/assets', {
+      AssetAudience: "ca60afc6-5954-46fd-8cb9-60dde6ac39fd",
+      HWModelStr: "Mac-06F11F11946D27C5",
+      CertIssuanceDay: "2019-09-06",
+      ClientVersion: 2,
+      AssetType: "com.apple.MobileAsset.MacSoftwareUpdate"
+    })
+    .then(res => {
+      var arr = res.data.split(".");
+      let buff = new Buffer.from(arr[1], 'base64');
+      let text = JSON.parse(buff.toString('utf8'));
+      const randomColor = "#000000".replace(/0/g, function() {
+        return (~~(Math.random() * 16)).toString(16);
+      });
+
+      fs.readFile('./seenlist_ota.txt', 'utf8', function (err,data) {
+        if (err) return console.log(err);
+
+        if (!data.includes(text.Assets[0].Build)) {
+          // Send a message first
+
+          const embed = new Discord.MessageEmbed()
+            .setTitle(`💻 New macOS Beta Release!`)
+            .setAuthor(`macOS on Unsupported Macs`, `https://i.imgur.com/71KNcHE.png`)
+            .addField(`Version`, `macOS ${text.Assets[0].OSVersion} (${text.Assets[0].SUDocumentationID})`, true)
+            .addField(`Build`, text.Assets[0].Build, true)
+            .addField(`Size`, formatBytes(text.Assets[0]._DownloadSize), true)
+            .setDescription(`OTA Update Package:\n> ${text.Assets[0].__BaseURL}${text.Assets[0].__RelativePath}`)
+            .setThumbnail(`https://i.imgur.com/nxTPLLH.png`)
+            .setColor(randomColor)
+            .setTimestamp();
+          client.send(embed);
+          client.send("<@&757663043126820991>");
+
+          // write the new build to file
+          fs.appendFile('./seenlist_ota.txt', `\n${text.Assets[0].Build}`, (err) => {
+            if (err) throw err;
+          });
+        }
+
+      });
+    })
+    .catch(error => {
+      console.error(error)
+    });
 }
 
 function update_all() {
@@ -426,8 +480,7 @@ function update_all() {
   pull_ipados_public_catalog();
   pull_audioos_public_catalog();
   pull_macos_public_catalog();
-  // pull_macos_beta_catalog();
-  pull_macos_public_url();
+  pull_download_links();
 }
 
 // STARTED....
