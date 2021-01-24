@@ -326,7 +326,7 @@ function pull_macos_public_url() {
 
                   const embed = new Discord.MessageEmbed()
                     .setTitle(`💻 New macOS Public Release!`)
-                    .setDescription(`${catalog_content.Products[product].Packages[package].URL}`)
+                    .setDescription(`Installer Package:\n> ${catalog_content.Products[product].Packages[package].URL}`)
                     .setAuthor(`macOS on Unsupported Macs`, `https://i.imgur.com/5JatAyq.png`)
                     .addField(`Version`, jsonData['installer-gui-script'].auxinfo.dict.string[1]._text, true)
                     .addField(`Build`, jsonData['installer-gui-script'].auxinfo.dict.string[0]._text, true)
