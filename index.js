@@ -463,4 +463,4 @@ update_all();
 // Update interval (10s)
 setInterval(function() {
   update_all();
-}, 10000);
+}, 15000);
