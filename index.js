@@ -261,6 +261,8 @@ function pull_ios_beta_catalog() {
       }
     }
   });
+
+  console.log('Done getting beta iOS.');
 }
 
 // iPadOS Beta Releases
@@ -317,6 +319,8 @@ function pull_ipados_beta_catalog() {
       }
     }
   });
+
+  console.log('Done getting beta iPadOS.');
 }
 
 // macOS InstallAssistant.pkg Public
@@ -381,6 +385,8 @@ function pull_macos_public_url() {
       }
     }
   });
+
+  console.log('Done getting InstallAssistant.pkg.');
 }
 
 // macOS Public Releases (based on IPSW.ME API)
@@ -473,6 +479,8 @@ function pull_macos_beta_ota() {
     .catch(error => {
       console.error(error)
     });
+
+    console.log('Done getting macOS OTAs.');
 }
 
 function update_all() {
