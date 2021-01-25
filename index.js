@@ -298,7 +298,7 @@ function pull_ipados_beta_catalog() {
                 const embed = new Discord.MessageEmbed()
                   .setTitle(`🎉 New iPadOS Beta Release!`)
                   .setAuthor(`macOS on Unsupported Macs`, `https://i.imgur.com/5JatAyq.png`)
-                  .addField(`Name`, `iPadOS 14 Developer Beta ${beta_ipados_id}`, true)
+                  .addField(`Name`, `iPadOS 14 Developer Beta (${beta_ipados_id})`, true)
                   .addField(`Version`, beta_ipados_version)
                   .addField(`Build`, beta_ipados_build, true)
                   .addField(`Size`, formatBytes(beta_ipados_size))
