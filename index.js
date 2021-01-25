@@ -461,7 +461,7 @@ function pull_macos_beta_ota() {
               .addField(`Build`, text.Assets[0].Build, true)
               .addField(`Size`, formatBytes(text.Assets[0]._DownloadSize), true)
               .setDescription(`OTA Update Package:\n> ${text.Assets[0].__BaseURL}${text.Assets[0].__RelativePath}`)
-              .setThumbnail(`https://i.imgur.com/nxTPLLH.png`)
+              .setThumbnail(`https://ipsw.me/assets/devices/MacBookPro17,1.png`)
               .setColor(randomColor)
               .setTimestamp();
             client.send(embed);
