@@ -1,4 +1,4 @@
-process.env.NODE_TLS_REJECT_UNAUTHORIZED='0';
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 // Role IDs
 /*
@@ -20,6 +20,16 @@ const quickdb = require('quick.db');
 const https = require('https');
 const fs = require('fs');
 const axios = require('axios');
+const firebase = require("firebase-admin");
+const credentials = require("./firebase.json");
+
+// Init firebase database
+
+firebase.initializeApp({
+  credential: firebase.credential.cert(credentials),
+});
+
+let db = firebase.firestore();
 
 // Format bytes
 function formatBytes(bytes) {
@@ -213,12 +223,18 @@ function pull_ios_beta_catalog() {
           let beta_ios_size = catalog_content.Assets[assets]._DownloadSize;
           let beta_ios_release_type = catalog_content.Assets[assets].ReleaseType;
 
-          fs.readFile('./seenlist_ios.txt', 'utf8', function (err,data) {
-            if (err) return console.log(err);
+          db.collection("AppleUpdates").doc('ios_beta').get().then(doc => {
+            let builds = doc.data();
 
-            if (!data.includes(beta_ios_build) && beta_ios_release_type != 'Beta') {
+            var updates = [];
+
+            // Put all build numbers into an array
+            for (let category in builds) {
+              updates.push(builds[category]);
+            }
+
+            if (!updates.includes(beta_ios_build) && beta_ios_release_type != 'Beta') {
               // Send a message first
-
               const randomColor = "#000000".replace(/0/g, function() {
                 return (~~(Math.random() * 16)).toString(16);
               });
@@ -235,9 +251,9 @@ function pull_ios_beta_catalog() {
               client.send(embed);
               client.send(`<@&742679465276211312>`);
 
-              // write the new build to file
-              fs.appendFile('./seenlist_ios.txt', `\n${beta_ios_build}`, (err) => {
-                if (err) throw err;
+              // Add new value
+              db.collection("AppleUpdates").doc('ios_beta').update({
+                [`${beta_ios_build}`]: `${beta_ios_build}`
               });
             }
           });
@@ -262,33 +278,41 @@ function pull_ipados_beta_catalog() {
           let beta_ipados_size = catalog_content.Assets[assets]._DownloadSize;
           let beta_ipados_release_type = catalog_content.Assets[assets].ReleaseType;
 
-          fs.readFile('./seenlist_ipados.txt', 'utf8', function (err,data) {
-            if (err) return console.log(err);
+          db.collection("AppleUpdates").doc('ipados_beta').get()
+            .then(doc => {
+              let builds = doc.data();
 
-            if (!data.includes(beta_ipados_build) && beta_ipados_release_type != 'Beta') {
-              // Send a message first
+              var updates = [];
 
-              const randomColor = "#000000".replace(/0/g, function() {
-                return (~~(Math.random() * 16)).toString(16);
-              });
-              const embed = new Discord.MessageEmbed()
-                .setTitle(`🎉 New iPadOS Beta Release!`)
-                .setAuthor(`macOS on Unsupported Macs`, `https://i.imgur.com/5JatAyq.png`)
-                .addField(`Name`, `iPadOS 14 Developer Beta ${beta_ipados_id}`, true)
-                .addField(`Version`, beta_ipados_version)
-                .addField(`Build`, beta_ipados_build, true)
-                .addField(`Size`, formatBytes(beta_ipados_size))
-                .setThumbnail(`https://ipsw.me/assets/devices/iPad8,10.png`)
-                .setColor(randomColor)
-                .setTimestamp();
-              client.send(embed);
+              // Put all build numbers into an array
+              for (let category in builds) {
+                updates.push(builds[category]);
+              }
 
-              // write the new build to file
-              fs.appendFile('./seenlist_ipados.txt', `\n${beta_ipados_build}`, (err) => {
-                if (err) throw err;
-              });
-            }
-          });
+              if (!updates.includes(beta_ipados_build) && beta_ipados_release_type != 'Beta') {
+
+                // Send a message first
+                const randomColor = "#000000".replace(/0/g, function() {
+                  return (~~(Math.random() * 16)).toString(16);
+                });
+                const embed = new Discord.MessageEmbed()
+                  .setTitle(`🎉 New iPadOS Beta Release!`)
+                  .setAuthor(`macOS on Unsupported Macs`, `https://i.imgur.com/5JatAyq.png`)
+                  .addField(`Name`, `iPadOS 14 Developer Beta ${beta_ipados_id}`, true)
+                  .addField(`Version`, beta_ipados_version)
+                  .addField(`Build`, beta_ipados_build, true)
+                  .addField(`Size`, formatBytes(beta_ipados_size))
+                  .setThumbnail(`https://ipsw.me/assets/devices/iPad8,10.png`)
+                  .setColor(randomColor)
+                  .setTimestamp();
+                client.send(embed);
+
+                // Add new value
+                db.collection("AppleUpdates").doc('ipados_beta').update({
+                  [`${beta_ipados_build}`]: `${beta_ipados_build}`
+                });
+              }
+            });
         }
       }
     }
@@ -314,36 +338,43 @@ function pull_macos_public_url() {
                 spaces: 2
               }));
 
-              fs.readFile('./seenlist_pkg.txt', 'utf8', function (err,data) {
-                if (err) return console.log(err);
+              db.collection("AppleUpdates").doc('macos_bigsur_pkg').get()
+                .then(doc => {
+                  let builds = doc.data();
 
-                if (!data.includes(jsonData['installer-gui-script'].auxinfo.dict.string[0]._text)) {
-                  // Send a message first
+                  var updates = [];
 
-                  const randomColor = "#000000".replace(/0/g, function() {
-                    return (~~(Math.random() * 16)).toString(16);
-                  });
+                  // Put all build numbers into an array
+                  for (let category in builds) {
+                    updates.push(builds[category]);
+                  }
 
-                  const embed = new Discord.MessageEmbed()
-                    .setTitle(`💻 New macOS Public Release!`)
-                    .setDescription(`Installer Package:\n> ${catalog_content.Products[product].Packages[package].URL}`)
-                    .setAuthor(`macOS on Unsupported Macs`, `https://i.imgur.com/5JatAyq.png`)
-                    .addField(`Version`, jsonData['installer-gui-script'].auxinfo.dict.string[1]._text, true)
-                    .addField(`Build`, jsonData['installer-gui-script'].auxinfo.dict.string[0]._text, true)
-                    .addField(`Size`, formatBytes(catalog_content.Products[product].Packages[package].Size), true)
-                    .setThumbnail(`https://ipsw.me/assets/devices/MacBookPro17,1.png`)
-                    .setColor(randomColor)
-                    .setTimestamp();
-                  client.send(embed);
-                  client.send(`> ${catalog_content.Products[product].Packages[package].URL}`);
-                  client.send("<@&757663043126820991>");
+                  if (!updates.includes(jsonData['installer-gui-script'].auxinfo.dict.string[0]._text)) {
+                    // Send a message first
+                    const randomColor = "#000000".replace(/0/g, function() {
+                      return (~~(Math.random() * 16)).toString(16);
+                    });
 
-                  // write the new build to file
-                  fs.appendFile('./seenlist_pkg.txt', `\n${jsonData['installer-gui-script'].auxinfo.dict.string[0]._text}`, (err) => {
-                    if (err) throw err;
-                  });
-                }
-              });
+                    const embed = new Discord.MessageEmbed()
+                      .setTitle(`💻 New macOS Public Release!`)
+                      .setDescription(`Installer Package:\n> ${catalog_content.Products[product].Packages[package].URL}`)
+                      .setAuthor(`macOS on Unsupported Macs`, `https://i.imgur.com/5JatAyq.png`)
+                      .addField(`Version`, jsonData['installer-gui-script'].auxinfo.dict.string[1]._text, true)
+                      .addField(`Build`, jsonData['installer-gui-script'].auxinfo.dict.string[0]._text, true)
+                      .addField(`Size`, formatBytes(catalog_content.Products[product].Packages[package].Size), true)
+                      .setThumbnail(`https://ipsw.me/assets/devices/MacBookPro17,1.png`)
+                      .setColor(randomColor)
+                      .setTimestamp();
+                    client.send(embed);
+                    client.send(`> ${catalog_content.Products[product].Packages[package].URL}`);
+                    client.send("<@&757663043126820991>");
+
+                    // Add new value
+                    db.collection("AppleUpdates").doc('macos_bigsur_pkg').update({
+                      [`${jsonData['installer-gui-script'].auxinfo.dict.string[0]._text}`]: `${jsonData['installer-gui-script'].auxinfo.dict.string[0]._text}`
+                    });
+                  }
+                });
             });
           });
         }
@@ -388,6 +419,7 @@ function pull_macos_public_api() {
 // Pull beta macOS beta OTA packages
 function pull_macos_beta_ota() {
   console.log('Pulling macOS Beta OTA...');
+
   axios.post('https://gdmf.apple.com/v2/assets', {
       AssetAudience: "ca60afc6-5954-46fd-8cb9-60dde6ac39fd",
       HWModelStr: "Mac-06F11F11946D27C5",
@@ -399,36 +431,44 @@ function pull_macos_beta_ota() {
       var arr = res.data.split(".");
       let buff = new Buffer.from(arr[1], 'base64');
       let text = JSON.parse(buff.toString('utf8'));
-      const randomColor = "#000000".replace(/0/g, function() {
-        return (~~(Math.random() * 16)).toString(16);
-      });
 
-      fs.readFile('./seenlist_ota.txt', 'utf8', function (err,data) {
-        if (err) return console.log(err);
+      db.collection("AppleUpdates").doc('macos_ota').get()
+        .then(doc => {
+          let builds = doc.data();
 
-        if (!data.includes(text.Assets[0].Build)) {
-          // Send a message first
+          var updates = [];
 
-          const embed = new Discord.MessageEmbed()
-            .setTitle(`💻 New macOS Beta Release!`)
-            .setAuthor(`macOS on Unsupported Macs`, `https://i.imgur.com/5JatAyq.png`)
-            .addField(`Version`, `macOS ${text.Assets[0].OSVersion} (${text.Assets[0].SUDocumentationID})`, true)
-            .addField(`Build`, text.Assets[0].Build, true)
-            .addField(`Size`, formatBytes(text.Assets[0]._DownloadSize), true)
-            .setDescription(`OTA Update Package:\n> ${text.Assets[0].__BaseURL}${text.Assets[0].__RelativePath}`)
-            .setThumbnail(`https://i.imgur.com/nxTPLLH.png`)
-            .setColor(randomColor)
-            .setTimestamp();
-          client.send(embed);
-          client.send("<@&757663043126820991>");
+          // Putting updates into an array
+          for (let category in builds) {
+            updates.push(builds[category]);
+          }
 
-          // write the new build to file
-          fs.appendFile('./seenlist_ota.txt', `\n${text.Assets[0].Build}`, (err) => {
-            if (err) throw err;
-          });
-        }
+          if (!updates.includes(text.Assets[0].Build)) {
 
-      });
+            // Send a message first
+            const randomColor = "#000000".replace(/0/g, function() {
+              return (~~(Math.random() * 16)).toString(16);
+            });
+
+            const embed = new Discord.MessageEmbed()
+              .setTitle(`💻 New macOS Beta Release!`)
+              .setAuthor(`macOS on Unsupported Macs`, `https://i.imgur.com/5JatAyq.png`)
+              .addField(`Version`, `macOS ${text.Assets[0].OSVersion} (${text.Assets[0].SUDocumentationID})`, true)
+              .addField(`Build`, text.Assets[0].Build, true)
+              .addField(`Size`, formatBytes(text.Assets[0]._DownloadSize), true)
+              .setDescription(`OTA Update Package:\n> ${text.Assets[0].__BaseURL}${text.Assets[0].__RelativePath}`)
+              .setThumbnail(`https://i.imgur.com/nxTPLLH.png`)
+              .setColor(randomColor)
+              .setTimestamp();
+            client.send(embed);
+            client.send("<@&757663043126820991>");
+
+            // Add new value
+            db.collection("AppleUpdates").doc('macos_ota').update({
+              [`${text.Assets[0].Build}`]: `${text.Assets[0].Build}`
+            });
+          }
+        });
     })
     .catch(error => {
       console.error(error)
@@ -436,6 +476,7 @@ function pull_macos_beta_ota() {
 }
 
 function update_all() {
+  console.log('\n======= FETCHING ========\n\n');
 
   console.log(`\n=== IOS/IPADOS ===\n`)
   // iOS/iPadOS
@@ -460,7 +501,7 @@ function update_all() {
 console.log(`Webhook has started!`);
 update_all();
 
-// Update interval (10s)
+// Update interval (20s)
 setInterval(function() {
   update_all();
-}, 15000);
+}, 25000);
