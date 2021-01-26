@@ -94,7 +94,7 @@ function pull_tvos_public_api() {
     });
     const embed = new Discord.MessageEmbed()
       .setTitle(`📺 New tvOS Public Release!`)
-      .setAuthor(`macOS on Unsupported Macs`, `https://i.imgur.com/5JatAyq.png`)
+      .setAuthor(`Unsupported Macs`, `https://i.imgur.com/5JatAyq.png`)
       .addField(`Version`, send_tvos.firmwares[0].version, true)
       .addField(`Build`, send_tvos.firmwares[0].buildid, true)
       .addField(`Size`, formatBytes(send_tvos.firmwares[0].filesize), true)
@@ -126,7 +126,7 @@ function pull_ios_public_api() {
     });
     const embed = new Discord.MessageEmbed()
       .setTitle(`📱 New iOS Public Release!`)
-      .setAuthor(`macOS on Unsupported Macs`, `https://i.imgur.com/5JatAyq.png`)
+      .setAuthor(`Unsupported Macs`, `https://i.imgur.com/5JatAyq.png`)
       .addField(`Version`, send_ios.firmwares[0].version, true)
       .addField(`Build`, send_ios.firmwares[0].buildid, true)
       .addField(`Size`, formatBytes(send_ios.firmwares[0].filesize), true)
@@ -160,7 +160,7 @@ function pull_ipados_public_api() {
     });
     const embed = new Discord.MessageEmbed()
       .setTitle(`🎉 New iPadOS Public Release!`)
-      .setAuthor(`macOS on Unsupported Macs`, `https://i.imgur.com/5JatAyq.png`)
+      .setAuthor(`Unsupported Macs`, `https://i.imgur.com/5JatAyq.png`)
       .addField(`Version`, send_ipados.firmwares[0].version, true)
       .addField(`Build`, send_ipados.firmwares[0].buildid, true)
       .addField(`Size`, formatBytes(send_ipados.firmwares[0].filesize), true)
@@ -193,7 +193,7 @@ function pull_audioos_public_api() {
     });
     const embed = new Discord.MessageEmbed()
       .setTitle(`🔊 New audioOS Public Release!`)
-      .setAuthor(`macOS on Unsupported Macs`, `https://i.imgur.com/5JatAyq.png`)
+      .setAuthor(`Unsupported Macs`, `https://i.imgur.com/5JatAyq.png`)
       .addField(`Version`, send_audioos.firmwares[0].version.substring(4), true)
       .addField(`Build`, send_audioos.firmwares[0].buildid, true)
       .addField(`Size`, formatBytes(send_audioos.firmwares[0].filesize), true)
@@ -240,7 +240,7 @@ function pull_ios_beta_catalog() {
               });
               const embed = new Discord.MessageEmbed()
                 .setTitle(`📱 New iOS Beta Release!`)
-                .setAuthor(`macOS on Unsupported Macs`, `https://i.imgur.com/5JatAyq.png`)
+                .setAuthor(`Unsupported Macs`, `https://i.imgur.com/5JatAyq.png`)
                 .addField(`Version`, `iOS ${beta_ios_version} (${beta_ios_id})`, true)
                 .addField(`Build`, beta_ios_build, true)
                 .addField(`Size`, formatBytes(beta_ios_size), true)
@@ -298,7 +298,7 @@ function pull_ipados_beta_catalog() {
                 });
                 const embed = new Discord.MessageEmbed()
                   .setTitle(`🎉 New iPadOS Beta Release!`)
-                  .setAuthor(`macOS on Unsupported Macs`, `https://i.imgur.com/5JatAyq.png`)
+                  .setAuthor(`Unsupported Macs`, `https://i.imgur.com/5JatAyq.png`)
                   .addField(`Version`, `iPadOS ${beta_ipados_version} (${beta_ipados_id})`, true)
                   .addField(`Build`, beta_ipados_build, true)
                   .addField(`Size`, formatBytes(beta_ipados_size), true)
@@ -359,8 +359,8 @@ function pull_macos_public_url() {
 
                     const embed = new Discord.MessageEmbed()
                       .setTitle(`💻 New macOS Public Release!`)
-                      .setDescription(`Installer Package:\n> ${catalog_content.Products[product].Packages[package].URL}`)
-                      .setAuthor(`macOS on Unsupported Macs`, `https://i.imgur.com/5JatAyq.png`)
+                      .setDescription(`Full Installer Package:\n> ${catalog_content.Products[product].Packages[package].URL}`)
+                      .setAuthor(`Unsupported Macs`, `https://i.imgur.com/5JatAyq.png`)
                       .addField(`Version`, jsonData['installer-gui-script'].auxinfo.dict.string[1]._text, true)
                       .addField(`Build`, jsonData['installer-gui-script'].auxinfo.dict.string[0]._text, true)
                       .addField(`Size`, formatBytes(catalog_content.Products[product].Packages[package].Size), true)
@@ -405,7 +405,7 @@ function pull_macos_public_api() {
     // .setDescription(`> ${send_macos.firmwares[0].url}`)
     const embed = new Discord.MessageEmbed()
       .setTitle(`💻 New macOS Public Release!`)
-      .setAuthor(`macOS on Unsupported Macs`, `https://i.imgur.com/5JatAyq.png`)
+      .setAuthor(`Unsupported Macs`, `https://i.imgur.com/5JatAyq.png`)
       .addField(`Version`, send_macos.firmwares[0].version, true)
       .addField(`Build`, send_macos.firmwares[0].buildid, true)
       .addField(`Size`, formatBytes(send_macos.firmwares[0].filesize), true)
@@ -456,11 +456,11 @@ function pull_macos_beta_ota() {
 
             const embed = new Discord.MessageEmbed()
               .setTitle(`💻 New macOS Beta Release!`)
-              .setAuthor(`macOS on Unsupported Macs`, `https://i.imgur.com/5JatAyq.png`)
+              .setAuthor(`Unsupported Macs`, `https://i.imgur.com/5JatAyq.png`)
               .addField(`Version`, `macOS ${text.Assets[0].OSVersion} (${text.Assets[0].SUDocumentationID})`, true)
               .addField(`Build`, text.Assets[0].Build, true)
               .addField(`Size`, formatBytes(text.Assets[0]._DownloadSize), true)
-              .setDescription(`OTA Update Package:\n> ${text.Assets[0].__BaseURL}${text.Assets[0].__RelativePath}`)
+              .setDescription(`Delta Update Package:\n> ${text.Assets[0].__BaseURL}${text.Assets[0].__RelativePath}`)
               .setThumbnail(`https://ipsw.me/assets/devices/MacBookPro17,1.png`)
               .setColor(randomColor)
               .setTimestamp();
