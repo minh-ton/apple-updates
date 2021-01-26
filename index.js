@@ -481,33 +481,40 @@ function pull_macos_beta_ota() {
     console.log('Done getting macOS OTAs.');
 }
 
-function update_all() {
-  console.log('\n======= FETCHING ========\n\n');
-
-  console.log(`\n=== IOS/IPADOS ===\n`)
+function update_catalog() {
   // iOS/iPadOS
-  pull_ios_public_api();
-  pull_ipados_public_api();
   pull_ios_beta_catalog();
   pull_ipados_beta_catalog();
 
-  console.log(`\n=== MISC. ===\n`)
-  // Misc Operating Systems
-  pull_tvos_public_api();
-  pull_audioos_public_api();
-
-  console.log(`\n=== MACOS ===\n`)
   // macOS
-  pull_macos_public_api();
   pull_macos_public_url();
   pull_macos_beta_ota();
 }
 
+function update_apis() {
+  // iOS/iPadOS
+  pull_ios_public_api();
+  pull_ipados_public_api();
+
+  // Misc Operating Systems
+  pull_tvos_public_api();
+  pull_audioos_public_api();
+
+  // macOS
+  pull_macos_public_api();
+}
+
 // Start the process
 console.log(`Webhook has started!`);
-update_all();
+update_catalog();
+update_apis();
 
-// Update interval (20s)
+// Update interval for heavy tasks (20s)
 setInterval(function() {
-  update_all();
-}, 25000);
+  update_catalog();
+}, 20000);
+
+// Update interval for light tasks (10s)
+setInterval(function() {
+  update_apis();
+}, 10000);
