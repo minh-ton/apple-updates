@@ -213,6 +213,8 @@ function pull_ios_beta_catalog() {
   console.log('Pulling iOS Beta Release...');
 
   request.get(ios_beta_catalog_url, function(error, response, body) {
+    var count = 0;
+
     let catalog_content = plist.parse(body);
     for (assets = 0; assets < catalog_content.Assets.length; assets++) {
       for (let devices in catalog_content.Assets[assets].SupportedDevices) {
@@ -233,7 +235,7 @@ function pull_ios_beta_catalog() {
               updates.push(builds[category]);
             }
 
-            if (!updates.includes(beta_ios_build) && beta_ios_release_type != 'Beta') {
+            if (!updates.includes(beta_ios_build) && beta_ios_release_type != 'Beta' && count != 1) {
               // Send a message first
               const randomColor = "#000000".replace(/0/g, function() {
                 return (~~(Math.random() * 16)).toString(16);
@@ -249,6 +251,8 @@ function pull_ios_beta_catalog() {
                 .setTimestamp();
               client.send(embed);
               client.send(`<@&742679465276211312>`);
+
+              count = 1;
 
               // Add new value
               db.collection("AppleUpdates").doc('ios_beta').update({
@@ -269,6 +273,7 @@ function pull_ipados_beta_catalog() {
   console.log('Pulling iPadOS Beta Release...');
 
   request.get(ipados_beta_catalog_url, function(error, response, body) {
+    var count = 0;
     let catalog_content = plist.parse(body);
     for (assets = 0; assets < catalog_content.Assets.length; assets++) {
       for (let devices in catalog_content.Assets[assets].SupportedDevices) {
@@ -290,7 +295,7 @@ function pull_ipados_beta_catalog() {
                 updates.push(builds[category]);
               }
 
-              if (!updates.includes(beta_ipados_build) && beta_ipados_release_type != 'Beta') {
+              if (!updates.includes(beta_ipados_build) && beta_ipados_release_type != 'Beta' && count != 1) {
 
                 // Send a message first
                 const randomColor = "#000000".replace(/0/g, function() {
@@ -306,6 +311,8 @@ function pull_ipados_beta_catalog() {
                   .setColor(randomColor)
                   .setTimestamp();
                 client.send(embed);
+
+                count = 1;
 
                 // Add new value
                 db.collection("AppleUpdates").doc('ipados_beta').update({
@@ -500,7 +507,7 @@ function update_apis() {
   pull_audioos_public_api();
 
   // macOS
-  pull_macos_public_api();
+  // pull_macos_public_api();
 }
 
 // Start the process
