@@ -515,10 +515,10 @@ console.log(`Webhook has started!`);
 update_catalog();
 update_apis();
 
-// Update interval for heavy tasks (20s)
+// Update interval for heavy tasks (1m)
 setInterval(function() {
   update_catalog();
-}, 20000);
+}, 60000);
 
 // Update interval for light tasks (10s)
 setInterval(function() {
