@@ -507,7 +507,7 @@ function update_apis() {
   pull_audioos_public_api();
 
   // macOS
-  // pull_macos_public_api();
+  pull_macos_public_api();
 }
 
 // Start the process
