@@ -134,7 +134,7 @@ function pull_ios_public_api() {
       .setColor(randomColor)
       .setTimestamp();
     client.send(embed);
-    client.send(`<@&742679465276211312>`);
+    client.send(`<@&742679465276211312> ${send_ios.firmwares[0].version} has been released!`);
     quickdb.set('ios_public_build', send_ios.firmwares[0].buildid);
 
   }).catch(function(err) {
@@ -250,7 +250,7 @@ function pull_ios_beta_catalog() {
                 .setColor(randomColor)
                 .setTimestamp();
               client.send(embed);
-              client.send(`<@&742679465276211312>`);
+              client.send(`<@&742679465276211312> ${beta_ios_version} (${beta_ios_id}) has been released!`);
 
               count = 1;
 
@@ -375,7 +375,7 @@ function pull_macos_public_url() {
                       .setColor(randomColor)
                       .setTimestamp();
                     client.send(embed);
-                    client.send("<@&757663043126820991>");
+                    client.send(`<@&757663043126820991> macOS ${jsonData['installer-gui-script'].auxinfo.dict.string[1]._text} has been released!`);
 
                     // Add new value
                     db.collection("AppleUpdates").doc('macos_bigsur_pkg').update({
@@ -471,7 +471,7 @@ function pull_macos_beta_ota() {
               .setColor(randomColor)
               .setTimestamp();
             client.send(embed);
-            client.send("<@&757663043126820991>");
+            client.send(`<@&757663043126820991> macOS ${text.Assets[0].OSVersion} (${text.Assets[0].SUDocumentationID}) has been released!`);
 
             // Add new value
             db.collection("AppleUpdates").doc('macos_ota').update({
