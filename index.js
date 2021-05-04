@@ -216,6 +216,7 @@ function pull_ios_beta_catalog() {
     var count = 0;
 
     let catalog_content = plist.parse(body);
+
     for (assets = 0; assets < catalog_content.Assets.length; assets++) {
       for (let devices in catalog_content.Assets[assets].SupportedDevices) {
         if (catalog_content.Assets[assets].SupportedDevices[0] == "iPhone12,8") { // iPhone SE 2020
@@ -273,6 +274,7 @@ function pull_ipados_beta_catalog() {
   console.log('Pulling iPadOS Beta Release...');
 
   request.get(ipados_beta_catalog_url, function(error, response, body) {
+
     var count = 0;
     let catalog_content = plist.parse(body);
     for (assets = 0; assets < catalog_content.Assets.length; assets++) {
@@ -489,8 +491,8 @@ function pull_macos_beta_ota() {
 
 function update_catalog() {
   // iOS/iPadOS
-  pull_ios_beta_catalog();
-  pull_ipados_beta_catalog();
+  // pull_ios_beta_catalog();
+  // pull_ipados_beta_catalog();
 
   // macOS
   pull_macos_public_url();
@@ -515,6 +517,7 @@ console.log(`Webhook has started!`);
 update_catalog();
 update_apis();
 
+
 // Update interval for heavy tasks (1m)
 setInterval(function() {
   update_catalog();
@@ -523,4 +526,4 @@ setInterval(function() {
 // Update interval for light tasks (10s)
 setInterval(function() {
   update_apis();
-}, 10000);
+}, 10000); 
