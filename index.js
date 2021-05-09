@@ -58,6 +58,7 @@ let ios_beta_catalog_url = `https://mesu.apple.com/assets/iOS14DeveloperSeed/com
 let ipados_beta_catalog_url = `https://mesu.apple.com/assets/iOS14DeveloperSeed/com_apple_MobileAsset_SoftwareUpdate/com_apple_MobileAsset_SoftwareUpdate.xml`;
 
 let macos_public_url = `https://swscan.apple.com/content/catalogs/others/index-11-10.15-10.14-10.13-10.12-10.11-10.10-10.9-mountainlion-lion-snowleopard-leopard.merged-1.sucatalog`;
+let macos_beta_url = `https://swscan.apple.com/content/catalogs/others/index-10.16beta-10.16-10.15-10.14-10.13-10.12-10.11-10.10-10.9-mountainlion-lion-snowleopard-leopard.merged-1.sucatalog`;
 
 // ========
 
@@ -392,7 +393,68 @@ function pull_macos_public_url() {
     }
   });
 
-  console.log('Done getting InstallAssistant.pkg.');
+  console.log('Done getting Public InstallAssistant.pkg.');
+}
+
+// macOS InstallAssistant.pkg Beta
+function pull_macos_beta_url() {
+  console.log('Pulling macOS Beta InstallAssistant.pkg...');
+
+  request(macos_beta_url, function(error, response, body) {
+    let catalog_content = plist.parse(body);
+    for (let product in catalog_content.Products) {
+      for (let package in catalog_content.Products[product].Packages) {
+        if (catalog_content.Products[product].Packages[package].URL.endsWith('InstallAssistant.pkg')) {
+
+          const pkg_info = catalog_content.Products[product].Distributions.English;
+
+          https.get(pkg_info, function(result) {
+            result.on('data', function(data) {
+              const jsonData = JSON.parse(convert.xml2json(data, {
+                compact: true,
+                spaces: 2
+              }));
+
+              db.collection("AppleUpdates").doc('macos_bigsur_pkg_beta').get()
+                .then(doc => {
+                  let builds = doc.data();
+
+                  var updates = [];
+
+                  // Put all build numbers into an array
+                  for (let category in builds) {
+                    updates.push(builds[category]);
+                  }
+
+                  if (!updates.includes(jsonData['installer-gui-script'].auxinfo.dict.string[0]._text)) {
+                    // Send a message first
+                    const randomColor = "#000000".replace(/0/g, function() {
+                      return (~~(Math.random() * 16)).toString(16);
+                    });
+
+                    const embed = new Discord.MessageEmbed()
+                      .setDescription(`macOS **${jsonData['installer-gui-script'].auxinfo.dict.string[1]._text} Beta (${jsonData['installer-gui-script'].auxinfo.dict.string[0]._text})** Full Installer Package:\n> ${catalog_content.Products[product].Packages[package].URL}`)
+                      .setAuthor(`Unsupported Macs`, `https://i.imgur.com/5JatAyq.png`)
+                      .setThumbnail(`https://ipsw.me/assets/devices/MacBookPro17,1.png`)
+                      .setColor(randomColor)
+                      .setTimestamp();
+                    client.send(embed);
+                    client.send(`<@&757663043126820991> Full Installer for macOS ${jsonData['installer-gui-script'].auxinfo.dict.string[1]._text} Beta is available!`);
+
+                    // Add new value
+                    db.collection("AppleUpdates").doc('macos_bigsur_pkg_beta').update({
+                      [`${jsonData['installer-gui-script'].auxinfo.dict.string[0]._text}`]: `${jsonData['installer-gui-script'].auxinfo.dict.string[0]._text}`
+                    });
+                  }
+                });
+            });
+          });
+        }
+      }
+    }
+  });
+
+  console.log('Done getting Beta InstallAssistant.pkg.');
 }
 
 // macOS Public Releases (based on IPSW.ME API)
@@ -496,6 +558,7 @@ function update_catalog() {
 
   // macOS
   pull_macos_public_url();
+  pull_macos_beta_url();
   pull_macos_beta_ota();
 }
 
