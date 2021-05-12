@@ -439,7 +439,7 @@ function pull_macos_beta_url() {
                       .setColor(randomColor)
                       .setTimestamp();
                     client.send(embed);
-                    client.send(`<@&757663043126820991> Full Installer for macOS ${jsonData['installer-gui-script'].auxinfo.dict.string[1]._text} Beta is available!`);
+                    client.send(`<@&757663043126820991> Full Installer for macOS ${jsonData['installer-gui-script'].auxinfo.dict.string[1]._text} Beta (${jsonData['installer-gui-script'].auxinfo.dict.string[0]._text}) is available!`);
 
                     // Add new value
                     db.collection("AppleUpdates").doc('macos_bigsur_pkg_beta').update({
