@@ -1,25 +1,34 @@
 {
-  "name": "applebot",
-  "version": "1.0.0",
-  "description": "Software Catalog Discord Bot",
+  "name": "apple-updates",
+  "version": "2.0.0",
+  "description": "A webhook for pushing notifications to the macOS on Unsupported Macs Discord server about new Apple OS updates.",
   "main": "index.js",
   "scripts": {
-    "test": "node test.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Minh-Ton/apple-updates.git"
+  },
+  "keywords": [
+    "apple",
+    "updates"
+  ],
   "author": "MinhTon",
-  "license": "MIT",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Minh-Ton/apple-updates/issues"
+  },
+  "homepage": "https://github.com/Minh-Ton/apple-updates#readme",
   "dependencies": {
     "axios": "^0.21.1",
-    "discord.js": "^12.3.1",
-    "firebase-admin": "^9.4.2",
-    "fs": "0.0.1-security",
-    "https": "^1.0.0",
-    "node-fetch": "^2.6.1",
-    "plist": "^3.0.1",
-    "quick.db": "^7.1.3",
-    "request": "^2.88.2",
+    "discord.js": "^12.5.3",
+    "enmap": "^5.8.5",
+    "firebase-admin": "^9.8.0",
+    "plist": "^3.0.2",
+    "pretty-bytes": "^5.6.0",
+    "pretty-ms": "^7.0.1",
+    "systeminformation": "^5.6.22",
     "xml-js": "^1.6.11"
-  },
-  "devDependencies": {},
-  "keywords": []
+  }
 }
