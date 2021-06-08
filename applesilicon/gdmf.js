@@ -15,6 +15,7 @@ async function update_name(updateid, version, cname) {
     if (cname.toLowerCase() === "tvos") {
         return updateid;
     } // tvOS SUDocumentationID is always "Prelease", so I just return back the old value anyways...
+    if (version.endsWith(".0")) version = version.substring(0, version.length - 2); // for macOS 12.0
     let name_prefix = cname + version.replace('.', '');
     var document_id = updateid.replace(name_prefix, '').replace(version.replace('.', ''), ''); // workaround for audioOS
 
