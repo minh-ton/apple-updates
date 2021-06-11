@@ -1,7 +1,10 @@
 const Discord = require('discord.js');
 const sysctl = require('systeminformation');
 
-exports.run = (bot, message, args) => {
+exports.run = (message, args) => {
+    let isBotOwner = message.author.id == '589324103463338007';
+    if (!isBotOwner) return;
+    
     // Memory
     sysctl.mem(function (data) {
         const embed = new Discord.MessageEmbed()

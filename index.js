@@ -16,40 +16,40 @@ firebase.initializeApp({
 
 require("./applesilicon/updates.js")();
 
-const bot = new Discord.Client();
-bot.login(config.bot_token);
+global.bot = new Discord.Client();
+global.bot.login(config.bot_token);
 
 // ============= MONITOR BOT ============
 
-bot.on("ready", async () => {
-    console.log(`Logged in as ${bot.user.tag}!`);
+global.bot.on("ready", async () => {
+    console.log(`Logged in as ${global.bot.user.tag}!`);
     console.log('Bot has started!');
-    bot.user.setActivity("Apple Music", { type: "LISTENING" });
+    global.bot.user.setActivity("with Apple", { type: "PLAYING" });
 });
 
-bot.commands = new Enmap();
+global.bot.commands = new Enmap();
 fs.readdir("./secureenclave/", (err, files) => {
     if (err) return console.error(err);
     files.forEach(file => {
         if (!file.endsWith(".js")) return;
         let props = require(`./secureenclave/${file}`);
         let commandName = file.split(".")[0];
-        bot.commands.set(commandName, props);
+        global.bot.commands.set(commandName, props);
     });
     console.log(`Commands loaded.`);
 });
 
-bot.on("message", async message => {
+global.bot.on("message", async message => {
     if (message.author.bot) return;
     if (message.mentions.everyone) return;
     if (message.channel.type === "dm") return;
-    if (!message.content.startsWith('!')) return;
+    if (!message.content.startsWith('apple!')) return;
 
-    const args = message.content.slice(1).trim().split(/ +/g);
+    const args = message.content.slice(6).trim().split(/ +/g);
     const command = args.shift().toLowerCase();
-    const cmd = bot.commands.get(command);
+    const cmd = global.bot.commands.get(command);
     if (!cmd) return;
-    cmd.run(bot, message, args);
+    cmd.run(message, args);
 });
 
 // ============= UPDATES FETCH =============

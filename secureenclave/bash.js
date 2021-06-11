@@ -1,7 +1,10 @@
 const { exec } = require('child_process');
 const Discord = require('discord.js');
 
-exports.run = async (bot, message, args) => {
+exports.run = async (message, args) => {
+    let isBotOwner = message.author.id == '589324103463338007';
+    if (!isBotOwner) return;
+    
     const m_embed = new Discord.MessageEmbed().setDescription(`Executing \`${args.join(" ")}\`...`);
     const m = await message.channel.send(m_embed);
     exec(args.join(" "), (err, stdout, stderr) => {

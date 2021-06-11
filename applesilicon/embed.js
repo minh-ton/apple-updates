@@ -1,14 +1,10 @@
 // Send new OS updates
-
 const Discord = require('discord.js');
-const config = require("../bootrom/config.json");
-const client = new Discord.WebhookClient(config.id, config.token);
-// Just a webhook, not a bot...
 
 require('./misc.js')();
+require('./send.js')();
 
 module.exports = function () {
-
     // Send macOS public InstallAssistant.pkg link
     this.send_macos_pkg_public = function (pkgurl, version, build) {
         const embed = new Discord.MessageEmbed()
@@ -17,8 +13,7 @@ module.exports = function () {
             .setThumbnail(getthumbnail("macOS"))
             .setColor(randomColor())
             .setTimestamp();
-        client.send(embed);
-        client.send(`<@&757663043126820991> Full Installer for **macOS ${version} (${build})** is available!`);
+        send_to_servers('pkg', embed);
     };
 
     // Send macOS beta InstallAssistant.pkg link
@@ -29,8 +24,18 @@ module.exports = function () {
             .setThumbnail(getthumbnail("macOS"))
             .setColor(randomColor())
             .setTimestamp();
-        client.send(embed);
-        client.send(`<@&757663043126820991> Full Installer for **macOS ${version} Beta (${build})** is available!`);
+        send_to_servers('pkg', embed);
+    };
+
+    // Send macOS delta updates
+    this.send_macos_delta = function (pkgurl, version, build) {
+        const embed = new Discord.MessageEmbed()
+            .setDescription(`macOS **${version} (${build})** Delta Installer Package:\n> ${pkgurl}`)
+            .setAuthor(`Unsupported Macs`, `https://i.imgur.com/5JatAyq.png`)
+            .setThumbnail(getthumbnail("macOS"))
+            .setColor(randomColor())
+            .setTimestamp();
+        send_to_servers('delta', embed);
     };
 
     // Send new macOS beta releases
@@ -44,8 +49,7 @@ module.exports = function () {
             .setThumbnail(getthumbnail("macOS"))
             .setColor(randomColor())
             .setTimestamp();
-        client.send(embed);
-        client.send(`<@&757663043126820991> macOS ${version} (${updateid}) has been released!`);
+        send_to_servers('macos', embed);
     };
 
     // Send new macOS public releases
@@ -59,8 +63,7 @@ module.exports = function () {
             .setThumbnail(getthumbnail("macOS"))
             .setColor(randomColor())
             .setTimestamp();
-        client.send(embed);
-        client.send(`<@&757663043126820991> macOS ${version} has been released!`);
+        send_to_servers('macos', embed);
     };
 
     // Send other OS updates
@@ -74,8 +77,7 @@ module.exports = function () {
             .setThumbnail(getthumbnail(os))
             .setColor(randomColor())
             .setTimestamp();
-        client.send(embed);
-        if (os.toLowerCase() === "ios") client.send(`<@&742679465276211312> ${version} has been released!`);
+        send_to_servers(os, embed);
     };
 
     // Send other OS beta updates
@@ -89,8 +91,7 @@ module.exports = function () {
             .setThumbnail(getthumbnail(os))
             .setColor(randomColor())
             .setTimestamp();
-        client.send(embed);
-        if (os.toLowerCase() === "ios") client.send(`<@&742679465276211312> ${version} ${updateid} has been released!`);
+        send_to_servers(os, embed);
     };
 
     // Send announcements
@@ -102,6 +103,6 @@ module.exports = function () {
             .setDescription(message)
             .setThumbnail(`https://i.imgur.com/d1lcrpg.png`)
             .setTimestamp();
-        client.send(embed);
+        send_to_servers("bot", embed);
     }
 }
