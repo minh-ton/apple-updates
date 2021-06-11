@@ -16,15 +16,18 @@ firebase.initializeApp({
 
 require("./applesilicon/updates.js")();
 
+global.beta_release = false; // switch mode
+
 global.bot = new Discord.Client();
-global.bot.login(config.bot_token);
+(global.beta_release) ? global.bot.login(config.bot_beta_token) : global.bot.login(config.bot_token);
 
 // ============= MONITOR BOT ============
 
 global.bot.on("ready", async () => {
+    if (global.beta_release) console.log("RUNNING IN BETA MODE.");
     console.log(`Logged in as ${global.bot.user.tag}!`);
     console.log('Bot has started!');
-    global.bot.user.setActivity("with Apple", { type: "PLAYING" });
+    (global.beta_release) ? global.bot.user.setActivity("YouTube", { type: "WATCHING" }) : global.bot.user.setActivity("with Apple", { type: "PLAYING" });
 });
 
 global.bot.commands = new Enmap();
@@ -43,9 +46,13 @@ global.bot.on("message", async message => {
     if (message.author.bot) return;
     if (message.mentions.everyone) return;
     if (message.channel.type === "dm") return;
-    if (!message.content.startsWith('apple!')) return;
 
-    const args = message.content.slice(6).trim().split(/ +/g);
+    var prefix;
+    (global.beta_release) ? prefix = "beta!" : prefix = "apple!";
+
+    if (!message.content.startsWith(prefix)) return;
+
+    const args = message.content.slice(prefix.length).trim().split(/ +/g);
     const command = args.shift().toLowerCase();
     const cmd = global.bot.commands.get(command);
     if (!cmd) return;
