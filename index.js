@@ -2,21 +2,26 @@
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
+global.beta_release = false; // switch mode
+global.bot_version = "2.0.1";
+global.bot_updatedate = "June 12th, 2021"
+
 const Discord = require('discord.js');
 const Enmap = require("enmap");
 const fs = require("fs");
 const config = require("./bootrom/config.json");
-
 const firebase = require("firebase-admin");
-const credentials = require("./bootrom/firebase.json");
 
-firebase.initializeApp({
+const credentials = require("./bootrom/firebase.json");
+const credentials_beta = require("./bootrom/firebase_beta.json");
+
+(global.beta_release) ? firebase.initializeApp({
+    credential: firebase.credential.cert(credentials_beta)
+}) : firebase.initializeApp({
     credential: firebase.credential.cert(credentials)
 });
 
 require("./applesilicon/updates.js")();
-
-global.beta_release = false; // switch mode
 
 global.bot = new Discord.Client();
 (global.beta_release) ? global.bot.login(config.bot_beta_token) : global.bot.login(config.bot_token);
@@ -27,7 +32,7 @@ global.bot.on("ready", async () => {
     if (global.beta_release) console.log("RUNNING IN BETA MODE.");
     console.log(`Logged in as ${global.bot.user.tag}!`);
     console.log('Bot has started!');
-    (global.beta_release) ? global.bot.user.setActivity("YouTube", { type: "WATCHING" }) : global.bot.user.setActivity("with Apple", { type: "PLAYING" });
+    (global.beta_release) ? global.bot.user.setActivity("Apple TV", { type: "WATCHING" }) : global.bot.user.setActivity("apple!setup", { type: "PLAYING" });
 });
 
 global.bot.commands = new Enmap();

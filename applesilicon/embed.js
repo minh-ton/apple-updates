@@ -39,7 +39,7 @@ module.exports = function () {
     };
 
     // Send new macOS beta releases
-    this.send_macos_beta = function (version, build, size, updateid) {
+    this.send_macos_beta = function (version, build, size, updateid, changelog) {
         const embed = new Discord.MessageEmbed()
             .setTitle(`New macOS Beta Release!`)
             .setAuthor(`Unsupported Macs`, `https://i.imgur.com/5JatAyq.png`)
@@ -47,13 +47,14 @@ module.exports = function () {
             .addField(`Build`, build, true)
             .addField(`Size`, formatBytes(size), true)
             .setThumbnail(getthumbnail("macOS"))
+            .setDescription(changelog)
             .setColor(randomColor())
             .setTimestamp();
         send_to_servers('macos', embed);
     };
 
     // Send new macOS public releases
-    this.send_macos_public = function (version, build, size) {
+    this.send_macos_public = function (version, build, size, changelog) {
         const embed = new Discord.MessageEmbed()
             .setTitle(`New macOS Public Release!`)
             .setAuthor(`Unsupported Macs`, `https://i.imgur.com/5JatAyq.png`)
@@ -61,6 +62,7 @@ module.exports = function () {
             .addField(`Build`, build, true)
             .addField(`Size`, formatBytes(size), true)
             .setThumbnail(getthumbnail("macOS"))
+            .setDescription(changelog)
             .setColor(randomColor())
             .setTimestamp();
         send_to_servers('macos', embed);
