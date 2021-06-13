@@ -12,12 +12,18 @@ exports.run = async (message, args) => {
     const database_list = db.collection(args[0]).doc(args[1]);
     const data = await database_list.get();
     const data_key = data.data();
-    
+
     var list = [];
 
-    for (let value in data_key) {
-        list.push(`${value} - ${data_key[value]}`)
-    } 
+    if (args[2] == "--human-readable") {
+        for (let value in data_key) {
+            list.push(`${global.bot.guilds.cache.get(value).name} - #${global.bot.channels.cache.get(data_key[value]).name}`);
+        }
+    } else {
+        for (let value in data_key) {
+            list.push(`${value} - ${data_key[value]}`);
+        }
+    }
 
     if (list.length < 1) return message.channel.send(`Could not find "${args[0]}" collection or "${args[1]}" document.`);
 
