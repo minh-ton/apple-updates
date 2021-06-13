@@ -17,9 +17,9 @@ exports.run = async (message, args) => {
 
     if (args[2] == "--human-readable") {
         for (let value in data_key) {
-            let server = global.bot.guilds.cache.get(value).name;
-            let channel = global.bot.channels.cache.get(data_key[value]).name;
-            if (server != undefined && channel != undefined) list.push(`${server} - #${channel}`);
+            let server = global.bot.guilds.cache.get(value);
+            let channel = global.bot.channels.cache.get(data_key[value]);
+            if (server != undefined && channel != undefined) list.push(`${server.name} - #${channel.name}`);
         }
     } else {
         for (let value in data_key) {
