@@ -367,7 +367,7 @@ async function run_setup_roles(message, args) {
         let roles_database = await db.collection('discord').doc('roles').collection('servers').doc(message.guild.id).get();
         let roles_data = roles_database.data();
 
-        (roles_data.length < 1) ? await db.collection('discord').doc('roles').collection('servers').doc(message.guild.id).set({
+        (roles_data == undefined) ? await db.collection('discord').doc('roles').collection('servers').doc(message.guild.id).set({
             [`${choice}`]: `${selected_role.id}`
         }) : await db.collection('discord').doc('roles').collection('servers').doc(message.guild.id).update({
             [`${choice}`]: `${selected_role.id}`
