@@ -307,7 +307,7 @@ async function run_setup_roles(message, args) {
         var roles = [];
         for (let os in data) roles.push(`\`${os}\` : <@&${data[os]}> (${os_updates[os]})`);
 
-        if (roles.length < 1) return message.channel.send(embed_role_list(`Your server has no notification roles configured!`));
+        if (roles.length < 1) return message.channel.send(errorembed(`Your server has no notification roles configured!`));
 
         return message.channel.send(embed_role_list(roles));
     } else {
