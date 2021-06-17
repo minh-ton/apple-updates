@@ -25,7 +25,8 @@ exports.run = async (message, args) => {
 
         const embed = new Discord.MessageEmbed()
             .setAuthor(`Command: ${args.join(" ")}`, `https://i.imgur.com/d1lcrpg.png`)
-            .setDescription(`**Output:** \`\`\`${output}\`\`\` \n **Error:** \`\`\`${error}\`\`\``)
+            .addField(`Output`, `\`\`\`${output}\`\`\``)
+            .addField(`Error`, `\`\`\`${error}\`\`\``)
             .setTimestamp();
         m.edit(embed);
     });

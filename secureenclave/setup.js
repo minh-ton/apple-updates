@@ -12,6 +12,18 @@ const pkg_database = db.collection('discord').doc('pkg');
 const delta_database = db.collection('discord').doc('delta');
 const bot_database = db.collection('discord').doc('bot');
 
+let os_updates = {
+    ios: "iOS Updates",
+    ipados: "iPadOS Updates",
+    watchos: "watchOS Updates",
+    macos: "macOS Updates",
+    tvos: "tvOS Updates",
+    audioos: "audioOS Updates",
+    bot: `<@852378577063116820>'s announcements`,
+    pkg: "macOS InstallAssistant.pkg Links",
+    delta: "macOS Delta Update Links"
+}
+
 // ================ UPDATES CHANNEL SETUP ===================
 
 function part1embed() {
@@ -41,7 +53,7 @@ function part2embed(selected_channel, selected_options) {
                 <:installassistant:852824497202659348> macOS InstallAssistant.pkg Links
                 <:delta:852825130610065418> macOS Delta Updates Links\n`, true)
         .addField(`Bot Updates`, `\n
-                <:software_updates:852825269705113610> New features and bug fixes announcements\n`,)
+                <:software_updates:852825269705113610> <@${global.bot.user.id}>'s new features and bug fixes announcements\n`)
         .addField("Selected Options", selected_options + ".");
     return part2;
 }
@@ -207,9 +219,207 @@ async function run_setup_updates(message, args) {
         (options.includes(" macOS Delta Update Links")) ? await delta_database.update({ [`${selected_channel.guild.id}`]: `${selected_channel.id}` }) : await delta_database.update({ [`${selected_channel.guild.id}`]: firebase.firestore.FieldValue.delete() });
 
         if (msg != undefined) msg.delete();
-            message.channel.send(overall_embed(`<#${selected_channel.id}>`, options.join()));
-            return message.channel.send("Join our support server: https://discord.gg/ktHmcbpMNU")
+        message.channel.send(overall_embed(`<#${selected_channel.id}>`, options.join()));
+        return message.channel.send(`**Helpful Tip: If you want to be pinged when a new update is available, you can set up a Notification Role.**\n- To set up a notification role, type \`apple!setup role add\`\n- To remove a notification role, type \`apple!setup role remove\`\n- To list your server's configured notification roles, type \`apple!setup role list\``);
     });
+}
+
+// ================ PING ROLES SETUP ===================
+
+function embed_role_ask() {
+    const embed = new Discord.MessageEmbed()
+        .setAuthor(`Unsupported Macs`, `https://i.imgur.com/5JatAyq.png`)
+        .setTitle(`Software Updates - Notification Roles Setup Part 1`)
+        .setDescription(`\n**Please reply with an OS name that you would like to get ping notifications for.**
+        - \`ios\` : iOS Updates
+        - \`ipados\` : iPadOS Updates
+        - \`watchos\` : watchOS Updates
+        - \`audioos\` : audioOS Updates
+        - \`tvos\` : tvOS Updates
+        - \`macos\` : macOS Updates
+        - \`pkg\` : macOS InstallAssistant.pkg Links
+        - \`delta\` : macOS Delta Update Links
+        - \`bot\` : <@${global.bot.user.id}>'s new feature and bug fixes announcements\n
+        *If you don't respond to this message within 3 minutes, the command will time out.*`);
+    return embed;
+}
+
+function embed_role_remove(roles) {
+    const embed = new Discord.MessageEmbed()
+        .setAuthor(`Unsupported Macs`, `https://i.imgur.com/5JatAyq.png`)
+        .setTitle(`Software Updates - Notification Roles Removal Part 1`)
+        .setDescription(`\n**Please reply with an OS name that you would like to remove ping notifications for.**
+        Your server has these notification roles configured: 
+        - ${roles.join(`\n - `)}
+        *If you don't respond to this message within 3 minutes, the command will time out.*`);
+    return embed;
+}
+
+function embed_role_list(roles) {
+    const embed = new Discord.MessageEmbed()
+        .setAuthor(`Unsupported Macs`, `https://i.imgur.com/5JatAyq.png`)
+        .setTitle(`Software Updates - Configured Notification Roles`)
+        .setDescription(`\n**Your server has these notification roles configured:**
+        - ${roles.join(`\n - `)}`);
+    return embed;
+}
+
+
+function embed_role(os) {
+    const embed = new Discord.MessageEmbed()
+        .setAuthor(`Unsupported Macs`, `https://i.imgur.com/5JatAyq.png`)
+        .setTitle(`Software Updates - Notification Roles Setup Part 2`)
+        .setDescription(`\n**Please mention the role that you would like me to ping when a new ${os} is available.** \n *If you don't respond to this message within 3 minutes, the command will time out.*`);
+    return embed;
+}
+
+function overall_embed_role(selected_role, selected_update, option) {
+    (option) ? choice = "will ping" : choice = "will no longer ping";
+    const overall = new Discord.MessageEmbed()
+        .setAuthor(`Unsupported Macs`, `https://i.imgur.com/5JatAyq.png`)
+        .setTitle(`Software Updates - Setup Overview`)
+        .setDescription(`**Your setup data has been saved successfully!**
+        From now on, I ${choice} ${selected_role} when a new ${selected_update} is available!`)
+        .setTimestamp();
+    return overall;
+}
+
+async function run_setup_roles(message, args) {
+
+    var option;
+
+    if (args[1] == "add") {
+        option = true;
+        message.channel.send(embed_role_ask());
+    } else if (args[1] == "remove") {
+        option = false;
+        let doc = await db.collection('discord').doc('roles').collection('servers').doc(message.guild.id).get();
+        let data = doc.data();
+        var roles = [];
+        for (let os in data) roles.push(`\`${os}\` : <@&${data[os]}> (${os_updates[os]})`);
+
+        if (roles.length < 1) return message.channel.send(errorembed(`Your server has no notification roles configured!`));
+
+        message.channel.send(embed_role_remove(roles));
+    } else if (args[1] == "list") {
+        let doc = await db.collection('discord').doc('roles').collection('servers').doc(message.guild.id).get();
+        let data = doc.data();
+        var roles = [];
+        for (let os in data) roles.push(`\`${os}\` : <@&${data[os]}> (${os_updates[os]})`);
+
+        if (roles.length < 1) return message.channel.send(errorembed(`Your server has no notification roles configured!`));
+
+        return message.channel.send(embed_role_list(roles));
+    } else {
+        return message.channel.send(errorembed(`Invalid option or no option provided.\n
+        - To list configured notification roles, type \`apple!setup role list\`
+        - To set up a notification role, type \`apple!setup role add\`
+        - To remove a notification role, type \`apple!setup role remove\``));
+    }
+
+    var selected_os = await message.channel.awaitMessages(m => m.author.id == message.author.id, { max: 1, time: 180000 })
+    if (!selected_os.size) return message.channel.send(errorembed("You did not reply within 3 minutes so the command was cancelled."));
+
+    let choice = selected_os.first().content.toLowerCase();
+
+    var selected_role;
+
+    if (option) {
+        switch (choice) {
+            case "tvos":
+                message.channel.send(embed_role("tvOS Update"));
+                break;
+            case "audioos":
+                message.channel.send(embed_role("audioOS Update"));
+                break;
+            case "macos":
+                message.channel.send(embed_role("macOS Update"));
+                break;
+            case "ios":
+                message.channel.send(embed_role("iOS Update"));
+                break;
+            case "ipados":
+                message.channel.send(embed_role("iPadOS Update"));
+                break;
+            case "watchos":
+                message.channel.send(embed_role("watchOS Update"));
+                break;
+            case "pkg":
+                message.channel.send(embed_role("macOS InstallAssistant.pkg Link"));
+                break;
+            case "delta":
+                message.channel.send(embed_role("macOS Delta Updates Link"));
+                break;
+            case "bot":
+                message.channel.send(embed_role(`<@${global.bot.user.id}>'s announcements`));
+                break;
+            default:
+                return message.channel.send(errorembed("Invalid OS name."));
+        }
+
+        var reply = await message.channel.awaitMessages(m => m.author.id == message.author.id, { max: 1, time: 180000 })
+        if (!reply.size) return message.channel.send(errorembed("You did not reply within 3 minutes so the command was cancelled."));
+        if (!reply.first().content.match(/^<@&!?(\d+)>$/)) return message.channel.send(errorembed("I may not have the necessary permissions to fetch the role or I was unable to read your message."));
+
+        selected_role = message.guild.roles.cache.get(reply.first().content.match(/^<@&!?(\d+)>$/)[1]);
+        if (selected_role == undefined) return message.channel.send(errorembed("I may not have the necessary permissions to fetch the role or the chosen role does not exist."));
+
+        let roles_database = await db.collection('discord').doc('roles').collection('servers').doc(message.guild.id).get();
+        let roles_data = roles_database.data();
+
+        (roles_data.length < 1) ? await db.collection('discord').doc('roles').collection('servers').doc(message.guild.id).set({
+            [`${choice}`]: `${selected_role.id}`
+        }) : await db.collection('discord').doc('roles').collection('servers').doc(message.guild.id).update({
+            [`${choice}`]: `${selected_role.id}`
+        });
+
+    } else {
+
+        if (os_updates[choice] == undefined) return message.channel.send(errorembed("Invalid OS name."));
+
+        let doc = await db.collection('discord').doc('roles').collection('servers').doc(message.guild.id).get();
+        let data = doc.data();
+        let role_id = data[choice];
+
+        if (role_id == undefined) return message.channel.send(errorembed(`Your server didn't set up ping notification for ${os_updates[choice]}!`));
+
+        selected_role = message.guild.roles.cache.get(role_id);
+        await db.collection('discord').doc('roles').collection('servers').doc(message.guild.id).update({
+            [`${choice}`]: firebase.firestore.FieldValue.delete()
+        });
+    }
+
+    switch (choice) {
+        case "tvos":
+            message.channel.send(overall_embed_role(`<@&${selected_role.id}>`, "tvOS Update", option));
+            break;
+        case "audioos":
+            message.channel.send(overall_embed_role(`<@&${selected_role.id}>`, "audioOS Update", option));
+            break;
+        case "macos":
+            message.channel.send(overall_embed_role(`<@&${selected_role.id}>`, "macOS Update", option));
+            break;
+        case "ios":
+            message.channel.send(overall_embed_role(`<@&${selected_role.id}>`, "iOS Update", option));
+            break;
+        case "ipados":
+            message.channel.send(overall_embed_role(`<@&${selected_role.id}>`, "iPadOS Update", option));
+            break;
+        case "watchos":
+            message.channel.send(overall_embed_role(`<@&${selected_role.id}>`, "watchOS Update", option));
+            break;
+        case "pkg":
+            message.channel.send(overall_embed_role(`<@&${selected_role.id}>`, "macOS InstallAssistant.pkg Link", option));
+            break;
+        case "delta":
+            message.channel.send(overall_embed_role(`<@&${selected_role.id}>`, "macOS Delta Update Link", option));
+            break;
+        case "bot":
+            message.channel.send(overall_embed_role(`<@&${selected_role.id}>`, `<@${global.bot.user.id}>'s announcements`, option));
+            break;
+        default:
+            return;
+    }
 }
 
 exports.run = async (message, args) => {
@@ -218,145 +428,5 @@ exports.run = async (message, args) => {
         return message.channel.send(errorembed("I do not have the necessary permissions to work properly! \n\n ***Please make sure I have the following permissions:*** \n- View Channels\n- Add Reactions\n- Use External Emojis\n- Manage Messages"));
     }
 
-    run_setup_updates(message, args);
+    (args[0] == "role") ? run_setup_roles(message, args).catch(function (error) { console.log(error) }) : run_setup_updates(message, args).catch(function (error) { console.log(error) });
 }
-
-/* // ================ PING ROLES SETUP ===================
-
-function part1embed_roles() {
-    const part1 = new Discord.MessageEmbed()
-        .setAuthor(`Unsupported Macs`, `https://i.imgur.com/5JatAyq.png`)
-        .setTitle(`Software Updates - Ping Roles Setup Part 1`)
-        .setDescription(`\n ** React to set up a ping role for an OS.**
-                *If you don't react to this message within 3 minutes, the command will time out. Your options will be recorded automatically after 1 minute.*`)
-        .addField(`OS Updates`, `\n
-                <:iphone:852824816092315678> iOS Updates
-                <:ipad:852824860089516033> iPadOS Updates
-                <:apple_watch:852824628921499688> watchOS Updates
-                <:homepod:852824690166333440> audioOS Updates
-                <:apple_tv:852826560725778442> tvOS Updates
-                <:mac:852826607286878228> macOS Updates\n`, true)
-        .addField(`Other Updates`, `\n
-                <:installassistant:852824497202659348> macOS InstallAssistant.pkg Links
-                <:delta_update:852825130610065418> macOS Delta Updates Links\n`, true);
-    return part1;
-}
-
-function part2embed_roles(os) {
-    const part2 = new Discord.MessageEmbed()
-        .setAuthor(`Unsupported Macs`, `https://i.imgur.com/5JatAyq.png`)
-        .setTitle(`Software Updates - Ping Roles Setup Part 2`)
-        .setDescription(`\n**Please mention the role that you want me to ping when a new ${os} is available.** \n *If you don't respond to this message within 3 minutes, the command will time out.*`);
-    return part2;
-}
-
-function overall_embed_role(selected_role, selected_update) {
-    const overall = new Discord.MessageEmbed()
-        .setAuthor(`Unsupported Macs`, `https://i.imgur.com/5JatAyq.png`)
-        .setTitle(`Software Updates - Setup Overview`)
-        .setDescription(`**Your setup data has been saved successfully!**
-        From now on, I will ping ${selected_role} when a new ${selected_update} is available!`)
-        .setTimestamp();
-    return overall;
-}
-
-async function run_setup_roles(message, args) {
-    var msg = await message.channel.send(part1embed_roles("Your selected options will appear here."));
-    let warning = await message.channel.send("**PLEASE WAIT FOR THE REACTIONS TO FULLY-LOAD BEFORE YOU CAN REACT TO THE MESSAGE OR YOUR OPTIONS WON'T BE RECORDED.**")
-
-    await msg.react("852824816092315678");
-    await msg.react("852824860089516033");
-    await msg.react("852824628921499688");
-    await msg.react("852824690166333440");
-    await msg.react("852826560725778442");
-    await msg.react("852826607286878228");
-    await msg.react("852824497202659348");
-    await msg.react("852825130610065418");
-
-    const filter = (reaction, user) => user.id !== message.client.user.id;
-
-    var collector = msg.createReactionCollector(filter, {
-        time: 60000,
-        dispose: true
-    });
-
-    const options = [];
-
-    collector.on("collect", async (reaction, user) => {
-        if (warning != undefined) {
-            warning.delete();
-            warning = undefined;
-        }
-        switch (reaction.emoji.id) {
-            case "852824816092315678":
-                options.push("ios");
-
-                await message.channel.send(part2embed_roles("iOS Update"));
-                var reply = await message.channel.awaitMessages(m => m.author.id == message.author.id, { max: 1, time: 180000 })
-                if (!reply.size) return message.channel.send(errorembed("You did not reply within 3 minutes so the command was cancelled."));
-                if (!reply.first().content.match(/^<@&!?(\d+)>$/)) return message.channel.send(errorembed("It's either I am missing permissions to fetch the channel, or I am unable to read your message."));
-                collector.stop();
-
-                await message.channel.send(overall_embed_role(`<@&${reply.first().content.match(/^<@&!?(\d+)>$/)[1]}>`, "iOS Update"));
-                break;
-            case "852824860089516033":
-                await message.channel.send(part2embed_roles("iPadOS Update"));
-                var reply = await message.channel.awaitMessages(m => m.author.id == message.author.id, { max: 1, time: 180000 })
-                if (!reply.size) return message.channel.send(errorembed("You did not reply within 3 minutes so the command was cancelled."));
-                if (!reply.first().content.match(/^<@&!?(\d+)>$/)) return message.channel.send(errorembed("It's either I am missing permissions to fetch the channel, or I am unable to read your message."));
-                collector.stop();
-                await message.channel.send(overall_embed_role(`<@&${reply.first().content.match(/^<@&!?(\d+)>$/)[1]}>`, "iPadOS Update"));
-                break;
-            case "852824628921499688":
-                await message.channel.send(part2embed_roles("watchOS Update"));
-                var reply = await message.channel.awaitMessages(m => m.author.id == message.author.id, { max: 1, time: 180000 })
-                if (!reply.size) return message.channel.send(errorembed("You did not reply within 3 minutes so the command was cancelled."));
-                if (!reply.first().content.match(/^<@&!?(\d+)>$/)) return message.channel.send(errorembed("It's either I am missing permissions to fetch the channel, or I am unable to read your message."));
-                collector.stop();
-                await message.channel.send(overall_embed_role(`<@&${reply.first().content.match(/^<@&!?(\d+)>$/)[1]}>`, "watchOS Update"));
-                break;
-            case "852824690166333440":
-                await message.channel.send(part2embed_roles("audioOS Update"));
-                var reply = await message.channel.awaitMessages(m => m.author.id == message.author.id, { max: 1, time: 180000 })
-                if (!reply.size) return message.channel.send(errorembed("You did not reply within 3 minutes so the command was cancelled."));
-                if (!reply.first().content.match(/^<@&!?(\d+)>$/)) return message.channel.send(errorembed("It's either I am missing permissions to fetch the channel, or I am unable to read your message."));
-                collector.stop();
-                await message.channel.send(overall_embed_role(`<@&${reply.first().content.match(/^<@&!?(\d+)>$/)[1]}>`, "audioOS Update"));
-                break;
-            case "852826560725778442":
-                await message.channel.send(part2embed_roles("tvOS Update"));
-                var reply = await message.channel.awaitMessages(m => m.author.id == message.author.id, { max: 1, time: 180000 })
-                if (!reply.size) return message.channel.send(errorembed("You did not reply within 3 minutes so the command was cancelled."));
-                if (!reply.first().content.match(/^<@&!?(\d+)>$/)) return message.channel.send(errorembed("It's either I am missing permissions to fetch the channel, or I am unable to read your message."));
-                collector.stop();
-                await message.channel.send(overall_embed_role(`<@&${reply.first().content.match(/^<@&!?(\d+)>$/)[1]}>`, "tvOS Update"));
-                break;
-            case "852826607286878228":
-                await message.channel.send(part2embed_roles("macOS Update"));
-                var reply = await message.channel.awaitMessages(m => m.author.id == message.author.id, { max: 1, time: 180000 })
-                if (!reply.size) return message.channel.send(errorembed("You did not reply within 3 minutes so the command was cancelled."));
-                if (!reply.first().content.match(/^<@&!?(\d+)>$/)) return message.channel.send(errorembed("It's either I am missing permissions to fetch the channel, or I am unable to read your message."));
-                collector.stop();
-                await message.channel.send(overall_embed_role(`<@&${reply.first().content.match(/^<@&!?(\d+)>$/)[1]}>`, "macOS Update"));
-                break;
-            case "852824497202659348":
-                await message.channel.send(part2embed_roles("macOS InstallAssistant.pkg Link"));
-                var reply = await message.channel.awaitMessages(m => m.author.id == message.author.id, { max: 1, time: 180000 })
-                if (!reply.size) return message.channel.send(errorembed("You did not reply within 3 minutes so the command was cancelled."));
-                if (!reply.first().content.match(/^<@&!?(\d+)>$/)) return message.channel.send(errorembed("It's either I am missing permissions to fetch the channel, or I am unable to read your message."));
-                collector.stop();
-                await message.channel.send(overall_embed_role(`<@&${reply.first().content.match(/^<@&!?(\d+)>$/)[1]}>`, "macOS InstallAssistant.pkg Link"));
-                break;
-            case "852825130610065418":
-                await message.channel.send(part2embed_roles("macOS Delta Updates Link"));
-                var reply = await message.channel.awaitMessages(m => m.author.id == message.author.id, { max: 1, time: 180000 })
-                if (!reply.size) return message.channel.send(errorembed("You did not reply within 3 minutes so the command was cancelled."));
-                if (!reply.first().content.match(/^<@&!?(\d+)>$/)) return message.channel.send(errorembed("It's either I am missing permissions to fetch the channel, or I am unable to read your message."));
-                collector.stop();
-                await message.channel.send(overall_embed_role(`<@&${reply.first().content.match(/^<@&!?(\d+)>$/)[1]}>`, "macOS Delta Updates Link"));
-                break;
-            default:
-                break;
-        }
-    });
-} */

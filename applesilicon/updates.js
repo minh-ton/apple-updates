@@ -4,7 +4,7 @@ require('./gdmf.js')();
 require('./xml.js')();
 require('./error.js')();
 
-// Device info
+// AssetAudiences
 let macos_audience_public = "60b55e25-a8ed-4f45-826c-c1495a4ccc65";
 let macos_audience_beta = "ca60afc6-5954-46fd-8cb9-60dde6ac39fd";
 let macos_new_audience_beta = "298e518d-b45e-4d36-94be-34a63d6777ec"; // macOS Monterey
@@ -30,13 +30,12 @@ let macos_public_catalog = "https://swscan.apple.com/content/catalogs/others/ind
 let macos_beta_catalog = "https://swscan.apple.com/content/catalogs/others/index-10.16beta-10.16-10.15-10.14-10.13-10.12-10.11-10.10-10.9-mountainlion-lion-snowleopard-leopard.merged-1.sucatalog"
 let macos_new_beta_catalog = "https://swscan.apple.com/content/catalogs/others/index-12seed-12-10.16-10.15-10.14-10.13-10.12-10.11-10.10-10.9-mountainlion-lion-snowleopard-leopard.merged-1.sucatalog"; // macOS Monterey
 
+// Device info 
+
 let ios_version = "14.4.1";
 let ios_build = "18D61";
 let ios_device = "iPhone13,4"; // iPhone 12 Pro Max
 let ios_hw = "D54pAP";
-
-// let ipados_device = "iPad13,11"; // iPad Pro 5 (12.9")
-// let ipados_hw = "J523xAP"
 
 let watchos_version = "7.3.3";
 let watchos_build = "18S830";

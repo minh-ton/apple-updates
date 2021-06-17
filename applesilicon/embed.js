@@ -13,7 +13,7 @@ module.exports = function () {
             .setThumbnail(getthumbnail("macOS"))
             .setColor(randomColor())
             .setTimestamp();
-        send_to_servers('pkg', embed);
+        send_to_servers('pkg', embed, `${version} (${build})`);
     };
 
     // Send macOS beta InstallAssistant.pkg link
@@ -24,18 +24,19 @@ module.exports = function () {
             .setThumbnail(getthumbnail("macOS"))
             .setColor(randomColor())
             .setTimestamp();
-        send_to_servers('pkg', embed);
+        send_to_servers('pkg', embed, `${version} (${build})`);
     };
 
     // Send macOS delta updates
-    this.send_macos_delta = function (pkgurl, version, build) {
+    this.send_macos_delta = function (pkgurl, version, build, beta) {
+        (beta) ? isBeta = "Beta" : isBeta = "";
         const embed = new Discord.MessageEmbed()
-            .setDescription(`macOS **${version} (${build})** Delta Installer Package:\n> ${pkgurl}`)
+            .setDescription(`macOS **${version} ${isBeta} (${build})** Delta Installer Package:\n> ${pkgurl}`)
             .setAuthor(`Unsupported Macs`, `https://i.imgur.com/5JatAyq.png`)
             .setThumbnail(getthumbnail("macOS"))
             .setColor(randomColor())
             .setTimestamp();
-        send_to_servers('delta', embed);
+        send_to_servers('delta', embed, `${version} ${isBeta} (${build})`);
     };
 
     // Send new macOS beta releases
@@ -47,10 +48,9 @@ module.exports = function () {
             .addField(`Build`, build, true)
             .addField(`Size`, formatBytes(size), true)
             .setThumbnail(getthumbnail("macOS"))
-            .setDescription(changelog)
             .setColor(randomColor())
             .setTimestamp();
-        send_to_servers('macos', embed);
+        send_to_servers('macos', embed, `${version} (${updateid} - Build ${build})`);
     };
 
     // Send new macOS public releases
@@ -65,11 +65,11 @@ module.exports = function () {
             .setDescription(changelog)
             .setColor(randomColor())
             .setTimestamp();
-        send_to_servers('macos', embed);
+        send_to_servers('macos', embed, `${version} (${build})`);
     };
 
     // Send other OS updates
-    this.send_other_updates = function (os, version, build, size) {
+    this.send_other_updates = function (os, version, build, size, changelog) {
         const embed = new Discord.MessageEmbed()
             .setTitle(`New ${os} Public Release!`)
             .setAuthor(`Unsupported Macs`, `https://i.imgur.com/5JatAyq.png`)
@@ -77,9 +77,10 @@ module.exports = function () {
             .addField(`Build`, build, true)
             .addField(`Size`, formatBytes(size), true)
             .setThumbnail(getthumbnail(os))
+            .setDescription(changelog)
             .setColor(randomColor())
             .setTimestamp();
-        send_to_servers(os, embed);
+        send_to_servers(os, embed, `${version} (${build})`);
     };
 
     // Send other OS beta updates
@@ -93,7 +94,7 @@ module.exports = function () {
             .setThumbnail(getthumbnail(os))
             .setColor(randomColor())
             .setTimestamp();
-        send_to_servers(os, embed);
+        send_to_servers(os, embed, `${version} (${updateid} - Build ${build})`);
     };
 
     // Send announcements

@@ -3,61 +3,26 @@
 
 const axios = require('axios');
 const firebase = require("firebase-admin");
-const admzip = require('adm-zip');
-const sanitizeHtml = require('sanitize-html');
 
 require('./embed.js')();
 require('./error.js')();
+require('./doc.js')();
 
-let db = firebase.firestore();
-
-// Get updates documentation
-function clean_response(res) {
-    const clean = sanitizeHtml(res.replace(/(.|\n)*<body.*>/, '').replace(/<\/body(.|\n)*/g, ''), {
-        allowedTags: ['li'],
-    });
-    var arr = clean.split("\r\n");
-
-    for (var i = 0; i < arr.length; i++) arr[i] = arr[i].replace(/\t/g,"").replace(/<li>/g, "- ").replace(/<[^>]+>/g, '').trimStart();
-
-    return arr.join('\n');
+const asset_type = {
+    ios: "com.apple.MobileAsset.SoftwareUpdateDocumentation",
+    ipados: "com.apple.MobileAsset.SoftwareUpdateDocumentation",
+    audioos: "com.apple.MobileAsset.SoftwareUpdateDocumentation",
+    watchos: "com.apple.MobileAsset.WatchSoftwareUpdateDocumentation"
 }
 
-const get_changelog = async (audience, sudocumentationid) => {
-    const res = await axios.post('https://gdmf.apple.com/v2/assets', {
-        AssetAudience: audience,
-        HWModelStr: "Mac-06F11F11946D27C5",
-        SUDocumentationID: sudocumentationid,
-        CertIssuanceDay: "2019-09-06",
-        ClientVersion: 2,
-        DeviceName: "Mac",
-        AssetType: "com.apple.MobileAsset.SoftwareUpdateDocumentation",
-    });
+const device_name = {
+    ios: "iPhone",
+    ipados: "iPad",
+    audioos: "AudioAccessory",
+    watchos: "Watch"
+}
 
-    var arr = res.data.split(".");
-    let buff = new Buffer.from(arr[1], 'base64');
-    let text = JSON.parse(buff.toString('utf8'));
-
-    if (!text.Assets[0]) return "Documentation is not available."
-
-    var file_url = `${text.Assets[0].__BaseURL}${text.Assets[0].__RelativePath}`;
-
-    const file = await axios.request({
-        method: 'GET',
-        url: file_url,
-        responseType: 'arraybuffer',
-        responseEncoding: null,
-    });
-
-    var zip = new admzip(file.data);
-    var zipEntries = zip.getEntries();
-
-    let changelog = zipEntries.map(function(entry) {
-        if (entry.entryName == "AssetData/en.lproj/ReadMeSummary.html") return entry;
-    }).filter(function(entry) { return entry; })[0];
-
-    return clean_response(zip.readAsText(changelog));
-}   
+let db = firebase.firestore();
 
 // Format the update name
 // It's still buggy, but IT JUST WORKS
@@ -134,15 +99,20 @@ module.exports = function () {
                 let build = text.Assets[0].Build;
                 let size = text.Assets[0]._DownloadSize;
                 let updateid = text.Assets[0].SUDocumentationID;
-                let changelog = await get_changelog(assetaud, updateid);
 
-                if (changelog == undefined) changelog = "Documentation is not available.";
-                
+                var changelog;
+
+                // Boring beta release notes, so it's better to not to include that
+                if (!beta) {
+                    changelog = await get_changelog(assetaud, "Mac-06F11F11946D27C5", updateid, "Mac", "com.apple.MobileAsset.SoftwareUpdateDocumentation");
+                    if (changelog == undefined) changelog = "Release note is not available.";
+                }
+
                 (beta) ? update_name(updateid, version, "macOS").then(function (sudocumentationid) {
-                    send_macos_beta(version, build, size, sudocumentationid, changelog);
+                    send_macos_beta(version, build, size, sudocumentationid);
                 }) : send_macos_public(version, build, size, changelog);
 
-                send_macos_delta(pkgurl, version, build)
+                send_macos_delta(pkgurl, version, build, beta)
 
                 db.collection("macos").doc(dname).update({
                     [`${text.Assets[0].Build}`]: `${text.Assets[0].Build}`
@@ -184,16 +154,35 @@ module.exports = function () {
                 let size = text.Assets[0]._DownloadSize;
                 let updateid = text.Assets[0].SUDocumentationID;
 
+                var changelog;
+
+                // Boring beta release notes, so it's better to not to include that
+                if (!beta) {
+                    if (cname.toLowerCase() == "tvos") {
+                        changelog = undefined;
+                    } else {
+                        changelog = await get_changelog(assetaud, hwm, updateid, device_name[cname.toLowerCase()], asset_type[cname.toLowerCase()]);
+                    }
+                    if (changelog == undefined) changelog = "Release note is not available.";
+                }
+
                 if (beta) {
-                    update_name(updateid, version, cname).then(function (sudocumentationid) {
+                    // Beta
+                    update_name(updateid, version, cname).then(async function (sudocumentationid) {
                         send_other_beta_updates(cname, version, build, size, sudocumentationid);
                         // Merge iOS & iPadOS
-                        if (cname.toLowerCase() === "ios") send_other_beta_updates('iPadOS', version, build, size, sudocumentationid);
+                        if (cname.toLowerCase() === "ios") {
+                            send_other_beta_updates('iPadOS', version, build, size, sudocumentationid);
+                        }
                     });
                 } else {
-                    send_other_updates(cname, version, build, size);
+                    // Public
+                    send_other_updates(cname, version, build, size, changelog);
                     // Merge iOS & iPadOS
-                    if (cname.toLowerCase() === "ios") send_other_updates('iPadOS', version, build, size);
+                    if (cname.toLowerCase() === "ios") {
+                        changelog = await get_changelog(assetaud, "J523xAP", updateid.replace('iOS', 'iPadOS'), "iPad", asset_type[cname.toLowerCase()]);
+                        send_other_updates('iPadOS', version, build, size, changelog);
+                    }
                 }
 
                 db.collection(cname.toLowerCase()).doc(dname).update({

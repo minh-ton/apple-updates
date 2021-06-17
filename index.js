@@ -3,8 +3,8 @@
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 global.beta_release = false; // switch mode
-global.bot_version = "2.0.3";
-global.bot_updatedate = "June 13th, 2021"
+global.bot_version = "2.1.0";
+global.bot_updatedate = "June 17th, 2021"
 
 const Discord = require('discord.js');
 const Enmap = require("enmap");
