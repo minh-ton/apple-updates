@@ -20,11 +20,7 @@ exports.run = async (message, args) => {
         if (output.length > 1990) output = output.substring(0, 1990) + '...';
         if (error.length > 1990) error = error.substring(0, 1990) + '...';
 
-        const embed = new Discord.MessageEmbed()
-            .setAuthor(`hedgefetch`, `https://i.imgur.com/d1lcrpg.png`)
-            .addField(`Output`, `\`\`\`${output}\`\`\``)
-            .addField(`Error`, `\`\`\`${error}\`\`\``)
-            .setTimestamp();
+        const embed = new Discord.MessageEmbed().setDescription(`\`\`\`${output}\`\`\``);
         m.edit(embed);
     });
 }
