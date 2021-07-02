@@ -1,7 +1,7 @@
 {
   "name": "apple-updates",
-  "version": "2.1.0",
-  "description": "A webhook for pushing notifications to the macOS on Unsupported Macs Discord server about new Apple OS updates.",
+  "version": "2.1.1",
+  "description": "A Discord bot for pushing notifications about new Apple OS updates.",
   "main": "index.js",
   "scripts": {
     "test": "nodemon index.js"
@@ -19,7 +19,7 @@
   "bugs": {
     "url": "https://github.com/Minh-Ton/apple-updates/issues"
   },
-  "homepage": "https://github.com/Minh-Ton/apple-updates#readme",
+  "homepage": "https://github.com/Minh-Ton/apple-updates",
   "dependencies": {
     "adm-zip": "^0.5.5",
     "axios": "^0.21.1",
