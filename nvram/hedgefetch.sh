@@ -29,14 +29,10 @@ print_linux() {
     echo "##        ##  ##  #### ##     ##   ## ##"
     echo "##        ##  ##   ### ##     ##  ##   ##"
     printf "######## #### ##    ##  #######  ##     ##\n\n"
-
+    
     # Print universal
     ###################################
-	print_universal
-
-    # Hardware ID
-    ###################################
-    cat /sys/devices/virtual/dmi/id/product_name | sed 's/^/Model: /g'
+    print_universal
     
     # Linux Version
     ###################################
@@ -48,8 +44,7 @@ print_linux() {
     
     # CPU
     ###################################
-	cat /proc/cpuinfo | grep "model name" | head -n 1 | cut -f2 -d ":" | cut -c 1- | sed 's/           / /;s/([^)]*)//g;s/CPU //;s/  / /' | sed 's/^/CPU:/'
-
+    cat /proc/cpuinfo | grep "model name" | head -n 1 | cut -f2 -d ":" | cut -c 1- | sed 's/           / /;s/([^)]*)//g;s/CPU //;s/  / /' | sed 's/^/CPU:/'
     
     # RAM garbage
     ###################################
@@ -69,8 +64,7 @@ print_linux() {
 
 
 main() {
-	clear	
-	print_linux
+    print_linux
 }
 
 # Run main
