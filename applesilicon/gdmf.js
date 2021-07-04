@@ -7,6 +7,7 @@ const firebase = require("firebase-admin");
 require('./embed.js')();
 require('./error.js')();
 require('./doc.js')();
+require('./misc.js')();
 
 const asset_type = {
     ios: "com.apple.MobileAsset.SoftwareUpdateDocumentation",
@@ -23,53 +24,6 @@ const device_name = {
 }
 
 let db = firebase.firestore();
-
-// Format the update name
-// It's still buggy, but IT JUST WORKS
-async function update_name(updateid, version, cname) {
-    if (cname.toLowerCase() === "tvos") {
-        return updateid;
-    } // tvOS SUDocumentationID is always "Prelease", so I just return back the old value anyways...
-    if (version.endsWith(".0")) version = version.substring(0, version.length - 2); // for macOS 12.0
-    let name_prefix = cname + version.replace('.', '');
-    var document_id = updateid.replace(name_prefix, '').replace(version.replace('.', ''), ''); // workaround for audioOS
-
-    if (!document_id.includes('Long') && !document_id.includes('Short') && !document_id.includes('RC')) {
-        // Get the beta number (iOS145Beta1 => Beta 1)
-        let beta_name = `Beta ${parseInt(document_id.replace(/[^0-9]/g, ""))}`;
-        return beta_name;
-    } else {
-        // This is much more complicated, to number RC updates
-        return db.collection("other").doc("updates_count").get().then(doc => {
-            let stuff = doc.data()[`${updateid}`];
-            if (stuff) {
-                return db.collection("other").doc("updates_count").update({
-                    [`${updateid}`]: `${parseInt(stuff) + 1}`
-                }).then(() => {
-                    if (document_id.includes('RC')) return `RC ${stuff}`;
-                    if (document_id.includes("Long") || document_id.includes("Short")) {
-                        return `RC ${stuff}`;
-                    }
-                }).catch(err => {
-                    send_error(err, "gdmf.js", `update_name`, `number a RC update - increasing update number in the database by 1`);
-                });
-            } else {
-                return db.collection("other").doc("updates_count").update({
-                    [`${updateid}`]: `2`
-                }).then(() => {
-                    if (document_id.includes('RC')) return `RC`;
-                    if (document_id.includes("Long") || document_id.includes("Short")) {
-                        return `RC`;
-                    }
-                }).catch(err => {
-                    send_error(err, "gdmf.js", `update_name`, `number a RC update for the first time - adding 2 to the database`);
-                });
-            }
-        }).catch(err => {
-            send_error(err, "gdmf.js", `update_name`, `get the RC update number from the database before processing`);
-        });
-    }
-}
 
 module.exports = function () {
     this.fetch_macos_ota = async function (assetaud, dname, beta) {
@@ -108,9 +62,7 @@ module.exports = function () {
                     if (changelog == undefined) changelog = "Release note is not available.";
                 }
 
-                (beta) ? update_name(updateid, version, "macOS").then(function (sudocumentationid) {
-                    send_macos_beta(version, build, size, sudocumentationid);
-                }) : send_macos_public(version, build, size, changelog);
+                (beta) ? send_macos_beta(version, build, size, formatUpdatesName(updateid, version, "macOS")) : send_macos_public(version, build, size, changelog);
 
                 send_macos_delta(pkgurl, version, build, beta)
 
@@ -168,13 +120,11 @@ module.exports = function () {
 
                 if (beta) {
                     // Beta
-                    update_name(updateid, version, cname).then(async function (sudocumentationid) {
-                        send_other_beta_updates(cname, version, build, size, sudocumentationid);
-                        // Merge iOS & iPadOS
-                        if (cname.toLowerCase() === "ios") {
-                            send_other_beta_updates('iPadOS', version, build, size, sudocumentationid);
-                        }
-                    });
+                    send_other_beta_updates(cname, version, build, size, formatUpdatesName(updateid, version, cname));
+                    // Merge iOS & iPadOS
+                    if (cname.toLowerCase() === "ios") {
+                        send_other_beta_updates('iPadOS', version, build, size, formatUpdatesName(updateid, version, cname));
+                    }
                 } else {
                     // Public
                     send_other_updates(cname, version, build, size, changelog);

@@ -32,28 +32,28 @@ let macos_new_beta_catalog = "https://swscan.apple.com/content/catalogs/others/i
 
 // Device info 
 
-let ios_version = "14.4.1";
-let ios_build = "18D61";
+let ios_version = "14.5.1";
+let ios_build = "18E212";
 let ios_device = "iPhone13,4"; // iPhone 12 Pro Max
 let ios_hw = "D54pAP";
 
-let watchos_version = "7.3.3";
-let watchos_build = "18S830";
+let watchos_version = "7.4";
+let watchos_build = "18T195";
 let watch_device = "Watch6,4"; // Apple Watch Series 6
 let watch_hw = "N158bAP";
 
-let audioos_version = "14.4";
-let audioos_build = "18K802";
+let audioos_version = "14.5";
+let audioos_build = "18L203";
 let homepod_device = "AudioAccessory5,1"; // HomePod mini
 let homepod_hw = "B520AP";
 
-let tvos_version = "14.4";
-let tvos_build = "18K802";
+let tvos_version = "14.5";
+let tvos_build = "18L204";
 let tv_device = "AppleTV11,1"; // AppleTV 4k 2
 let tv_hw = "J305AP";
 
 module.exports = function () {
-    this.fetch_gdmf = function (macos, ios, watchos, audioos, tvos) { // this massive number of paramemters is used for debugging
+    this.fetch_gdmf = function (macos, ios, watchos, audioos, tvos) { // this massive number of args is used for debugging
         send_log(`fetch_gdmf`, `Fetching macOS OTA Updates...`, `#f07700`);
         // Beta macOS
         if (macos) fetch_macos_ota(macos_audience_beta, 'beta', true);

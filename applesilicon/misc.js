@@ -8,6 +8,27 @@ module.exports = function () {
     return prettyBytes(bytes);
   };
 
+  this.formatUpdatesName = function (updateid, version, cname) {
+    // tvOS SUDocumentationID is always "PreRelease", so I just return back the old value anyways...
+    if (cname.toLowerCase() === "tvos") {
+      return updateid;
+    }
+
+    if (!updateid.includes('Long') && !updateid.includes('Short') && !updateid.includes('RC')) {
+      // Format & sanitize SUDocumentationID
+      if (version.endsWith(".0")) version = version.substring(0, version.length - 2);
+      let name_prefix = cname + version.replace('.', '');
+      var document_id = updateid.replace(name_prefix, '').replace(version.replace('.', ''), ''); // workaround for audioOS
+
+      // Get beta number from SUDocumentationID
+      let beta_name = `Beta ${parseInt(document_id.replace(/[^0-9]/g, ""))}`;
+      return beta_name;
+    } else {
+      // Release Candidate Updates
+      return "Release Candidate"
+    }
+  }
+
   // generate random colors for the embeds
   this.randomColor = function () {
     var color = Math.floor(Math.random() * 16777215).toString(16);

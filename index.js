@@ -3,8 +3,8 @@
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 global.beta_release = false; // switch mode
-global.bot_version = "2.1.1";
-global.bot_updatedate = "July 2nd, 2021"
+global.bot_version = "2.1.2";
+global.bot_updatedate = "July 4th, 2021"
 global.script_path = process.cwd();
 
 const Discord = require('discord.js');
@@ -27,7 +27,7 @@ require("./applesilicon/updates.js")();
 global.bot = new Discord.Client();
 (global.beta_release) ? global.bot.login(config.bot_beta_token) : global.bot.login(config.bot_token);
 
-// ============= MONITOR BOT ============
+// ============= DISCORD BOT ============
 
 global.bot.on("ready", async () => {
     if (global.beta_release) console.log("RUNNING IN BETA MODE.");
