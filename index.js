@@ -3,8 +3,8 @@
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 global.beta_release = false; // switch mode
-global.bot_version = "2.1.2";
-global.bot_updatedate = "July 4th, 2021"
+global.bot_version = "2.1.3";
+global.bot_updatedate = "July 6th, 2021"
 global.script_path = process.cwd();
 
 const Discord = require('discord.js');
@@ -22,7 +22,7 @@ const credentials_beta = require("./bootrom/firebase_beta.json");
     credential: firebase.credential.cert(credentials)
 });
 
-require("./applesilicon/updates.js")();
+require("./applesilicon/controller/updates.js")();
 
 global.bot = new Discord.Client();
 (global.beta_release) ? global.bot.login(config.bot_beta_token) : global.bot.login(config.bot_token);
@@ -37,16 +37,25 @@ global.bot.on("ready", async () => {
 });
 
 global.bot.commands = new Enmap();
-fs.readdir("./secureenclave/", (err, files) => {
-    if (err) return console.error(err);
-    files.forEach(file => {
-        if (!file.endsWith(".js")) return;
-        let props = require(`./secureenclave/${file}`);
-        let commandName = file.split(".")[0];
-        global.bot.commands.set(commandName, props);
+
+function grab_commands(dir) {
+    fs.readdir(dir, (err, files) => {
+        if (err) return console.error(err);
+        files.forEach(file => {
+            if (!file.endsWith(".js")) return;
+            let props = require(`./${dir}/${file}`);
+            let commandName = file.split(".")[0];
+            global.bot.commands.set(commandName, props);
+        });
+        console.log(`Commands at ${dir} loaded.`);
     });
-    console.log(`Commands loaded.`);
-});
+}
+
+// Get bot commands
+grab_commands("./secureenclave/bot/");
+grab_commands("./secureenclave/host/");
+grab_commands("./secureenclave/remote/");
+grab_commands("./secureenclave/servers/");
 
 global.bot.on("message", async message => {
     if (message.author.bot) return;

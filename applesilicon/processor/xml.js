@@ -5,8 +5,8 @@ const xmljs = require('xml-js');
 const plist = require('plist');
 const firebase = require("firebase-admin");
 
-require('./embed.js')();
-require('./error.js')();
+require('../transceiver/embed.js')();
+require('../telemetry/error.js')();
 
 let db = firebase.firestore();
 

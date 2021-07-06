@@ -1,8 +1,8 @@
 // Fetch updates for each Apple OS
 
-require('./gdmf.js')();
-require('./xml.js')();
-require('./error.js')();
+require('../processor/gdmf.js')();
+require('../processor/xml.js')();
+require('../telemetry/error.js')();
 
 // AssetAudiences
 let macos_audience_public = "60b55e25-a8ed-4f45-826c-c1495a4ccc65";

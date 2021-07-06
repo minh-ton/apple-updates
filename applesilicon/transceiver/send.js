@@ -1,6 +1,6 @@
 const firebase = require("firebase-admin");
 
-require('./error.js')();
+require('../telemetry/error.js')();
 
 let db = firebase.firestore();
 

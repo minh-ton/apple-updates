@@ -1,4 +1,4 @@
-require('../applesilicon/embed.js')();
+require('../../applesilicon/transceiver/embed.js')();
 
 exports.run = (message, args) => {
     let isBotOwner = message.author.id == '589324103463338007';

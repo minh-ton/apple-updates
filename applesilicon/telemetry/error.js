@@ -1,11 +1,11 @@
 // Send log and error messages to the log/error channel in a monitor discord server
 
 const Discord = require('discord.js');
-const config = require("../bootrom/config.json");
+const config = require("../../bootrom/config.json");
 const logging_manager = new Discord.WebhookClient(config.logging_id, config.logging_token);
 const error_reporter = new Discord.WebhookClient(config.error_id, config.error_token);
 
-require('./misc.js')();
+require('../circuits/misc.js')();
 
 module.exports = function () {
     this.send_log = function (process, message, color) {

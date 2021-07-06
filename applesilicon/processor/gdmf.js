@@ -4,10 +4,10 @@
 const axios = require('axios');
 const firebase = require("firebase-admin");
 
-require('./embed.js')();
-require('./error.js')();
+require('../transceiver/embed.js')();
+require('../telemetry/error.js')();
 require('./doc.js')();
-require('./misc.js')();
+require('../circuits/misc.js')();
 
 const asset_type = {
     ios: "com.apple.MobileAsset.SoftwareUpdateDocumentation",

@@ -1,3 +1,5 @@
+// Get update documentation/changelog
+
 const axios = require('axios');
 const admzip = require('adm-zip');
 const sanitizeHtml = require('sanitize-html');

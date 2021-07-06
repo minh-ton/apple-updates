@@ -1,7 +1,7 @@
 // Send new OS updates
 const Discord = require('discord.js');
 
-require('./misc.js')();
+require('../circuits/misc.js')();
 require('./send.js')();
 
 module.exports = function () {
