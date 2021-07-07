@@ -1,3 +1,5 @@
+// Crash the bot
+
 exports.run = (message, args) => {
     let isBotOwner = message.author.id == '589324103463338007';
     if (!isBotOwner) return;

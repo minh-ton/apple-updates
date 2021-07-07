@@ -1,3 +1,5 @@
+// Bot setup 
+
 const Discord = require('discord.js');
 const firebase = require("firebase-admin");
 const db = firebase.firestore();

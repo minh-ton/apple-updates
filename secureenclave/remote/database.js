@@ -1,3 +1,5 @@
+// Get database from remote
+
 const firebase = require("firebase-admin");
 const Discord = require('discord.js');
 

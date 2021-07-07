@@ -1,3 +1,5 @@
+// Send update embeds to servers & ping notification roles
+
 const firebase = require("firebase-admin");
 
 require('../telemetry/error.js')();

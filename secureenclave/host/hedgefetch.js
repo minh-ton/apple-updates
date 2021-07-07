@@ -1,3 +1,5 @@
+// Show host machine info using hedgefetch
+
 const { exec } = require('child_process');
 const Discord = require('discord.js');
 

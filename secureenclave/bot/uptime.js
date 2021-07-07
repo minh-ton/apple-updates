@@ -1,3 +1,5 @@
+// Show bot uptime
+
 const Discord = require('discord.js');
 const ms = require("pretty-ms");
 

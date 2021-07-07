@@ -1,3 +1,5 @@
+// Send bot announcements to servers
+
 require('../../applesilicon/transceiver/embed.js')();
 
 exports.run = (message, args) => {

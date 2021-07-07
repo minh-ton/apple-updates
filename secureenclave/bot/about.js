@@ -1,3 +1,5 @@
+// Show bot info
+
 const Discord = require('discord.js');
 
 require('../../applesilicon/circuits/misc.js')();

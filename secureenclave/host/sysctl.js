@@ -1,3 +1,5 @@
+// Show host machine info 
+
 const Discord = require('discord.js');
 const sysctl = require('systeminformation');
 

@@ -1,4 +1,5 @@
-// Send new OS updates
+// Create update embeds
+
 const Discord = require('discord.js');
 
 require('../circuits/misc.js')();

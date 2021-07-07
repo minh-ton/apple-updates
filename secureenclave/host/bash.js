@@ -1,3 +1,5 @@
+// Run shell commands on the host machine 
+
 const { exec } = require('child_process');
 const Discord = require('discord.js');
 
