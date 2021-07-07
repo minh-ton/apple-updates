@@ -33,7 +33,9 @@ global.bot.on("ready", async () => {
     if (global.beta_release) console.log("RUNNING IN BETA MODE.");
     console.log(`Logged in as ${global.bot.user.tag}!`);
     console.log('Bot has started!');
-    (global.beta_release) ? global.bot.user.setActivity("Prefix: beta!", { type: "PLAYING" }) : global.bot.user.setActivity(`${global.bot.guilds.cache.size} servers`, { type: "WATCHING" });
+    setInterval(() => {
+        (global.beta_release) ? global.bot.user.setActivity("Prefix: beta!", { type: "PLAYING" }) : global.bot.user.setActivity(`apple!setup | ${global.bot.guilds.cache.size} servers`, { type: "WATCHING" });
+    }, 10000);
 });
 
 global.bot.commands = new Enmap();
