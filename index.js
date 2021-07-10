@@ -40,7 +40,7 @@ global.bot.on("ready", async () => {
 
 global.bot.commands = new Enmap();
 
-function grab_commands(dir) {
+function load_commands(dir) {
     fs.readdir(dir, (err, files) => {
         if (err) return console.error(err);
         files.forEach(file => {
@@ -53,11 +53,11 @@ function grab_commands(dir) {
     });
 }
 
-// Get bot commands
-grab_commands("./secureenclave/bot/");
-grab_commands("./secureenclave/host/");
-grab_commands("./secureenclave/remote/");
-grab_commands("./secureenclave/servers/");
+// Load bot commands
+load_commands("./secureenclave/bot/");
+load_commands("./secureenclave/host/");
+load_commands("./secureenclave/remote/");
+load_commands("./secureenclave/servers/");
 
 global.bot.on("message", async message => {
     if (message.author.bot) return;
