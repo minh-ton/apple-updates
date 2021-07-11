@@ -1,4 +1,4 @@
-// Get update documentation/changelog
+// Monitor the updates check process.
 
 const firebase = require("firebase-admin");
 

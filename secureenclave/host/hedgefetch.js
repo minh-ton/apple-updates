@@ -3,26 +3,34 @@
 const { exec } = require('child_process');
 const Discord = require('discord.js');
 
-exports.run = async (message, args) => {    
-    const m_embed = new Discord.MessageEmbed().setDescription(`Running \`hedgefetch\`...`);
-    const m = await message.channel.send(m_embed);
-    exec(`chmod +x ${global.script_path}/nvram/hedgefetch.sh && ${global.script_path}/nvram/hedgefetch.sh`, (err, stdout, stderr) => {
-        if (err) {
-            const embed = new Discord.MessageEmbed()
-                .setAuthor(`hedgefetch`, `https://i.imgur.com/d1lcrpg.png`)
-                .setDescription(`**Command exited with error:** \n \`${err}\``)
-                .setTimestamp();
+module.exports = {
+    name: 'hedgefetch',
+    command: 'hedgefetch',
+    category: 'Information',
+    usage: '`apple!hedgefetch`',
+    description: 'Hedgefetch?',
+    async execute(message, args) {
+        const m_embed = new Discord.MessageEmbed().setDescription(`Running \`hedgefetch\`...`);
+        const m = await message.channel.send(m_embed);
+        exec(`chmod +x ${global.script_path}/nvram/hedgefetch.sh && ${global.script_path}/nvram/hedgefetch.sh`, (err, stdout, stderr) => {
+            if (err) {
+                const embed = new Discord.MessageEmbed()
+                    .setAuthor(`hedgefetch`, global.bot.user.displayAvatarURL())
+                    .setDescription(`**Command exited with error:** \n \`${err}\``)
+                    .setTimestamp();
+                m.edit(embed);
+                return;
+            }
+
+            var error = (stderr) ? stderr : "No Error";
+            var output = (stdout) ? stdout : "No Output"
+
+            if (output.length > 1990) output = output.substring(0, 1990) + '...';
+            if (error.length > 1990) error = error.substring(0, 1990) + '...';
+
+            const embed = new Discord.MessageEmbed().setDescription(`\`\`\`${output}\`\`\``);
             m.edit(embed);
-            return;
-        }
+        });
+    },
+};
 
-        var error = (stderr) ? stderr : "No Error";
-        var output = (stdout) ? stdout : "No Output"
-
-        if (output.length > 1990) output = output.substring(0, 1990) + '...';
-        if (error.length > 1990) error = error.substring(0, 1990) + '...';
-
-        const embed = new Discord.MessageEmbed().setDescription(`\`\`\`${output}\`\`\``);
-        m.edit(embed);
-    });
-}

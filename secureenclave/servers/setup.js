@@ -30,7 +30,7 @@ let os_updates = {
 
 function part1embed() {
     const part1 = new Discord.MessageEmbed()
-        .setAuthor(`Unsupported Macs`, `https://i.imgur.com/5JatAyq.png`)
+        .setAuthor(`Software Updates`, global.bot.user.displayAvatarURL())
         .setTitle(`Software Updates - Updates Setup Part 1`)
         .setColor("#00af00")
         .setDescription(`\n**Please mention the channel that you want me to send new Apple updates to.** \n *If you don't respond to this message within 3 minutes, the command will time out.*`);
@@ -39,7 +39,7 @@ function part1embed() {
 
 function part2embed(selected_channel, selected_options) {
     const part2 = new Discord.MessageEmbed()
-        .setAuthor(`Unsupported Macs`, `https://i.imgur.com/5JatAyq.png`)
+        .setAuthor(`Software Updates`, global.bot.user.displayAvatarURL())
         .setTitle(`Software Updates - Updates Setup Part 2`)
         .setDescription(`\n ** React to receive updates notifications to <#${selected_channel.id}>.**
                 *If you don't react to this message within 3 minutes, the command will time out. Your options will be recorded automatically after 1 minute.*`)
@@ -62,7 +62,7 @@ function part2embed(selected_channel, selected_options) {
 
 function errorembed(content) {
     const error = new Discord.MessageEmbed()
-        .setAuthor(`Unsupported Macs`, `https://i.imgur.com/5JatAyq.png`)
+        .setAuthor(`Software Updates`, global.bot.user.displayAvatarURL())
         .setTitle("An issue has occured!")
         .setColor("#c2002a")
         .setDescription(`${content} \n\n *Please try again later. \n If you need help, join our support server: https://discord.gg/ktHmcbpMNU*`);
@@ -71,7 +71,7 @@ function errorembed(content) {
 
 function overall_embed(selected_channel, selected_options) {
     const overall = new Discord.MessageEmbed()
-        .setAuthor(`Unsupported Macs`, `https://i.imgur.com/5JatAyq.png`)
+        .setAuthor(`Software Updates`, global.bot.user.displayAvatarURL())
         .setTitle(`Software Updates - Setup Overview`)
         .setDescription(`**Your setup data has been saved successfully!**
         Join the Unsupported Macs Discord Server: https://discord.gg/XbbWAsE`)
@@ -230,7 +230,7 @@ async function run_setup_updates(message, args) {
 
 function embed_role_ask() {
     const embed = new Discord.MessageEmbed()
-        .setAuthor(`Unsupported Macs`, `https://i.imgur.com/5JatAyq.png`)
+        .setAuthor(`Software Updates`, global.bot.user.displayAvatarURL())
         .setTitle(`Software Updates - Notification Roles Setup Part 1`)
         .setDescription(`\n**Please reply with an OS name that you would like to get ping notifications for.**
         - \`ios\` : iOS Updates
@@ -248,7 +248,7 @@ function embed_role_ask() {
 
 function embed_role_remove(roles) {
     const embed = new Discord.MessageEmbed()
-        .setAuthor(`Unsupported Macs`, `https://i.imgur.com/5JatAyq.png`)
+        .setAuthor(`Software Updates`, global.bot.user.displayAvatarURL())
         .setTitle(`Software Updates - Notification Roles Removal Part 1`)
         .setDescription(`\n**Please reply with an OS name that you would like to remove ping notifications for.**
         Your server has these notification roles configured: 
@@ -259,7 +259,7 @@ function embed_role_remove(roles) {
 
 function embed_role_list(roles) {
     const embed = new Discord.MessageEmbed()
-        .setAuthor(`Unsupported Macs`, `https://i.imgur.com/5JatAyq.png`)
+        .setAuthor(`Software Updates`, global.bot.user.displayAvatarURL())
         .setTitle(`Software Updates - Configured Notification Roles`)
         .setDescription(`\n**Your server has these notification roles configured:**
         - ${roles.join(`\n - `)}`);
@@ -269,7 +269,7 @@ function embed_role_list(roles) {
 
 function embed_role(os) {
     const embed = new Discord.MessageEmbed()
-        .setAuthor(`Unsupported Macs`, `https://i.imgur.com/5JatAyq.png`)
+        .setAuthor(`Software Updates`, global.bot.user.displayAvatarURL())
         .setTitle(`Software Updates - Notification Roles Setup Part 2`)
         .setDescription(`\n**Please mention the role that you would like me to ping when a new ${os} is available.** \n *If you don't respond to this message within 3 minutes, the command will time out.*`);
     return embed;
@@ -278,7 +278,7 @@ function embed_role(os) {
 function overall_embed_role(selected_role, selected_update, option) {
     (option) ? choice = "will ping" : choice = "will no longer ping";
     const overall = new Discord.MessageEmbed()
-        .setAuthor(`Unsupported Macs`, `https://i.imgur.com/5JatAyq.png`)
+        .setAuthor(`Software Updates`, global.bot.user.displayAvatarURL())
         .setTitle(`Software Updates - Setup Overview`)
         .setDescription(`**Your setup data has been saved successfully!**
         From now on, I ${choice} ${selected_role} when a new ${selected_update} is available!`)
@@ -424,11 +424,18 @@ async function run_setup_roles(message, args) {
     }
 }
 
-exports.run = async (message, args) => {
-    if (!message.member.hasPermission("MANAGE_GUILD")) return message.channel.send(errorembed("You do not have the \"MANAGE SERVER\" permission to use this command!"));
-    if (!message.guild.me.hasPermission(["VIEW_CHANNEL", "ADD_REACTIONS", "USE_EXTERNAL_EMOJIS", "MANAGE_MESSAGES"])) {
-        return message.channel.send(errorembed("I do not have the necessary permissions to work properly! \n\n ***Please make sure I have the following permissions:*** \n- View Channels\n- Add Reactions\n- Use External Emojis\n- Manage Messages"));
-    }
+module.exports = {
+    name: 'setup',
+    command: 'setup',
+    category: 'Utilities',
+    usage: '`apple!setup`',
+    description: 'Configures the bot to your liking!',
+    async execute(message, args) {
+        if (!message.member.hasPermission("MANAGE_GUILD")) return message.channel.send(errorembed("You do not have the \"MANAGE SERVER\" permission to use this command!"));
+        if (!message.guild.me.hasPermission(["VIEW_CHANNEL", "ADD_REACTIONS", "USE_EXTERNAL_EMOJIS", "MANAGE_MESSAGES"])) {
+            return message.channel.send(errorembed("I do not have the necessary permissions to work properly! \n\n ***Please make sure I have the following permissions:*** \n- View Channels\n- Add Reactions\n- Use External Emojis\n- Manage Messages"));
+        }
 
-    (args[0] == "role") ? run_setup_roles(message, args).catch(function (error) { console.log(error) }) : run_setup_updates(message, args).catch(function (error) { console.log(error) });
-}
+        (args[0] == "role") ? run_setup_roles(message, args).catch(function (error) { console.log(error) }) : run_setup_updates(message, args).catch(function (error) { console.log(error) });
+    },
+};

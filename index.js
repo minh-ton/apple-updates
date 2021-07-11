@@ -3,7 +3,7 @@
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 global.beta_release = false; // switch mode
-global.bot_version = "2.2.0";
+global.bot_version = "2.2.1";
 global.bot_updatedate = "July 11th, 2021"
 global.script_path = process.cwd();
 
@@ -34,7 +34,7 @@ global.bot.on("ready", async () => {
     console.log(`Logged in as ${global.bot.user.tag}!`);
     console.log('Bot has started!');
     setInterval(() => {
-        (global.beta_release) ? global.bot.user.setActivity("Prefix: beta!", { type: "PLAYING" }) : global.bot.user.setActivity(`apple!setup | ${global.bot.guilds.cache.size}`, { type: "WATCHING" });
+        (global.beta_release) ? global.bot.user.setActivity("Prefix: beta!", { type: "PLAYING" }) : global.bot.user.setActivity(`apple!help | ${global.bot.guilds.cache.size}`, { type: "WATCHING" });
     }, 10000);
 });
 
@@ -73,7 +73,7 @@ global.bot.on("message", async message => {
     const command = args.shift().toLowerCase();
     const cmd = global.bot.commands.get(command);
     if (!cmd) return;
-    cmd.run(message, args);
+    cmd.execute(message, args);
 });
 
 // ============= UPDATES FETCH =============
