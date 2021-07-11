@@ -21,7 +21,7 @@ function get_links(xml_update) {
 module.exports = {
     name: 'latest',
     command: 'latest',
-    category: 'Utilities',
+    category: 'Apple',
     usage: '`apple!latest`',
     description: 'Gets the latest Apple OS updates.',
     async execute(message, args) {

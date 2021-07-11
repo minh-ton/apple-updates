@@ -11,7 +11,8 @@ function help_embed() {
         .setDescription(`To view more information on a command, type \`apple!help <command>\`. \nNeed more help? Join our support server: https://discord.gg/ktHmcbpMNU`)
         .addField(`Information`, '`about` `ping` `uptime` `sysctl` `hedgefetch`')
         .addField(`Owner`, '`killall` `bash` `database` `echo`')
-        .addField(`Utilities`, '`help` `latest` `setup`')
+        .addField(`Utilities`, '`help` `setup`')
+        .addField(`Apple`, '`latest`')
         .setColor(randomColor());
     return embed;
 }
