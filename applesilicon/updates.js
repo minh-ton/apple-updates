@@ -1,8 +1,7 @@
 // Fetch updates for each Apple OS
 
-require('../processor/gdmf.js')();
-require('../processor/xml.js')();
-require('../telemetry/error.js')();
+require('./main/manager.js')();
+require('./error.js')();
 
 // AssetAudiences
 let macos_audience_public = "60b55e25-a8ed-4f45-826c-c1495a4ccc65";
@@ -56,10 +55,10 @@ module.exports = function () {
     this.fetch_gdmf = function (macos, ios, watchos, audioos, tvos) { // this massive number of args is used for debugging
         send_log(`fetch_gdmf`, `Fetching macOS OTA Updates...`, `#f07700`);
         // Beta macOS
-        if (macos) fetch_macos_ota(macos_audience_beta, 'beta', true);
-        if (macos) fetch_macos_ota(macos_new_audience_beta, 'beta', true);
+        if (macos) fetch_macos_updates(macos_audience_beta, 'beta', true);
+        if (macos) fetch_macos_updates(macos_new_audience_beta, 'beta', true);
         // Public macOS
-        if (macos) fetch_macos_ota(macos_audience_public, 'public', false);
+        if (macos) fetch_macos_updates(macos_audience_public, 'public', false);
 
         send_log(`fetch_gdmf`, `Fetching iOS/iPadOS OTA Updates...`, `#f07700`);
         // Beta iOS
@@ -98,4 +97,72 @@ module.exports = function () {
         // Public macOS InstallAssistant.pkg
         fetch_macos_pkg(macos_public_catalog, false, 'public_pkg');
     };
+
+    this.get_os_assets = async function (m) {
+                
+        await m.edit(`Getting macOS Updates...`);
+        // Beta macOS
+        let macos_beta_data = await get_macos_assets(macos_audience_beta, true); 
+        let macos_beta_new_data = await get_macos_assets(macos_new_audience_beta, true);
+        // Public macOS
+        let macos_public_data = await get_macos_assets(macos_audience_public, false);
+
+        await m.edit(`Getting iOS & iPadOS Updates...`);
+        // Beta iOS
+        let ios_beta_data = await get_other_assets(ios_audience_beta, ios_build, ios_hw, ios_device, ios_version, "iOS", "beta", true);
+        let ios_beta_new_data = await get_other_assets(ios_new_audience_beta, ios_build, ios_hw, ios_device, ios_version, "iOS", "beta", true);
+        // Public iOS
+        let ios_public_data = await get_other_assets(ios_audience_public, ios_build, ios_hw, ios_device, ios_version, "iOS", "public", false);
+
+        await m.edit(`Getting watchOS Updates...`);
+        // Beta watchOS
+        let watchos_beta_data = await get_other_assets(watchos_audience_beta, watchos_build, watch_hw, watch_device, watchos_version, "watchOS", "beta", true);
+        let watchos_beta_new_data = await get_other_assets(watchos_new_audience_beta, watchos_build, watch_hw, watch_device, watchos_version, "watchOS", "beta", true);
+        // Public watchOS
+        let watchos_public_data = await get_other_assets(watchos_audience_public, watchos_build, watch_hw, watch_device, watchos_version, "watchOS", "public", false);
+
+        await m.edit(`Getting audioOS Updates...`);
+        // Beta audioOS
+        let audioos_beta_data = await get_other_assets(audioos_audience_beta, audioos_build, homepod_hw, homepod_device, audioos_version, "audioOS", "beta", true);
+        let audioos_beta_new_data = await get_other_assets(audioos_new_audience_beta, audioos_build, homepod_hw, homepod_device, audioos_version, "audioOS", "beta", true);
+        // Public audioOS
+        let audioos_public_data = await get_other_assets(audioos_audience_public, audioos_build, homepod_hw, homepod_device, audioos_version, "audioOS", "public", false);
+
+        await m.edit(`Getting tvOS Updates...`);
+        // Beta tvOS
+        let tvos_beta_data = await get_other_assets(tvos_audience_beta, tvos_build, tv_hw, tv_device, tvos_version, "tvOS", "beta", true);
+        let tvos_beta_new_data = await get_other_assets(tvos_new_audience_beta, tvos_build, tv_hw, tv_device, tvos_version, "tvOS", "beta", true);
+        // Public tvOS
+        let tvos_public_data = await get_other_assets(tvos_audience_public, tvos_build, tv_hw, tv_device, tvos_version, "tvOS", "public", false);
+
+        await m.edit(`Getting macOS Full Installer Packages...`);
+        // Beta macOS InstallAssistant.pkg
+        let pkg_beta_data = await get_pkg_assets(macos_beta_catalog, 'beta_pkg');
+        let pkg_beta_new_data = await get_pkg_assets(macos_new_beta_catalog, 'beta_pkg');
+        // Public macOS InstallAssistant.pkg
+        let pkg_public_data = await get_pkg_assets(macos_public_catalog, 'public_pkg');
+
+        let assets = {
+            macos_beta: macos_beta_data,
+            macos_beta_new: macos_beta_new_data,
+            macos_public: macos_public_data,
+            ios_beta: ios_beta_data,
+            ios_beta_new: ios_beta_new_data,
+            ios_public: ios_public_data,
+            watchos_beta: watchos_beta_data,
+            watchos_beta_new: watchos_beta_new_data,
+            watchos_public: watchos_public_data,
+            audioos_beta: audioos_beta_data,
+            audioos_beta_new: audioos_beta_new_data,
+            audioos_public: audioos_public_data,
+            tvos_beta: tvos_beta_data,
+            tvos_beta_new: tvos_beta_new_data,
+            tvos_public: tvos_public_data,
+            pkg_beta: pkg_beta_data,
+            pkg_beta_new: pkg_beta_new_data,
+            pkg_public: pkg_public_data
+        }
+
+        return assets;
+    }
 }

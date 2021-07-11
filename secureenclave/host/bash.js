@@ -13,7 +13,7 @@ exports.run = async (message, args) => {
         if (err) {
             const embed = new Discord.MessageEmbed()
                 .setAuthor(`Command: ${args.join(" ")}`, `https://i.imgur.com/d1lcrpg.png`)
-                .setDescription(`**Command exited with error:** \n \`${err}\``)
+                .setDescription(`**Command exited with error:** \n \`\`\`${err}\`\`\``)
                 .setTimestamp();
             m.edit(embed);
             return;

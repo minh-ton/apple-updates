@@ -3,7 +3,7 @@
 const firebase = require("firebase-admin");
 const Discord = require('discord.js');
 
-require('../../applesilicon/circuits/misc.js')();
+require('../../applesilicon/misc.js')();
 
 let db = firebase.firestore();
 

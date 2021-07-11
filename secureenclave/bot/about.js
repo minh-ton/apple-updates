@@ -2,7 +2,7 @@
 
 const Discord = require('discord.js');
 
-require('../../applesilicon/circuits/misc.js')();
+require('../../applesilicon/misc.js')();
 
 exports.run = async (message, args) => {
     let serverembed = new Discord.MessageEmbed()

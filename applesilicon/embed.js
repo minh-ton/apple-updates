@@ -2,7 +2,7 @@
 
 const Discord = require('discord.js');
 
-require('../circuits/misc.js')();
+require('./misc.js')();
 require('./send.js')();
 
 module.exports = function () {

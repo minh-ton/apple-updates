@@ -1,6 +1,6 @@
 // Send bot announcements to servers
 
-require('../../applesilicon/transceiver/embed.js')();
+require('../../applesilicon/embed.js')();
 
 exports.run = (message, args) => {
     let isBotOwner = message.author.id == '589324103463338007';
