@@ -22,8 +22,6 @@ exports.run = async (message, args) => {
     try {
         let m = await message.channel.send(`Getting the latest Apple updates...`);
 
-        console.log(a);
-
         let assets = await get_os_assets(m);
 
         let macos_beta = assets['macos_beta'];
