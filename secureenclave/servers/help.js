@@ -1,4 +1,4 @@
-// Send bot announcements to servers
+// Get bot help / command help
 
 const Discord = require('discord.js');
 
