@@ -3,6 +3,8 @@
 const { exec } = require('child_process');
 const Discord = require('discord.js');
 
+require('../../applesilicon/embed.js')();
+
 module.exports = {
     name: 'bash',
     command: 'bash',
@@ -11,7 +13,7 @@ module.exports = {
     description: '**[Owner Only]** Executes a shell command.',
     async execute(message, args) {
         let isBotOwner = message.author.id == '589324103463338007';
-        if (!isBotOwner) return;
+        if (!isBotOwner) return message.channel.send(minor_error_embed('`apple!bash` is restricted to bot-owner only.'));
 
         const m_embed = new Discord.MessageEmbed().setDescription(`Executing \`${args.join(" ")}\`...`);
         const m = await message.channel.send(m_embed);

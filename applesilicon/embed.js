@@ -108,5 +108,10 @@ module.exports = function () {
             .setThumbnail(global.bot.user.displayAvatarURL())
             .setTimestamp();
         send_to_servers("bot", embed);
+    };
+
+    this.minor_error_embed = function (message) {
+        const embed = new Discord.MessageEmbed().setDescription(":no_entry: " + message).setColor("#FF0000");
+        return embed;
     }
 }

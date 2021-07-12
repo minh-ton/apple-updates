@@ -10,7 +10,7 @@ function help_embed() {
         .setTitle(`Software Updates - Help`)
         .setDescription(`To view more information on a command, type \`apple!help <command>\`. \nNeed more help? Join our support server: https://discord.gg/ktHmcbpMNU`)
         .addField(`Information`, '`about` `ping` `uptime` `sysctl` `hedgefetch`')
-        .addField(`Owner`, '`killall` `bash` `database` `echo`')
+        .addField(`Owner`, '`killall` `bash` `database` `echo` `eval`')
         .addField(`Utilities`, '`help` `setup`')
         .addField(`Apple`, '`latest`')
         .setColor(randomColor());
@@ -33,7 +33,7 @@ module.exports = {
         }
 
         const cmd = global.bot.commands.get(args[0].toLowerCase());
-        if (!cmd) message.channel.send(':warning: That command does not exist. You can view a list of bot commands by typing `apple!help`.');
+        if (!cmd) return message.channel.send(minor_error_embed('That command does not exist. You can view the commands list by typing `apple!help`.'));
 
         const embed = new Discord.MessageEmbed()
             .setTitle(`\`${cmd.command}\``)

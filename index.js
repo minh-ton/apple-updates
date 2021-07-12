@@ -3,8 +3,8 @@
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 global.beta_release = false; // switch mode
-global.bot_version = "2.2.1";
-global.bot_updatedate = "July 11th, 2021"
+global.bot_version = "2.2.2";
+global.bot_updatedate = "July 12th, 2021"
 global.script_path = process.cwd();
 
 const Discord = require('discord.js');
@@ -40,24 +40,15 @@ global.bot.on("ready", async () => {
 
 global.bot.commands = new Enmap();
 
-function load_commands(dir) {
-    fs.readdir(dir, (err, files) => {
-        if (err) return console.error(err);
-        files.forEach(file => {
-            if (!file.endsWith(".js")) return;
-            let props = require(`./${dir}/${file}`);
-            let commandName = file.split(".")[0];
-            global.bot.commands.set(commandName, props);
-        });
-        console.log(`Commands at ${dir} loaded.`);
-    });
-}
+const commands = fs.readdirSync('./secureenclave');
 
-// Load bot commands
-load_commands("./secureenclave/bot/");
-load_commands("./secureenclave/host/");
-load_commands("./secureenclave/remote/");
-load_commands("./secureenclave/servers/");
+for (const category of commands) {
+	const cmd_files = fs.readdirSync(`./secureenclave/${category}`).filter(file => file.endsWith('.js'));
+	for (const file of cmd_files) {
+		const command = require(`./secureenclave/${category}/${file}`);
+		global.bot.commands.set(command.name, command);
+	}
+}
 
 global.bot.on("message", async message => {
     if (message.author.bot) return;

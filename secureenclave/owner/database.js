@@ -4,6 +4,7 @@ const firebase = require("firebase-admin");
 const Discord = require('discord.js');
 
 require('../../applesilicon/misc.js')();
+require('../../applesilicon/embed.js')();
 
 let db = firebase.firestore();
 
@@ -15,7 +16,7 @@ module.exports = {
     description: '**[Owner Only]** Views database from remote.',
     async execute(message, args) {
         let isBotOwner = message.author.id == '589324103463338007';
-        if (!isBotOwner) return;
+        if (!isBotOwner) return message.channel.send(minor_error_embed('`apple!database` is restricted to bot-owner only.'));
 
         const database_list = db.collection(args[0]).doc(args[1]);
         const data = await database_list.get();

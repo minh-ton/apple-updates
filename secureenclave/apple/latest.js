@@ -3,6 +3,7 @@
 const Discord = require('discord.js');
 
 require('../../applesilicon/updates.js')();
+require('../../applesilicon/embed.js')();
 require('../../applesilicon/misc.js')();
 
 function get_links(xml_update) {
@@ -81,7 +82,7 @@ module.exports = {
                 audioOS ${audioos_beta_new['os_version']} (Build ${audioos_beta_new['os_build']} - ${formatUpdatesName(audioos_beta_new['os_updateid'], audioos_beta_new['os_version'], "audioOS")} - Size ${formatBytes(audioos_beta_new['os_size'])})
                 audioOS ${audioos_public['os_version']} (Build ${audioos_public['os_build']} - Public Release - Size ${formatBytes(audioos_public['os_size'])})
             `, false)
-                .setColor("#00af00");
+                .setColor(randomColor());
 
             let public_array = get_links(pkg_public);
             let beta_array = get_links(pkg_beta).concat(get_links(pkg_beta_new).filter((item) => get_links(pkg_beta).indexOf(item) < 0)).filter((i) => public_array.indexOf(i) < 0);
@@ -93,14 +94,14 @@ module.exports = {
             **Beta Release Installers:**
             ${beta_array.join('\n')}
             `)
-                .setColor("#00af00")
+                .setColor(randomColor())
                 .setTimestamp();
 
             await m.delete();
             message.channel.send(embed);
             message.channel.send(continued);
         } catch (error) {
-            return message.channel.send(`\`\`\`> An error happened: \n\n ${error}\`\`\``)
+            return message.channel.send(minor_error_embed(error));
         }
     },
 };
