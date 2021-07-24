@@ -55,8 +55,10 @@ global.bot.on("message", async message => {
     if (message.mentions.everyone) return;
     if (message.channel.type === "dm") return;
 
+    let prefixes = (global.beta_release) ? ["beta!", "<@852896210267275324>", "<@!852896210267275324>"] : ["apple!", "<@852378577063116820>", "<@!852378577063116820>"];
+
     var prefix;
-    (global.beta_release) ? prefix = "beta!" : prefix = "apple!";
+    for (const i of prefixes) if (message.content.toLowerCase().startsWith(i)) prefix = i;
 
     if (!message.content.startsWith(prefix)) return;
 
