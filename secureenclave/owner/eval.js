@@ -11,13 +11,13 @@ const clean = text => {
 
 module.exports = {
     name: 'eval',
-    command: 'eval',
+    command: 'eval <code>',
     category: 'Owner',
     usage: '`apple!eval <code>`',
     description: '**[Owner Only]** Evaluates JavaScript code.',
     async execute(message, args) {
         let isBotOwner = message.author.id == '589324103463338007';
-        if (!isBotOwner) return message.channel.send(minor_error_embed('`apple!eval` is restricted to bot-owner only.'));
+        if (!isBotOwner) return message.channel.send(minor_error_embed('Want to take control of me? NO!'));
 
         try {
             const code = args.join(" ");

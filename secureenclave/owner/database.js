@@ -10,13 +10,13 @@ let db = firebase.firestore();
 
 module.exports = {
     name: 'database',
-    command: 'database',
+    command: 'database <collection> <document>',
     category: 'Owner',
     usage: '`apple!database <collection> <document>`',
     description: '**[Owner Only]** Views database from remote.',
     async execute(message, args) {
         let isBotOwner = message.author.id == '589324103463338007';
-        if (!isBotOwner) return message.channel.send(minor_error_embed('`apple!database` is restricted to bot-owner only.'));
+        if (!isBotOwner) return message.channel.send(minor_error_embed('Well you can\'t get my database without having my brain!'));
 
         const database_list = db.collection(args[0]).doc(args[1]);
         const data = await database_list.get();

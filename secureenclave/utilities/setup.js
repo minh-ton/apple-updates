@@ -29,8 +29,7 @@ let os_updates = {
 // ================ UPDATES CHANNEL SETUP ===================
 
 function part1embed() {
-    const part1 = new Discord.MessageEmbed()
-        .setAuthor(`Software Updates`, global.bot.user.displayAvatarURL())
+    const part1 = new Discord.MessageEmbed()  
         .setTitle(`Software Updates - Updates Setup Part 1`)
         .setColor("#00af00")
         .setDescription(`\n**Please mention the channel that you want me to send new Apple updates to.** \n *If you don't respond to this message within 3 minutes, the command will time out.*`);
@@ -39,7 +38,6 @@ function part1embed() {
 
 function part2embed(selected_channel, selected_options) {
     const part2 = new Discord.MessageEmbed()
-        .setAuthor(`Software Updates`, global.bot.user.displayAvatarURL())
         .setTitle(`Software Updates - Updates Setup Part 2`)
         .setDescription(`\n ** React to receive updates notifications to <#${selected_channel.id}>.**
                 *If you don't react to this message within 3 minutes, the command will time out. Your options will be recorded automatically after 1 minute.*`)
@@ -62,7 +60,6 @@ function part2embed(selected_channel, selected_options) {
 
 function errorembed(content) {
     const error = new Discord.MessageEmbed()
-        .setAuthor(`Software Updates`, global.bot.user.displayAvatarURL())
         .setTitle("An issue has occured!")
         .setColor("#c2002a")
         .setDescription(`${content} \n\n *Please try again later. \n If you need help, join our support server: https://discord.gg/ktHmcbpMNU*`);
@@ -71,7 +68,6 @@ function errorembed(content) {
 
 function overall_embed(selected_channel, selected_options) {
     const overall = new Discord.MessageEmbed()
-        .setAuthor(`Software Updates`, global.bot.user.displayAvatarURL())
         .setTitle(`Software Updates - Setup Overview`)
         .setDescription(`**Your setup data has been saved successfully!**
         Join the Unsupported Macs Discord Server: https://discord.gg/XbbWAsE`)
@@ -229,8 +225,7 @@ async function run_setup_updates(message, args) {
 // ================ PING ROLES SETUP ===================
 
 function embed_role_ask() {
-    const embed = new Discord.MessageEmbed()
-        .setAuthor(`Software Updates`, global.bot.user.displayAvatarURL())
+    const embed = new Discord.MessageEmbed()   
         .setTitle(`Software Updates - Notification Roles Setup Part 1`)
         .setDescription(`\n**Please reply with an OS name that you would like to get ping notifications for.**
         - \`ios\` : iOS Updates
@@ -247,8 +242,7 @@ function embed_role_ask() {
 }
 
 function embed_role_remove(roles) {
-    const embed = new Discord.MessageEmbed()
-        .setAuthor(`Software Updates`, global.bot.user.displayAvatarURL())
+    const embed = new Discord.MessageEmbed()    
         .setTitle(`Software Updates - Notification Roles Removal Part 1`)
         .setDescription(`\n**Please reply with an OS name that you would like to remove ping notifications for.**
         Your server has these notification roles configured: 
@@ -258,8 +252,7 @@ function embed_role_remove(roles) {
 }
 
 function embed_role_list(roles) {
-    const embed = new Discord.MessageEmbed()
-        .setAuthor(`Software Updates`, global.bot.user.displayAvatarURL())
+    const embed = new Discord.MessageEmbed()      
         .setTitle(`Software Updates - Configured Notification Roles`)
         .setDescription(`\n**Your server has these notification roles configured:**
         - ${roles.join(`\n - `)}`);
@@ -268,8 +261,7 @@ function embed_role_list(roles) {
 
 
 function embed_role(os) {
-    const embed = new Discord.MessageEmbed()
-        .setAuthor(`Software Updates`, global.bot.user.displayAvatarURL())
+    const embed = new Discord.MessageEmbed()      
         .setTitle(`Software Updates - Notification Roles Setup Part 2`)
         .setDescription(`\n**Please mention the role that you would like me to ping when a new ${os} is available.** \n *If you don't respond to this message within 3 minutes, the command will time out.*`);
     return embed;
@@ -277,8 +269,7 @@ function embed_role(os) {
 
 function overall_embed_role(selected_role, selected_update, option) {
     (option) ? choice = "will ping" : choice = "will no longer ping";
-    const overall = new Discord.MessageEmbed()
-        .setAuthor(`Software Updates`, global.bot.user.displayAvatarURL())
+    const overall = new Discord.MessageEmbed()       
         .setTitle(`Software Updates - Setup Overview`)
         .setDescription(`**Your setup data has been saved successfully!**
         From now on, I ${choice} ${selected_role} when a new ${selected_update} is available!`)

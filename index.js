@@ -3,8 +3,8 @@
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 global.beta_release = false; // switch mode
-global.bot_version = "2.2.2";
-global.bot_updatedate = "July 12th, 2021"
+global.bot_version = "2.2.3";
+global.bot_updatedate = "July 24th, 2021"
 global.script_path = process.cwd();
 
 const Discord = require('discord.js');

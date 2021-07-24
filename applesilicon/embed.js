@@ -10,7 +10,6 @@ module.exports = function () {
     this.send_macos_pkg_public = function (pkgurl, version, build) {
         const embed = new Discord.MessageEmbed()
             .setDescription(`macOS **${version} (${build})** Full Installer Package:\n> ${pkgurl}`)
-            .setAuthor(`Software Updates`, global.bot.user.displayAvatarURL())
             .setThumbnail(getthumbnail("macOS"))
             .setColor(randomColor())
             .setTimestamp();
@@ -21,11 +20,10 @@ module.exports = function () {
     this.send_macos_pkg_beta = function (pkgurl, version, build) {
         const embed = new Discord.MessageEmbed()
             .setDescription(`macOS **${version} Beta (${build})** Full Installer Package:\n> ${pkgurl}`)
-            .setAuthor(`Software Updates`, global.bot.user.displayAvatarURL())
             .setThumbnail(getthumbnail("macOS"))
             .setColor(randomColor())
             .setTimestamp();
-        send_to_servers('pkg', embed, `${version} (${build})`);
+        send_to_servers('pkg', embed, `${version} Beta (${build})`);
     };
 
     // Send macOS delta updates
@@ -33,7 +31,6 @@ module.exports = function () {
         (beta) ? isBeta = "Beta" : isBeta = "";
         const embed = new Discord.MessageEmbed()
             .setDescription(`macOS **${version} ${isBeta} (${build})** Delta Installer Package:\n> ${pkgurl}`)
-            .setAuthor(`Software Updates`, global.bot.user.displayAvatarURL())
             .setThumbnail(getthumbnail("macOS"))
             .setColor(randomColor())
             .setTimestamp();
@@ -43,8 +40,7 @@ module.exports = function () {
     // Send new macOS beta releases
     this.send_macos_beta = function (version, build, size, updateid, changelog) {
         const embed = new Discord.MessageEmbed()
-            .setTitle(`New macOS Beta Release!`)
-            .setAuthor(`Software Updates`, global.bot.user.displayAvatarURL())
+            .setTitle(`New macOS Beta Release!`) 
             .addField(`Version`, `macOS ${version} (${updateid})`, true)
             .addField(`Build`, build, true)
             .addField(`Size`, formatBytes(size), true)
@@ -57,8 +53,7 @@ module.exports = function () {
     // Send new macOS public releases
     this.send_macos_public = function (version, build, size, changelog) {
         const embed = new Discord.MessageEmbed()
-            .setTitle(`New macOS Public Release!`)
-            .setAuthor(`Software Updates`, global.bot.user.displayAvatarURL())
+            .setTitle(`New macOS Public Release!`) 
             .addField(`Version`, `macOS ${version}`, true)
             .addField(`Build`, build, true)
             .addField(`Size`, formatBytes(size), true)
@@ -73,7 +68,6 @@ module.exports = function () {
     this.send_other_updates = function (os, version, build, size, changelog) {
         const embed = new Discord.MessageEmbed()
             .setTitle(`New ${os} Public Release!`)
-            .setAuthor(`Software Updates`, global.bot.user.displayAvatarURL())
             .addField(`Version`, `${version}`, true)
             .addField(`Build`, build, true)
             .addField(`Size`, formatBytes(size), true)
@@ -87,8 +81,7 @@ module.exports = function () {
     // Send other OS beta updates
     this.send_other_beta_updates = function (os, version, build, size, updateid) {
         const embed = new Discord.MessageEmbed()
-            .setTitle(`New ${os} Beta Release!`)
-            .setAuthor(`Software Updates`, global.bot.user.displayAvatarURL())
+            .setTitle(`New ${os} Beta Release!`) 
             .addField(`Version`, `${version} (${updateid})`, true)
             .addField(`Build`, build, true)
             .addField(`Size`, formatBytes(size), true)
@@ -102,7 +95,6 @@ module.exports = function () {
     this.send_announcements = function (title, message) {
         const embed = new Discord.MessageEmbed()
             .setTitle(title)
-            .setAuthor(`Software Updates`, global.bot.user.displayAvatarURL())
             .setColor(randomColor())
             .setDescription(message)
             .setThumbnail(global.bot.user.displayAvatarURL())

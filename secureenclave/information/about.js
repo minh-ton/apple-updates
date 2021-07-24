@@ -12,7 +12,6 @@ module.exports = {
     description: 'Displays bot information.',
     async execute(message, args) {
         let serverembed = new Discord.MessageEmbed()
-            .setAuthor(`Software Updates`, global.bot.user.displayAvatarURL())
             .setColor(randomColor())
             .setTitle(`${global.bot.user.tag} - About`)
             .setDescription(`Made by the Unsupported Macs Community.`)
