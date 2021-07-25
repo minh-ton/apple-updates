@@ -53,35 +53,30 @@ let tv_hw = "J305AP";
 
 module.exports = function () {
     this.fetch_gdmf = function (macos, ios, watchos, audioos, tvos) { // this massive number of args is used for debugging
-        send_log(`fetch_gdmf`, `Fetching macOS OTA Updates...`, `#f07700`);
         // Beta macOS
         if (macos) fetch_macos_updates(macos_audience_beta, 'beta', true);
         if (macos) fetch_macos_updates(macos_new_audience_beta, 'beta', true);
         // Public macOS
         if (macos) fetch_macos_updates(macos_audience_public, 'public', false);
 
-        send_log(`fetch_gdmf`, `Fetching iOS/iPadOS OTA Updates...`, `#f07700`);
         // Beta iOS
         if (ios) fetch_other_updates(ios_audience_beta, ios_build, ios_hw, ios_device, ios_version, "iOS", "beta", true);
         if (ios) fetch_other_updates(ios_new_audience_beta, ios_build, ios_hw, ios_device, ios_version, "iOS", "beta", true);
         // Public iOS
         if (ios) fetch_other_updates(ios_audience_public, ios_build, ios_hw, ios_device, ios_version, "iOS", "public", false);
 
-        send_log(`fetch_gdmf`, `Fetching watchOS OTA Updates...`, `#f07700`);
         // Beta watchOS
         if (watchos) fetch_other_updates(watchos_audience_beta, watchos_build, watch_hw, watch_device, watchos_version, "watchOS", "beta", true);
         if (watchos) fetch_other_updates(watchos_new_audience_beta, watchos_build, watch_hw, watch_device, watchos_version, "watchOS", "beta", true);
         // Public watchOS
         if (watchos) fetch_other_updates(watchos_audience_public, watchos_build, watch_hw, watch_device, watchos_version, "watchOS", "public", false);
 
-        send_log(`fetch_gdmf`, `Fetching audioOS OTA Updates...`, `#f07700`);
         // Beta audioOS
         if (audioos) fetch_other_updates(audioos_audience_beta, audioos_build, homepod_hw, homepod_device, audioos_version, "audioOS", "beta", true);
         if (audioos) fetch_other_updates(audioos_new_audience_beta, audioos_build, homepod_hw, homepod_device, audioos_version, "audioOS", "beta", true);
         // Public audioOS
         if (audioos) fetch_other_updates(audioos_audience_public, audioos_build, homepod_hw, homepod_device, audioos_version, "audioOS", "public", false);
 
-        send_log(`fetch_gdmf`, `Fetching tvOS OTA Updates...`, `#f07700`);
         // Beta tvOS
         if (tvos) fetch_other_updates(tvos_audience_beta, tvos_build, tv_hw, tv_device, tvos_version, "tvOS", "beta", true);
         if (tvos) fetch_other_updates(tvos_new_audience_beta, tvos_build, tv_hw, tv_device, tvos_version, "tvOS", "beta", true);
@@ -90,7 +85,6 @@ module.exports = function () {
     };
 
     this.fetch_xml = function () {
-        send_log(`fetch_xml`, `Fetching InstallAssistant.pkg...`, `#1c95e0`);
         // Beta macOS InstallAssistant.pkg
         fetch_macos_pkg(macos_beta_catalog, true, 'beta_pkg');
         fetch_macos_pkg(macos_new_beta_catalog, true, 'beta_pkg');
