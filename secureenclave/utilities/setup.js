@@ -420,6 +420,7 @@ module.exports = {
     command: 'setup',
     category: 'Utilities',
     usage: '`apple!setup`',
+    cooldown: 5,
     description: 'Configures the bot to your liking!',
     async execute(message, args) {
         if (!message.member.hasPermission("MANAGE_GUILD")) return message.channel.send(errorembed("You do not have the \"MANAGE SERVER\" permission to use this command!"));

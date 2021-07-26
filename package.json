@@ -1,6 +1,6 @@
 {
   "name": "apple-updates",
-  "version": "2.2.3",
+  "version": "2.2.4",
   "description": "A Discord bot for pushing notifications about new Apple OS updates.",
   "main": "index.js",
   "scripts": {
@@ -24,7 +24,6 @@
     "adm-zip": "^0.5.5",
     "axios": "^0.21.1",
     "discord.js": "^12.5.3",
-    "enmap": "^5.8.5",
     "firebase-admin": "^9.8.0",
     "nodemon": "^2.0.7",
     "plist": "^3.0.2",

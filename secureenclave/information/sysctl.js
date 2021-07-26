@@ -8,6 +8,7 @@ module.exports = {
     command: 'sysctl',
     category: 'Information',
     usage: '`apple!sysctl`',
+    cooldown: 5,
     description: 'Shows the host machine info.',
     async execute(message, args) {
         // Memory

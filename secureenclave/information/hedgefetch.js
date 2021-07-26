@@ -8,6 +8,7 @@ module.exports = {
     command: 'hedgefetch',
     category: 'Information',
     usage: '`apple!hedgefetch`',
+    cooldown: 5,
     description: 'Hedgefetch?',
     async execute(message, args) {
         const m_embed = new Discord.MessageEmbed().setDescription(`Running \`hedgefetch\`...`);

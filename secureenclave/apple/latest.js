@@ -24,6 +24,7 @@ module.exports = {
     command: 'latest',
     category: 'Apple',
     usage: '`apple!latest`',
+    cooldown: 15,
     description: 'Gets the latest Apple OS updates.',
     async execute(message, args) {
         try {
