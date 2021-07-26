@@ -1,5 +1,9 @@
 // Check bot latency
 
+const Discord = require("discord.js");
+
+require('../../applesilicon/misc.js')();
+
 module.exports = {
     name: 'ping',
     command: 'ping',
@@ -7,7 +11,8 @@ module.exports = {
     usage: '`apple!ping`',
     description: 'Checks the bot\'s connection.',
     async execute(message, args) {
-        const m = await message.channel.send("Ping?");
-        m.edit(`:ping_pong: Pong! Latency is ${m.createdTimestamp - message.createdTimestamp}ms. API Latency is ${Math.round(global.bot.ws.ping)}ms.`);
+        const embed = new Discord.MessageEmbed().setColor(randomColor());
+        const m = await message.channel.send(embed.setDescription("Ping?"));
+        m.edit(embed.setDescription(`**Pong!** It took \`${m.createdTimestamp - message.createdTimestamp}ms\` for signals to reach me. My current heartbeat is \`${Math.round(global.bot.ws.ping)}ms\`.`));
     },
 };
