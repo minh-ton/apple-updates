@@ -66,6 +66,7 @@ global.bot.on("message", async message => {
     const args = message.content.slice(prefix.length).trim().split(/ +/g);
     const command = args.shift().toLowerCase();
     const cmd = global.bot.commands.get(command);
+    if (!cmd) return;
 
     // Command cooldowns (owner can bypass this)
     if (message.author.id != '589324103463338007') {
@@ -85,8 +86,12 @@ global.bot.on("message", async message => {
     }
 
     // Run commands
-    if (!cmd) return;
-    cmd.execute(message, args);
+    try {
+        cmd.execute(message, args);
+    } catch (error) {
+        console.log(error);
+        message.channel.send(minor_error_embed(`An unknown error occured while running \`apple!${cmd.name}\``));
+    }
 });
 
 // ============= UPDATES FETCH =============
