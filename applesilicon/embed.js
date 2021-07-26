@@ -103,7 +103,7 @@ module.exports = function () {
     };
 
     this.minor_error_embed = function (message) {
-        const embed = new Discord.MessageEmbed().setDescription(":no_entry: " + message).setColor("#FF0000");
+        const embed = new Discord.MessageEmbed().setDescription("<:apple_x:869128016494751755> " + message).setColor("#FF0000");
         return embed;
     }
 }
