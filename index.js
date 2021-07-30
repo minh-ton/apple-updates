@@ -34,7 +34,7 @@ global.bot.on("ready", async () => {
     console.log(`Logged in as ${global.bot.user.tag}!`);
     console.log('Bot has started!');
     setInterval(() => {
-        (global.beta_release) ? global.bot.user.setActivity("Prefix: beta!", { type: "PLAYING" }) : global.bot.user.setActivity(`apple!help | ${global.bot.guilds.cache.size}`, { type: "WATCHING" });
+        (global.beta_release) ? global.bot.user.setActivity("Prefix: beta!", { type: "PLAYING" }) : global.bot.user.setActivity(`apple!help | ${global.bot.guilds.cache.size}`, { type: "PLAYING" });
     }, 10000);
 });
 
