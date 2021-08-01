@@ -23,7 +23,7 @@
   "dependencies": {
     "adm-zip": "^0.5.5",
     "axios": "^0.21.1",
-    "discord.js": "^12.5.3",
+    "discord.js": "^13.0.0-dev.t1627778678.74fc23b",
     "firebase-admin": "^9.8.0",
     "nodemon": "^2.0.7",
     "plist": "^3.0.2",
