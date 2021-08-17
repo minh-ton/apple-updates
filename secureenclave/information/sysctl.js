@@ -22,7 +22,7 @@ module.exports = {
                 .addField(`Total swap`, formatBytes(data.swaptotal), true)
                 .addField(`Used swap`, formatBytes(data.swapused), true)
                 .setColor(randomColor())
-            message.channel.send(embed);
+            message.channel.send({ embeds: [embed] });
         });
         // CPU
         sysctl.cpu(function (data) {
@@ -32,7 +32,7 @@ module.exports = {
                 .addField(`Brand`, data.brand, true)
                 .addField(`Speed`, data.speed + 'GHz', true)
                 .setColor(randomColor())
-            message.channel.send(embed);
+            message.channel.send({ embeds: [embed] });
         });
         // OS
         sysctl.osInfo(function (data) {
@@ -44,7 +44,7 @@ module.exports = {
                 .addField(`Kernel`, data.kernel, true)
                 .addField(`Arch`, data.arch, true)
                 .setColor(randomColor())
-            message.channel.send(embed);
+            message.channel.send({ embeds: [embed] });
         });
     },
 };

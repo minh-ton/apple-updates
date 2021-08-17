@@ -15,6 +15,6 @@ module.exports = {
             .setColor(randomColor())
             .setDescription(`Invite me to your servers by clicking the link below! \n> https://discordapp.com/oauth2/authorize?&client_id=852378577063116820&scope=bot&permissions=8`)
             .setFooter(`Join our support server: https://discord.gg/ktHmcbpMNU`);
-        message.channel.send(serverembed);
+        message.channel.send({ embeds: [serverembed] });
     },
 }

@@ -12,14 +12,14 @@ module.exports = {
     description: 'Hedgefetch?',
     async execute(message, args) {
         const m_embed = new Discord.MessageEmbed().setDescription(`Running \`hedgefetch\`...`);
-        const m = await message.channel.send(m_embed);
+        const m = await message.channel.send({ embeds: [m_embed] });
         exec(`chmod +x ${global.script_path}/nvram/hedgefetch.sh && ${global.script_path}/nvram/hedgefetch.sh`, (err, stdout, stderr) => {
             if (err) {
                 const embed = new Discord.MessageEmbed()
                     .setAuthor(`hedgefetch`, global.bot.user.displayAvatarURL())
                     .setDescription(`**Command exited with error:** \n \`${err}\``)
                     .setTimestamp();
-                m.edit(embed);
+                m.edit({ embeds: [embed] });
                 return;
             }
 
@@ -30,7 +30,7 @@ module.exports = {
             if (error.length > 1990) error = error.substring(0, 1990) + '...';
 
             const embed = new Discord.MessageEmbed().setDescription(`\`\`\`${output}\`\`\``);
-            m.edit(embed);
+            m.edit({ embeds: [embed] });
         });
     },
 };

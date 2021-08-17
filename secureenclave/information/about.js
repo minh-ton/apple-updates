@@ -20,6 +20,6 @@ module.exports = {
             .addField(`Last updated`, global.bot_updatedate, true)
             .addField(`Servers`, `${global.bot.guilds.cache.size}`, true)
             .setFooter(`Join our support server: https://discord.gg/ktHmcbpMNU`);
-        message.channel.send(serverembed);
+        message.channel.send({ embeds: [serverembed] });
     },
 }

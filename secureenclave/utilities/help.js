@@ -27,9 +27,10 @@ module.exports = {
         let color = randomColor();
 
         if (!args[0]) {
-            message.channel.send(help_embed());
+            message.channel.send({ embeds: [help_embed()] });
+            if (!message.member.permissions.has("MANAGE_GUILD")) return;
             const embed = new Discord.MessageEmbed().setDescription(':wave: **Hey there! If you haven\'t configured this bot, just type `apple!setup` to set it up! Don\'t worry, the process is very simple and user-friendly!**').setColor(color);
-            return message.channel.send(embed);
+            return message.channel.send({ embeds: [embed] });
         }
 
         const cmd = global.bot.commands.get(args[0].toLowerCase());
@@ -41,6 +42,6 @@ module.exports = {
             .addField(`Category`, cmd.category)
             .addField('Example & Usage', cmd.usage)
             .setColor(color);
-        message.channel.send(embed);
+        message.channel.send({ embeds: [embed] });
     },
 };

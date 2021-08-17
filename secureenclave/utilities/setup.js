@@ -1,7 +1,13 @@
 // Bot setup 
 
+// Blue: #1c95e0
+// Green: #00d768
+// Red: #c2002a
+// Orange: #f07800
+
 const Discord = require('discord.js');
 const firebase = require("firebase-admin");
+
 const db = firebase.firestore();
 
 const ios_database = db.collection('discord').doc('ios');
@@ -27,21 +33,23 @@ let os_updates = {
 }
 
 // ================ UPDATES CHANNEL SETUP ===================
+// ==========================================================
+// ==========================================================
 
 function part1embed() {
     const part1 = new Discord.MessageEmbed()  
         .setTitle(`Software Updates - Updates Setup Part 1`)
-        .setColor("#00af00")
+        .setColor("#00d768")
         .setDescription(`\n**Please mention the channel that you want me to send new Apple updates to.** \n *If you don't respond to this message within 3 minutes, the command will time out.*`);
-    return part1;
+    return { embeds: [part1] };
 }
 
 function part2embed(selected_channel, selected_options) {
     const part2 = new Discord.MessageEmbed()
         .setTitle(`Software Updates - Updates Setup Part 2`)
         .setDescription(`\n ** React to receive updates notifications to <#${selected_channel.id}>.**
-                *If you don't react to this message within 3 minutes, the command will time out. Your options will be recorded automatically after 1 minute.*`)
-        .setColor("#00af00")
+                *If you don't react to this message within 1 minute, the command will time out. Your options will be recorded automatically after 1 minute.*`)
+        .setColor("#00d768")
         .addField(`OS Updates`, `\n
                 <:iphone:852824816092315678> iOS Updates
                 <:ipad:852824860089516033> iPadOS Updates
@@ -55,7 +63,7 @@ function part2embed(selected_channel, selected_options) {
         .addField(`Bot Updates`, `\n
                 <:software_updates:852825269705113610> <@${global.bot.user.id}>'s new features and bug fixes announcements\n`)
         .addField("Selected Options", selected_options + ".");
-    return part2;
+    return { embeds: [part2] };
 }
 
 function errorembed(content) {
@@ -63,7 +71,7 @@ function errorembed(content) {
         .setTitle("An issue has occured!")
         .setColor("#c2002a")
         .setDescription(`${content} \n\n *Please try again later. \n If you need help, join our support server: https://discord.gg/ktHmcbpMNU*`);
-    return error;
+    return { embeds: [error] };
 }
 
 function overall_embed(selected_channel, selected_options) {
@@ -73,16 +81,17 @@ function overall_embed(selected_channel, selected_options) {
         Join the Unsupported Macs Discord Server: https://discord.gg/XbbWAsE`)
         .addField(`Selected channel`, selected_channel, true)
         .addField(`Selected updates`, selected_options + ".", true)
-        .setColor("#234470")
+        .setColor("#1c95e0")
         .setTimestamp();
-    return overall;
+    return { embeds: [overall] };
 }
 
 async function run_setup_updates(message, args) {
 
     var msg = await message.channel.send(part1embed());
 
-    const reply = await message.channel.awaitMessages(m => m.author.id == message.author.id, { max: 1, time: 180000 })
+    const ms_filter = m => m.author.id == message.author.id;
+    const reply = await message.channel.awaitMessages({ms_filter, max: 1, time: 180000 });
 
     if (!reply.size) return message.channel.send(errorembed("You did not reply within 3 minutes so the command was cancelled."));
     if (!reply.first().content.match(/^<#!?(\d+)>$/)) return message.channel.send(errorembed("I may not have the necessary permissions to fetch the channel or I was unable to read your message."));
@@ -90,7 +99,7 @@ async function run_setup_updates(message, args) {
     if (selected_channel == undefined) return message.channel.send(errorembed("I may not have the necessary permissions to fetch the channel or the chosen channel does not exist."));
     await reply.first().delete();
 
-    await msg.edit(part2embed(selected_channel, "Your selected options will appear here."));
+    await msg.edit(part2embed(selected_channel, "Your selected options will appear here"));
     let warning = await message.channel.send("**PLEASE WAIT FOR THE REACTIONS TO FULLY-LOAD BEFORE YOU CAN REACT TO THE MESSAGE OR YOUR OPTIONS WON'T BE RECORDED.**")
 
     let options = [];
@@ -105,14 +114,13 @@ async function run_setup_updates(message, args) {
     await msg.react("852825130610065418");
     await msg.react("852825269705113610");
 
-    const filter = (reaction, user) => user.id == message.author.id;
+    const filter = (reaction, user) => {
+        return user.id == message.author.id;
+    }
 
-    var collector = msg.createReactionCollector(filter, {
-        time: 60000,
-        dispose: true
-    });
+    var collector = msg.createReactionCollector({filter, time: 60000});
 
-    collector.on("collect", async (reaction, user) => {
+    collector.on("collect", (reaction, user) => {
         if (warning != undefined) {
             warning.delete();
             warning = undefined;
@@ -159,43 +167,43 @@ async function run_setup_updates(message, args) {
         }
     });
 
-    collector.on("remove", async (reaction, user) => {
+    collector.on("remove", (reaction, user) => {
         switch (reaction.emoji.id) {
             case "852824816092315678":
                 if (options.includes(" iOS Updates")) options.splice(options.indexOf(" iOS Updates"), 1);
-                (options.join()) ? msg.edit(part2embed(selected_channel, options.join())) : msg.edit(part2embed(selected_channel, "Your selected options will appear here."));
+                (options.join()) ? msg.edit(part2embed(selected_channel, options.join())) : msg.edit(part2embed(selected_channel, "Your selected options will appear here"));
                 break;
             case "852824860089516033":
                 if (options.includes(" iPadOS Updates")) options.splice(options.indexOf(" iPadOS Updates"), 1);
-                (options.join()) ? msg.edit(part2embed(selected_channel, options.join())) : msg.edit(part2embed(selected_channel, "Your selected options will appear here."));
+                (options.join()) ? msg.edit(part2embed(selected_channel, options.join())) : msg.edit(part2embed(selected_channel, "Your selected options will appear here"));
                 break;
             case "852824628921499688":
                 if (options.includes(" watchOS Updates")) options.splice(options.indexOf(" watchOS Updates"), 1);
-                (options.join()) ? msg.edit(part2embed(selected_channel, options.join())) : msg.edit(part2embed(selected_channel, "Your selected options will appear here."));
+                (options.join()) ? msg.edit(part2embed(selected_channel, options.join())) : msg.edit(part2embed(selected_channel, "Your selected options will appear here"));
                 break;
             case "852824690166333440":
                 if (options.includes(" audioOS Updates")) options.splice(options.indexOf(" audioOS Updates"), 1);
-                (options.join()) ? msg.edit(part2embed(selected_channel, options.join())) : msg.edit(part2embed(selected_channel, "Your selected options will appear here."));
+                (options.join()) ? msg.edit(part2embed(selected_channel, options.join())) : msg.edit(part2embed(selected_channel, "Your selected options will appear here"));
                 break;
             case "852826560725778442":
                 if (options.includes(" tvOS Updates")) options.splice(options.indexOf(" tvOS Updates"), 1);
-                (options.join()) ? msg.edit(part2embed(selected_channel, options.join())) : msg.edit(part2embed(selected_channel, "Your selected options will appear here."));
+                (options.join()) ? msg.edit(part2embed(selected_channel, options.join())) : msg.edit(part2embed(selected_channel, "Your selected options will appear here"));
                 break;
             case "852826607286878228":
                 if (options.includes(" macOS Updates")) options.splice(options.indexOf(" macOS Updates"), 1);
-                (options.join()) ? msg.edit(part2embed(selected_channel, options.join())) : msg.edit(part2embed(selected_channel, "Your selected options will appear here."));
+                (options.join()) ? msg.edit(part2embed(selected_channel, options.join())) : msg.edit(part2embed(selected_channel, "Your selected options will appear here"));
                 break;
             case "852824497202659348":
                 if (options.includes(" macOS InstallAssistant.pkg Links")) options.splice(options.indexOf(" macOS InstallAssistant.pkg Links"), 1);
-                (options.join()) ? msg.edit(part2embed(selected_channel, options.join())) : msg.edit(part2embed(selected_channel, "Your selected options will appear here."));
+                (options.join()) ? msg.edit(part2embed(selected_channel, options.join())) : msg.edit(part2embed(selected_channel, "Your selected options will appear here"));
                 break;
             case "852825130610065418":
                 if (options.includes(" macOS Delta Update Links")) options.splice(options.indexOf(" macOS Delta Update Links"), 1);
-                (options.join()) ? msg.edit(part2embed(selected_channel, options.join())) : msg.edit(part2embed(selected_channel, "Your selected options will appear here."));
+                (options.join()) ? msg.edit(part2embed(selected_channel, options.join())) : msg.edit(part2embed(selected_channel, "Your selected options will appear here"));
                 break;
             case "852825269705113610":
                 if (options.includes(" Bot Updates")) options.splice(options.indexOf(" Bot Updates"), 1);
-                (options.join()) ? msg.edit(part2embed(selected_channel, options.join())) : msg.edit(part2embed(selected_channel, "Your selected options will appear here."));
+                (options.join()) ? msg.edit(part2embed(selected_channel, options.join())) : msg.edit(part2embed(selected_channel, "Your selected options will appear here"));
                 break;
             default:
                 break;
@@ -204,7 +212,7 @@ async function run_setup_updates(message, args) {
 
     collector.on('end', async collected => {
         if (warning != undefined) warning.delete();
-        if (options.length < 1) return message.channel.send(errorembed("You did not react to the message within 3 minutes so the command was cancelled."));
+        if (options.length < 1) return message.channel.send(errorembed("You did not react to the message within 1 minutes so the command was cancelled."));
 
         (options.includes(" Bot Updates")) ? await bot_database.update({ [`${selected_channel.guild.id}`]: `${selected_channel.id}` }) : await bot_database.update({ [`${selected_channel.guild.id}`]: firebase.firestore.FieldValue.delete() });
         (options.includes(" iOS Updates")) ? await ios_database.update({ [`${selected_channel.guild.id}`]: `${selected_channel.id}` }) : await ios_database.update({ [`${selected_channel.guild.id}`]: firebase.firestore.FieldValue.delete() });
@@ -218,15 +226,20 @@ async function run_setup_updates(message, args) {
 
         if (msg != undefined) msg.delete();
         message.channel.send(overall_embed(`<#${selected_channel.id}>`, options.join()));
-        return message.channel.send(`**Helpful Tip: If you want to be pinged when a new update is available, you can set up a Notification Role.**\n- To set up a notification role, type \`apple!setup role add\`\n- To remove a notification role, type \`apple!setup role remove\`\n- To list your server's configured notification roles, type \`apple!setup role list\``);
+
+        const tip_embed = new Discord.MessageEmbed().setDescription(`**Helpful Tip: If you want to be pinged when a new update is available, you can set up a Notification Role.**\n- To set up a notification role, type \`apple!setup role add\`\n- To remove a notification role, type \`apple!setup role remove\`\n- To list your server's configured notification roles, type \`apple!setup role list\``).setColor("#f07800");
+        return message.channel.send({ embeds: [tip_embed] });
     });
 }
 
 // ================ PING ROLES SETUP ===================
+// =====================================================
+// =====================================================
 
 function embed_role_ask() {
     const embed = new Discord.MessageEmbed()   
         .setTitle(`Software Updates - Notification Roles Setup Part 1`)
+        .setColor("#00d768")
         .setDescription(`\n**Please reply with an OS name that you would like to get ping notifications for.**
         - \`ios\` : iOS Updates
         - \`ipados\` : iPadOS Updates
@@ -238,43 +251,47 @@ function embed_role_ask() {
         - \`delta\` : macOS Delta Update Links
         - \`bot\` : <@${global.bot.user.id}>'s new feature and bug fixes announcements\n
         *If you don't respond to this message within 3 minutes, the command will time out.*`);
-    return embed;
+    return { embeds: [embed] };
 }
 
 function embed_role_remove(roles) {
     const embed = new Discord.MessageEmbed()    
         .setTitle(`Software Updates - Notification Roles Removal Part 1`)
+        .setColor("#00d768")
         .setDescription(`\n**Please reply with an OS name that you would like to remove ping notifications for.**
         Your server has these notification roles configured: 
         - ${roles.join(`\n - `)}
         *If you don't respond to this message within 3 minutes, the command will time out.*`);
-    return embed;
+    return { embeds: [embed] };
 }
 
 function embed_role_list(roles) {
     const embed = new Discord.MessageEmbed()      
         .setTitle(`Software Updates - Configured Notification Roles`)
+        .setColor("#00d768")
         .setDescription(`\n**Your server has these notification roles configured:**
         - ${roles.join(`\n - `)}`);
-    return embed;
+    return { embeds: [embed] };
 }
 
 
 function embed_role(os) {
     const embed = new Discord.MessageEmbed()      
         .setTitle(`Software Updates - Notification Roles Setup Part 2`)
+        .setColor("#00d768")
         .setDescription(`\n**Please mention the role that you would like me to ping when a new ${os} is available.** \n *If you don't respond to this message within 3 minutes, the command will time out.*`);
-    return embed;
+    return { embeds: [embed] };
 }
 
 function overall_embed_role(selected_role, selected_update, option) {
     (option) ? choice = "will ping" : choice = "will no longer ping";
     const overall = new Discord.MessageEmbed()       
         .setTitle(`Software Updates - Setup Overview`)
+        .setColor("#1c95e0")
         .setDescription(`**Your setup data has been saved successfully!**
         From now on, I ${choice} ${selected_role} when a new ${selected_update} is available!`)
         .setTimestamp();
-    return overall;
+    return { embeds: [overall] };
 }
 
 async function run_setup_roles(message, args) {
@@ -310,13 +327,15 @@ async function run_setup_roles(message, args) {
         - To remove a notification role, type \`apple!setup role remove\``));
     }
 
-    var selected_os = await message.channel.awaitMessages(m => m.author.id == message.author.id, { max: 1, time: 180000 })
-    if (!selected_os.size) return message.channel.send(errorembed("You did not reply within 3 minutes so the command was cancelled."));
+    const ms_filter = m => m.author.id == message.author.id;
+    const selected_os = await message.channel.awaitMessages({ ms_filter, max: 2, time: 180000 });
 
-    let choice = selected_os.first().content.toLowerCase();
+    if (selected_os.size < 2 || !selected_os.size) return message.channel.send(errorembed("You did not reply within 3 minutes so the command was cancelled."));
+    
+    let choice = Array.from(selected_os)[1][1].content.toLowerCase();
 
     var selected_role;
-
+    
     if (option) {
         switch (choice) {
             case "tvos":
@@ -350,11 +369,12 @@ async function run_setup_roles(message, args) {
                 return message.channel.send(errorembed("Invalid OS name."));
         }
 
-        var reply = await message.channel.awaitMessages(m => m.author.id == message.author.id, { max: 1, time: 180000 })
-        if (!reply.size) return message.channel.send(errorembed("You did not reply within 3 minutes so the command was cancelled."));
-        if (!reply.first().content.match(/^<@&!?(\d+)>$/)) return message.channel.send(errorembed("I may not have the necessary permissions to fetch the role or I was unable to read your message."));
+        const reply = await message.channel.awaitMessages({ms_filter, max: 2, time: 180000 });
 
-        selected_role = message.guild.roles.cache.get(reply.first().content.match(/^<@&!?(\d+)>$/)[1]);
+        if (!reply.size) return message.channel.send(errorembed("You did not reply within 3 minutes so the command was cancelled."));
+        if (!Array.from(reply)[1][1].content.match(/^<@&!?(\d+)>$/)) return message.channel.send(errorembed("I may not have the necessary permissions to fetch the role or I was unable to read your message."));
+
+        selected_role = message.guild.roles.cache.get(Array.from(reply)[1][1].content.match(/^<@&!?(\d+)>$/)[1]);
         if (selected_role == undefined) return message.channel.send(errorembed("I may not have the necessary permissions to fetch the role or the chosen role does not exist."));
 
         let roles_database = await db.collection('discord').doc('roles').collection('servers').doc(message.guild.id).get();
@@ -423,8 +443,8 @@ module.exports = {
     cooldown: 5,
     description: 'Configures the bot to your liking!',
     async execute(message, args) {
-        if (!message.member.hasPermission("MANAGE_GUILD")) return message.channel.send(errorembed("You do not have the \"MANAGE SERVER\" permission to use this command!"));
-        if (!message.guild.me.hasPermission(["VIEW_CHANNEL", "ADD_REACTIONS", "USE_EXTERNAL_EMOJIS", "MANAGE_MESSAGES"])) {
+        if (!message.member.permissions.has("MANAGE_GUILD")) return message.channel.send(errorembed("You do not have the \"MANAGE SERVER\" permission to use this command!"));
+        if (!message.guild.me.permissions.has(["VIEW_CHANNEL", "ADD_REACTIONS", "USE_EXTERNAL_EMOJIS", "MANAGE_MESSAGES"])) {
             return message.channel.send(errorembed("I do not have the necessary permissions to work properly! \n\n ***Please make sure I have the following permissions:*** \n- View Channels\n- Add Reactions\n- Use External Emojis\n- Manage Messages"));
         }
 

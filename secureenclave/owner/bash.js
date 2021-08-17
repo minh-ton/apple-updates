@@ -18,14 +18,14 @@ module.exports = {
         if (!args.join(" ")) return message.channel.send(minor_error_embed('Empty bash command, interesting!'));
 
         const m_embed = new Discord.MessageEmbed().setDescription(`Executing \`${args.join(" ")}\`...`);
-        const m = await message.channel.send(m_embed);
+        const m = await message.channel.send({ embeds: [m_embed] });
         exec(args.join(" "), (err, stdout, stderr) => {
             if (err) {
                 const embed = new Discord.MessageEmbed()
                     .setAuthor(`Command: ${args.join(" ")}`, global.bot.user.displayAvatarURL())
                     .setDescription(`**Command exited with error:** \n \`\`\`${err}\`\`\``)
                     .setTimestamp();
-                m.edit(embed);
+                m.edit({ embeds: [embed] });
                 return;
             }
 
@@ -40,7 +40,7 @@ module.exports = {
                 .addField(`Output`, `\`\`\`${output}\`\`\``)
                 .addField(`Error`, `\`\`\`${error}\`\`\``)
                 .setTimestamp();
-            m.edit(embed);
+            m.edit({ embeds: [embed] });
         });
     },
 };

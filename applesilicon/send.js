@@ -30,7 +30,7 @@ module.exports = function () {
                         let role_data = role.data();
                         let server = global.bot.guilds.cache.get(channel);
 
-                        chn.send(embed.setAuthor(server.name, server.iconURL())).catch(function (error) {
+                        chn.send({ embeds: [embed.setAuthor(server.name, server.iconURL())] }).catch(function (error) {
                             send_error(error, "send.js", `send_tvos`, `send tvos update to channels`);
                         });
 
@@ -51,7 +51,7 @@ module.exports = function () {
                         let role_data = role.data();
                         let server = global.bot.guilds.cache.get(channel);
 
-                        chn.send(embed.setAuthor(server.name, server.iconURL())).catch(function (error) { 
+                        chn.send({ embeds: [embed.setAuthor(server.name, server.iconURL())] }).catch(function (error) { 
                             send_error(error, "send.js", `send_audioos`, `send audioos update to channels`); 
                         });
 
@@ -72,7 +72,7 @@ module.exports = function () {
                         let role_data = role.data();
                         let server = global.bot.guilds.cache.get(channel);
 
-                        chn.send(embed.setAuthor(server.name, server.iconURL())).catch(function (error) { 
+                        chn.send({ embeds: [embed.setAuthor(server.name, server.iconURL())] }).catch(function (error) { 
                             send_error(error, "send.js", `send_macos`, `send macos update to channels`); 
                         });
 
@@ -93,7 +93,7 @@ module.exports = function () {
                         let role_data = role.data();
                         let server = global.bot.guilds.cache.get(channel);
 
-                        chn.send(embed.setAuthor(server.name, server.iconURL())).catch(function (error) { 
+                        chn.send({ embeds: [embed.setAuthor(server.name, server.iconURL())] }).catch(function (error) { 
                             send_error(error, "send.js", `send_ios`, `send ios update to channels`); 
                         });
 
@@ -114,7 +114,7 @@ module.exports = function () {
                         let role_data = role.data();
                         let server = global.bot.guilds.cache.get(channel);
 
-                        chn.send(embed.setAuthor(server.name, server.iconURL())).catch(function (error) { 
+                        chn.send({ embeds: [embed.setAuthor(server.name, server.iconURL())] }).catch(function (error) { 
                             send_error(error, "send.js", `send_ipados`, `send ipados update to channels`); 
                         });
 
@@ -135,7 +135,7 @@ module.exports = function () {
                         let role_data = role.data();
                         let server = global.bot.guilds.cache.get(channel);
 
-                        chn.send(embed.setAuthor(server.name, server.iconURL())).catch(function (error) { 
+                        chn.send({ embeds: [embed.setAuthor(server.name, server.iconURL())] }).catch(function (error) { 
                             send_error(error, "send.js", `send_watchos`, `send watchos update to channels`); 
                         });
 
@@ -156,7 +156,7 @@ module.exports = function () {
                         let role_data = role.data();
                         let server = global.bot.guilds.cache.get(channel);
 
-                        chn.send(embed.setAuthor(server.name, server.iconURL())).catch(function (error) { 
+                        chn.send({ embeds: [embed.setAuthor(server.name, server.iconURL())] }).catch(function (error) { 
                             send_error(error, "send.js", `send_pkg`, `send pkg link to channels`); 
                         });
 
@@ -177,7 +177,7 @@ module.exports = function () {
                         let role_data = role.data();
                         let server = global.bot.guilds.cache.get(channel);
 
-                        chn.send(embed.setAuthor(server.name, server.iconURL())).catch(function (error) { 
+                        chn.send({ embeds: [embed.setAuthor(server.name, server.iconURL())] }).catch(function (error) { 
                             send_error(error, "send.js", `send_delta`, `send delta link to channels`); 
                         });
 
@@ -198,7 +198,7 @@ module.exports = function () {
                         let role_data = role.data();
                         let server = global.bot.guilds.cache.get(channel);
 
-                        chn.send(embed.setAuthor(server.name, server.iconURL())).catch(function (error) { 
+                        chn.send({ embeds: [embed.setAuthor(server.name, server.iconURL())] }).catch(function (error) { 
                             send_error(error, "send.js", `send_bot`, `send bot update to channels`); 
                         });
 

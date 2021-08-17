@@ -2,7 +2,7 @@
 
 const Discord = require('discord.js');
 const config = require("../bootrom/config.json");
-const error_reporter = new Discord.WebhookClient(config.error_id, config.error_token);
+const error_reporter = new Discord.WebhookClient({ id: config.error_id, token: config.error_token });
 
 require('./misc.js')();
 
@@ -16,6 +16,6 @@ module.exports = function () {
             .addField(`Process`, process, true)
             .addField(`Task`, task, true)
             .setFooter(time);
-        error_reporter.send(embed);
+        error_reporter.send({ embeds: [embed] });
     };
 }

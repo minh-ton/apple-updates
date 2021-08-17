@@ -12,7 +12,7 @@ module.exports = {
     async execute(message, args) {
         const embed = new Discord.MessageEmbed()
             .setColor("#228B22")
-            .setDescription('**Bot Uptime: **' + ms(global.bot.uptime));
-        message.channel.send(embed);
+            .setDescription('**Bot Uptime: **' + ms(global.bot.uptime, {verbose: true}));
+        message.channel.send({ embeds: [embed] });
     },
 };

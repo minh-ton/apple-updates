@@ -44,7 +44,7 @@ module.exports = {
             .setDescription(list.join('\n'))
             .addField(`Collection`, args[0], true)
             .addField(`Document`, args[1], true)
-            .addField(`Items count`, list.length, true);
-        message.channel.send(embed);
+            .addField(`Items count`, list.length.toString(), true);
+        message.channel.send({ embeds: [embed] });
     },
 };

@@ -3,8 +3,8 @@
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 global.beta_release = false; // switch mode
-global.bot_version = "2.2.4";
-global.bot_updatedate = "July 26th, 2021"
+global.bot_version = "2.3.0";
+global.bot_updatedate = "August 17th, 2021"
 global.script_path = process.cwd();
 
 const Discord = require('discord.js');
@@ -24,7 +24,7 @@ const credentials_beta = require("./bootrom/firebase_beta.json");
 require("./applesilicon/updates.js")();
 require("./applesilicon/embed.js")();
 
-global.bot = new Discord.Client();
+global.bot = new Discord.Client({ intents: [Discord.Intents.FLAGS.GUILDS, Discord.Intents.FLAGS.GUILD_MESSAGES, Discord.Intents.FLAGS.GUILD_MESSAGE_REACTIONS] });
 (global.beta_release) ? global.bot.login(config.bot_beta_token) : global.bot.login(config.bot_token);
 
 // ============= DISCORD BOT ============
@@ -51,10 +51,10 @@ for (const category of commands) {
     }
 }
 
-global.bot.on("message", async message => {
+global.bot.on("messageCreate", async message => {
     if (message.author.bot) return;
     if (message.mentions.everyone) return;
-    if (message.channel.type === "dm") return;
+    if (message.channel.type === "DM") return;
 
     // Bot prefix
     let prefixes = (global.beta_release) ? ["beta!", "<@852896210267275324>", "<@!852896210267275324>"] : ["apple!", "<@852378577063116820>", "<@!852378577063116820>"];
@@ -74,7 +74,7 @@ global.bot.on("message", async message => {
         if (!cooldowns.has(cmd.name)) cooldowns.set(cmd.name, new Discord.Collection());
         // 4s cooldown by default
         const now = Date.now(), timestamps = cooldowns.get(cmd.name), amount = (cmd.cooldown || 4) * 1000;
-        if (timestamps.has(message.author.id)) { 
+        if (timestamps.has(message.author.id)) {
             const exp_time = timestamps.get(message.author.id) + amount;
             if (now < exp_time) {
                 const remaining = (exp_time - now) / 1000;

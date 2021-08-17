@@ -99,8 +99,7 @@ module.exports = {
                 .setTimestamp();
 
             await m.delete();
-            message.channel.send(embed);
-            message.channel.send(continued);
+            message.channel.send({ embeds: [embed, continued] });
         } catch (error) {
             return message.channel.send(minor_error_embed(error));
         }
