@@ -1,8 +1,7 @@
 // Send log and error messages to the log/error channel in a monitor discord server
 
 const Discord = require('discord.js');
-const config = require("../bootrom/config.json");
-const error_reporter = new Discord.WebhookClient({ id: config.error_id, token: config.error_token });
+const error_reporter = new Discord.WebhookClient({ id: process.env.error_id, token: process.env.error_token });
 
 require('./misc.js')();
 

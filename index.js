@@ -3,29 +3,25 @@
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 global.beta_release = false; // switch mode
-global.bot_version = "2.3.0";
-global.bot_updatedate = "August 17th, 2021"
+global.bot_version = "2.3.1";
+global.bot_updatedate = "August 20th, 2021"
 global.script_path = process.cwd();
 
 const Discord = require('discord.js');
 const fs = require("fs");
-const config = require("./bootrom/config.json");
 const firebase = require("firebase-admin");
 
-const credentials = require("./bootrom/firebase.json");
-const credentials_beta = require("./bootrom/firebase_beta.json");
-
 (global.beta_release) ? firebase.initializeApp({
-    credential: firebase.credential.cert(credentials_beta)
+    credential: firebase.credential.cert(JSON.parse(process.env.firebase_beta))
 }) : firebase.initializeApp({
-    credential: firebase.credential.cert(credentials)
+    credential: firebase.credential.cert(JSON.parse(process.env.firebase))
 });
 
 require("./applesilicon/updates.js")();
 require("./applesilicon/embed.js")();
 
 global.bot = new Discord.Client({ intents: [Discord.Intents.FLAGS.GUILDS, Discord.Intents.FLAGS.GUILD_MESSAGES, Discord.Intents.FLAGS.GUILD_MESSAGE_REACTIONS] });
-(global.beta_release) ? global.bot.login(config.bot_beta_token) : global.bot.login(config.bot_token);
+(global.beta_release) ? global.bot.login(process.env.bot_beta_token) : global.bot.login(process.env.bot_token);
 
 // ============= DISCORD BOT ============
 
