@@ -13,7 +13,7 @@ module.exports = {
     async execute(message, args) {
         let serverembed = new Discord.MessageEmbed()
             .setColor(randomColor())
-            .setDescription(`Invite me to your servers by clicking the link below! \n> https://discordapp.com/oauth2/authorize?&client_id=852378577063116820&scope=bot&permissions=8`)
+            .setDescription(`Invite me to your servers by clicking the link below! \n> https://discordapp.com/oauth2/authorize?&client_id=852378577063116820&scope=bot+applications.commands&permissions=8`)
             .setFooter(`Join our support server: https://discord.gg/ktHmcbpMNU`);
         message.channel.send({ embeds: [serverembed] });
     },
