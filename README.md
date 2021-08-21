@@ -15,6 +15,8 @@ Add the bot to your servers: https://discordapp.com/oauth2/authorize?&client_id=
 - Type `apple!help` to show a list of bot commands.
 - After adding to your servers, type `apple!setup` to set up the bot to your liking.
 - *(Optional)* Configure the bot to ping a specific role when a new Apple update comes out by typing `apple!setup role add`.
-<img src="https://user-images.githubusercontent.com/37860569/130255959-3dc6fdf9-b9d9-4ce0-8790-fb60a9aea773.png" width="491">
+
+  <img src="https://user-images.githubusercontent.com/37860569/130306755-58f0e386-06b2-452c-b9e9-732a597dfbd4.png" width="500">
+
 
 
