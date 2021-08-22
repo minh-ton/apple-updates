@@ -26,10 +26,9 @@ module.exports = {
 
             let evaled = eval(code);
 
-            if (typeof evaled !== "string")
-                evaled = require("util").inspect(evaled);
+            if (typeof evaled !== "string") evaled = require("util").inspect(evaled);
 
-            message.channel.send(clean(evaled), { code: "xl", split: true });
+            message.channel.send(`\`\`\`xl\n${clean(evaled)}\n\`\`\``, { split: true });
         } catch (err) {
             message.channel.send(`\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``);
         }

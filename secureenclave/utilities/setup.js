@@ -404,31 +404,31 @@ async function run_setup_roles(message, args) {
 
     switch (choice) {
         case "tvos":
-            message.channel.send(overall_embed_role(`<@&${selected_role.id}>`, "tvOS Update", option));
+            message.channel.send(overall_embed_role(`<@&${(selected_role) ? selected_role.id : "0100"}>`, "tvOS Update", option));
             break;
         case "audioos":
-            message.channel.send(overall_embed_role(`<@&${selected_role.id}>`, "audioOS Update", option));
+            message.channel.send(overall_embed_role(`<@&${(selected_role) ? selected_role.id : "0100"}>`, "audioOS Update", option));
             break;
         case "macos":
-            message.channel.send(overall_embed_role(`<@&${selected_role.id}>`, "macOS Update", option));
+            message.channel.send(overall_embed_role(`<@&${(selected_role) ? selected_role.id : "0100"}>`, "macOS Update", option));
             break;
         case "ios":
-            message.channel.send(overall_embed_role(`<@&${selected_role.id}>`, "iOS Update", option));
+            message.channel.send(overall_embed_role(`<@&${(selected_role) ? selected_role.id : "0100"}>`, "iOS Update", option));
             break;
         case "ipados":
-            message.channel.send(overall_embed_role(`<@&${selected_role.id}>`, "iPadOS Update", option));
+            message.channel.send(overall_embed_role(`<@&${(selected_role) ? selected_role.id : "0100"}>`, "iPadOS Update", option));
             break;
         case "watchos":
-            message.channel.send(overall_embed_role(`<@&${selected_role.id}>`, "watchOS Update", option));
+            message.channel.send(overall_embed_role(`<@&${(selected_role) ? selected_role.id : "0100"}>`, "watchOS Update", option));
             break;
         case "pkg":
-            message.channel.send(overall_embed_role(`<@&${selected_role.id}>`, "macOS InstallAssistant.pkg Link", option));
+            message.channel.send(overall_embed_role(`<@&${(selected_role) ? selected_role.id : "0100"}>`, "macOS InstallAssistant.pkg Link", option));
             break;
         case "delta":
-            message.channel.send(overall_embed_role(`<@&${selected_role.id}>`, "macOS Delta Update Link", option));
+            message.channel.send(overall_embed_role(`<@&${(selected_role) ? selected_role.id : "0100"}>`, "macOS Delta Update Link", option));
             break;
         case "bot":
-            message.channel.send(overall_embed_role(`<@&${selected_role.id}>`, `<@${global.bot.user.id}>'s announcements`, option));
+            message.channel.send(overall_embed_role(`<@&${(selected_role) ? selected_role.id : "0100"}>`, `<@${global.bot.user.id}>'s announcements`, option));
             break;
         default:
             return;

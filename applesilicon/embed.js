@@ -41,7 +41,7 @@ module.exports = function () {
     this.send_macos_beta = function (version, build, size, updateid, changelog) {
         const embed = new Discord.MessageEmbed()
             .setTitle(`New macOS Beta Release!`) 
-            .addField(`Version`, `macOS ${version} (${updateid})`, true)
+            .addField(`Version`, `${version} (${updateid})`, true)
             .addField(`Build`, build, true)
             .addField(`Size`, formatBytes(size), true)
             .setThumbnail(getthumbnail("macOS"))
@@ -54,7 +54,7 @@ module.exports = function () {
     this.send_macos_public = function (version, build, size, changelog) {
         const embed = new Discord.MessageEmbed()
             .setTitle(`New macOS Public Release!`) 
-            .addField(`Version`, `macOS ${version}`, true)
+            .addField(`Version`, `${version}`, true)
             .addField(`Build`, build, true)
             .addField(`Size`, formatBytes(size), true)
             .setThumbnail(getthumbnail("macOS"))
