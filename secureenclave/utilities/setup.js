@@ -10,6 +10,8 @@ const firebase = require("firebase-admin");
 
 const db = firebase.firestore();
 
+require('../../applesilicon/embed.js')();
+
 const ios_database = db.collection('discord').doc('ios');
 const ipados_database = db.collection('discord').doc('ipados');
 const watchos_database = db.collection('discord').doc('watchos');
@@ -448,6 +450,6 @@ module.exports = {
             return message.channel.send(errorembed("I do not have the necessary permissions to work properly! \n\n ***Please make sure I have the following permissions:*** \n- View Channels\n- Add Reactions\n- Use External Emojis\n- Manage Messages"));
         }
 
-        (args[0] == "role") ? run_setup_roles(message, args).catch(function (error) { console.log(error) }) : run_setup_updates(message, args).catch(function (error) { console.log(error) });
+        (args[0] == "role") ? run_setup_roles(message, args).catch(function (error) { return message.channel.send(minor_error_embed(error)) }) : run_setup_updates(message, args).catch(function (error) { return message.channel.send(minor_error_embed(error)) });
     },
 };
