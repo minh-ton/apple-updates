@@ -39,15 +39,15 @@ module.exports = function () {
   this.getthumbnail = function (os) {
     switch (os.toLowerCase()) {
       case "tvos":
-        return "https://i.imgur.com/cgzrNrw.png";
+        return "https://ipsw.me/assets/devices/AppleTV6,2.png";
       case "audioos":
         return "https://ipsw.me/assets/devices/AudioAccessory5,1.png";
       case "macos":
-        return "https://ipsw.me/assets/devices/MacBookPro17,1.png";
+        return "https://ipsw.me/assets/devices/iMac21,2.png";
       case "ios":
-        return "https://ipsw.me/assets/devices/iPhone13,4.png";
+        return "https://ipsw.me/assets/devices/iPhone14,3.png";
       case "ipados":
-        return "https://ipsw.me/assets/devices/iPad13,6.png";
+        return "https://ipsw.me/assets/devices/iPad14,2.png";
       case "watchos":
         return "https://ipsw.me/assets/devices/Watch5,4.png";
       default:
