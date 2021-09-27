@@ -102,7 +102,7 @@ async function run_setup_updates(message, args) {
     await reply.first().delete();
 
     await msg.edit(part2embed(selected_channel, "Your selected options will appear here"));
-    let warning = await message.channel.send("**PLEASE WAIT FOR THE REACTIONS TO FULLY-LOAD BEFORE YOU CAN REACT TO THE MESSAGE OR YOUR OPTIONS WON'T BE RECORDED.**")
+    let warning = await message.channel.send("**PLEASE WAIT FOR THE REACTIONS TO FULLY-LOAD BEFORE REACTING TO THE MESSAGE OR YOUR OPTIONS WON'T BE RECORDED.**")
 
     let options = [];
 
