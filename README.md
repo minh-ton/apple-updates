@@ -1,4 +1,4 @@
-<img align="right" width="15%" src="https://cdn.discordapp.com/avatars/852378577063116820/1782fd197e60c851ac59854fb05cedaa.png?size=1024">
+<img align="right" width="15%" src="https://cdn.discordapp.com/attachments/885557954072436796/887916939937214464/update.png">
 
 # Software Updates # 5023
 
