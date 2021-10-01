@@ -60,8 +60,7 @@ function part2embed(selected_channel, selected_options) {
                 <:apple_tv:852826560725778442> tvOS Updates
                 <:macbook:852826607286878228> macOS Updates\n`, true)
         .addField(`Package Links`, `\n
-                <:installassistant:852824497202659348> macOS InstallAssistant.pkg Links
-                <:delta:852825130610065418> macOS Delta Updates Links\n`, true)
+                <:installassistant:852824497202659348> macOS InstallAssistant.pkg Links\n`, true)
         .addField(`Bot Updates`, `\n
                 <:software_updates:852825269705113610> <@${global.bot.user.id}>'s new features and bug fixes announcements\n`)
         .addField("Selected Options", selected_options + ".");
@@ -113,7 +112,7 @@ async function run_setup_updates(message, args) {
     await msg.react("852826560725778442");
     await msg.react("852826607286878228");
     await msg.react("852824497202659348");
-    await msg.react("852825130610065418");
+    // await msg.react("852825130610065418");
     await msg.react("852825269705113610");
 
     const filter = (reaction, user) => {
@@ -250,7 +249,6 @@ function embed_role_ask() {
         - \`tvos\` : tvOS Updates
         - \`macos\` : macOS Updates
         - \`pkg\` : macOS InstallAssistant.pkg Links
-        - \`delta\` : macOS Delta Update Links
         - \`bot\` : <@${global.bot.user.id}>'s new feature and bug fixes announcements\n
         *If you don't respond to this message within 3 minutes, the command will time out.*`);
     return { embeds: [embed] };

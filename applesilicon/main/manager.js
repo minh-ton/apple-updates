@@ -35,7 +35,7 @@ module.exports = function () {
 
         (beta) ? send_macos_beta(version, build, size, formatUpdatesName(updateid, version, "macOS")) : send_macos_public(version, build, size, changelog);
 
-        send_macos_delta(pkgurl, version, build, beta)
+        // send_macos_delta(pkgurl, version, build, beta)
 
         db.collection("macos").doc(dname).update({
             [`${build}`]: `${build}`

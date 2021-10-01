@@ -43,7 +43,7 @@ If you wish to contribute, feel free to fork the repository and submit a pull re
 
 
 ## 🔎 Credits
-- [ASentientBot](https://asentientbot.github.io) and [DhinakG](https://github.com/dhinakg) for many insights on Apple's Pallas server (https://gdmf.apple.com/v2/assets).
+- [ASentientBot](https://asentientbot.github.io) and [DhinakG](https://github.com/dhinakg) for many insights on Apple's Pallas server.
 - [Siguza](https://github.com/Siguza) for a nice [script](https://gist.github.com/Siguza/0331c183c8c59e4850cd0b62fd501424) showing how Apple devices fetch updates.
 - Several other contributors and testers on Discord for helping me with various parts of the bot. 
 
