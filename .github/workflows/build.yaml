@@ -19,7 +19,7 @@ jobs:
     - name: Use Node.js
       uses: actions/setup-node@v1
       with:
-        node-version: 16.10
+        node-version: 16.6
     - run: npm install
     - run: npm run build --if-present
       env:
@@ -32,6 +32,8 @@ jobs:
 
     - name: Create widget
       run: node index.js
+      env: 
+        BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
 
     - name: Commit and push
       run: |-
