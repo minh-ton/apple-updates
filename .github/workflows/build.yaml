@@ -24,7 +24,7 @@ jobs:
     - run: npm run build --if-present
       env:
         CI: true
-        bot_token: ${{ secrets.BOT_TOKEN }}
+        BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
 
     - name: Create widget
       run: |-

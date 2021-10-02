@@ -65,4 +65,4 @@ client.once('ready', async () => {
     await draw();
 });
 
-client.login(process.env.bot_token);
+client.login(process.env.BOT_TOKEN);
