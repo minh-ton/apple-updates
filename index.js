@@ -1,3 +1,5 @@
+// Created by Minh on October 1st, 2021
+
 const { Client, Intents } = require('discord.js');
 const { registerFont, loadImage, createCanvas } = require('canvas');
 const fs = require('fs');
