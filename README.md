@@ -11,6 +11,7 @@ A Discord bot for pushing notifications about new Apple OS updates.
 <img src="https://user-images.githubusercontent.com/37860569/130254486-702a94a9-7c09-47e3-9aff-7e4cb08a4c05.png" width="340"> <img src="https://user-images.githubusercontent.com/37860569/130261976-c6ac3966-605c-4cb7-97e8-d625c81e22e2.png" width="330"><br>
 
 ## 🎉 Getting Started
+
 After adding the bot to your servers, type `apple!setup` to set up the bot to your liking.
 
 **Note**: _You can also configure the bot to ping a specific role when a new Apple update comes out by typing `apple!setup role add`_.
@@ -50,5 +51,5 @@ If you wish to contribute, feel free to fork the repository and submit a pull re
 ## 📝 License
 This project is licensed under the GPL-3.0 License. View [LICENSE.md](https://github.com/Minh-Ton/apple-updates/blob/bot/LICENSE.md) for more detail. 
 
-
+<img src="https://raw.githubusercontent.com/Minh-Ton/apple-updates/widget/widget.png" width="500">
 
