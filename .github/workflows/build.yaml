@@ -2,7 +2,7 @@ name: Build widget
 
 on:
   schedule:
-    - cron: '0 * * * *'
+    - cron: '*/10 * * * *'
   push:
     branches:
       - widget
