@@ -45,7 +45,8 @@ async function draw() {
     ctx.fillStyle = '#fff'
     ctx.fillText(text, 225 + ctx.measureText(text).width / 2, canvas.height / 2 - 8);
 
-    text = `${client.guilds.cache.size} servers`
+    text = `${client.guilds.cache.size} servers`;
+    console.log(text);
     ctx.font = `bold 40pt Uni Sans`
     ctx.textAlign = 'center'
     ctx.fillStyle = '#817e85'
