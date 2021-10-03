@@ -32,6 +32,7 @@ jobs:
 
     - name: Commit and push
       run: |-
+        git pull origin
         git diff
         git config --global user.email "37860569+Minh-Ton@users.noreply.github.com"
         git config --global user.name "not-minh"
