@@ -29,6 +29,7 @@ global.bot.on("ready", async () => {
     if (global.beta_release) console.log("RUNNING IN BETA MODE.");
     console.log(`Logged in as ${global.bot.user.tag}!`);
     console.log('Bot has started!');
+    global.bot.user.setStatus("idle");
     setInterval(() => {
         (global.beta_release) ? global.bot.user.setActivity("Prefix: beta!", { type: "PLAYING" }) : global.bot.user.setActivity(`apple!help | ${global.bot.guilds.cache.size}`, { type: "PLAYING" });
     }, 10000);
