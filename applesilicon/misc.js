@@ -39,7 +39,7 @@ module.exports = function () {
   this.getthumbnail = function (os) {
     switch (os.toLowerCase()) {
       case "tvos":
-        return "https://i.imgur.com/cgzrNrw.png";
+        return "https://ipsw.me/assets/devices/AppleTV6,2.png";
       case "audioos":
         return "https://ipsw.me/assets/devices/AudioAccessory5,1.png";
       case "macos":
