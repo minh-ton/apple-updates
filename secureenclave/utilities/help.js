@@ -12,7 +12,6 @@ function help_embed() {
         .addField(`Information`, '`about` `ping` `uptime` `sysctl` `hedgefetch` `invite`')
         .addField(`Owner`, '`killall` `bash` `database` `echo` `eval`')
         .addField(`Utilities`, '`help` `setup`')
-        .addField(`Apple`, '`latest`')
         .setColor(randomColor());
     return embed;
 }
