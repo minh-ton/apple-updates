@@ -9,7 +9,7 @@ require('../error.js')();
 module.exports = async function () {
     this.fetch_macos_xml = async function (url, dname) {
         let response = await axios.get(url).catch(function (error) {
-            send_error(error, "xml.js", `fetch_macos_pkg - ${dname}`, `fetching the catalog for new updates`);
+            return send_error(error, "xml.js", `fetch_macos_pkg - ${dname}`, `fetching the catalog for new updates`);
         });
 
         let catalog_content = plist.parse(response.data);
@@ -21,7 +21,7 @@ module.exports = async function () {
             let pkg_info = catalog_content.Products[product].Distributions.English;
 
             let info = await axios.get(pkg_info).catch(function (error) {
-                send_error(error, "xml.js", `fetch_macos_pkg - ${dname}`, `getting InstallAssistant.pkg info from the distribution file`);
+                return send_error(error, "xml.js", `fetch_macos_pkg - ${dname}`, `getting InstallAssistant.pkg info from the distribution file`);
             });
 
             const packageinfo = JSON.parse(xmljs.xml2json(info.data, { compact: true, spaces: 2 }));

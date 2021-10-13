@@ -28,7 +28,7 @@ module.exports = function () {
             ClientVersion: 2,
             AssetType: "com.apple.MobileAsset.MacSoftwareUpdate"
         }).catch(function (error) {
-            send_error(error, "gdmf.js", `gdmf_macos`, `politely asking gdmf.apple.com for updates`);
+            return send_error(error, "gdmf.js", `gdmf_macos`, `politely asking gdmf.apple.com for updates`);
         });
 
         var arr = res.data.split(".");
@@ -36,8 +36,7 @@ module.exports = function () {
         let text = JSON.parse(buff.toString('utf8'));
 
         if (!text.Assets[0]) {
-            send_error(`Missing text.Asset[0]`, "gdmf.js", `gdmf_macos`, `update not available for ${assetaud}.`);
-            return;
+            return send_error(`Missing text.Asset[0]`, "gdmf.js", `gdmf_macos`, `update not available for ${assetaud}.`);
         }
 
         var changelog;
@@ -70,7 +69,7 @@ module.exports = function () {
             ProductType: prodtype,
             ProductVersion: prodversion,
         }).catch(function (error) {
-            send_error(error, "gdmf.js", `fetch_other_updates - ${cname} ${dname}`, `politely asking gdmf.apple.com for updates`);
+            return send_error(error, "gdmf.js", `fetch_other_updates - ${cname} ${dname}`, `politely asking gdmf.apple.com for updates`);
         });
 
         var arr = res.data.split(".");
@@ -78,8 +77,7 @@ module.exports = function () {
         let text = JSON.parse(buff.toString('utf8'));
 
         if (!text.Assets[0]) {
-            send_error(`Missing text.Asset[0]`, "gdmf.js", `gdmf_other`, `update not available for ${assetaud}.`);
-            return;
+            return send_error(`Missing text.Asset[0]`, "gdmf.js", `gdmf_other`, `update not available for ${assetaud}.`);
         }
 
         var changelog;
