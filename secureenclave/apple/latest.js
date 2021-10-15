@@ -32,6 +32,9 @@ module.exports = {
     description: 'Get the latest macOS Full Installer Packages.',
     async execute(message, args) {
         try {
+            const processing = new Discord.MessageEmbed().setColor(randomColor());
+            const m = await message.channel.send({ embeds: [processing.setDescription("Hang on, I'm fetching data from Apple...")] });
+
             let pkg_beta = await get_pkg_assets(macos_beta_catalog, 'beta_pkg');
             let pkg_beta_new = await get_pkg_assets(macos_new_beta_catalog, 'beta_pkg');
             let pkg_public = await get_pkg_assets(macos_public_catalog, 'public_pkg');
@@ -49,7 +52,7 @@ module.exports = {
             `
                 ).setColor(randomColor())
                 .setTimestamp();
-            message.channel.send({ embeds: [embed] });
+            m.edit({ embeds: [embed] });
         } catch (error) {
             return message.channel.send(minor_error_embed(error));
         }
