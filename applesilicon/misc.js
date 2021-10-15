@@ -50,6 +50,8 @@ module.exports = function () {
         return "https://ipsw.me/assets/devices/iPad14,2.png";
       case "watchos":
         return "https://ipsw.me/assets/devices/Watch5,4.png";
+      case "pkg":
+        return "https://i.imgur.com/514ZvLh.png";
       default:
         return;
     }

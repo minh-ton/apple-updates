@@ -12,6 +12,7 @@ function help_embed() {
         .addField(`Information`, '`about` `ping` `uptime` `sysctl` `invite`')
         .addField(`Owner`, '`killall` `bash` `database` `echo` `eval`')
         .addField(`Utilities`, '`help` `setup`')
+        .addField(`Apple`, '`latest`')
         .setColor(randomColor());
     return embed;
 }

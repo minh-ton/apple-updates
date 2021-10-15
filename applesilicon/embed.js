@@ -10,7 +10,7 @@ module.exports = function () {
     this.send_macos_pkg_public = function (pkgurl, version, build) {
         const embed = new Discord.MessageEmbed()
             .setDescription(`macOS **${version} (${build})** Full Installer Package:\n> ${pkgurl}`)
-            .setThumbnail(getthumbnail("macOS"))
+            .setThumbnail(getthumbnail("pkg"))
             .setColor(randomColor())
             .setTimestamp();
         send_to_servers('pkg', embed, `${version} (${build})`);
@@ -20,7 +20,7 @@ module.exports = function () {
     this.send_macos_pkg_beta = function (pkgurl, version, build) {
         const embed = new Discord.MessageEmbed()
             .setDescription(`macOS **${version} Beta (${build})** Full Installer Package:\n> ${pkgurl}`)
-            .setThumbnail(getthumbnail("macOS"))
+            .setThumbnail(getthumbnail("pkg"))
             .setColor(randomColor())
             .setTimestamp();
         send_to_servers('pkg', embed, `${version} Beta (${build})`);
