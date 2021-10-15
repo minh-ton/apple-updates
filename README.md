@@ -26,8 +26,11 @@ After adding the bot to your servers, type `apple!setup` to set up the bot to yo
   
 | Command | Description | Usage |
 | :------------- | :---------- | :----------- |
-|  setup | Configures the bot to your liking! | `apple!setup`: Set up the bot for the first time.<br> `apple!setup role add`: Add a notifications role.<br> `apple!setup role remove`: Remove a notifications role.<br> `apple!setup role list`: List configured notifications roles. |
-|  help  | Shows the help menu or get help on a command. | `apple!help`: Shows the help menu.<br> `apple!help [command]`: Get help on a command. |
+|  `setup` | Configures the bot to your liking! | `apple!setup`: Set up the bot for the first time.<br> `apple!setup role add`: Add a notifications role.<br> `apple!setup role remove`: Remove a notifications role.<br> `apple!setup role list`: List configured notifications roles. |
+|  `help`  | Shows the help menu or get help on a command. | `apple!help`: Shows the help menu.<br> `apple!help [command]`: Get help on a command. |
+
+### Apple
+`latest`
 
 ### Other
 `about` `ping` `uptime` `sysctl` `invite`
