@@ -51,6 +51,7 @@ module.exports = {
             ${beta_array.join('\n')}
             `
                 ).setColor(randomColor())
+                .addField('Catalogs', `- ${macos_public_catalog}\n- ${macos_beta_catalog}\n- ${macos_new_beta_catalog}`)
                 .setTimestamp();
             m.edit({ embeds: [embed] });
         } catch (error) {
