@@ -55,7 +55,7 @@ global.bot.on("messageCreate", async message => {
 
     // Bot prefix
     let prefixes = (global.beta_release) ? ["beta!", "<@852896210267275324>", "<@!852896210267275324>"] : ["apple!", "<@852378577063116820>", "<@!852378577063116820>"];
-    var prefix;
+    var prefix = (global.beta_release) ? "beta!" : "apple!"; // default prefixes
     for (const i of prefixes) if (message.content.toLowerCase().startsWith(i)) prefix = i;
     if (!message.content.startsWith(prefix)) return;
 
