@@ -3,7 +3,7 @@
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 global.beta_release = false; // switch mode
-global.bot_version = "2.3.8";
+global.bot_version = "2.3.9";
 global.bot_updatedate = "October 22nd, 2021"
 global.script_path = process.cwd();
 
