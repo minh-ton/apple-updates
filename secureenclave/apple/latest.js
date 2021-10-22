@@ -36,13 +36,13 @@ module.exports = {
             const processing = new Discord.MessageEmbed().setColor(randomColor());
             const m = await message.channel.send({ embeds: [processing.setDescription("Hang on, I'm fetching data from Apple...")] });
 
-            let pkg_beta = await get_pkg_assets(macos_beta_catalog, 'beta_pkg');
+            // let pkg_beta = await get_pkg_assets(macos_beta_catalog, 'beta_pkg');
             let pkg_beta_new = await get_pkg_assets(macos_new_beta_catalog, 'beta_pkg');
-            let pkg_public = await get_pkg_assets(macos_public_catalog, 'public_pkg');
+            // let pkg_public = await get_pkg_assets(macos_public_catalog, 'public_pkg');
             let pkg_public_new = await get_pkg_assets(macos_new_public_catalog, 'public_pkg');
 
-            let public_array = get_links(pkg_public).concat(get_links(pkg_public_new).filter((item) => get_links(pkg_public).indexOf(item) < 0));
-            let beta_array = get_links(pkg_beta).concat(get_links(pkg_beta_new).filter((item) => get_links(pkg_beta).indexOf(item) < 0));
+            let public_array = get_links(pkg_public_new);
+            let beta_array = get_links(pkg_beta_new);
 
             const embed = new Discord.MessageEmbed()
                 .setTitle("macOS Full Installer Packages")
