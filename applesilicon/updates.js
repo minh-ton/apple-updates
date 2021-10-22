@@ -23,7 +23,8 @@ let audioos_audience_beta = "58ff8d56-1d77-4473-ba88-ee1690475e40";
 // Catalog XMLs
 let macos_public_catalog = "https://swscan.apple.com/content/catalogs/others/index-11-10.15-10.14-10.13-10.12-10.11-10.10-10.9-mountainlion-lion-snowleopard-leopard.merged-1.sucatalog";
 let macos_beta_catalog = "https://swscan.apple.com/content/catalogs/others/index-10.16beta-10.16-10.15-10.14-10.13-10.12-10.11-10.10-10.9-mountainlion-lion-snowleopard-leopard.merged-1.sucatalog"
-let macos_new_beta_catalog = "https://swscan.apple.com/content/catalogs/others/index-12seed-12-10.16-10.15-10.14-10.13-10.12-10.11-10.10-10.9-mountainlion-lion-snowleopard-leopard.merged-1.sucatalog"; // macOS Monterey
+let macos_new_public_catalog = "https://swscan.apple.com/content/catalogs/others/index-12-10.16-10.15-10.14-10.13-10.12-10.11-10.10-10.9-mountainlion-lion-snowleopard-leopard.merged-1.sucatalog";
+let macos_new_beta_catalog = "https://swscan.apple.com/content/catalogs/others/index-12seed-12-10.16-10.15-10.14-10.13-10.12-10.11-10.10-10.9-mountainlion-lion-snowleopard-leopard.merged-1.sucatalog";
 
 // Device info 
 
@@ -82,5 +83,6 @@ module.exports = function () {
         fetch_macos_pkg(macos_new_beta_catalog, true, 'beta_pkg');
         // Public macOS InstallAssistant.pkg
         fetch_macos_pkg(macos_public_catalog, false, 'public_pkg');
+        fetch_macos_pkg(macos_new_public_catalog, false, 'public_pkg');
     };
 }
