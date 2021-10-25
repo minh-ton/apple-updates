@@ -46,10 +46,10 @@ module.exports = function () {
 
         for (var i = 0; i < arr.length; i++) arr[i] = arr[i].replace(/\t/g, "").replace(/<li>/g, "- ").replace(/<[^>]+>/g, '').trimStart();
 
-        let changelog = arr.join('\n').replace(/\n\s*\n\s*\n/g, '\n\n');
+        let notes = arr.join('\n').replace(/\n\s*\n\s*\n/g, '\n\n');
 
-        if (changelog.length > 2000) changelog = changelog.substring(0, 2000) + '...\n\n*[Release notes have been truncated]*';
+        if (notes.length > 2000) notes = notes.substring(0, 2000) + '...\n\n*[Release notes have been truncated]*';
 
-        return changelog;
+        return notes;
     };
 }
