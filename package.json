@@ -7,7 +7,7 @@
     "test": "node index.js"
   },
   "engines": {
-    "node": ">=16.6.1"
+    "node": ">=17.0.1"
   },
   "repository": {
     "type": "git",
@@ -15,7 +15,9 @@
   },
   "keywords": [
     "apple",
-    "updates"
+    "updates",
+    "os",
+    "discord-bot"
   ],
   "author": "MinhTon",
   "license": "GPL-3.0",
