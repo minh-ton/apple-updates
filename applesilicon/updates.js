@@ -5,8 +5,9 @@ require('./error.js')();
 
 // AssetAudiences
 let macos_audience_public = "60b55e25-a8ed-4f45-826c-c1495a4ccc65";
-let macos_audience_beta = "ca60afc6-5954-46fd-8cb9-60dde6ac39fd"; // macOS Big Sur
-let macos_new_audience_beta = "298e518d-b45e-4d36-94be-34a63d6777ec"; // macOS Monterey
+let macos_audience_beta = "ca60afc6-5954-46fd-8cb9-60dde6ac39fd"; 
+let macos_new_audience_public = "9f86c787-7c59-45a7-a79a-9c164b00f866";
+let macos_new_audience_beta = "298e518d-b45e-4d36-94be-34a63d6777ec"; 
 
 let ios_audience_public = "01c1d682-6e8f-4908-b724-5501fe3f5e5c";
 let ios_audience_beta = "ce48f60c-f590-4157-a96f-41179ca08278";
@@ -55,6 +56,7 @@ module.exports = function () {
         if (macos) fetch_macos_updates(macos_new_audience_beta, 'beta', true);
         // Public macOS
         if (macos) fetch_macos_updates(macos_audience_public, 'public', false);
+        if (macos) fetch_macos_updates(macos_new_audience_public, 'public', false);
 
         // Beta iOS
         if (ios) fetch_other_updates(ios_audience_beta, ios_build, ios_hw, ios_device, ios_version, "iOS", "beta", true);
