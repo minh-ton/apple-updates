@@ -5,7 +5,7 @@ const axios = require('axios');
 require('../error.js')();
 require('./doc.js')();
 
-const asset_type = {
+const doc_asset_type = {
     ios: "com.apple.MobileAsset.SoftwareUpdateDocumentation",
     ipados: "com.apple.MobileAsset.SoftwareUpdateDocumentation",
     audioos: "com.apple.MobileAsset.SoftwareUpdateDocumentation",
@@ -35,27 +35,32 @@ module.exports = function () {
         let buff = new Buffer.from(arr[1], 'base64');
         let text = JSON.parse(buff.toString('utf8'));
 
-        if (!text.Assets[0]) {
-            return send_error(`Missing text.Asset[0]`, "gdmf.js", `gdmf_macos`, `update not available for ${assetaud}.`);
-        }
+        let data = [];
 
-        var changelog;
+        for (let asset in text.Assets) {
+            if (!text.Assets[asset]) {
+                return send_error(`Missing text.Asset[${asset}]`, "gdmf.js", `gdmf_macos`, `update not available for ${assetaud}.`);
+            }
+    
+            var changelog;
+    
+            if (!beta) changelog = await get_changelog(assetaud, "Mac-06F11F11946D27C5", text.Assets[asset].SUDocumentationID, "Mac", "com.apple.MobileAsset.SoftwareUpdateDocumentation");
 
-        if (!beta) {
-            changelog = await get_changelog(assetaud, "Mac-06F11F11946D27C5", text.Assets[0].SUDocumentationID, "Mac", "com.apple.MobileAsset.SoftwareUpdateDocumentation");
             if (changelog == undefined) changelog = "Release note is not available.";
+    
+            let mac_update = {
+                mac_pkg: `${text.Assets[asset].__BaseURL}${text.Assets[asset].__RelativePath}`,
+                mac_version: text.Assets[asset].OSVersion,
+                mac_build: text.Assets[asset].Build,
+                mac_size: text.Assets[asset]._DownloadSize,
+                mac_updateid: text.Assets[asset].SUDocumentationID,
+                mac_changelog: changelog
+            }
+
+            data.push(mac_update);
         }
 
-        let mac_update = {
-            mac_pkg: `${text.Assets[0].__BaseURL}${text.Assets[0].__RelativePath}`,
-            mac_version: text.Assets[0].OSVersion,
-            mac_build: text.Assets[0].Build,
-            mac_size: text.Assets[0]._DownloadSize,
-            mac_updateid: text.Assets[0].SUDocumentationID,
-            mac_changelog: changelog
-        }
-
-        return mac_update;
+        return data;
     };
 
     this.gdmf_other = async function (assetaud, build, hwm, prodtype, prodversion, cname, dname, beta) {
@@ -76,25 +81,30 @@ module.exports = function () {
         let buff = new Buffer.from(arr[1], 'base64');
         let text = JSON.parse(buff.toString('utf8'));
 
-        if (!text.Assets[0]) {
-            return send_error(`Missing text.Asset[0]`, "gdmf.js", `gdmf_other`, `update not available for ${assetaud}.`);
-        }
+        let data = [];
 
-        var changelog;
-
-        if (!beta) {
-            (cname.toLowerCase() == "tvos") ? changelog = undefined : changelog = await get_changelog(assetaud, hwm, text.Assets[0].SUDocumentationID, device_name[cname.toLowerCase()], asset_type[cname.toLowerCase()]);
+        for (let asset in text.Assets) {
+            if (!text.Assets[asset]) {
+                return send_error(`Missing text.Asset[${asset}]`, "gdmf.js", `gdmf_other`, `update not available for ${assetaud}.`);
+            }
+    
+            var changelog;
+    
+            if (!beta) (cname.toLowerCase() == "tvos") ? changelog = undefined : changelog = await get_changelog(assetaud, hwm, text.Assets[asset].SUDocumentationID, device_name[cname.toLowerCase()], doc_asset_type[cname.toLowerCase()]);
+    
             if (changelog == undefined) changelog = "Release note is not available.";
+    
+            let os_update = {
+                os_version: text.Assets[asset].OSVersion.replace('9.9.', ''),
+                os_build: text.Assets[asset].Build,
+                os_size: text.Assets[asset]._DownloadSize,
+                os_updateid: text.Assets[asset].SUDocumentationID,
+                os_changelog: changelog
+            }
+
+            data.push(os_update);
         }
 
-        let os_update = {
-            os_version: text.Assets[0].OSVersion.replace('9.9.', ''),
-            os_build: text.Assets[0].Build,
-            os_size: text.Assets[0]._DownloadSize,
-            os_updateid: text.Assets[0].SUDocumentationID,
-            os_changelog: changelog
-        }
-
-        return os_update;
+        return data;
     };
 };

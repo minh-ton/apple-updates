@@ -4,6 +4,8 @@ const axios = require('axios');
 const admzip = require('adm-zip');
 const sanitizeHtml = require('sanitize-html');
 
+require('../error.js')();
+
 module.exports = function () {
     this.get_changelog = async function (audience, hw, sudocumentationid, device, assettype) {
         const res = await axios.post('https://gdmf.apple.com/v2/assets', {
@@ -14,6 +16,8 @@ module.exports = function () {
             ClientVersion: 2,
             DeviceName: device,
             AssetType: assettype,
+        }).catch(function (error) {
+            return send_error(error, "doc.js", `${device} changelog`, `getting changelog from apple server.`);
         });
 
         var arr = res.data.split(".");
@@ -44,11 +48,11 @@ module.exports = function () {
 
         var arr = clean.split("\r\n");
 
-        for (var i = 0; i < arr.length; i++) arr[i] = arr[i].replace(/\t/g, "").replace(/<li>/g, "- ").replace(/<[^>]+>/g, '').trimStart();
+        for (var i = 0; i < arr.length; i++) arr[i] = arr[i].replace(/\t/g, "").replace(/<li>/g, "- ").replace(/<[^>]+>/g, '').replace(/\&amp;/g,'&').trimStart();
 
         let notes = arr.join('\n').replace(/\n\s*\n\s*\n/g, '\n\n');
 
-        if (notes.length > 2000) notes = notes.substring(0, 2000) + '...\n\n*[Release notes have been truncated]*';
+        if (notes.length > 4000) notes = notes.substring(0, 4000) + '...\n\n*[Release notes have been truncated]*';
 
         return notes;
     };
