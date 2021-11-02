@@ -24,7 +24,7 @@ module.exports = function () {
         let buff = new Buffer.from(arr[1], 'base64');
         let text = JSON.parse(buff.toString('utf8'));
 
-        if (!text.Assets[0]) return "Documentation is not available."
+        if (!text.Assets[0]) return "Release note is not available."
 
         var file_url = `${text.Assets[0].__BaseURL}${text.Assets[0].__RelativePath}`;
 

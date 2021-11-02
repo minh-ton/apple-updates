@@ -38,7 +38,7 @@ module.exports = function () {
             db.collection("macos").doc(dname).update({
                 [`${build}`]: `${build}`
             }).catch(err => {
-                send_error(err, "gdmf.js", `fetch_macos_ota`, `adding new build number to the database`);
+                send_error(err, "manager.js", `fetch_macos_ota`, `adding new build number to the database`);
             });
         }
     };
@@ -46,41 +46,41 @@ module.exports = function () {
     this.fetch_other_updates = async function (assetaud, os_build, hwm, prodtype, prodversion, cname, dname, beta) {
         let os_update = await gdmf_other(assetaud, os_build, hwm, prodtype, prodversion, cname, dname, beta);
 
-        if (!os_update || os_update.length == 0) return send_error(`No asset (${cname} - ${dname}) available.`, "manager.js", `fetch_other_updates`, `update not available for ${assetaud}.`);
+        if (!os_update) return send_error(`No asset (${cname} - ${dname}) available.`, "manager.js", `fetch_other_updates`, `update not available for ${assetaud}.`);
 
-        for (let item in os_update) {
-            const os_database = db.collection(cname.toLowerCase()).doc(dname);
-            const os_data = await os_database.get();
-            const os_build_array = os_data.data();
+        const os_database = db.collection(cname.toLowerCase()).doc(dname);
+        const os_data = await os_database.get();
+        const os_build_array = os_data.data();
 
-            var updates = [];
-            for (let build in os_build_array) updates.push(build);
+        var updates = [];
+        for (let build in os_build_array) updates.push(build);
 
-            const version = os_update[item]['os_version'];
-            const size = os_update[item]['os_size'];
-            const build = os_update[item]['os_build'];
-            const updateid = os_update[item]['os_updateid'];
-            const changelog = os_update[item]['os_changelog'];
+        const version = os_update['os_version'];
+        const size = os_update['os_size'];
+        const build = os_update['os_build'];
+        const updateid = os_update['os_updateid'];
+        const changelog = os_update['os_changelog'];
 
-            if (updates.includes(build)) return;
+        if (updates.includes(build)) return;
 
-            if (beta) {
-                send_other_beta_updates(cname, version, build, size, formatUpdatesName(updateid, version, cname));
-                if (cname.toLowerCase() === "ios") send_other_beta_updates('iPadOS', version, build, size, formatUpdatesName(updateid, version, cname));
-            } else {
-                send_other_updates(cname, version, build, size, changelog);
-                if (cname.toLowerCase() === "ios") {
-                    ipad_changelog = await get_changelog(assetaud, "J523xAP", updateid.replace('iOS', 'iPadOS'), "iPad", "com.apple.MobileAsset.SoftwareUpdateDocumentation");
-                    send_other_updates('iPadOS', version, build, size, ipad_changelog);
-                }
+        if (beta) {
+            send_other_beta_updates(cname, version, build, size, formatUpdatesName(updateid, version, cname));
+            if (cname.toLowerCase() === "ios") {
+                send_other_beta_updates('iPadOS', version, build, size, formatUpdatesName(updateid, version, cname));
             }
-
-            db.collection(cname.toLowerCase()).doc(dname).update({
-                [`${build}`]: `${build}`
-            }).catch(err => {
-                send_error(err, "gdmf.js", `fetch_other_updates - ${cname} ${dname}`, `adding new build number to the database`);
-            });
+        } else {
+            send_other_updates(cname, version, build, size, changelog);
+            if (cname.toLowerCase() === "ios") {
+                ipad_changelog = await get_changelog(assetaud, "J523xAP", updateid.replace('iOS', 'iPadOS'), "iPad", "com.apple.MobileAsset.SoftwareUpdateDocumentation");
+                send_other_updates('iPadOS', version, build, size, ipad_changelog);
+            }
         }
+
+        db.collection(cname.toLowerCase()).doc(dname).update({
+            [`${build}`]: `${build}`
+        }).catch(err => {
+            send_error(err, "manager.js", `fetch_other_updates - ${cname} ${dname}`, `adding new build number to the database`);
+        });
     };
 
     this.fetch_macos_pkg = async function (url, beta, dname) {
@@ -108,7 +108,7 @@ module.exports = function () {
             db.collection("macos").doc(dname).update({
                 [`${build}`]: `${build}`
             }).catch(err => {
-                send_error(err, "xml.js", `fetch_macos_pkg - ${dname}`, `adding new build number to the database`);
+                send_error(err, "manager.js", `fetch_macos_pkg - ${dname}`, `adding new build number to the database`);
             });
 
         }
