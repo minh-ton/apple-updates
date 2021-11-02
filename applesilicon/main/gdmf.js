@@ -81,30 +81,26 @@ module.exports = function () {
         let buff = new Buffer.from(arr[1], 'base64');
         let text = JSON.parse(buff.toString('utf8'));
 
-        let data = [];
-
-        for (let asset in text.Assets) {
-            if (!text.Assets[asset]) {
-                return send_error(`Missing text.Asset[${asset}]`, "gdmf.js", `gdmf_other`, `update not available for ${assetaud}.`);
-            }
-    
-            var changelog;
-    
-            if (!beta) (cname.toLowerCase() == "tvos") ? changelog = undefined : changelog = await get_changelog(assetaud, hwm, text.Assets[asset].SUDocumentationID, device_name[cname.toLowerCase()], doc_asset_type[cname.toLowerCase()]);
-    
-            if (changelog == undefined) changelog = "Release note is not available.";
-    
-            let os_update = {
-                os_version: text.Assets[asset].OSVersion.replace('9.9.', ''),
-                os_build: text.Assets[asset].Build,
-                os_size: text.Assets[asset]._DownloadSize,
-                os_updateid: text.Assets[asset].SUDocumentationID,
-                os_changelog: changelog
-            }
-
-            data.push(os_update);
+        if (!text.Assets[0]) {
+            return send_error(`Missing text.Asset[0]`, "gdmf.js", `gdmf_other`, `update not available for ${assetaud}.`);
         }
 
-        return data;
+        var changelog;
+
+        if (!beta) {
+            (cname.toLowerCase() == "tvos") ? changelog = undefined : changelog = await get_changelog(assetaud, hwm, text.Assets[0].SUDocumentationID, device_name[cname.toLowerCase()], doc_asset_type[cname.toLowerCase()]);
+        }
+
+        if (changelog == undefined) changelog = "Release note is not available.";
+
+        let os_update = {
+            os_version: text.Assets[0].OSVersion.replace('9.9.', ''),
+            os_build: text.Assets[0].Build,
+            os_size: text.Assets[0]._DownloadSize,
+            os_updateid: text.Assets[0].SUDocumentationID,
+            os_changelog: changelog
+        }
+
+        return os_update;
     };
 };
