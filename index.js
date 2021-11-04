@@ -2,9 +2,9 @@
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
-global.beta_release = false;
-global.bot_version = "2.5.1";
-global.bot_updatedate = "November 2nd, 2021"
+global.BETA_RELEASE = false;
+global.BOT_VERSION = "2.5.2";
+global.BOT_UPDATED = "November 4th, 2021"
 
 const Discord = require('discord.js');
 const fs = require("fs");
@@ -23,7 +23,7 @@ global.bot.login(process.env.bot_token);
 // ============= DISCORD BOT ============
 
 global.bot.on("ready", async () => {
-    if (global.beta_release) console.log("[RUNNING BETA BOT INSTANCE]");
+    if (global.BETA_RELEASE) console.log("[RUNNING BETA BOT INSTANCE]");
     console.log(`Logged in as ${global.bot.user.tag}!`);
     console.log('Bot has started!');
     setInterval(() => {
@@ -50,8 +50,8 @@ global.bot.on("messageCreate", async message => {
     if (message.channel.type === "DM") return;
 
     // Bot prefix
-    let prefixes = (global.beta_release) ? ["beta!", "<@852896210267275324>", "<@!852896210267275324>"] : ["apple!", "<@852378577063116820>", "<@!852378577063116820>"];
-    var prefix = (global.beta_release) ? "beta!" : "apple!"; // default prefix
+    let prefixes = (global.BETA_RELEASE) ? ["beta!", "<@852896210267275324>", "<@!852896210267275324>"] : ["apple!", "<@852378577063116820>", "<@!852378577063116820>"];
+    var prefix = (global.BETA_RELEASE) ? "beta!" : "apple!"; // default prefix
     for (const i of prefixes) if (message.content.toLowerCase().startsWith(i)) prefix = i;
     if (!message.content.startsWith(prefix)) return;
 

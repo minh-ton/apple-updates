@@ -33,6 +33,8 @@ module.exports = function () {
             url: file_url,
             responseType: 'arraybuffer',
             responseEncoding: null,
+        }).catch(function (error) {
+            return send_error(error, "doc.js", `extract changelog files`, `url: ${file_url}`);
         });
 
         var zip = new admzip(file.data);
