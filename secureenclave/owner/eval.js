@@ -1,5 +1,7 @@
 // Run arbitrary JS code
 
+const Discord = require('discord.js');
+
 require('../../applesilicon/embed.js')();
 
 const clean = text => {
@@ -28,9 +30,18 @@ module.exports = {
 
             if (typeof evaled !== "string") evaled = require("util").inspect(evaled);
 
-            message.channel.send(`\`\`\`xl\n${clean(evaled)}\n\`\`\``, { split: true });
+            const success = new Discord.MessageEmbed()
+                .setDescription(`\`SUCCESS\` \`\`\`xl\n${clean(evaled)}\n\`\`\``)
+                .setColor("#00d768")
+                .setTimestamp();
+            message.channel.send({ embeds: [success] });
+
         } catch (err) {
-            message.channel.send(`\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``);
+            const error = new Discord.MessageEmbed()
+                .setDescription(`\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``)
+                .setColor("#c2002a")
+                .setTimestamp();
+            message.channel.send({ embeds: [error] });
         }
 
     },

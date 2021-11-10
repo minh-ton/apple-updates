@@ -1,5 +1,7 @@
 // Crash the bot
 
+const Discord = require('discord.js');
+
 require('../../applesilicon/embed.js')();
 
 module.exports = {
@@ -13,7 +15,12 @@ module.exports = {
         if (!isBotOwner) return message.channel.send(minor_error_embed('You can only cr4sh me unless you have special powers ¯\\_(ツ)_/¯'));
 
         global.bot.user.setStatus("invisible");
-        message.channel.send('Cr4shed!').then(() => {
+
+        const embed = new Discord.MessageEmbed()
+            .setDescription(':skull: **Cr4shed successfully!**')
+            .setTimestamp();
+
+        message.channel.send({ embeds: [embed] }).then(() => {
             process.exit(1);
         });
     },

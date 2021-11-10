@@ -22,7 +22,6 @@ module.exports = {
         exec(args.join(" "), (err, stdout, stderr) => {
             if (err) {
                 const embed = new Discord.MessageEmbed()
-                    .setAuthor(`Command: ${args.join(" ")}`, global.bot.user.displayAvatarURL())
                     .setDescription(`**Command exited with error:** \n \`\`\`${err}\`\`\``)
                     .setTimestamp();
                 m.edit({ embeds: [embed] });
@@ -32,11 +31,10 @@ module.exports = {
             var error = (stderr) ? stderr : "No Error";
             var output = (stdout) ? stdout : "No Output"
 
-            if (output.length > 1990) output = output.substring(0, 1990) + '...';
-            if (error.length > 1990) error = error.substring(0, 1990) + '...';
+            if (output.length > 4000) output = output.substring(0, 4000) + '...';
+            if (error.length > 4000) error = error.substring(0, 4000) + '...';
 
             const embed = new Discord.MessageEmbed()
-                .setAuthor(`Command: ${args.join(" ")}`, global.bot.user.displayAvatarURL())
                 .addField(`Output`, `\`\`\`${output}\`\`\``)
                 .addField(`Error`, `\`\`\`${error}\`\`\``)
                 .setTimestamp();
