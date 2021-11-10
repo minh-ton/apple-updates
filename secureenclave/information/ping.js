@@ -13,6 +13,6 @@ module.exports = {
     async execute(message, args) {
         const embed = new Discord.MessageEmbed().setColor(randomColor());
         const m = await message.channel.send({ embeds: [embed.setDescription("Ping?")] });
-        m.edit({ embeds: [embed.setDescription(`**Pong!** It took \`${m.createdTimestamp - message.createdTimestamp}ms\` for signals to reach me. My current heartbeat is \`${Math.round(global.bot.ws.ping)}ms\`.`)] });
+        m.edit({ embeds: [embed.setDescription(`:bell: **Pong!** It took \`${m.createdTimestamp - message.createdTimestamp}ms\` for signals to reach me. My current heartbeat is \`${Math.round(global.bot.ws.ping)}ms\`.`)] });
     },
 };

@@ -18,33 +18,37 @@ module.exports = {
         let isBotOwner = message.author.id == '589324103463338007';
         if (!isBotOwner) return message.channel.send(minor_error_embed('Well you can\'t get my database without having my brain!'));
 
-        const database_list = db.collection(args[0]).doc(args[1]);
-        const data = await database_list.get();
-        const data_key = data.data();
+        try {
+            const database_list = db.collection(args[0]).doc(args[1]);
+            const data = await database_list.get();
+            const data_key = data.data();
 
-        var list = [];
+            var list = [];
 
-        if (args[2] == "--human-readable") {
-            for (let value in data_key) {
-                let server = global.bot.guilds.cache.get(value);
-                let channel = global.bot.channels.cache.get(data_key[value]);
-                if (server != undefined && channel != undefined) list.push(`${server.name} - #${channel.name}`);
+            if (args[2] == "--human-readable") {
+                for (let value in data_key) {
+                    let server = global.bot.guilds.cache.get(value);
+                    let channel = global.bot.channels.cache.get(data_key[value]);
+                    if (server != undefined && channel != undefined) list.push(`${server.name} - #${channel.name}`);
+                }
+            } else {
+                for (let value in data_key) {
+                    list.push(`${value} - ${data_key[value]}`);
+                }
             }
-        } else {
-            for (let value in data_key) {
-                list.push(`${value} - ${data_key[value]}`);
-            }
+
+            if (list.length < 1) return message.channel.send(`Could not find "${args[0]}" collection or "${args[1]}" document.`);
+
+            let embed = new Discord.MessageEmbed()
+                .setColor(randomColor())
+                .setTitle(`Data from remote database`)
+                .setDescription(list.join('\n'))
+                .addField(`Collection`, args[0], true)
+                .addField(`Document`, args[1], true)
+                .addField(`Items count`, list.length.toString(), true);
+            message.channel.send({ embeds: [embed] });
+        } catch (error) {
+            return message.channel.send(minor_error_embed(`An error happened!\n> ${error}`));
         }
-
-        if (list.length < 1) return message.channel.send(`Could not find "${args[0]}" collection or "${args[1]}" document.`);
-
-        let embed = new Discord.MessageEmbed()
-            .setColor(randomColor())
-            .setTitle(`Data from remote database`)
-            .setDescription(list.join('\n'))
-            .addField(`Collection`, args[0], true)
-            .addField(`Document`, args[1], true)
-            .addField(`Items count`, list.length.toString(), true);
-        message.channel.send({ embeds: [embed] });
     },
 };
