@@ -1,15 +1,16 @@
 // Send macOS Installers
 
 const Discord = require("discord.js");
+const catalogs = require("../../bootrom/catalogs.json");
 
 require('../../applesilicon/main/manager.js')();
 require('../../applesilicon/embed.js')();
 require('../../applesilicon/misc.js')();
 
-let macos_public_catalog = "https://swscan.apple.com/content/catalogs/others/index-11-10.15-10.14-10.13-10.12-10.11-10.10-10.9-mountainlion-lion-snowleopard-leopard.merged-1.sucatalog";
-let macos_beta_catalog = "https://swscan.apple.com/content/catalogs/others/index-10.16beta-10.16-10.15-10.14-10.13-10.12-10.11-10.10-10.9-mountainlion-lion-snowleopard-leopard.merged-1.sucatalog"
-let macos_new_public_catalog = "https://swscan.apple.com/content/catalogs/others/index-12-10.16-10.15-10.14-10.13-10.12-10.11-10.10-10.9-mountainlion-lion-snowleopard-leopard.merged-1.sucatalog";
-let macos_new_beta_catalog = "https://swscan.apple.com/content/catalogs/others/index-12seed-12-10.16-10.15-10.14-10.13-10.12-10.11-10.10-10.9-mountainlion-lion-snowleopard-leopard.merged-1.sucatalog";
+let macos_public_catalog = catalogs.macos_11_public;
+let macos_beta_catalog = catalogs.macos_11_beta;
+let macos_new_public_catalog = catalogs.macos_12_public;
+let macos_new_beta_catalog = catalogs.macos_12_beta;
 
 function get_links(xml_update) {
     let links = [];
@@ -38,7 +39,6 @@ module.exports = {
 
             let pkg_beta = await get_pkg_assets(macos_beta_catalog, 'beta_pkg');
             let pkg_beta_new = await get_pkg_assets(macos_new_beta_catalog, 'beta_pkg');
-            // let pkg_public = await get_pkg_assets(macos_public_catalog, 'public_pkg');
             let pkg_public_new = await get_pkg_assets(macos_new_public_catalog, 'public_pkg');
 
             let public_array = get_links(pkg_public_new);

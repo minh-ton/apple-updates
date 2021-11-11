@@ -8,8 +8,9 @@ require('./misc.js')();
 module.exports = function () {
     this.send_error = function (message, location, process, task) {
         let time = getCurrentTime("Asia/Ho_Chi_Minh");
+        let color = (global.BETA_RELEASE) ? "#f07800" : "#f52b32";
         const embed = new Discord.MessageEmbed()
-            .setColor("#f52b32")
+            .setColor(color)
             .setDescription(`**Error message**:\n> ${message}`)
             .addField(`File`, location, true)
             .addField(`Process`, process, true)
