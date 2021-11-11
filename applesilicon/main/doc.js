@@ -20,6 +20,8 @@ module.exports = function () {
             return send_error(error, "doc.js", `${device} changelog`, `getting changelog from apple server.`);
         });
 
+        if (!res.data) return send_error("No data available", "doc.js", `${device} changelog`, `getting changelog from apple server.`);
+
         var arr = res.data.split(".");
         let buff = new Buffer.from(arr[1], 'base64');
         let text = JSON.parse(buff.toString('utf8'));
