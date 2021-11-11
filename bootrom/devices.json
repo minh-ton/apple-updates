@@ -1,0 +1,29 @@
+{
+    "ios": {
+        "version": "15.0",
+        "build": "19A346",
+        "prodtype": "iPhone13,4",
+        "model": "D54pAP"
+    },
+
+    "watchos": {
+        "version": "8.0",
+        "build": "19R346",
+        "prodtype": "Watch6,4",
+        "model": "N158bAP"
+    },
+
+    "audioos": {
+        "version": "15.0",
+        "build": "19J346",
+        "prodtype": "AudioAccessory5,1",
+        "model": "B520AP"
+    },
+    
+    "tvos": {
+        "version": "15.0",
+        "build": "19J346",
+        "prodtype": "AppleTV11,1",
+        "model": "J305AP"
+    }
+}

@@ -12,6 +12,8 @@ module.exports = async function () {
             return send_error(error, "xml.js", `fetch_macos_pkg - ${dname}`, `fetching the catalog for new updates`);
         });
 
+        if (!response) return send_error("No XML response availble.", "xml.js", `fetch_macos_pkg - ${dname}`, `fetching the catalog for new updates`);
+
         let catalog_content = plist.parse(response.data);
 
         let packages = [];
@@ -23,6 +25,8 @@ module.exports = async function () {
             let info = await axios.get(pkg_info).catch(function (error) {
                 return send_error(error, "xml.js", `fetch_macos_pkg - ${dname}`, `getting InstallAssistant.pkg info from the distribution file`);
             });
+
+            if (!info) return send_error("No product info available.", "xml.js", `fetch_macos_pkg - ${dname}`, `getting InstallAssistant.pkg info from the distribution file`);
 
             const packageinfo = JSON.parse(xmljs.xml2json(info.data, { compact: true, spaces: 2 }));
 

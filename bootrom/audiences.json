@@ -1,0 +1,18 @@
+{
+    "macos_release": "60b55e25-a8ed-4f45-826c-c1495a4ccc65",
+    "macos_bigsur_beta": "ca60afc6-5954-46fd-8cb9-60dde6ac39fd",
+    "macos_monterey_beta": "298e518d-b45e-4d36-94be-34a63d6777ec",
+
+    "ios_release": "01c1d682-6e8f-4908-b724-5501fe3f5e5c",
+    "ios_15_beta": "ce48f60c-f590-4157-a96f-41179ca08278",
+    "ios_14_security": "c724cb61-e974-42d3-a911-ffd4dce11eda",
+
+    "watchos_release": "b82fcf9c-c284-41c9-8eb2-e69bf5a5269f",
+    "watchos_8_beta": "b407c130-d8af-42fc-ad7a-171efea5a3d0",
+
+    "tvos_release": "356d9da0-eee4-4c6c-bbe5-99b60eadddf0",
+    "tvos_15_beta": "4d0dcdf7-12f2-4ebf-9672-ac4a4459a8bc",
+    
+    "audioos_release": "0322d49d-d558-4ddf-bdff-c0443d0e6fac",
+    "audioos_15_beta": "58ff8d56-1d77-4473-ba88-ee1690475e40"
+}
