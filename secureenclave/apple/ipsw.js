@@ -30,7 +30,7 @@ module.exports = {
                 const build = ipsw.data.firmwares[item].buildid;
                 const version = ipsw.data.firmwares[item].version;
 
-                data.push(`[${filename}](${url}) (${version} - Build ${build})`);
+                data.push(`[${filename}](${url}) (Version ${version} - Build ${build})`);
             }
         
         let embed = new Discord.MessageEmbed()
