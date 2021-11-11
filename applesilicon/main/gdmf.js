@@ -31,7 +31,7 @@ module.exports = function () {
             return send_error(error, "gdmf.js", `gdmf_macos`, `politely asking gdmf.apple.com for updates`);
         });
 
-        if (!res.data) return send_error("No data available.", "gdmf.js", `gdmf_macos`, `politely asking gdmf.apple.com for updates`);
+        if (!res) return send_error("No data available.", "gdmf.js", `gdmf_macos`, `politely asking gdmf.apple.com for updates`);
 
         var arr = res.data.split(".");
         let buff = new Buffer.from(arr[1], 'base64');
@@ -79,7 +79,7 @@ module.exports = function () {
             return send_error(error, "gdmf.js", `fetch_other_updates - ${cname} ${dname}`, `politely asking gdmf.apple.com for updates`);
         });
 
-        if (!res.data) return send_error("No data available.", "gdmf.js", `fetch_other_updates - ${cname} ${dname}`, `politely asking gdmf.apple.com for updates`);;
+        if (!res) return send_error("No data available.", "gdmf.js", `fetch_other_updates - ${cname} ${dname}`, `politely asking gdmf.apple.com for updates`);;
 
         var arr = res.data.split(".");
         let buff = new Buffer.from(arr[1], 'base64');
