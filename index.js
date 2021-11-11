@@ -3,7 +3,7 @@
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 global.BETA_RELEASE = false;
-global.BOT_VERSION = "2.5.4";
+global.BOT_VERSION = "2.5.5";
 global.BOT_UPDATED = "November 11th, 2021"
 
 const Discord = require('discord.js');
