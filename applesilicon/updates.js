@@ -8,7 +8,7 @@ require('./main/manager.js')();
 require('./error.js')();
 
 module.exports = function () {
-    this.fetch_gdmf = function (macos, ios, watchos, audioos, tvos) { // for debugging purposes
+    this.fetch_gdmf = async function (macos, ios, watchos, audioos, tvos) { // for debugging purposes
         // Beta macOS
         if (macos) await fetch_macos_updates(audiences.macos_bigsur_beta, 'beta', true); // macOS Big Sur Beta
         if (macos) await fetch_macos_updates(audiences.macos_monterey_beta, 'beta', true); // macOS Monterey Beta
@@ -37,7 +37,7 @@ module.exports = function () {
         if (tvos) await fetch_other_updates(audiences.tvos_release, devices.tvos.build, devices.tvos.model, devices.tvos.prodtype, devices.tvos.version, "tvOS", "public", false); // tvOS Release
     };
 
-    this.fetch_xml = function () {
+    this.fetch_xml = async function () {
         // Beta macOS InstallAssistant.pkg
         await fetch_macos_pkg(catalogs.macos_11_beta, true, 'beta_pkg');
         await fetch_macos_pkg(catalogs.macos_12_beta, true, 'beta_pkg');
