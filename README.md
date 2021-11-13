@@ -30,10 +30,10 @@ After adding the bot to your servers, type `apple!setup` to set up the bot to yo
 |  `help`  | Shows the help menu or get help on a command. | `apple!help`: Shows the help menu.<br> `apple!help [command]`: Get help on a command. |
 
 ### Apple
-`latest`
+`latest` `ipsw`
 
 ### Other
-`about` `ping` `uptime` `sysctl` `invite`
+`about` `ping` `uptime` `sysctl` `invite` `source`
 
 ## 👏🏼 Contributing
 If you have a question, get help by joining the [Discord server](https://discord.gg/ktHmcbpMNU) or opening an issue. 
