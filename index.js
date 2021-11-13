@@ -95,4 +95,4 @@ fetch_xml();
 setInterval(function () {
     fetch_gdmf(true, true, true, true, true);
     fetch_xml();
-}, 90000);
+}, 60000);
