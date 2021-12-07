@@ -47,6 +47,3 @@ If you wish to contribute, feel free to fork the repository and submit a pull re
 
 ## 📝 License
 This project is licensed under the GPL-3.0 License. View [LICENSE.md](https://github.com/Minh-Ton/apple-updates/blob/bot/LICENSE.md) for more detail. 
-
-<img src="https://raw.githubusercontent.com/Minh-Ton/apple-updates/widget/widget.png" width="500">
-
