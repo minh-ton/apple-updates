@@ -9,9 +9,9 @@ module.exports = function () {
   };
 
   this.formatUpdatesName = function (updateid, version, cname) {
-    // tvOS SUDocumentationID is always "PreRelease", so I just return back the old value anyways...
+    // tvOS SUDocumentationID is always "PreRelease"...
     if (cname.toLowerCase() === "tvos") {
-      return updateid;
+      return "Beta";
     }
 
     if (!updateid.includes('Long') && !updateid.includes('Short') && !updateid.includes('RC')) {
@@ -25,7 +25,7 @@ module.exports = function () {
       return beta_name;
     } else {
       // Release Candidate Updates
-      return "Release Candidate"
+      return "Release Candidate";
     }
   }
 
