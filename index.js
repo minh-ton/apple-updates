@@ -25,10 +25,9 @@ global.bot.login(process.env.bot_token);
 global.bot.on("ready", async () => {
     if (global.BETA_RELEASE) console.log("[RUNNING BETA BOT INSTANCE]");
     console.log(`Logged in as ${global.bot.user.tag}!`);
+    console.log(`Currently in ${global.bot.guilds.cache.size} servers!`);
     console.log('Bot has started!');
-    setInterval(() => {
-        global.bot.user.setActivity(`apple!help | ${global.bot.guilds.cache.size}`, { type: "PLAYING" });
-    }, 10000);
+    global.bot.user.setActivity(`apple!help | Merry Christmas!`, { type: "PLAYING" });
 });
 
 global.bot.commands = new Discord.Collection();
