@@ -43,7 +43,7 @@ module.exports = function () {
       case "audioos":
         return "https://ipsw.me/assets/devices/AudioAccessory5,1.png";
       case "macos":
-        return "https://ipsw.me/assets/devices/iMac21,2.png";
+        return "https://ipsw.me/assets/devices/MacBookPro18,2.png";
       case "ios":
         return "https://ipsw.me/assets/devices/iPhone14,3.png";
       case "ipados":
