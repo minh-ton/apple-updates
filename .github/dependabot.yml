@@ -4,6 +4,4 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
-    reviewers:
-    - Minh-Ton
     target-branch: bot
