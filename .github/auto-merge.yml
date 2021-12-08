@@ -4,3 +4,5 @@ requiredLabels:
   - dependencies
 updateBranch: true
 mergeMethod: rebase
+blockingLabels:
+- discord.js
