@@ -4,6 +4,5 @@ requiredLabels:
   - dependencies
 updateBranch: true
 mergeMethod: rebase
-blockingLabels:
-- discord.js
-mergeCommitMessage: "Update dependencies"
+mergeCommitMessage: |
+  Update dependencies (#{number})
