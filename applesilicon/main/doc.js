@@ -39,7 +39,7 @@ module.exports = function () {
             return send_error(error, "doc.js", `extract changelog files`, `url: ${file_url}`);
         });
 
-        if (!file) return send_error("No changelog file available", "doc.js", `${device} changelog`, `getting changelog from apple server.`);
+        if (!file) return send_error("No changelog file available", "doc.js", `${device} changelog`, `cannot download changelog zip file.`);
 
         var zip = new admzip(file.data);
         var zipEntries = zip.getEntries();
