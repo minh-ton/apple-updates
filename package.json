@@ -28,7 +28,7 @@
   "dependencies": {
     "adm-zip": "^0.5.9",
     "axios": "^0.24.0",
-    "discord.js": "^13.3.1",
+    "discord.js": "^13.5.0",
     "firebase-admin": "^10.0.1",
     "plist": "^3.0.4",
     "pretty-bytes": "^5.6.0",
