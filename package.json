@@ -34,7 +34,7 @@
     "pretty-bytes": "^5.6.0",
     "pretty-ms": "^7.0.1",
     "sanitize-html": "^2.6.1",
-    "systeminformation": "^5.10.7",
+    "systeminformation": "^5.11.0",
     "xml-js": "^1.6.11"
   }
 }
