@@ -63,18 +63,7 @@ module.exports = function () {
 
         if (updates.includes(build)) return;
 
-        if (beta) {
-            send_other_beta_updates(cname, version, build, size, formatUpdatesName(updateid, version, cname));
-            if (cname.toLowerCase() === "ios") {
-                send_other_beta_updates('iPadOS', version, build, size, formatUpdatesName(updateid, version, cname));
-            }
-        } else {
-            send_other_updates(cname, version, build, size, changelog);
-            if (cname.toLowerCase() === "ios") {
-                ipad_changelog = await get_changelog(assetaud, "J523xAP", updateid.replace('iOS', 'iPadOS'), "iPad", "com.apple.MobileAsset.SoftwareUpdateDocumentation");
-                send_other_updates('iPadOS', version, build, size, ipad_changelog);
-            }
-        }
+        (beta) ? send_other_beta_updates(cname, version, build, size, formatUpdatesName(updateid, version, cname)) : send_other_updates(cname, version, build, size, changelog);
 
         db.collection(cname.toLowerCase()).doc(dname).update({
             [`${build}`]: `${build}`
