@@ -1,6 +1,7 @@
 // Create update embeds
 
 const Discord = require('discord.js');
+const brightColor = require('randomcolor');
 
 require('./misc.js')();
 require('./send.js')();
@@ -11,7 +12,7 @@ module.exports = function () {
         const embed = new Discord.MessageEmbed()
             .setDescription(`macOS **${version} (${build})** Full Installer Package:\n> ${pkgurl}`)
             .setThumbnail(getThumbnail("pkg"))
-            .setColor(randomColor())
+            .setColor(brightColor())
             .setTimestamp();
         send_to_servers('pkg', embed, `${version} (${build})`);
     };
@@ -21,7 +22,7 @@ module.exports = function () {
         const embed = new Discord.MessageEmbed()
             .setDescription(`macOS **${version} Beta (${build})** Full Installer Package:\n> ${pkgurl}`)
             .setThumbnail(getThumbnail("pkg"))
-            .setColor(randomColor())
+            .setColor(brightColor())
             .setTimestamp();
         send_to_servers('pkg', embed, `${version} Beta (${build})`);
     };
@@ -32,7 +33,7 @@ module.exports = function () {
         const embed = new Discord.MessageEmbed()
             .setDescription(`macOS **${version} ${isBeta} (${build})** Delta Installer Package:\n> ${pkgurl}`)
             .setThumbnail(getThumbnail("macOS"))
-            .setColor(randomColor())
+            .setColor(brightColor())
             .setTimestamp();
         send_to_servers('delta', embed, `${version} ${isBeta} (${build})`);
     };
@@ -45,7 +46,7 @@ module.exports = function () {
             .addField(`Build`, build, true)
             .addField(`Size`, formatBytes(size), true)
             .setThumbnail(getThumbnail("macOS" + version.toString().substring(0, 2)))
-            .setColor(randomColor())
+            .setColor(brightColor())
             .setTimestamp();
         send_to_servers('macos', embed, `${version} (${updateid} - Build ${build})`);
     };
@@ -59,7 +60,7 @@ module.exports = function () {
             .addField(`Size`, formatBytes(size), true)
             .setThumbnail(getThumbnail("macOS" + version.toString().substring(0, 2)))
             .setDescription(changelog)
-            .setColor(randomColor())
+            .setColor(brightColor())
             .setTimestamp();
         send_to_servers('macos', embed, `${version} (${build})`);
     };
@@ -74,7 +75,7 @@ module.exports = function () {
             .addField(`Size`, formatBytes(size), true)
             .setThumbnail(thumb)
             .setDescription(changelog)
-            .setColor(randomColor())
+            .setColor(brightColor())
             .setTimestamp();
         send_to_servers(os, embed, `${version} (${build})`);
     };
@@ -88,7 +89,7 @@ module.exports = function () {
             .addField(`Build`, build, true)
             .addField(`Size`, formatBytes(size), true)
             .setThumbnail(thumb)
-            .setColor(randomColor())
+            .setColor(brightColor())
             .setTimestamp();
         send_to_servers(os, embed, `${version} (${updateid} - Build ${build})`);
     };
@@ -97,7 +98,7 @@ module.exports = function () {
     this.send_announcements = function (title, message) {
         const embed = new Discord.MessageEmbed()
             .setTitle(title)
-            .setColor(randomColor())
+            .setColor(brightColor())
             .setDescription(message)
             .setThumbnail(global.bot.user.displayAvatarURL())
             .setTimestamp();
