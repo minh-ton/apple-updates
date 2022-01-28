@@ -10,7 +10,7 @@ module.exports = function () {
     this.send_macos_pkg_public = function (pkgurl, version, build) {
         const embed = new Discord.MessageEmbed()
             .setDescription(`macOS **${version} (${build})** Full Installer Package:\n> ${pkgurl}`)
-            .setThumbnail(getthumbnail("pkg"))
+            .setThumbnail(getThumbnail("pkg"))
             .setColor(randomColor())
             .setTimestamp();
         send_to_servers('pkg', embed, `${version} (${build})`);
@@ -20,7 +20,7 @@ module.exports = function () {
     this.send_macos_pkg_beta = function (pkgurl, version, build) {
         const embed = new Discord.MessageEmbed()
             .setDescription(`macOS **${version} Beta (${build})** Full Installer Package:\n> ${pkgurl}`)
-            .setThumbnail(getthumbnail("pkg"))
+            .setThumbnail(getThumbnail("pkg"))
             .setColor(randomColor())
             .setTimestamp();
         send_to_servers('pkg', embed, `${version} Beta (${build})`);
@@ -31,7 +31,7 @@ module.exports = function () {
         (beta) ? isBeta = "Beta" : isBeta = "";
         const embed = new Discord.MessageEmbed()
             .setDescription(`macOS **${version} ${isBeta} (${build})** Delta Installer Package:\n> ${pkgurl}`)
-            .setThumbnail(getthumbnail("macOS"))
+            .setThumbnail(getThumbnail("macOS"))
             .setColor(randomColor())
             .setTimestamp();
         send_to_servers('delta', embed, `${version} ${isBeta} (${build})`);
@@ -44,7 +44,7 @@ module.exports = function () {
             .addField(`Version`, `${version} (${updateid})`, true)
             .addField(`Build`, build, true)
             .addField(`Size`, formatBytes(size), true)
-            .setThumbnail(getthumbnail("macOS"))
+            .setThumbnail(getThumbnail("macOS" + version.toString().substring(0, 2)))
             .setColor(randomColor())
             .setTimestamp();
         send_to_servers('macos', embed, `${version} (${updateid} - Build ${build})`);
@@ -57,7 +57,7 @@ module.exports = function () {
             .addField(`Version`, `${version}`, true)
             .addField(`Build`, build, true)
             .addField(`Size`, formatBytes(size), true)
-            .setThumbnail(getthumbnail("macOS"))
+            .setThumbnail(getThumbnail("macOS" + version.toString().substring(0, 2)))
             .setDescription(changelog)
             .setColor(randomColor())
             .setTimestamp();
@@ -66,12 +66,13 @@ module.exports = function () {
 
     // Send other OS updates
     this.send_other_updates = function (os, version, build, size, changelog) {
+        const thumb = (os.toLowerCase() == "ios" || os.toLowerCase() == "ipados") ? getThumbnail(os + version.toString().substring(0, 2)) : getThumbnail(os);
         const embed = new Discord.MessageEmbed()
             .setTitle(`New ${os} Public Release!`)
             .addField(`Version`, `${version}`, true)
             .addField(`Build`, build, true)
             .addField(`Size`, formatBytes(size), true)
-            .setThumbnail(getthumbnail(os))
+            .setThumbnail(thumb)
             .setDescription(changelog)
             .setColor(randomColor())
             .setTimestamp();
@@ -80,12 +81,13 @@ module.exports = function () {
 
     // Send other OS beta updates
     this.send_other_beta_updates = function (os, version, build, size, updateid) {
+        const thumb = (os.toLowerCase() == "ios" || os.toLowerCase() == "ipados") ? getThumbnail(os + version.toString().substring(0, 2)) : getThumbnail(os);
         const embed = new Discord.MessageEmbed()
             .setTitle(`New ${os} Beta Release!`) 
             .addField(`Version`, `${version} (${updateid})`, true)
             .addField(`Build`, build, true)
             .addField(`Size`, formatBytes(size), true)
-            .setThumbnail(getthumbnail(os))
+            .setThumbnail(thumb)
             .setColor(randomColor())
             .setTimestamp();
         send_to_servers(os, embed, `${version} (${updateid} - Build ${build})`);
