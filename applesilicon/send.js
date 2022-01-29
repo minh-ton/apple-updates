@@ -18,8 +18,9 @@ const role_database = db.collection('discord').doc('roles').collection('servers'
 
 module.exports = function () {
     this.send_to_servers = async function (os, embed, version) {
+        if (global.UPDATE_MODE) return;
         switch (os.toLowerCase()) {
-            case "tvos": // Done
+            case "tvos":
                 const tvos = await tvos_database.get();
                 const tvos_guilds = tvos.data();
                 for (let channel in tvos.data()) {
@@ -40,7 +41,7 @@ module.exports = function () {
                     }
                 }
                 break;
-            case "audioos": // Done
+            case "audioos":
                 const audioos = await audioos_database.get();
                 const audioos_guilds = audioos.data();
                 for (let channel in audioos.data()) {
@@ -61,7 +62,7 @@ module.exports = function () {
                     }
                 }
                 break;
-            case "macos": // Done
+            case "macos":
                 const macos = await macos_database.get();
                 const macos_guilds = macos.data();
                 for (let channel in macos.data()) {
