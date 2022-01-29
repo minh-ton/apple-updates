@@ -105,7 +105,7 @@ module.exports = function () {
         send_to_servers("bot", embed);
     };
 
-    this.minor_error_embed = function (message) {
+    this.error_alert = function (message) {
         const embed = new Discord.MessageEmbed().setDescription("<:apple_x:869128016494751755> " + message).setColor("#FF0000");
         return { embeds: [embed] };
     }

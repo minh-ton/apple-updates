@@ -34,7 +34,7 @@ module.exports = {
         }
 
         const cmd = global.bot.commands.get(args[0].toLowerCase());
-        if (!cmd) return message.channel.send(minor_error_embed('That command does not exist. You can view the commands list by typing `apple!help`.'));
+        if (!cmd) return message.channel.send(error_alert('That command does not exist. You can view the commands list by typing `apple!help`.'));
 
         const embed = new Discord.MessageEmbed()
             .setTitle(`\`${cmd.command}\``)
