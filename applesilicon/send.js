@@ -13,7 +13,6 @@ const tvos_database = db.collection('discord').doc('tvos');
 const audioos_database = db.collection('discord').doc('audioos');
 const macos_database = db.collection('discord').doc('macos');
 const pkg_database = db.collection('discord').doc('pkg');
-const delta_database = db.collection('discord').doc('delta');
 const bot_database = db.collection('discord').doc('bot');
 const role_database = db.collection('discord').doc('roles').collection('servers');
 
@@ -163,27 +162,6 @@ module.exports = function () {
                         // Send ping roles 
                         if (role_data != undefined && server != undefined && role_data['pkg'] != undefined) if (server.roles.cache.get(role_data['pkg']) != undefined) chn.send(`<@&${role_data['pkg']}> **macOS ${version}** Full Installer Package is available!`).catch(function (error) { 
                             send_error(error, "send.js", `send_pkg`, `send pkg roles to channels`); 
-                        });
-                    }
-                }
-                break;
-            case "delta":
-                const delta = await delta_database.get();
-                const delta_guilds = delta.data();
-                for (let channel in delta.data()) {
-                    let chn = global.bot.channels.cache.get(delta_guilds[channel]);
-                    if (chn != undefined) {
-                        let role = await role_database.doc(channel).get();
-                        let role_data = role.data();
-                        let server = global.bot.guilds.cache.get(channel);
-
-                        chn.send({ embeds: [embed.setAuthor(server.name, server.iconURL())] }).catch(function (error) { 
-                            send_error(error, "send.js", `send_delta`, `send delta link to channels`); 
-                        });
-
-                        // Send ping roles 
-                        if (role_data != undefined && server != undefined && role_data['delta'] != undefined) if (server.roles.cache.get(role_data['delta']) != undefined) chn.send(`<@&${role_data['delta']}> **macOS ${version}** Delta Update Package is available!`).catch(function (error) { 
-                            send_error(error, "send.js", `send_delta`, `send delta roles to channels`); 
                         });
                     }
                 }

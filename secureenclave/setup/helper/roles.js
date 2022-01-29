@@ -78,9 +78,6 @@ module.exports = function () {
 	            case "pkg":
 	                message.channel.send(roles_part_2("macOS InstallAssistant.pkg Link"));
 	                break;
-	            case "delta":
-	                message.channel.send(roles_part_2("macOS Delta Updates Link"));
-	                break;
 	            case "bot":
 	                message.channel.send(roles_part_2(`<@${global.bot.user.id}>'s announcements`));
 	                break;
@@ -143,9 +140,6 @@ module.exports = function () {
 	            break;
 	        case "pkg":
 	            message.channel.send(roles_overall(`<@&${(selected_role) ? selected_role.id : "0100"}>`, "macOS InstallAssistant.pkg Link", args[1] == "add"));
-	            break;
-	        case "delta":
-	            message.channel.send(roles_overall(`<@&${(selected_role) ? selected_role.id : "0100"}>`, "macOS Delta Update Link", args[1] == "add"));
 	            break;
 	        case "bot":
 	            message.channel.send(roles_overall(`<@&${(selected_role) ? selected_role.id : "0100"}>`, `<@${global.bot.user.id}>'s announcements`, args[1] == "add"));

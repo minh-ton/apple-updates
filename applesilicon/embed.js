@@ -27,17 +27,6 @@ module.exports = function () {
         send_to_servers('pkg', embed, `${version} Beta (${build})`);
     };
 
-    // Send macOS delta updates
-    this.send_macos_delta = function (pkgurl, version, build, beta) {
-        (beta) ? isBeta = "Beta" : isBeta = "";
-        const embed = new Discord.MessageEmbed()
-            .setDescription(`macOS **${version} ${isBeta} (${build})** Delta Installer Package:\n> ${pkgurl}`)
-            .setThumbnail(getThumbnail("macOS"))
-            .setColor(brightColor())
-            .setTimestamp();
-        send_to_servers('delta', embed, `${version} ${isBeta} (${build})`);
-    };
-
     // Send new macOS beta releases
     this.send_macos_beta = function (version, build, size, updateid, changelog) {
         const embed = new Discord.MessageEmbed()
