@@ -32,9 +32,12 @@ module.exports = function () {
             const updateid = mac_update[item]['mac_updateid'];
             const changelog = mac_update[item]['mac_changelog'];
 
-            if (updates.includes(build)) return;
+            if (global.SAVE_MODE) {
+                console.log("[BUILD_DATABASE] - UPLOADING UPDATE OF MACOS");
+                return await save_update("macos", version, size, build, updateid, changelog);
+            }
 
-            await save_update("macos", version, size, build, updateid, changelog);
+            if (updates.includes(build)) return;
 
             (beta) ? send_macos_beta(version, build, size, formatUpdatesName(updateid, version, "macOS")) : send_macos_public(version, build, size, changelog);
 
@@ -64,9 +67,12 @@ module.exports = function () {
         const updateid = os_update['os_updateid'];
         const changelog = os_update['os_changelog'];
 
-        if (updates.includes(build)) return;
+        if (global.SAVE_MODE) {
+            console.log("[BUILD_DATABASE] - UPLOADING UPDATE OF " + cname.toUpperCase());
+            return await save_update(cname, version, size, build, updateid, changelog);
+        }
 
-        await save_update(cname, version, size, build, updateid, changelog);
+        if (updates.includes(build)) return;
 
         (beta) ? send_other_beta_updates(cname, version, build, size, formatUpdatesName(updateid, version, cname)) : send_other_updates(cname, version, build, size, changelog);
 
@@ -95,9 +101,12 @@ module.exports = function () {
             let build = xml_update[update]['xml_build'];
             let size = xml_update[update]['xml_size'];
 
-            if (updates.includes(build)) continue;
+            if (global.SAVE_MODE) {
+                console.log("[BUILD_DATABASE] - UPLOADING PACKAGE OF MACOS");
+                return await save_package("macos", build, version, size, pkgurl);
+            }
 
-            await save_package("macos", build, version, size, pkgurl);
+            if (updates.includes(build)) continue;
 
             (beta) ? send_macos_pkg_beta(pkgurl, version, build) : send_macos_pkg_public(pkgurl, version, build, size);
 
