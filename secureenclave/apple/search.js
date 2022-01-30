@@ -2,6 +2,7 @@
 
 const Discord = require("discord.js");
 const firebase = require("firebase-admin");
+const checker = require('url-status-code')
 
 let db = firebase.firestore();
 
@@ -24,7 +25,7 @@ function isBeta(build) {
     return false;
 }
 
-function search_build_embed(cname, data) {
+async function search_build_embed(cname, data) {
     let embed = new Discord.MessageEmbed()
         // Todo: Store macOS version names in an object?
         .setTitle(`${os[cname.toLowerCase()]} ${data["version"].split(".")[0]}${(cname.toLowerCase() == "macos") ? (data["version"].split(".")[0] == "12" ? " Monterey" : " Big Sur") : ""} ${isBeta(data["build"]) ? "Beta" : ""}`)
@@ -37,11 +38,13 @@ function search_build_embed(cname, data) {
 
     if (data["size"]) embed.addField(`Size`, formatBytes(data["size"]), true);
     if (data["changelog"]) embed.setDescription(data["changelog"].toString());
-    if (data["package"]) embed.addField("Package", `[InstallAssistant.pkg](${data["package"]}) (${formatBytes(data["packagesize"])})`);
+
+    let url_status = await checker(data["package"]);
+    if (data["package"]) embed.addField("Package", `[InstallAssistant.pkg](${data["package"]}) (${(url_status == "404") ? "Expired" : formatBytes(data["packagesize"])})`);
     return { embeds: [embed] };
 }
 
-function search_version_embed(cname, query, keyword) {
+async function search_version_embed(cname, query, keyword) {
     let data = [];
     query.forEach(doc => { data.push(doc.data()) });
 
@@ -54,7 +57,9 @@ function search_version_embed(cname, query, keyword) {
         for (let result in data) {
             var info = `‣ **Version**: ${data[result]["version"]} ${isBeta(data[result]["build"]) ? "Beta" : ""}\n‣ **Build**: ${data[result]["build"]}\n`;
             if (data[result]["size"]) info += `‣ **Size**: ${formatBytes(data[result]["size"])}\n`;
-            if (data[result]["package"]) info += `‣ **Package**: [InstallAssistant.pkg](${data[result]["package"]}) (${formatBytes(data[result]["packagesize"])})\n`;
+            
+            let url_status = await checker(data[result]["package"]);
+            if (data[result]["package"]) info += `‣ **Package**: [InstallAssistant.pkg](${data[result]["package"]}) (${(url_status == "404") ? "Expired" : formatBytes(data[result]["packagesize"])})\n`;
             embed.addField(`No. #${parseInt(result) + 1}`, info);
         }
     } else {
@@ -64,7 +69,9 @@ function search_version_embed(cname, query, keyword) {
 
         if (data[0]["size"]) embed.addField(`Size`, formatBytes(data[0]["size"]), true);
         if (data[0]["changelog"]) embed.setDescription(data[0]["changelog"].toString());
-        if (data[0]["package"]) embed.addField("Package", `[InstallAssistant.pkg](${data[0]["package"]}) (${formatBytes(data[0]["packagesize"])})`);
+
+        let url_status = await checker(data[0]["package"]);
+        if (data[0]["package"]) embed.addField("Package", `[InstallAssistant.pkg](${data[0]["package"]}) (${(url_status == "404") ? "Expired" : formatBytes(data[0]["packagesize"])})`);
     }
 
     return { embeds: [embed] };
@@ -85,9 +92,9 @@ module.exports = {
 
         if (build_query.exists) {
             let build_data = build_query.data();
-            return message.channel.send(search_build_embed(args[0], build_data));
+            return message.channel.send(await search_build_embed(args[0], build_data));
         } else if (!version_query.empty) {
-            return message.channel.send(search_version_embed(args[0], version_query, args[1]));
+            return message.channel.send(await search_version_embed(args[0], version_query, args[1]));
         } else {
             return message.channel.send(error_alert('No matches found.'))
         }

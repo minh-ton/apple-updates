@@ -36,6 +36,7 @@
     "randomcolor": "^0.6.2",
     "sanitize-html": "^2.6.1",
     "systeminformation": "^5.11.0",
+    "url-status-code": "^2.0.0",
     "xml-js": "^1.6.11"
   }
 }
