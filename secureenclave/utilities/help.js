@@ -5,15 +5,15 @@ const Discord = require('discord.js');
 require('../../applesilicon/embed.js')();
 require('../../applesilicon/misc.js')();
 
-function help_embed() {
+function help_embed(author) {
     const embed = new Discord.MessageEmbed()
         .setTitle(`Software Updates - Help`)
         .setDescription(`To view more information on a command, type \`apple!help <command>\`. \nNeed more help? Join our support server: https://discord.gg/ktHmcbpMNU`)
         .addField(`Information`, '`about` `ping` `uptime` `sysctl` `invite` `source`')
-        .addField(`Owner`, '`killall` `bash` `database` `echo` `eval`')
-        .addField(`Utilities`, '`help` `setup`')
         .addField(`Apple`, '`latest` `ipsw` `search`')
+        .addField(`Utilities`, '`help` `setup`')
         .setColor(randomColor());
+    if (author == "589324103463338007") embed.addField(`Owner`, '`killall` `bash` `database` `echo` `eval`');
     return embed;
 }
 
@@ -27,7 +27,7 @@ module.exports = {
         let color = randomColor();
 
         if (!args[0]) {
-            message.channel.send({ embeds: [help_embed()] });
+            message.channel.send({ embeds: [help_embed(message.author.id)] });
             if (!message.member.permissions.has("MANAGE_GUILD")) return;
             const embed = new Discord.MessageEmbed().setDescription(':wave: **Hey there! If you haven\'t configured this bot, just type `apple!setup` to set it up! Don\'t worry, the process is very simple and user-friendly!**').setColor(color);
             return message.channel.send({ embeds: [embed] });
