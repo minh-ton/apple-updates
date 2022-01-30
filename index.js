@@ -4,6 +4,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 global.BETA_RELEASE = false;
 global.UPDATE_MODE = false;
+global.SAVE_MODE = false;
 global.BOT_VERSION = "2.6.0";
 global.BOT_UPDATED = "January 30th, 2022"
 
