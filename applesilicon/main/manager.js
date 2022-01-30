@@ -103,7 +103,8 @@ module.exports = function () {
 
             if (global.SAVE_MODE) {
                 console.log("[BUILD_DATABASE] - UPLOADING PACKAGE OF MACOS");
-                return await save_package("macos", build, version, size, pkgurl);
+                await save_package("macos", build, version, size, pkgurl);
+                continue;
             }
 
             if (updates.includes(build)) continue;
