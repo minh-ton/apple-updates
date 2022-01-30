@@ -8,7 +8,7 @@ require('./main/manager.js')();
 require('./error.js')();
 
 module.exports = function () {
-    this.fetch_gdmf = async function (macos, ios, watchos, audioos, tvos) { // for debugging purposes
+    this.fetch_gdmf = async function (macos, ios, ipados, watchos, audioos, tvos) { // for debugging purposes
         // Beta macOS
         if (macos) await fetch_macos_updates(audiences.macos_bigsur_beta, 'beta', true); // macOS Big Sur Beta
         if (macos) await fetch_macos_updates(audiences.macos_monterey_beta, 'beta', true); // macOS Monterey Beta
@@ -22,10 +22,10 @@ module.exports = function () {
         if (ios) await fetch_other_updates(audiences.ios_14_security, "18F72", devices.ios.model, devices.ios.prodtype, "14.6", "iOS", "public", false); // iOS 14 Security Updates
 
         // Beta iPadOS
-        if (ios) await fetch_other_updates(audiences.ios_15_beta, devices.ipados.build, devices.ipados.model, devices.ipados.prodtype, devices.ipados.version, "iPadOS", "beta", true); // iPadOS 15 Beta
+        if (ipados) await fetch_other_updates(audiences.ios_15_beta, devices.ipados.build, devices.ipados.model, devices.ipados.prodtype, devices.ipados.version, "iPadOS", "beta", true); // iPadOS 15 Beta
         // Public iPadOS
-        if (ios) await fetch_other_updates(audiences.ios_release, devices.ipados.build, devices.ipados.model, devices.ipados.prodtype, devices.ipados.version, "iPadOS", "public", false); // iPadOS Release
-        if (ios) await fetch_other_updates(audiences.ios_14_security, "18F72", devices.ipados.model, devices.ipados.prodtype, "14.6", "iPadOS", "public", false); // iPadOS 14 Security Updates
+        if (ipados) await fetch_other_updates(audiences.ios_release, devices.ipados.build, devices.ipados.model, devices.ipados.prodtype, devices.ipados.version, "iPadOS", "public", false); // iPadOS Release
+        if (ipados) await fetch_other_updates(audiences.ios_14_security, "18F72", devices.ipados.model, devices.ipados.prodtype, "14.6", "iPadOS", "public", false); // iPadOS 14 Security Updates
 
         // Beta watchOS
         if (watchos) await fetch_other_updates(audiences.watchos_8_beta, devices.watchos.build, devices.watchos.model, devices.watchos.prodtype, devices.watchos.version, "watchOS", "beta", true); // watchOS 8 Beta
