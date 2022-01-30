@@ -8,6 +8,7 @@ require('../misc.js')();
 require('./doc.js')();
 require('./gdmf.js')();
 require('./xml.js')();
+require('./info.js')();
 
 let db = firebase.firestore();
 
@@ -32,6 +33,8 @@ module.exports = function () {
             const changelog = mac_update[item]['mac_changelog'];
 
             if (updates.includes(build)) return;
+
+            await save_update("macos", version, size, build, updateid, changelog);
 
             (beta) ? send_macos_beta(version, build, size, formatUpdatesName(updateid, version, "macOS")) : send_macos_public(version, build, size, changelog);
 
@@ -63,18 +66,9 @@ module.exports = function () {
 
         if (updates.includes(build)) return;
 
-        if (beta) {
-            send_other_beta_updates(cname, version, build, size, formatUpdatesName(updateid, version, cname));
-            if (cname.toLowerCase() === "ios") {
-                send_other_beta_updates('iPadOS', version, build, size, formatUpdatesName(updateid, version, cname));
-            }
-        } else {
-            send_other_updates(cname, version, build, size, changelog);
-            if (cname.toLowerCase() === "ios") {
-                ipad_changelog = await get_changelog(assetaud, "J523xAP", updateid.replace('iOS', 'iPadOS'), "iPad", "com.apple.MobileAsset.SoftwareUpdateDocumentation");
-                send_other_updates('iPadOS', version, build, size, ipad_changelog);
-            }
-        }
+        await save_update(cname, version, size, build, updateid, changelog);
+
+        (beta) ? send_other_beta_updates(cname, version, build, size, formatUpdatesName(updateid, version, cname)) : send_other_updates(cname, version, build, size, changelog);
 
         db.collection(cname.toLowerCase()).doc(dname).update({
             [`${build}`]: `${build}`
@@ -102,6 +96,8 @@ module.exports = function () {
             let size = xml_update[update]['xml_size'];
 
             if (updates.includes(build)) continue;
+
+            await save_package("macos", build, version, size, pkgurl);
 
             (beta) ? send_macos_pkg_beta(pkgurl, version, build) : send_macos_pkg_public(pkgurl, version, build, size);
 

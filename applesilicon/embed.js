@@ -1,6 +1,7 @@
 // Create update embeds
 
 const Discord = require('discord.js');
+const brightColor = require('randomcolor');
 
 require('./misc.js')();
 require('./send.js')();
@@ -10,8 +11,8 @@ module.exports = function () {
     this.send_macos_pkg_public = function (pkgurl, version, build) {
         const embed = new Discord.MessageEmbed()
             .setDescription(`macOS **${version} (${build})** Full Installer Package:\n> ${pkgurl}`)
-            .setThumbnail(getthumbnail("pkg"))
-            .setColor(randomColor())
+            .setThumbnail(getThumbnail("pkg"))
+            .setColor(brightColor())
             .setTimestamp();
         send_to_servers('pkg', embed, `${version} (${build})`);
     };
@@ -20,21 +21,10 @@ module.exports = function () {
     this.send_macos_pkg_beta = function (pkgurl, version, build) {
         const embed = new Discord.MessageEmbed()
             .setDescription(`macOS **${version} Beta (${build})** Full Installer Package:\n> ${pkgurl}`)
-            .setThumbnail(getthumbnail("pkg"))
-            .setColor(randomColor())
+            .setThumbnail(getThumbnail("pkg"))
+            .setColor(brightColor())
             .setTimestamp();
         send_to_servers('pkg', embed, `${version} Beta (${build})`);
-    };
-
-    // Send macOS delta updates
-    this.send_macos_delta = function (pkgurl, version, build, beta) {
-        (beta) ? isBeta = "Beta" : isBeta = "";
-        const embed = new Discord.MessageEmbed()
-            .setDescription(`macOS **${version} ${isBeta} (${build})** Delta Installer Package:\n> ${pkgurl}`)
-            .setThumbnail(getthumbnail("macOS"))
-            .setColor(randomColor())
-            .setTimestamp();
-        send_to_servers('delta', embed, `${version} ${isBeta} (${build})`);
     };
 
     // Send new macOS beta releases
@@ -44,8 +34,8 @@ module.exports = function () {
             .addField(`Version`, `${version} (${updateid})`, true)
             .addField(`Build`, build, true)
             .addField(`Size`, formatBytes(size), true)
-            .setThumbnail(getthumbnail("macOS"))
-            .setColor(randomColor())
+            .setThumbnail(getThumbnail("macOS" + version.toString().substring(0, 2)))
+            .setColor(brightColor())
             .setTimestamp();
         send_to_servers('macos', embed, `${version} (${updateid} - Build ${build})`);
     };
@@ -57,36 +47,38 @@ module.exports = function () {
             .addField(`Version`, `${version}`, true)
             .addField(`Build`, build, true)
             .addField(`Size`, formatBytes(size), true)
-            .setThumbnail(getthumbnail("macOS"))
+            .setThumbnail(getThumbnail("macOS" + version.toString().substring(0, 2)))
             .setDescription(changelog)
-            .setColor(randomColor())
+            .setColor(brightColor())
             .setTimestamp();
         send_to_servers('macos', embed, `${version} (${build})`);
     };
 
     // Send other OS updates
     this.send_other_updates = function (os, version, build, size, changelog) {
+        const thumb = (os.toLowerCase() == "ios" || os.toLowerCase() == "ipados") ? getThumbnail(os + version.toString().substring(0, 2)) : getThumbnail(os);
         const embed = new Discord.MessageEmbed()
             .setTitle(`New ${os} Public Release!`)
             .addField(`Version`, `${version}`, true)
             .addField(`Build`, build, true)
             .addField(`Size`, formatBytes(size), true)
-            .setThumbnail(getthumbnail(os))
+            .setThumbnail(thumb)
             .setDescription(changelog)
-            .setColor(randomColor())
+            .setColor(brightColor())
             .setTimestamp();
         send_to_servers(os, embed, `${version} (${build})`);
     };
 
     // Send other OS beta updates
     this.send_other_beta_updates = function (os, version, build, size, updateid) {
+        const thumb = (os.toLowerCase() == "ios" || os.toLowerCase() == "ipados") ? getThumbnail(os + version.toString().substring(0, 2)) : getThumbnail(os);
         const embed = new Discord.MessageEmbed()
             .setTitle(`New ${os} Beta Release!`) 
             .addField(`Version`, `${version} (${updateid})`, true)
             .addField(`Build`, build, true)
             .addField(`Size`, formatBytes(size), true)
-            .setThumbnail(getthumbnail(os))
-            .setColor(randomColor())
+            .setThumbnail(thumb)
+            .setColor(brightColor())
             .setTimestamp();
         send_to_servers(os, embed, `${version} (${updateid} - Build ${build})`);
     };
@@ -95,14 +87,14 @@ module.exports = function () {
     this.send_announcements = function (title, message) {
         const embed = new Discord.MessageEmbed()
             .setTitle(title)
-            .setColor(randomColor())
+            .setColor(brightColor())
             .setDescription(message)
             .setThumbnail(global.bot.user.displayAvatarURL())
             .setTimestamp();
         send_to_servers("bot", embed);
     };
 
-    this.minor_error_embed = function (message) {
+    this.error_alert = function (message) {
         const embed = new Discord.MessageEmbed().setDescription("<:apple_x:869128016494751755> " + message).setColor("#FF0000");
         return { embeds: [embed] };
     }

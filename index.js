@@ -3,8 +3,9 @@
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 global.BETA_RELEASE = false;
-global.BOT_VERSION = "2.5.5";
-global.BOT_UPDATED = "November 11th, 2021"
+global.UPDATE_MODE = false;
+global.BOT_VERSION = "2.6.0";
+global.BOT_UPDATED = "January 30th, 2022"
 
 const Discord = require('discord.js');
 const fs = require("fs");
@@ -70,7 +71,7 @@ global.bot.on("messageCreate", async message => {
             const exp_time = timestamps.get(message.author.id) + amount;
             if (now < exp_time) {
                 const remaining = (exp_time - now) / 1000;
-                return message.channel.send(minor_error_embed(`I need to rest a little bit! Please wait **${remaining.toFixed(1)} more seconds** to use \`apple!${cmd.name}\`!`));
+                return message.channel.send(error_alert(`I need to rest a little bit! Please wait **${remaining.toFixed(1)} more seconds** to use \`apple!${cmd.name}\`!`));
             }
         }
         timestamps.set(message.author.id, now);
@@ -82,16 +83,16 @@ global.bot.on("messageCreate", async message => {
         cmd.execute(message, args);
     } catch (error) {
         console.log(error);
-        message.channel.send(minor_error_embed(`An unknown error occured while running \`apple!${cmd.name}\``));
+        message.channel.send(error_alert(`An unknown error occured while running \`apple!${cmd.name}\``));
     }
 });
 
 // ============= UPDATES FETCH =============
 
-fetch_gdmf(true, true, true, true, true);
+fetch_gdmf(true, true, true, true, true, true);
 fetch_xml();
 
 setInterval(function () {
-    fetch_gdmf(true, true, true, true, true);
+    fetch_gdmf(true, true, true, true, true, true);
     fetch_xml();
 }, 60000);

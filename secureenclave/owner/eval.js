@@ -19,12 +19,12 @@ module.exports = {
     description: '**[Owner Only]** Evaluates JavaScript code.',
     async execute(message, args) {
         let isBotOwner = message.author.id == '589324103463338007';
-        if (!isBotOwner) return message.channel.send(minor_error_embed('Want to take control of me? NO!'));
+        if (!isBotOwner) return message.channel.send(error_alert('Want to take control of me? NO!'));
 
         try {
             const code = args.join(" ");
             
-            if (!code) return message.channel.send(minor_error_embed('How could I execute your code if you didn\'t provide any?'));
+            if (!code) return message.channel.send(error_alert('How could I execute your code if you didn\'t provide any?'));
 
             let evaled = eval(code);
 

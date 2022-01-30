@@ -13,14 +13,14 @@ const tvos_database = db.collection('discord').doc('tvos');
 const audioos_database = db.collection('discord').doc('audioos');
 const macos_database = db.collection('discord').doc('macos');
 const pkg_database = db.collection('discord').doc('pkg');
-const delta_database = db.collection('discord').doc('delta');
 const bot_database = db.collection('discord').doc('bot');
 const role_database = db.collection('discord').doc('roles').collection('servers');
 
 module.exports = function () {
     this.send_to_servers = async function (os, embed, version) {
+        if (global.UPDATE_MODE) return;
         switch (os.toLowerCase()) {
-            case "tvos": // Done
+            case "tvos":
                 const tvos = await tvos_database.get();
                 const tvos_guilds = tvos.data();
                 for (let channel in tvos.data()) {
@@ -30,7 +30,7 @@ module.exports = function () {
                         let role_data = role.data();
                         let server = global.bot.guilds.cache.get(channel);
 
-                        chn.send({ embeds: [embed.setAuthor(server.name, server.iconURL())] }).catch(function (error) {
+                        chn.send({ embeds: [embed.setAuthor({ name: server.name, iconURL: server.iconURL() })] }).catch(function (error) {
                             send_error(error, "send.js", `send_tvos`, `send tvos update to channels`);
                         });
 
@@ -41,7 +41,7 @@ module.exports = function () {
                     }
                 }
                 break;
-            case "audioos": // Done
+            case "audioos":
                 const audioos = await audioos_database.get();
                 const audioos_guilds = audioos.data();
                 for (let channel in audioos.data()) {
@@ -51,7 +51,7 @@ module.exports = function () {
                         let role_data = role.data();
                         let server = global.bot.guilds.cache.get(channel);
 
-                        chn.send({ embeds: [embed.setAuthor(server.name, server.iconURL())] }).catch(function (error) { 
+                        chn.send({ embeds: [embed.setAuthor({ name: server.name, iconURL: server.iconURL() })] }).catch(function (error) { 
                             send_error(error, "send.js", `send_audioos`, `send audioos update to channels`); 
                         });
 
@@ -62,7 +62,7 @@ module.exports = function () {
                     }
                 }
                 break;
-            case "macos": // Done
+            case "macos":
                 const macos = await macos_database.get();
                 const macos_guilds = macos.data();
                 for (let channel in macos.data()) {
@@ -72,7 +72,7 @@ module.exports = function () {
                         let role_data = role.data();
                         let server = global.bot.guilds.cache.get(channel);
 
-                        chn.send({ embeds: [embed.setAuthor(server.name, server.iconURL())] }).catch(function (error) { 
+                        chn.send({ embeds: [embed.setAuthor({ name: server.name, iconURL: server.iconURL() })] }).catch(function (error) { 
                             send_error(error, "send.js", `send_macos`, `send macos update to channels`); 
                         });
 
@@ -93,7 +93,7 @@ module.exports = function () {
                         let role_data = role.data();
                         let server = global.bot.guilds.cache.get(channel);
 
-                        chn.send({ embeds: [embed.setAuthor(server.name, server.iconURL())] }).catch(function (error) { 
+                        chn.send({ embeds: [embed.setAuthor({ name: server.name, iconURL: server.iconURL() })] }).catch(function (error) { 
                             send_error(error, "send.js", `send_ios`, `send ios update to channels`); 
                         });
 
@@ -114,7 +114,7 @@ module.exports = function () {
                         let role_data = role.data();
                         let server = global.bot.guilds.cache.get(channel);
 
-                        chn.send({ embeds: [embed.setAuthor(server.name, server.iconURL())] }).catch(function (error) { 
+                        chn.send({ embeds: [embed.setAuthor({ name: server.name, iconURL: server.iconURL() })] }).catch(function (error) { 
                             send_error(error, "send.js", `send_ipados`, `send ipados update to channels`); 
                         });
 
@@ -135,7 +135,7 @@ module.exports = function () {
                         let role_data = role.data();
                         let server = global.bot.guilds.cache.get(channel);
 
-                        chn.send({ embeds: [embed.setAuthor(server.name, server.iconURL())] }).catch(function (error) { 
+                        chn.send({ embeds: [embed.setAuthor({ name: server.name, iconURL: server.iconURL() })] }).catch(function (error) { 
                             send_error(error, "send.js", `send_watchos`, `send watchos update to channels`); 
                         });
 
@@ -156,34 +156,13 @@ module.exports = function () {
                         let role_data = role.data();
                         let server = global.bot.guilds.cache.get(channel);
 
-                        chn.send({ embeds: [embed.setAuthor(server.name, server.iconURL())] }).catch(function (error) { 
+                        chn.send({ embeds: [embed.setAuthor({ name: server.name, iconURL: server.iconURL() })] }).catch(function (error) { 
                             send_error(error, "send.js", `send_pkg`, `send pkg link to channels`); 
                         });
 
                         // Send ping roles 
                         if (role_data != undefined && server != undefined && role_data['pkg'] != undefined) if (server.roles.cache.get(role_data['pkg']) != undefined) chn.send(`<@&${role_data['pkg']}> **macOS ${version}** Full Installer Package is available!`).catch(function (error) { 
                             send_error(error, "send.js", `send_pkg`, `send pkg roles to channels`); 
-                        });
-                    }
-                }
-                break;
-            case "delta":
-                const delta = await delta_database.get();
-                const delta_guilds = delta.data();
-                for (let channel in delta.data()) {
-                    let chn = global.bot.channels.cache.get(delta_guilds[channel]);
-                    if (chn != undefined) {
-                        let role = await role_database.doc(channel).get();
-                        let role_data = role.data();
-                        let server = global.bot.guilds.cache.get(channel);
-
-                        chn.send({ embeds: [embed.setAuthor(server.name, server.iconURL())] }).catch(function (error) { 
-                            send_error(error, "send.js", `send_delta`, `send delta link to channels`); 
-                        });
-
-                        // Send ping roles 
-                        if (role_data != undefined && server != undefined && role_data['delta'] != undefined) if (server.roles.cache.get(role_data['delta']) != undefined) chn.send(`<@&${role_data['delta']}> **macOS ${version}** Delta Update Package is available!`).catch(function (error) { 
-                            send_error(error, "send.js", `send_delta`, `send delta roles to channels`); 
                         });
                     }
                 }
@@ -198,7 +177,7 @@ module.exports = function () {
                         let role_data = role.data();
                         let server = global.bot.guilds.cache.get(channel);
 
-                        chn.send({ embeds: [embed.setAuthor(server.name, server.iconURL())] }).catch(function (error) { 
+                        chn.send({ embeds: [embed.setAuthor({ name: server.name, iconURL: server.iconURL() })] }).catch(function (error) { 
                             send_error(error, "send.js", `send_bot`, `send bot update to channels`); 
                         });
 

@@ -36,22 +36,31 @@ module.exports = function () {
   };
 
   // device icons for os updates embeds
-  this.getthumbnail = function (os) {
+  this.getThumbnail = function (os) { // Todo: Store this in a json file?
     switch (os.toLowerCase()) {
       case "tvos":
         return "https://ipsw.me/assets/devices/AppleTV6,2.png";
       case "audioos":
         return "https://ipsw.me/assets/devices/AudioAccessory5,1.png";
-      case "macos":
-        return "https://ipsw.me/assets/devices/MacBookPro18,2.png";
-      case "ios":
-        return "https://ipsw.me/assets/devices/iPhone14,3.png";
-      case "ipados":
-        return "https://ipsw.me/assets/devices/iPad14,2.png";
       case "watchos":
         return "https://ipsw.me/assets/devices/Watch5,4.png";
       case "pkg":
         return "https://i.imgur.com/514ZvLh.png";
+
+      // These need different thumbnails
+      case "macos12":
+        return "https://ipsw.me/assets/devices/MacBookPro18,2.png";
+      case "macos11":
+        return "https://ipsw.me/assets/devices/MacBookAir10,1.png";
+      case "ios15":
+        return "https://ipsw.me/assets/devices/iPhone14,3.png";
+      case "ios14":
+        return "https://ipsw.me/assets/devices/iPhone13,3.png";
+      case "ipados15":
+        return "https://ipsw.me/assets/devices/iPad14,2.png";
+      case "ipados14":
+        return "https://ipsw.me/assets/devices/iPad13,6.png";
+
       default:
         return;
     }

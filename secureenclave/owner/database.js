@@ -16,7 +16,7 @@ module.exports = {
     description: '**[Owner Only]** Views database from remote.',
     async execute(message, args) {
         let isBotOwner = message.author.id == '589324103463338007';
-        if (!isBotOwner) return message.channel.send(minor_error_embed('Well you can\'t get my database without having my brain!'));
+        if (!isBotOwner) return message.channel.send(error_alert('Well you can\'t get my database without having my brain!'));
 
         try {
             const database_list = db.collection(args[0]).doc(args[1]);
@@ -48,7 +48,7 @@ module.exports = {
                 .addField(`Items count`, list.length.toString(), true);
             message.channel.send({ embeds: [embed] });
         } catch (error) {
-            return message.channel.send(minor_error_embed(`An error happened!\n> ${error}`));
+            return message.channel.send(error_alert(`An error happened!\n> ${error}`));
         }
     },
 };

@@ -57,7 +57,7 @@ module.exports = {
                 .setTimestamp();
             m.edit({ embeds: [embed] });
         } catch (error) {
-            return message.channel.send(minor_error_embed(error));
+            return message.channel.send(error_alert(error));
         }
     },
 };

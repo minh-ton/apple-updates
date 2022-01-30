@@ -13,12 +13,12 @@ module.exports = {
     usage: '`apple!ipsw <device identifier>`',
     description: 'Gets the latest signed ipsw files.',
     async execute(message, args) {
-        if (!args[0]) return message.channel.send(minor_error_embed('Hmm I think the correct usage for this command is `apple!ipsw <device identifier>`'));
+        if (!args[0]) return message.channel.send(error_alert('Hmm I think the correct usage for this command is `apple!ipsw <device identifier>`'));
 
         var ipsw; try {
             ipsw = await axios.get(`https://api.ipsw.me/v4/device/${args[0]}?type=ipsw`);
         } catch(error) {
-            return message.channel.send(minor_error_embed('Ugh, an unknown error happened!'));
+            return message.channel.send(error_alert('Ugh, an unknown error happened!'));
         }
 
         const data = [];
