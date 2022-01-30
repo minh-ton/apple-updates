@@ -8,6 +8,7 @@ require('../misc.js')();
 require('./doc.js')();
 require('./gdmf.js')();
 require('./xml.js')();
+require('./info.js')();
 
 let db = firebase.firestore();
 
@@ -30,6 +31,8 @@ module.exports = function () {
             const build = mac_update[item]['mac_build'];
             const updateid = mac_update[item]['mac_updateid'];
             const changelog = mac_update[item]['mac_changelog'];
+
+            await save_update("macos", version, size, build, updateid, changelog);
 
             if (updates.includes(build)) return;
 
@@ -61,6 +64,8 @@ module.exports = function () {
         const updateid = os_update['os_updateid'];
         const changelog = os_update['os_changelog'];
 
+        await save_update(cname, version, size, build, updateid, changelog);
+
         if (updates.includes(build)) return;
 
         (beta) ? send_other_beta_updates(cname, version, build, size, formatUpdatesName(updateid, version, cname)) : send_other_updates(cname, version, build, size, changelog);
@@ -89,6 +94,8 @@ module.exports = function () {
             let version = xml_update[update]['xml_version'];
             let build = xml_update[update]['xml_build'];
             let size = xml_update[update]['xml_size'];
+
+            await save_package("macos", build, version, size, pkgurl);
 
             if (updates.includes(build)) continue;
 
