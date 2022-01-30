@@ -29,7 +29,7 @@ async function search_build_embed(cname, data) {
     let embed = new Discord.MessageEmbed()
         // Todo: Store macOS version names in an object?
         .setTitle(`${os[cname.toLowerCase()]} ${data["version"].split(".")[0]}${(cname.toLowerCase() == "macos") ? (data["version"].split(".")[0] == "12" ? " Monterey" : " Big Sur") : ""} ${isBeta(data["build"]) ? "Beta" : ""}`)
-        .addField(`Version`, data["version"].toString() + (isBeta(data["build"]) ? " Beta" : ""), true)
+        .addField(`Version`, data["version"].toString() + (isBeta(data["build"]) ? ` ${(data["updateid"]) ? formatUpdatesName(data["updateid"], data["version"], cname) : "Beta"}` : ""), true)
         .addField(`Build`, data["build"].toString(), true)
         .setColor(randomColor())
         .setTimestamp();
@@ -39,8 +39,10 @@ async function search_build_embed(cname, data) {
     if (data["size"]) embed.addField(`Size`, formatBytes(data["size"]), true);
     if (data["changelog"]) embed.setDescription(data["changelog"].toString());
 
-    let url_status = await checker(data["package"]);
-    if (data["package"]) embed.addField("Package", `[InstallAssistant.pkg](${data["package"]}) (${(url_status == "404") ? "Expired" : formatBytes(data["packagesize"])})`);
+    if (data["package"]) {
+        let url_status = await checker(data["package"]);
+        embed.addField("Package", `[InstallAssistant.pkg](${data["package"]}) (${(url_status == "404") ? "Expired" : formatBytes(data["packagesize"])})`);
+    }
     return { embeds: [embed] };
 }
 
@@ -55,23 +57,27 @@ async function search_version_embed(cname, query, keyword) {
     if (data.length > 1) {
         embed.setTitle(`${os[cname.toLowerCase()]} ${keyword} Search Results`);
         for (let result in data) {
-            var info = `‣ **Version**: ${data[result]["version"]} ${isBeta(data[result]["build"]) ? "Beta" : ""}\n‣ **Build**: ${data[result]["build"]}\n`;
+            var info = `‣ **Version**: ${data[result]["version"]} ${isBeta(data[result]["build"]) ? `${(data[result]["updateid"]) ? formatUpdatesName(data[result]["updateid"], data[result]["version"], cname) : "Beta"}` : ""}\n‣ **Build**: ${data[result]["build"]}\n`;
             if (data[result]["size"]) info += `‣ **Size**: ${formatBytes(data[result]["size"])}\n`;
             
-            let url_status = await checker(data[result]["package"]);
-            if (data[result]["package"]) info += `‣ **Package**: [InstallAssistant.pkg](${data[result]["package"]}) (${(url_status == "404") ? "Expired" : formatBytes(data[result]["packagesize"])})\n`;
+            if (data[result]["package"]) {
+                let url_status = await checker(data[result]["package"]);
+                info += `‣ **Package**: [InstallAssistant.pkg](${data[result]["package"]}) (${(url_status == "404") ? "Expired" : formatBytes(data[result]["packagesize"])})\n`;
+            }
             embed.addField(`No. #${parseInt(result) + 1}`, info);
         }
     } else {
         embed.setTitle(`${os[cname.toLowerCase()]} ${data[0]["version"].split(".")[0]}${(cname.toLowerCase() == "macos") ? (data[0]["version"].split(".")[0] == "12" ? " Monterey" : " Big Sur") : ""} ${isBeta(data[0]["build"]) ? "Beta" : ""}`)
-            .addField(`Version`, data[0]["version"].toString() + (isBeta(data[0]["build"]) ? " Beta" : ""), true)
+            .addField(`Version`, data[0]["version"].toString() + (isBeta(data[0]["build"]) ? ` ${(data[0]["updateid"]) ? formatUpdatesName(data[0]["updateid"], data[0]["version"], cname) : "Beta"}` : ""), true)
             .addField(`Build`, data[0]["build"].toString(), true);
 
         if (data[0]["size"]) embed.addField(`Size`, formatBytes(data[0]["size"]), true);
         if (data[0]["changelog"]) embed.setDescription(data[0]["changelog"].toString());
 
-        let url_status = await checker(data[0]["package"]);
-        if (data[0]["package"]) embed.addField("Package", `[InstallAssistant.pkg](${data[0]["package"]}) (${(url_status == "404") ? "Expired" : formatBytes(data[0]["packagesize"])})`);
+        if (data[0]["package"]) {
+            let url_status = await checker(data[0]["package"]);
+            embed.addField("Package", `[InstallAssistant.pkg](${data[0]["package"]}) (${(url_status == "404") ? "Expired" : formatBytes(data[0]["packagesize"])})`);
+        }
     }
 
     return { embeds: [embed] };
