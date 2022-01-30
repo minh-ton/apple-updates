@@ -46,7 +46,7 @@ async function search_build_embed(cname, data) {
     return { embeds: [embed] };
 }
 
-async function search_version_embed(cname, query, keyword) {
+async function search_version_embed(cname, query, keyword, option) {
     let data = [];
     query.forEach(doc => { data.push(doc.data()) });
 
@@ -54,7 +54,11 @@ async function search_version_embed(cname, query, keyword) {
     if (cname.toLowerCase() == "ios" || cname.toLowerCase() == "ipados" || cname.toLowerCase() == "macos") embed.setThumbnail(getThumbnail(cname.toLowerCase() + keyword.split(".")[0]));
     else embed.setThumbnail(getThumbnail(cname.toLowerCase()));
 
-    if (data.length > 1) {
+    data.sort(function(x, y) {
+        return (isBeta(x["build"]) == isBeta(y["build"])) ? 0 : isBeta(x["build"]) ? 1 : -1;
+    });
+
+    if (data.length > 1 && option == "--all") {
         embed.setTitle(`${os[cname.toLowerCase()]} ${keyword} Search Results`);
         for (let result in data) {
             var info = `‣ **Version**: ${data[result]["version"]} ${isBeta(data[result]["build"]) ? `${(data[result]["updateid"]) ? formatUpdatesName(data[result]["updateid"], data[result]["version"], cname) : "Beta"}` : ""}\n‣ **Build**: ${data[result]["build"]}\n`;
@@ -87,7 +91,7 @@ module.exports = {
     name: 'search',
     command: 'search',
     category: 'Apple',
-    usage: '`apple!search <os> <build | version>`',
+    usage: '`apple!search <os> <build | version>`\n`apple!search <os> <build | version> --all`',
     description: 'Gets information about an update.',
     async execute(message, args) {
         if (!args[0]) return message.channel.send(error_alert('Hmm I think the correct usage for this command is `apple!search <build | version>`'));
@@ -100,7 +104,7 @@ module.exports = {
             let build_data = build_query.data();
             return message.channel.send(await search_build_embed(args[0], build_data));
         } else if (!version_query.empty) {
-            return message.channel.send(await search_version_embed(args[0], version_query, args[1]));
+            return message.channel.send(await search_version_embed(args[0], version_query, args[1], args[2]));
         } else {
             return message.channel.send(error_alert('No matches found.'))
         }
