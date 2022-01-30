@@ -18,7 +18,7 @@ module.exports = {
             .addField(`Version`, global.BOT_VERSION, true)
             .addField(`Last Updated`, global.BOT_UPDATED, true)
             .addField(`Servers`, `${global.bot.guilds.cache.size}`, true)
-            .setFooter(`Join our support server: https://discord.gg/ktHmcbpMNU`);
+            .setFooter({ text: "Join our support server: https://discord.gg/ktHmcbpMNU" });
         message.channel.send({ embeds: [serverembed] });
     },
 }

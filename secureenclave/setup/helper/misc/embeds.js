@@ -34,8 +34,7 @@ module.exports = function () {
 	this.updates_overall = function(selected_channel, selected_options) {
 		const overall = new Discord.MessageEmbed()
 		    .setTitle(`Software Updates - Setup Overview`)
-		    .setDescription(`**Your setup data has been saved successfully!**
-		    Join the Unsupported Macs Discord Server: https://discord.gg/XbbWAsE`)
+		    .setDescription(`**Your setup data has been saved successfully!**`)
 		    .addField(`Selected channel`, selected_channel, true)
 		    .addField(`Selected updates`, selected_options + ".", true)
 		    .setColor("#1c95e0")

@@ -15,7 +15,7 @@ module.exports = function () {
             .addField(`File`, location, true)
             .addField(`Process`, process, true)
             .addField(`Task`, task, true)
-            .setFooter(time);
+            .setFooter({ text: time });
         error_reporter.send({ embeds: [embed] });
     };
 }
