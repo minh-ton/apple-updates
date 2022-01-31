@@ -1,8 +1,8 @@
 title: "Software Updates"
 description: >- 
   A Discord bot for pushing notifications about new Apple OS updates.
-baseurl: "" 
-url: "https://minh-ton.github.io/apple-updates/"
+baseurl: "/apple-updates" 
+url: "https://minh-ton.github.io"
 github_username:  Minh-Ton
 
 # theme: "just-the-docs"
