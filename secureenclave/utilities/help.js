@@ -10,7 +10,7 @@ function help_embed(author) {
         .setTitle(`Software Updates - Help`)
         .setDescription(`To view more information on a command, type \`apple!help <command>\`. \nNeed more help? Join our support server: https://discord.gg/ktHmcbpMNU`)
         .addField(`Information`, '`about` `ping` `uptime` `sysctl` `invite` `source`')
-        .addField(`Apple`, '`latest` `ipsw` `search`')
+        .addField(`Apple`, '`latest` `ipsw` `info`')
         .addField(`Utilities`, '`help` `setup`')
         .setColor(randomColor());
     if (author == "589324103463338007") embed.addField(`Owner`, '`killall` `bash` `database` `echo` `eval`');
