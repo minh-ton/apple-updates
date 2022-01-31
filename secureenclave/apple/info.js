@@ -1,4 +1,4 @@
-// Search for update info
+// Gets info for an update
 
 const Discord = require("discord.js");
 const firebase = require("firebase-admin");
@@ -88,13 +88,13 @@ async function search_version_embed(cname, query, keyword, option) {
 }
 
 module.exports = {
-    name: 'search',
-    command: 'search',
+    name: 'info',
+    command: 'info',
     category: 'Apple',
-    usage: '`apple!search <os> <build | version>`\n`apple!search <os> <build | version> --all`',
+    usage: '`apple!info <os> <build | version>`\n`apple!info <os> <build | version> --all`',
     description: 'Gets information about an update.',
     async execute(message, args) {
-        if (!args[0]) return message.channel.send(error_alert('Hmm I think the correct usage for this command is `apple!search <build | version>`'));
+        if (!args[0]) return message.channel.send(error_alert('Hmm I think the correct usage for this command is `apple!info <build | version>`'));
         if (!os[args[0].toLowerCase()]) return message.channel.send(error_alert('Invalid OS name.'));
 
         let build_query = await database.collection(args[0].toLowerCase()).doc(args[1]).get();
