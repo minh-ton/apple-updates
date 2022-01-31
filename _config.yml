@@ -1,0 +1,30 @@
+title: "Software Updates"
+description: >- 
+  A Discord bot for pushing notifications about new Apple OS updates.
+baseurl: "" 
+url: ""
+github_username:  Minh-Ton
+
+theme: "just-the-docs"
+plugins:
+  - jekyll-feed
+color_scheme: dark
+search_enabled: true
+
+footer_content: "Copyright &copy; 2022 Minh-Ton. All rights reserved."
+last_edit_timestamp: true
+last_edit_time_format: "%b %e %Y at %I:%M %p"
+
+logo: "/assets/logo.png"
+
+# exclude:
+#   - .sass-cache/
+#   - .jekyll-cache/
+#   - gemfiles/
+#   - Gemfile
+#   - Gemfile.lock
+#   - node_modules/
+#   - vendor/bundle/
+#   - vendor/cache/
+#   - vendor/gems/
+#   - vendor/ruby/
