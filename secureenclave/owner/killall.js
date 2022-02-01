@@ -8,11 +8,10 @@ module.exports = {
     name: 'killall',
     command: 'killall',
     category: 'Owner',
-    usage: '`apple!killall`',
     description: '**[Owner Only]** Restarts the bot.',
     async execute(message, args) {
-        let isBotOwner = message.author.id == '589324103463338007';
-        if (!isBotOwner) return message.channel.send(error_alert('You can only cr4sh me unless you have special powers ¯\\_(ツ)_/¯'));
+        let isBotOwner = message.author.id == process.env.owner_id;
+        if (!isBotOwner) return message.reply(error_alert('You can only cr4sh me unless you have special powers ¯\\_(ツ)_/¯'));
 
         global.bot.user.setStatus("invisible");
 
@@ -20,7 +19,7 @@ module.exports = {
             .setDescription(':skull: **Cr4shed successfully!**')
             .setTimestamp();
 
-        message.channel.send({ embeds: [embed] }).then(() => {
+        message.reply({ embeds: [embed] }).then(() => {
             process.exit(1);
         });
     },

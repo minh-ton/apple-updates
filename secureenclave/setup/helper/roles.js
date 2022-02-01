@@ -12,140 +12,86 @@ const os_updates = {
     macos: "macOS Updates",
     tvos: "tvOS Updates",
     audioos: "audioOS Updates",
-    bot: `<@852378577063116820>'s announcements`,
+    bot: `Bot Announcements`,
     pkg: "macOS InstallAssistant.pkg Links",
 }
-
+ 
 const database = db.collection('discord').doc('roles').collection('servers');
 
 module.exports = function () {
-	this.setup_roles = async function (message, args) {
-		if (args[1] == "add") {
-			message.channel.send(roles_part_1());
+	this.setup_roles = async function (interaction) {
+		if (interaction.options.getString('option').includes("add")) {
+			const os_components = [];
+			for (let os in os_updates) { os_components.push({ "label": os_updates[os], "value": os}); }
+			const os_input = new Discord.MessageActionRow().addComponents(new Discord.MessageSelectMenu().setCustomId("os").setPlaceholder('Nothing selected').addOptions(os_components));
 
-		} else if (args[1] == "remove") {
-			let roles = await database.doc(message.guild.id).get();
+			await interaction.editReply({ embeds: [roles_part_1()], components: [os_input] });
+
+		} else if (interaction.options.getString('option').includes("remove")) {
+			const os_components = [];
+			let roles = await database.doc(interaction.member.guild.id).get();
 			let data = roles.data();
 			let arr = [];
-			for (let os in data) arr.push(`\`${os}\` : <@&${data[os]}> (${os_updates[os]})`);
-        	if (arr.length < 1) return message.channel.send(error_embed(`Your server has no notification roles configured!`));
-        	message.channel.send(roles_remove(arr));
+			for (let os in data) {
+				arr.push(`**${os_updates[os]}**: <@&${data[os]}>`);
+				os_components.push({ "label": os_updates[os], "value": os, "description": "@" + interaction.member.guild.roles.cache.get(data[os]).name });
+			}
 
-		} else if (args[1] == "list") {
-			let roles = await database.doc(message.guild.id).get();
+        	if (arr.length < 1) return interaction.editReply(error_embed(`Your server has no notification roles configured!`));
+			const os_input = new Discord.MessageActionRow().addComponents(new Discord.MessageSelectMenu().setCustomId("os").setPlaceholder('Nothing selected').addOptions(os_components));
+        	
+        	await interaction.editReply({ embeds: [roles_remove(arr)], components: [os_input] });
+
+		} else if (interaction.options.getString('option').includes("list")) {
+			let roles = await database.doc(interaction.member.guild.id).get();
 			let data = roles.data();
 			let arr = [];
-			for (let os in data) arr.push(`\`${os}\` : <@&${data[os]}> (${os_updates[os]})`);
-        	if (arr.length < 1) return message.channel.send(error_embed(`Your server has no notification roles configured!`));
-        	return message.channel.send(roles_list(arr));
-
-		} else {
-			 return message.channel.send(error_embed(`Invalid option or no option provided.\n
-	        - To list configured notification roles, type \`apple!setup role list\`
-	        - To set up a notification role, type \`apple!setup role add\`
-	        - To remove a notification role, type \`apple!setup role remove\``));
+			for (let os in data) arr.push(`**${os_updates[os]}**: <@&${data[os]}> (${os_updates[os]})`);
+        	if (arr.length < 1) return interaction.editReply(error_embed(`Your server has no notification roles configured!`));
+        	return interaction.editReply(roles_list(arr));
 		}
 
-		const ms_filter = m => m.author.id == message.author.id;
-    	const selected_os = await message.channel.awaitMessages({ ms_filter, max: 2, time: 180000 });
+		const filter = ch => {
+			ch.deferUpdate();
+			return ch.member.id == interaction.member.id;
+		}
 
-    	if (selected_os.size < 2 || !selected_os.size) return message.channel.send(error_embed("You did not reply within 3 minutes so the command was cancelled."));
+		const selected_os = (await interaction.channel.awaitMessageComponent({ filter: filter, max: 1, componentType: 'SELECT_MENU', time: 180000 })).values[0];
+		
+    	const role_components = [];
+    	const role_list = interaction.member.guild.roles.cache.filter(ch => ch.name != '@everyone');
 
-    	let choice = Array.from(selected_os)[1][1].content.toLowerCase();
+    	role_list.forEach(role => { role_components.push({ "label": role.name, "value": role.id }); });
 
+    	const role_input = new Discord.MessageActionRow().addComponents(new Discord.MessageSelectMenu().setCustomId("roles").setPlaceholder('No role selected').addOptions(role_components));
     	var selected_role = undefined;
 
-    	if (args[1] == "add") {
-	        switch (choice) {
-	            case "tvos":
-	                message.channel.send(roles_part_2("tvOS Update"));
-	                break;
-	            case "audioos":
-	                message.channel.send(roles_part_2("audioOS Update"));
-	                break;
-	            case "macos":
-	                message.channel.send(roles_part_2("macOS Update"));
-	                break;
-	            case "ios":
-	                message.channel.send(roles_part_2("iOS Update"));
-	                break;
-	            case "ipados":
-	                message.channel.send(roles_part_2("iPadOS Update"));
-	                break;
-	            case "watchos":
-	                message.channel.send(roles_part_2("watchOS Update"));
-	                break;
-	            case "pkg":
-	                message.channel.send(roles_part_2("macOS InstallAssistant.pkg Link"));
-	                break;
-	            case "bot":
-	                message.channel.send(roles_part_2(`<@${global.bot.user.id}>'s announcements`));
-	                break;
-	            default:
-	                return message.channel.send(error_embed("Invalid OS name."));
-	        }
+    	if (interaction.options.getString('option').includes("add")) {
+	        await interaction.editReply({ embeds: [roles_part_2(os_updates[selected_os].slice(0, -1))], components: [role_input] });
 
-	        const reply = await message.channel.awaitMessages({ms_filter, max: 2, time: 180000 });
+	        selected_role = interaction.member.guild.roles.cache.get((await interaction.channel.awaitMessageComponent({ filter: filter, max: 1, componentType: 'SELECT_MENU', time: 180000 })).values[0]);
 
-	        if (!reply.size) return message.channel.send(error_embed("You did not reply within 3 minutes so the command was cancelled."));
-	        if (!Array.from(reply)[1][1].content.match(/^<@&!?(\d+)>$/)) return message.channel.send(error_embed("I may not have the necessary permissions to fetch the role or I was unable to read your message."));
-
-	        selected_role = message.guild.roles.cache.get(Array.from(reply)[1][1].content.match(/^<@&!?(\d+)>$/)[1]);
-	        if (selected_role == undefined) return message.channel.send(error_embed("I may not have the necessary permissions to fetch the role or the chosen role does not exist."));
-
-	        let roles_database = await database.doc(message.guild.id).get();
+	        let roles_database = await database.doc(interaction.member.guild.id).get();
 	        let roles_data = roles_database.data();
 
-	        (roles_data == undefined) ? await database.doc(message.guild.id).set({
-	            [`${choice}`]: `${selected_role.id}`
-	        }) : await database.doc(message.guild.id).update({
-	            [`${choice}`]: `${selected_role.id}`
+	        (roles_data == undefined) ? await database.doc(interaction.member.guild.id).set({
+	            [`${selected_os}`]: `${selected_role.id}`
+	        }) : await database.doc(interaction.member.guild.id).update({
+	            [`${selected_os}`]: `${selected_role.id}`
 	        });
 
 	    } else {
-
-	        if (os_updates[choice] == undefined) return message.channel.send(error_embed("Invalid OS name."));
-
-	        let doc = await database.doc(message.guild.id).get();
+	    	let doc = await database.doc(interaction.member.guild.id).get();
 	        let data = doc.data();
-	        let role_id = data[choice];
+	        let role_id = data[selected_os];
 
-	        if (role_id == undefined) return message.channel.send(error_embed(`Your server didn't set up ping notification for ${os_updates[choice]}!`));
+	        selected_role = interaction.member.guild.roles.cache.get(role_id);
 
-	        selected_role = message.guild.roles.cache.get(role_id);
-
-	        await database.doc(message.guild.id).update({
-	            [`${choice}`]: firebase.firestore.FieldValue.delete()
+	        await database.doc(interaction.member.guild.id).update({
+	            [`${selected_os}`]: firebase.firestore.FieldValue.delete()
 	        });
 	    }
 
-	    switch (choice) {
-	        case "tvos":
-	            message.channel.send(roles_overall(`<@&${(selected_role) ? selected_role.id : "0100"}>`, "tvOS Update", args[1] == "add"));
-	            break;
-	        case "audioos":
-	            message.channel.send(roles_overall(`<@&${(selected_role) ? selected_role.id : "0100"}>`, "audioOS Update", args[1] == "add"));
-	            break;
-	        case "macos":
-	            message.channel.send(roles_overall(`<@&${(selected_role) ? selected_role.id : "0100"}>`, "macOS Update", args[1] == "add"));
-	            break;
-	        case "ios":
-	            message.channel.send(roles_overall(`<@&${(selected_role) ? selected_role.id : "0100"}>`, "iOS Update", args[1] == "add"));
-	            break;
-	        case "ipados":
-	            message.channel.send(roles_overall(`<@&${(selected_role) ? selected_role.id : "0100"}>`, "iPadOS Update", args[1] == "add"));
-	            break;
-	        case "watchos":
-	            message.channel.send(roles_overall(`<@&${(selected_role) ? selected_role.id : "0100"}>`, "watchOS Update", args[1] == "add"));
-	            break;
-	        case "pkg":
-	            message.channel.send(roles_overall(`<@&${(selected_role) ? selected_role.id : "0100"}>`, "macOS InstallAssistant.pkg Link", args[1] == "add"));
-	            break;
-	        case "bot":
-	            message.channel.send(roles_overall(`<@&${(selected_role) ? selected_role.id : "0100"}>`, `<@${global.bot.user.id}>'s announcements`, args[1] == "add"));
-	            break;
-	        default:
-	            return;
-	    }
+	    return interaction.editReply(roles_overall(`<@&${(selected_role) ? selected_role.id : "0100"}>`, os_updates[selected_os].slice(0, -1), interaction.options.getString('option').includes("add")));
 	}
 }

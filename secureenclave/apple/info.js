@@ -3,6 +3,7 @@
 const Discord = require("discord.js");
 const firebase = require("firebase-admin");
 const checker = require('url-status-code')
+const { SlashCommandBuilder } = require('@discordjs/builders');
 
 let db = firebase.firestore();
 
@@ -58,7 +59,7 @@ async function search_version_embed(cname, query, keyword, option) {
         return (isBeta(x["build"]) == isBeta(y["build"])) ? 0 : isBeta(x["build"]) ? 1 : -1;
     });
 
-    if (data.length > 1 && option == "--all") {
+    if (data.length > 1 && option == true) {
         embed.setTitle(`${os[cname.toLowerCase()]} ${keyword} Search Results`);
         for (let result in data) {
             var info = `‣ **Version**: ${data[result]["version"]} ${isBeta(data[result]["build"]) ? `${(data[result]["updateid"]) ? formatUpdatesName(data[result]["updateid"], data[result]["version"], cname) : "Beta"}` : ""}\n‣ **Build**: ${data[result]["build"]}\n`;
@@ -91,22 +92,31 @@ module.exports = {
     name: 'info',
     command: 'info',
     category: 'Apple',
-    usage: '`apple!info <os> <build | version>`\n`apple!info <os> <build | version> --all`',
     description: 'Gets information about an update.',
-    async execute(message, args) {
-        if (!args[0]) return message.channel.send(error_alert('Hmm I think the correct usage for this command is `apple!info <build | version>`'));
-        if (!os[args[0].toLowerCase()]) return message.channel.send(error_alert('Invalid OS name.'));
+    usage: '`apple!info <os> <build | version>`',
+    data: new SlashCommandBuilder().setName("info").setDescription("Gets information about an update.")
+        .addStringOption(option => option.setName('os').setDescription('Specify the operating system').setRequired(true)
+            .addChoice("macOS", "macos").addChoice("iOS", "ios").addChoice("iPadOS", "ipados")
+            .addChoice("watchOS", "watchos").addChoice("tvOS", "tvos").addChoice("audioOS", "audioos"))
+        .addStringOption(option => option.setName('query').setDescription("Specify the build / version").setRequired(true))
+        .addBooleanOption(option => option.setName("option").setDescription("Toggle to show all matching results").setRequired(false)),
+    async execute(interaction) {
+        const os_name = interaction.options.getString('os');
+        const search_query = interaction.options.getString('query');
+        const search_option = interaction.options.getBoolean('option');
 
-        let build_query = await database.collection(args[0].toLowerCase()).doc(args[1]).get();
-        let version_query = await database.collection(args[0].toLowerCase()).where('version', '==', args[1]).get();
+        if (!os[os_name.toLowerCase()]) return interaction.editReply(error_alert('Invalid OS name.'));
+
+        let build_query = await database.collection(os_name.toLowerCase()).doc(search_query).get();
+        let version_query = await database.collection(os_name.toLowerCase()).where('version', '==', search_query).get();
 
         if (build_query.exists) {
             let build_data = build_query.data();
-            return message.channel.send(await search_build_embed(args[0], build_data));
+            return interaction.editReply(await search_build_embed(os_name, build_data));
         } else if (!version_query.empty) {
-            return message.channel.send(await search_version_embed(args[0], version_query, args[1], args[2]));
+            return interaction.editReply(await search_version_embed(os_name, version_query, search_query, search_option));
         } else {
-            return message.channel.send(error_alert('No matches found.'))
+            return interaction.editReply(error_alert('No matches found.'))
         }
     },
 };

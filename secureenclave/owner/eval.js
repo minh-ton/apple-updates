@@ -15,16 +15,15 @@ module.exports = {
     name: 'eval',
     command: 'eval <code>',
     category: 'Owner',
-    usage: '`apple!eval <code>`',
     description: '**[Owner Only]** Evaluates JavaScript code.',
     async execute(message, args) {
-        let isBotOwner = message.author.id == '589324103463338007';
-        if (!isBotOwner) return message.channel.send(error_alert('Want to take control of me? NO!'));
+        let isBotOwner = message.author.id == process.env.owner_id;
+        if (!isBotOwner) return message.reply(error_alert('Want to take control of me? NO!'));
 
         try {
             const code = args.join(" ");
             
-            if (!code) return message.channel.send(error_alert('How could I execute your code if you didn\'t provide any?'));
+            if (!code) return message.reply(error_alert('How could I execute your code if you didn\'t provide any?'));
 
             let evaled = eval(code);
 
@@ -34,14 +33,14 @@ module.exports = {
                 .setDescription(`\`SUCCESS\` \`\`\`xl\n${clean(evaled)}\n\`\`\``)
                 .setColor("#00d768")
                 .setTimestamp();
-            message.channel.send({ embeds: [success] });
+            message.reply({ embeds: [success] });
 
         } catch (err) {
             const error = new Discord.MessageEmbed()
                 .setDescription(`\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``)
                 .setColor("#c2002a")
                 .setTimestamp();
-            message.channel.send({ embeds: [error] });
+            message.reply({ embeds: [error] });
         }
 
     },
