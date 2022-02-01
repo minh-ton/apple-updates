@@ -1,6 +1,7 @@
 // Show bot info
 
 const Discord = require('discord.js');
+const { SlashCommandBuilder } = require('@discordjs/builders');
 
 require('../../applesilicon/misc.js')();
 
@@ -10,7 +11,8 @@ module.exports = {
     category: 'Information',
     usage: '`apple!about`',
     description: 'Displays bot information.',
-    async execute(message, args) {
+    data: new SlashCommandBuilder().setName("about").setDescription("Displays bot information."),
+    async execute(interaction) {
         let serverembed = new Discord.MessageEmbed()
             .setColor(randomColor())
             .setTitle(`${global.bot.user.tag} - About`)
@@ -19,6 +21,6 @@ module.exports = {
             .addField(`Last Updated`, global.BOT_UPDATED, true)
             .addField(`Servers`, `${global.bot.guilds.cache.size}`, true)
             .setFooter({ text: "Join our support server: https://discord.gg/ktHmcbpMNU" });
-        message.channel.send({ embeds: [serverembed] });
+        await interaction.reply({ embeds: [serverembed] });
     },
 }

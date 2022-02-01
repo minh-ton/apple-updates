@@ -2,6 +2,7 @@
 
 const Discord = require("discord.js");
 const catalogs = require("../../bootrom/catalogs.json");
+const { SlashCommandBuilder } = require('@discordjs/builders');
 
 require('../../applesilicon/main/manager.js')();
 require('../../applesilicon/embed.js')();
@@ -31,11 +32,12 @@ module.exports = {
     category: 'Apple',
     usage: '`apple!latest`',
     cooldown: 60,
-    description: 'Get the latest macOS Full Installer Packages.',
-    async execute(message, args) {
+    description: 'Gets the latest macOS Full Installer Packages.',
+    data: new SlashCommandBuilder().setName("latest").setDescription("Gets the latest macOS Full Installer Packages."),
+    async execute(interaction) {
         try {
             const processing = new Discord.MessageEmbed().setColor(randomColor());
-            const m = await message.channel.send({ embeds: [processing.setDescription("Hang on, I'm fetching data from Apple...")] });
+            await interaction.reply({ embeds: [processing.setDescription("Hang on, I'm fetching data from Apple...")] });
 
             let pkg_beta = await get_pkg_assets(macos_beta_catalog, 'beta_pkg');
             let pkg_beta_new = await get_pkg_assets(macos_new_beta_catalog, 'beta_pkg');
@@ -55,9 +57,9 @@ module.exports = {
                 ).setColor(randomColor())
                 .addField('Catalogs', `[macOS 11 Big Sur Public Release Catalog](${macos_public_catalog})\n[macOS 11 Big Sur Developer Beta Catalog](${macos_beta_catalog})\n[macOS 12 Monterey Public Release Catalog](${macos_new_public_catalog})\n[macOS 12 Monterey Developer Beta Catalog](${macos_new_beta_catalog})`)
                 .setTimestamp();
-            m.edit({ embeds: [embed] });
+            interaction.editReply({ embeds: [embed] });
         } catch (error) {
-            return message.channel.send(error_alert(error));
+            return interaction.reply(error_alert(error));
         }
     },
 };

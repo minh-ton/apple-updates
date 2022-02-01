@@ -1,6 +1,7 @@
 // Check bot latency
 
 const Discord = require("discord.js");
+const { SlashCommandBuilder } = require('@discordjs/builders');
 
 require('../../applesilicon/misc.js')();
 
@@ -10,9 +11,12 @@ module.exports = {
     category: 'Information',
     usage: '`apple!ping`',
     description: 'Checks the bot\'s connection.',
-    async execute(message, args) {
+    data: new SlashCommandBuilder().setName("ping").setDescription("Check the bot's connection."),
+    async execute(interaction) {
         const embed = new Discord.MessageEmbed().setColor(randomColor());
-        const m = await message.channel.send({ embeds: [embed.setDescription("Ping?")] });
-        m.edit({ embeds: [embed.setDescription(`:bell: **Pong!** It took \`${m.createdTimestamp - message.createdTimestamp}ms\` for signals to reach me. My current heartbeat is \`${Math.round(global.bot.ws.ping)}ms\`.`)] });
+        const time_past = new Date().getTime();
+        await interaction.reply({ embeds: [embed.setDescription("Ping?")] });
+        const time_now = new Date().getTime();
+        await interaction.editReply({ embeds: [embed.setDescription(`:bell: **Pong!** It took \`${time_now - time_past}ms\` for signals to reach me. My current heartbeat is \`${Math.round(global.bot.ws.ping)}ms\`.`)] });
     },
 };

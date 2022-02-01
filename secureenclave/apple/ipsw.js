@@ -2,6 +2,7 @@
 
 const Discord = require("discord.js");
 const axios = require('axios');
+const { SlashCommandBuilder } = require('@discordjs/builders');
 
 require('../../applesilicon/misc.js')();
 require('../../applesilicon/embed.js')();
@@ -12,13 +13,17 @@ module.exports = {
     category: 'Apple',
     usage: '`apple!ipsw <device identifier>`',
     description: 'Gets the latest signed ipsw files.',
-    async execute(message, args) {
-        if (!args[0]) return message.channel.send(error_alert('Hmm I think the correct usage for this command is `apple!ipsw <device identifier>`'));
+    data: new SlashCommandBuilder().setName("ipsw").setDescription("Gets the latest signed ipsw files.")
+        .addStringOption(option => option.setName("identifier").setDescription("Specify device identifier").setRequired(true)),
+    async execute(interaction) {
+        await interaction.deferReply();
+
+        let identifier = interaction.options.getString('identifier');
 
         var ipsw; try {
-            ipsw = await axios.get(`https://api.ipsw.me/v4/device/${args[0]}?type=ipsw`);
+            ipsw = await axios.get(`https://api.ipsw.me/v4/device/${identifier}?type=ipsw`);
         } catch(error) {
-            return message.channel.send(error_alert('Ugh, an unknown error happened!'));
+            return interaction.editReply(error_alert('Ugh, an unknown error happened!'));
         }
 
         const data = [];
@@ -38,6 +43,6 @@ module.exports = {
             .setDescription(data.join('\n'))
             .setColor(randomColor())
             .setTimestamp();
-        message.channel.send({ embeds: [embed] })
+        interaction.editReply({ embeds: [embed] });
     },
 };
