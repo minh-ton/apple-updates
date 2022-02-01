@@ -10,13 +10,12 @@ module.exports = {
     name: 'uptime',
     command: 'uptime',
     category: 'Information',
-    usage: '`apple!uptime`',
     description: 'Shows the bot uptime.',
     data: new SlashCommandBuilder().setName("uptime").setDescription("Shows the bot uptime."),
     async execute(interaction) {
         const embed = new Discord.MessageEmbed()
             .setColor(randomColor())
             .setDescription(`**Bot Uptime: **${ms(global.bot.uptime, { verbose: true })}\n**Bot Age: **${ms(Math.abs(new Date() - new Date(global.bot.user.createdAt)), { verbose: true })}`);
-        await interaction.reply({ embeds: [embed] });
+        await interaction.editReply({ embeds: [embed] });
     },
 };

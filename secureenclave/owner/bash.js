@@ -9,16 +9,15 @@ module.exports = {
     name: 'bash',
     command: 'bash <command>',
     category: 'Owner',
-    usage: '`apple!bash <bash command>`',
     description: '**[Owner Only]** Executes a bash command.',
     async execute(message, args) {
-        let isBotOwner = message.author.id == '589324103463338007';
-        if (!isBotOwner) return message.channel.send(error_alert('You know what, it\'s my job to prevent strangers on Discord from damaging my own house with bash commands!'));
+        let isBotOwner = message.author.id == process.env.owner_id;
+        if (!isBotOwner) return message.reply(error_alert('You know what, it\'s my job to prevent strangers on Discord from damaging my own house with bash commands!'));
 
-        if (!args.join(" ")) return message.channel.send(error_alert('Empty bash command, interesting!'));
+        if (!args.join(" ")) return message.reply(error_alert('Empty bash command, interesting!'));
 
         const m_embed = new Discord.MessageEmbed().setDescription(`Executing \`${args.join(" ")}\`...`);
-        const m = await message.channel.send({ embeds: [m_embed] });
+        const m = await message.reply({ embeds: [m_embed] });
         exec(args.join(" "), (err, stdout, stderr) => {
             if (err) {
                 const embed = new Discord.MessageEmbed()

@@ -11,13 +11,11 @@ module.exports = {
     name: 'ipsw',
     command: 'ipsw',
     category: 'Apple',
-    usage: '`apple!ipsw <device identifier>`',
     description: 'Gets the latest signed ipsw files.',
+    usage: '`apple!ipsw <device identifier>`',
     data: new SlashCommandBuilder().setName("ipsw").setDescription("Gets the latest signed ipsw files.")
         .addStringOption(option => option.setName("identifier").setDescription("Specify device identifier").setRequired(true)),
     async execute(interaction) {
-        await interaction.deferReply();
-
         let identifier = interaction.options.getString('identifier');
 
         var ipsw; try {

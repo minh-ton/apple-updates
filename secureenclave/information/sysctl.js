@@ -10,7 +10,6 @@ module.exports = {
     name: 'sysctl',
     command: 'sysctl',
     category: 'Information',
-    usage: '`apple!sysctl`',
     cooldown: 5,
     description: 'Shows the host machine information.',
     data: new SlashCommandBuilder().setName("sysctl").setDescription("Shows the host machine information."),
@@ -27,6 +26,6 @@ module.exports = {
             .addField("<:cpu:907994041436733460> Processor", `‣ **Manufacturer**: ${cpu_data.manufacturer}\n‣ **Brand**: ${cpu_data.brand}\n‣ **Speed**: ${cpu_data.speed + 'GHz'}\n‣ **Cores**: ${cpu_data.cores}`, true)
             .setFooter({ text: "This is where I live!" })
             .setTimestamp();
-        await interaction.reply({ embeds: [sysctl_embed] });
+        await interaction.editReply({ embeds: [sysctl_embed] });
     },
 };

@@ -30,14 +30,13 @@ module.exports = {
     name: 'latest',
     command: 'latest',
     category: 'Apple',
-    usage: '`apple!latest`',
     cooldown: 60,
     description: 'Gets the latest macOS Full Installer Packages.',
     data: new SlashCommandBuilder().setName("latest").setDescription("Gets the latest macOS Full Installer Packages."),
     async execute(interaction) {
         try {
             const processing = new Discord.MessageEmbed().setColor(randomColor());
-            await interaction.reply({ embeds: [processing.setDescription("Hang on, I'm fetching data from Apple...")] });
+            await interaction.editReply({ embeds: [processing.setDescription("Hang on, I'm fetching data from Apple...")] });
 
             let pkg_beta = await get_pkg_assets(macos_beta_catalog, 'beta_pkg');
             let pkg_beta_new = await get_pkg_assets(macos_new_beta_catalog, 'beta_pkg');
@@ -59,7 +58,7 @@ module.exports = {
                 .setTimestamp();
             interaction.editReply({ embeds: [embed] });
         } catch (error) {
-            return interaction.reply(error_alert(error));
+            return interaction.editReply(error_alert(error));
         }
     },
 };

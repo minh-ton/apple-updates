@@ -9,7 +9,6 @@ module.exports = {
     name: 'about',
     command: 'about',
     category: 'Information',
-    usage: '`apple!about`',
     description: 'Displays bot information.',
     data: new SlashCommandBuilder().setName("about").setDescription("Displays bot information."),
     async execute(interaction) {
@@ -21,6 +20,6 @@ module.exports = {
             .addField(`Last Updated`, global.BOT_UPDATED, true)
             .addField(`Servers`, `${global.bot.guilds.cache.size}`, true)
             .setFooter({ text: "Join our support server: https://discord.gg/ktHmcbpMNU" });
-        await interaction.reply({ embeds: [serverembed] });
+        await interaction.editReply({ embeds: [serverembed] });
     },
 }

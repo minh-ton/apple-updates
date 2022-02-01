@@ -92,8 +92,8 @@ module.exports = {
     name: 'info',
     command: 'info',
     category: 'Apple',
-    usage: '`apple!info <os> <build | version>`\n`apple!info <os> <build | version> --all`',
     description: 'Gets information about an update.',
+    usage: '`apple!info <os> <build | version>`',
     data: new SlashCommandBuilder().setName("info").setDescription("Gets information about an update.")
         .addStringOption(option => option.setName('os').setDescription('Specify the operating system').setRequired(true)
             .addChoice("macOS", "macos").addChoice("iOS", "ios").addChoice("iPadOS", "ipados")
@@ -101,8 +101,6 @@ module.exports = {
         .addStringOption(option => option.setName('query').setDescription("Specify the build / version").setRequired(true))
         .addBooleanOption(option => option.setName("option").setDescription("Toggle to show all matching results").setRequired(false)),
     async execute(interaction) {
-        await interaction.deferReply();
-
         const os_name = interaction.options.getString('os');
         const search_query = interaction.options.getString('query');
         const search_option = interaction.options.getBoolean('option');

@@ -5,12 +5,14 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 global.BETA_RELEASE = false;
 global.UPDATE_MODE = false;
 global.SAVE_MODE = false;
-global.BOT_VERSION = "2.6.0";
-global.BOT_UPDATED = "January 30th, 2022"
+global.BOT_VERSION = "3.0.0";
+global.BOT_UPDATED = "February 1st, 2022"
 
 const Discord = require('discord.js');
 const fs = require("fs");
 const firebase = require("firebase-admin");
+const { REST } = require('@discordjs/rest');
+const { Routes } = require('discord-api-types/v9');
 
 firebase.initializeApp({
     credential: firebase.credential.cert(JSON.parse(process.env.firebase))
@@ -19,13 +21,13 @@ firebase.initializeApp({
 require("./applesilicon/updates.js")();
 require("./applesilicon/embed.js")();
 
-global.bot = new Discord.Client({ intents: [Discord.Intents.FLAGS.GUILDS, Discord.Intents.FLAGS.GUILD_MESSAGES, Discord.Intents.FLAGS.GUILD_MESSAGE_REACTIONS] });
+global.bot = new Discord.Client({ intents: [Discord.Intents.FLAGS.GUILDS, Discord.Intents.FLAGS.GUILD_MESSAGES, Discord.Intents.FLAGS.DIRECT_MESSAGES, Discord.Intents.FLAGS.GUILD_MESSAGE_REACTIONS], partials: [ 'CHANNEL' ] });
 global.bot.login(process.env.bot_token);
 
 // ============= DISCORD BOT ============
 
 global.bot.on("ready", async () => {
-    if (global.BETA_RELEASE) console.log("[RUNNING BETA BOT INSTANCE]");
+    if (global.bot.user.id == process.env.beta_id) console.log("[RUNNING BETA BOT INSTANCE]");
     console.log(`Logged in as ${global.bot.user.tag}!`);
     console.log(`Currently in ${global.bot.guilds.cache.size} servers!`);
     console.log('Bot has started!');
@@ -36,55 +38,80 @@ global.bot.commands = new Discord.Collection();
 global.bot.cooldowns = new Discord.Collection();
 
 const commands = fs.readdirSync('./secureenclave');
+const command_collection = [];
 
 for (const category of commands) {
     const cmd_files = fs.readdirSync(`./secureenclave/${category}`).filter(file => file.endsWith('.js'));
     for (const file of cmd_files) {
         const command = require(`./secureenclave/${category}/${file}`);
         global.bot.commands.set(command.name, command);
+        if (category == "owner") continue;
+        command_collection.push(command.data.toJSON());
     }
 }
 
-global.bot.on("messageCreate", async message => {
-    if (message.author.bot) return;
-    if (message.mentions.everyone) return;
-    if (message.channel.type === "DM") return;
+const rest = new REST({ version: '9' }).setToken(process.env.bot_token);
+(async() => {
+    try { 
+        if (global.BETA_RELEASE) await rest.put(Routes.applicationGuildCommands(process.env.client_id, process.env.server_id), { body: command_collection });
+        else await rest.put(Routes.applicationCommands(process.env.client_id), { body: command_collection });
+    } catch (error) {
+        console.error(error);
+    }
+})();
 
-    // Bot prefix
-    let prefixes = (global.BETA_RELEASE) ? ["beta!", "<@852896210267275324>", "<@!852896210267275324>"] : ["apple!", "<@852378577063116820>", "<@!852378577063116820>"];
-    var prefix = (global.BETA_RELEASE) ? "beta!" : "apple!"; // default prefix
-    for (const i of prefixes) if (message.content.toLowerCase().startsWith(i)) prefix = i;
-    if (!message.content.startsWith(prefix)) return;
+global.bot.on('interactionCreate', async interaction => {
+    if (!interaction.isCommand()) return;
 
-    // Get commands
-    const args = message.content.slice(prefix.length).trim().split(/ +/g);
-    const command = args.shift().toLowerCase();
-    const cmd = global.bot.commands.get(command);
+    // Get command
+    const cmd = global.bot.commands.get(interaction.commandName);
     if (!cmd) return;
 
-    // Command cooldowns (owner can bypass this)
-    if (message.author.id != '589324103463338007') {
+    // Command cooldowns
+    if (interaction.member.id != process.env.owner_id) {
         const { cooldowns } = global.bot;
         if (!cooldowns.has(cmd.name)) cooldowns.set(cmd.name, new Discord.Collection());
-        // 4s cooldown by default
         const now = Date.now(), timestamps = cooldowns.get(cmd.name), amount = (cmd.cooldown || 4) * 1000;
-        if (timestamps.has(message.author.id)) {
-            const exp_time = timestamps.get(message.author.id) + amount;
+        if (timestamps.has(interaction.member.id)) {
+            const exp_time = timestamps.get(interaction.member.id) + amount;
             if (now < exp_time) {
                 const remaining = (exp_time - now) / 1000;
-                return message.channel.send(error_alert(`I need to rest a little bit! Please wait **${remaining.toFixed(1)} more seconds** to use \`apple!${cmd.name}\`!`));
+                return interaction.reply(error_alert(`I need to rest a little bit! Please wait **${remaining.toFixed(1)} more seconds** to use \`${cmd.name}\`!`));
             }
         }
-        timestamps.set(message.author.id, now);
-        setTimeout(() => timestamps.delete(message.author.id), amount);
+        timestamps.set(interaction.member.id, now);
+        setTimeout(() => timestamps.delete(interaction.member.id), amount);
     }
+
+    // Execute command
+    try {
+        await interaction.deferReply();
+        await cmd.execute(interaction);
+    } catch (e) {
+        console.error(e);
+        await (error_alert(`An unknown error occured while running \`apple!${cmd.name}\``));
+    }
+});
+
+global.bot.on("messageCreate", async message => {
+    // Bot prefix
+    if (!message.content.startsWith("apple!")) return;
+
+    // Deprecation notice
+    if (message.channel.type != "DM") return message.channel.send(deprecation_notice());
+
+    // Get commands
+    const args = message.content.slice(6).trim().split(/ +/g);
+    const command = args.shift().toLowerCase();
+    const cmd = global.bot.commands.get(command);
+    if (!cmd) return;    
 
     // Run commands
     try {
         cmd.execute(message, args);
     } catch (error) {
         console.log(error);
-        message.channel.send(error_alert(`An unknown error occured while running \`apple!${cmd.name}\``));
+        message.reply(error_alert(error));
     }
 });
 
