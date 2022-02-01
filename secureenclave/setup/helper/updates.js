@@ -16,7 +16,7 @@ const bot_database = db.collection('discord').doc('bot');
 
 module.exports = function () {
 	this.setup_updates = async function (interaction) {		
-		const channels_list = interaction.member.guild.channels.cache.filter(ch => ch.type === 'GUILD_TEXT');
+		const channels_list = interaction.member.guild.channels.cache.filter(ch => ch.type === 'GUILD_TEXT' || ch.type === 'GUILD_NEWS');
 		const channel_components = [];
 
 		channels_list.forEach(channel => { channel_components.push({ "label": channel.name, "value": channel.id }); });
