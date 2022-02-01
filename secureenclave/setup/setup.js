@@ -11,7 +11,7 @@ module.exports = {
     category: 'Utilities',
     cooldown: 5,
     description: 'Configures the bot to your liking!',
-    usage: '`apple!setup`: Configures the bot.\n`apple!setup role add`: Adds a notification role.\n`apple!setup role remove`: Removes a notification role.\n`apple!setup role list`: Lists configures notification roles.',
+    usage: '`/setup`: Configures the bot.\n`/setup role add`: Adds a notification role.\n`/setup role remove`: Removes a notification role.\n`/setup role list`: Lists configures notification roles.',
     data: new SlashCommandBuilder().setName("setup").setDescription("Configures the bot to your liking!")
         .addStringOption(option => option.setName("option").setDescription("Configures notification roles").setRequired(false)
             .addChoice("role add", "role add").addChoice("role remove", "role remove").addChoice("role list", "role list")),

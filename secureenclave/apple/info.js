@@ -93,7 +93,7 @@ module.exports = {
     command: 'info',
     category: 'Apple',
     description: 'Gets information about an update.',
-    usage: '`apple!info <os> <build | version>`',
+    usage: '`/info <os> <build | version>`',
     data: new SlashCommandBuilder().setName("info").setDescription("Gets information about an update.")
         .addStringOption(option => option.setName('os').setDescription('Specify the operating system').setRequired(true)
             .addChoice("macOS", "macos").addChoice("iOS", "ios").addChoice("iPadOS", "ipados")

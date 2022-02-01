@@ -12,7 +12,7 @@ module.exports = {
     command: 'ipsw',
     category: 'Apple',
     description: 'Gets the latest signed ipsw files.',
-    usage: '`apple!ipsw <device identifier>`',
+    usage: '`/ipsw <device identifier>`',
     data: new SlashCommandBuilder().setName("ipsw").setDescription("Gets the latest signed ipsw files.")
         .addStringOption(option => option.setName("identifier").setDescription("Specify device identifier").setRequired(true)),
     async execute(interaction) {
