@@ -100,6 +100,11 @@ global.bot.on("messageCreate", async message => {
     // Deprecation notice
     if (message.channel.type != "DM") return message.channel.send(deprecation_notice());
 
+    // Run bot commands in DM - Owner only
+    // For use with eval, echo, bash, etc
+    let isBotOwner = message.author.id == process.env.owner_id;
+    if (!isBotOwner) return;
+
     // Get commands
     const args = message.content.slice(6).trim().split(/ +/g);
     const command = args.shift().toLowerCase();
