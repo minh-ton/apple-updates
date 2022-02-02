@@ -5,10 +5,13 @@ permalink: /showcase/
 ---
 
 # SHOWCASE
-This page previews how the bot works in a test Discord server. 
+This page previews the bot in action in a test Discord server. 
 
 ## Screenshots
 
+<img height=250 src="https://user-images.githubusercontent.com/37860569/152178387-c96a468e-2d18-411b-8bbc-e12b383cd8aa.png"></img> <img height=250 src="https://user-images.githubusercontent.com/37860569/152178631-dcf68800-b690-4f76-95e5-db5b90daa03d.png"></img>
+<img height=280 src="https://user-images.githubusercontent.com/37860569/152178572-eafd1149-a953-4897-8b24-5ccbbde68c15.png"></img> <img height=280 src="https://user-images.githubusercontent.com/37860569/152178952-1001f863-5dc8-47d5-84d2-1abf2124451c.png"></img>
+<img height=230 src="https://user-images.githubusercontent.com/37860569/152178508-eb4a8b9c-31b6-4e43-92aa-7532f48c9a31.png"></img>
 
 ## Video Demos
 ### 1. Software Updates in action!
