@@ -1,9 +1,12 @@
 const Discord = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
+const { Database } = require('simpl.db');
 
 require("./helper/roles.js")();
 require("./helper/updates.js")();
 require("../../applesilicon/embed.js")();
+
+const simpl = new Database();
 
 module.exports = {
     name: 'setup',
@@ -19,11 +22,18 @@ module.exports = {
         if (!interaction.member.permissions.has("MANAGE_GUILD")) return interaction.editReply(error_alert("You do not have the `MANAGE SERVER` permission to use this command!"));
         if (!interaction.member.guild.me.permissions.has(["VIEW_CHANNEL", "ADD_REACTIONS", "USE_EXTERNAL_EMOJIS", "MANAGE_MESSAGES"])) return interaction.editReply(error_alert("I do not have the necessary permissions to work properly! \n\n ***Please make sure I have the following permissions:*** \n- View Channels\n- Add Reactions\n- Use External Emojis\n- Manage Messages"));
 
+        if (simpl.get(interaction.member.guild.id) == true) return interaction.editReply(error_alert("Another `setup` instance is already running."));
+
+        simpl.set(interaction.member.guild.id, true);
+
         try {
-            if (interaction.options.getString('option') != undefined && interaction.options.getString('option').includes("role")) setup_roles(interaction);
-            else setup_updates(interaction);
+            if (interaction.options.getString('option') != undefined && interaction.options.getString('option').includes("role")) await setup_roles(interaction);
+            else await setup_updates(interaction);
         } catch (e) {
+            simpl.set(interaction.member.guild.id, false);
             return interaction.editReply(error_alert("An unknown error occured while running **setup** command."));
         }
+
+        simpl.set(interaction.member.guild.id, false);
     },
 };

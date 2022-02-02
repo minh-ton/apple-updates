@@ -56,7 +56,10 @@ module.exports = function () {
 			return ch.member.id == interaction.member.id;
 		}
 
-		const selected_os = (await interaction.channel.awaitMessageComponent({ filter: filter, max: 1, componentType: 'SELECT_MENU', time: 180000 })).values[0];
+		const os_response = await interaction.channel.awaitMessageComponent({ filter: filter, max: 1, componentType: 'SELECT_MENU', time: 180000 }).catch(err => { return; });
+		if (os_response == undefined) return interaction.editReply(error_embed("You did not select an update name within 3 minutes so the command was cancelled."));
+
+		const selected_os = os_response.values[0];
 		
     	const role_components = [];
     	const role_list = interaction.member.guild.roles.cache.filter(ch => ch.name != '@everyone');
@@ -69,7 +72,10 @@ module.exports = function () {
     	if (interaction.options.getString('option').includes("add")) {
 	        await interaction.editReply({ embeds: [roles_part_2(os_updates[selected_os].slice(0, -1))], components: [role_input] });
 
-	        selected_role = interaction.member.guild.roles.cache.get((await interaction.channel.awaitMessageComponent({ filter: filter, max: 1, componentType: 'SELECT_MENU', time: 180000 })).values[0]);
+	        const role_response = await interaction.channel.awaitMessageComponent({ filter: filter, max: 1, componentType: 'SELECT_MENU', time: 180000 }).catch(err => { return; });
+	        if (role_response == undefined) return interaction.editReply(error_embed("You did not select a role within 3 minutes so the command was cancelled."));
+
+	        selected_role = interaction.member.guild.roles.cache.get(role_response.values[0]);
 
 	        let roles_database = await database.doc(interaction.member.guild.id).get();
 	        let roles_data = roles_database.data();

@@ -29,7 +29,10 @@ module.exports = function () {
 			return ch.member.id == interaction.member.id;
 		}
 
-		const selected_channel = global.bot.channels.cache.get((await interaction.channel.awaitMessageComponent({ filter: channel_filter, max: 1, componentType: 'SELECT_MENU', time: 180000 })).values[0]);
+		const response = await interaction.channel.awaitMessageComponent({ filter: channel_filter, max: 1, componentType: 'SELECT_MENU', time: 180000 }).catch(err => { return; });
+		if (response == undefined) return interaction.editReply(error_embed("You did not select a channel within 3 minutes so the command was cancelled."));
+
+		const selected_channel = global.bot.channels.cache.get(response.values[0]);
 		
 		const warning_embed = new Discord.MessageEmbed().setDescription("**PLEASE WAIT FOR THE REACTIONS TO FULLY-LOAD BEFORE REACTING TO THE MESSAGE OR YOUR OPTIONS WON'T BE RECORDED.**").setColor("#f07800");
 
