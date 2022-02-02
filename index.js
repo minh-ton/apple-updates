@@ -5,8 +5,8 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 global.BETA_RELEASE = false;
 global.UPDATE_MODE = false;
 global.SAVE_MODE = false;
-global.BOT_VERSION = "3.0.0";
-global.BOT_UPDATED = "February 1st, 2022"
+global.BOT_VERSION = "3.0.1";
+global.BOT_UPDATED = "February 2nd, 2022"
 
 const Discord = require('discord.js');
 const fs = require("fs");
