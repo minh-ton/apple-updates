@@ -12,22 +12,21 @@ A Discord bot for pushing notifications about new Apple OS updates.
 
 ## 🎉 Getting Started
 
-After adding the bot to your servers, type `apple!setup` to set up the bot to your liking.
+After adding the bot to your servers, use the `/setup` command to set up the bot to your liking.
 
-**Note**: _You can also configure the bot to ping a specific role when a new Apple update comes out by typing `apple!setup role add`_.
+**Note**: _You can also configure the bot to ping a specific role when a new Apple update comes out by using `/setup role add`_.
 
 <img src="https://user-images.githubusercontent.com/37860569/151729530-f5ef7942-2e63-4c60-a1a6-ec427b0d6ee0.png" width="500">
 
 
 ## 🔔 Commands
-**Note**: _The prefix for this bot is `apple!`_.
 
 ### Utilities
   
 | Command | Description | Usage |
 | :------------- | :---------- | :----------- |
-|  `setup` | Configures the bot to your liking! | `apple!setup`: Set up the bot for the first time.<br> `apple!setup role add`: Add a notifications role.<br> `apple!setup role remove`: Remove a notifications role.<br> `apple!setup role list`: List configured notifications roles. |
-|  `help`  | Shows the help menu or get help on a command. | `apple!help`: Shows the help menu.<br> `apple!help [command]`: Get help on a command. |
+|  `setup` | Configures the bot to your liking! | `/setup`: Set up the bot for the first time.<br> `/setup role add`: Add a notifications role.<br> `/setup role remove`: Remove a notifications role.<br> `/setup role list`: List configured notifications roles. |
+|  `help`  | Shows the help menu or get help on a command. | `/help`: Shows the help menu.<br> `/help [command]`: Get help on a command. |
 
 ### Apple
 `latest` `ipsw` `info`
