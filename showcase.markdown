@@ -5,7 +5,7 @@ permalink: /showcase/
 ---
 
 # SHOWCASE
-This page previews the bot in action in a test Discord server. 
+This page previews the bot in a test Discord server. 
 
 ## Screenshots
 
