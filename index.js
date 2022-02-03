@@ -94,22 +94,29 @@ global.bot.on('interactionCreate', async interaction => {
 });
 
 global.bot.on("messageCreate", async message => {
-    // Bot prefix
-    if (!message.content.startsWith("apple!")) return;
+    if (message.author.bot) return;
+    if (message.mentions.everyone) return;
+    if (message.channel.type === "DM") return;
 
     // Deprecation notice
-    if (message.channel.type != "DM") return message.channel.send(deprecation_notice());
+    if (message.content.startsWith("apple!")) return message.channel.send(deprecation_notice());
 
-    // Run bot commands in DM - Owner only
-    // For use with eval, echo, bash, etc
+    // Bot prefix
+    const prefix = `<@${global.bot.user.id}>`;
+    if (!message.mentions.has(global.bot.user)) return;
+
+    // Run bot commands with @mention - Owner only
     let isBotOwner = message.author.id == process.env.owner_id;
     if (!isBotOwner) return;
 
     // Get commands
-    const args = message.content.slice(6).trim().split(/ +/g);
+    const args = message.content.slice(prefix.length + 1).trim().split(/ +/g);
     const command = args.shift().toLowerCase();
     const cmd = global.bot.commands.get(command);
-    if (!cmd) return;    
+    if (!cmd) return; 
+
+     // For use with eval, echo, bash, etc
+    if (!["bash", "echo", "eval", "killall", "sysctl"].includes(cmd.name)) return;   
 
     // Run commands
     try {
