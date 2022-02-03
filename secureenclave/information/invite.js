@@ -14,7 +14,7 @@ module.exports = {
     async execute(interaction) {
         let serverembed = new Discord.MessageEmbed()
             .setColor(randomColor())
-            .setDescription(`<:discord:908005120783048744> Invite me to your servers by clicking the link below! \n> https://discordapp.com/oauth2/authorize?&client_id=852378577063116820&scope=bot+applications.commands&permissions=8`)
+            .setDescription(`<:discord:908005120783048744> Invite me to your servers by clicking the link below! \n> https://discord.com/api/oauth2/authorize?client_id=852378577063116820&permissions=2416438352&scope=applications.commands%20bot`)
             .setFooter({ text: "Join our support server: https://discord.gg/ktHmcbpMNU" });
         await interaction.editReply({ embeds: [serverembed] });
     },
