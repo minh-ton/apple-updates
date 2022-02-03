@@ -6,7 +6,7 @@ permalink: /terms/
 
 # TERMS OF SERVICE
 
-By adding `Software Updates` to your server, you agree that you have read, understood and accept the Terms. You are also responsible for informing the members in your server about the Terms.
+By adding `Software Updates` to your server, you agree that you have read, understood, and accept the Terms. You are also responsible for informing the members in your server about the Terms.
 
 If you do not agree with any of these terms, you are not authorized to use or add `Software Updates` to any of your servers.
 
@@ -14,7 +14,7 @@ You are strictly prohibited to use `Software Updates` against the Discord ToS or
 
 ## Software Updates
 
-- `Software Updates` is a bot which pushes notifications to Discord servers when a new Apple OS (iOS, iPadOS, watchOS, tvOS, macOS) update is available.
+- `Software Updates` is a bot that pushes notifications to Discord servers when a new Apple OS (iOS, iPadOS, watchOS, tvOS, macOS) update is available.
 - The information provided by `Software Updates` is only for informational purposes. You agree that you will only use Software Updates for its intended purposes and not for other intentions without approval from the bot owner.
 
 ## Availability
@@ -25,7 +25,7 @@ You are strictly prohibited to use `Software Updates` against the Discord ToS or
 
 ## Data Collection
 
-- `Software Updates` saves your servers’ data (server and channel IDs by default) and your servers’ roles (optional) in order to work properly.
+- `Software Updates` saves your servers’ data (server and channel IDs by default) and your servers’ roles (optional) to work properly.
 
 ## Terms of Service Changes
 
