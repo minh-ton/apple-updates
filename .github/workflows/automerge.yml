@@ -12,3 +12,4 @@ jobs:
           allowed-actors: dependabot[bot]
           repo-token: ${{ secrets.ACCESS_TOKEN }}
           package-block-list: discord.js
+          allowed-update-types: devDependencies:minor, devDependencies:patch, dependencies:minor, dependencies:patch
