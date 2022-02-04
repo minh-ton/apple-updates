@@ -11,4 +11,3 @@ jobs:
         with:
           allowed-actors: dependabot[bot], Minh-Ton
           repo-token: ${{ secrets.ACCESS_TOKEN }}
-          allowed-update-types: dependencies:minor, dependencies:patch
