@@ -9,6 +9,6 @@ jobs:
     steps:
       - uses: tjenkinson/gh-action-auto-merge-dependency-updates@v1
         with:
-          allowed-actors: dependabot[bot]
+          allowed-actors: dependabot[bot], Minh-Ton
           repo-token: ${{ secrets.ACCESS_TOKEN }}
           allowed-update-types: dependencies:minor, dependencies:patch
