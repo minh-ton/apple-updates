@@ -6,11 +6,20 @@ const brightColor = require('randomcolor');
 require('./misc.js')();
 require('./send.js')();
 
+function isBeta(build) {
+    if (build.length > 6 && build.toUpperCase() != build) return true; // May break in the future
+    return false;
+}
+
 module.exports = function () {
     // Send macOS public InstallAssistant.pkg link
-    this.send_macos_pkg_public = function (pkgurl, version, build) {
+    this.send_macos_pkg_public = function (pkgurl, version, build, size) {
         const embed = new Discord.MessageEmbed()
-            .setDescription(`macOS **${version} (${build})** Full Installer Package:\n> ${pkgurl}`)
+            .setTitle(`New macOS Full Installer Package!`)
+            .addField(`Version`, `${version}`, true)
+            .addField(`Build`, build, true)
+            .addField(`Size`, formatBytes(size), true)
+            .setDescription(`**Installer Package**: [InstallAssistant.pkg](${pkgurl})`)
             .setThumbnail(getThumbnail("pkg"))
             .setColor(brightColor())
             .setTimestamp();
@@ -18,9 +27,13 @@ module.exports = function () {
     };
 
     // Send macOS beta InstallAssistant.pkg link
-    this.send_macos_pkg_beta = function (pkgurl, version, build) {
+    this.send_macos_pkg_beta = function (pkgurl, version, build, size) {
         const embed = new Discord.MessageEmbed()
-            .setDescription(`macOS **${version} Beta (${build})** Full Installer Package:\n> ${pkgurl}`)
+            .setTitle(`New macOS Full Installer Package!`)
+            .addField(`Version`, `${version} ${isBeta(build) ? "(Beta)" : "(RC)"}`, true)
+            .addField(`Build`, build, true)
+            .addField(`Size`, formatBytes(size), true)
+            .setDescription(`**Installer Package**: [InstallAssistant.pkg](${pkgurl})`)
             .setThumbnail(getThumbnail("pkg"))
             .setColor(brightColor())
             .setTimestamp();

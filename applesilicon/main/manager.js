@@ -109,7 +109,7 @@ module.exports = function () {
 
             if (updates.includes(build)) continue;
 
-            (beta) ? send_macos_pkg_beta(pkgurl, version, build) : send_macos_pkg_public(pkgurl, version, build, size);
+            (beta) ? send_macos_pkg_beta(pkgurl, version, build, size) : send_macos_pkg_public(pkgurl, version, build, size);
 
             db.collection("macos").doc(dname).update({
                 [`${build}`]: `${build}`
