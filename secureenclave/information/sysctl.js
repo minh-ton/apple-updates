@@ -22,8 +22,8 @@ module.exports = {
             .setTitle("Host Machine Information")
             .setColor(randomColor())
             .addField("<:ram:907994041549979688> Memory", `‣ **Total**: ${formatBytes(memory_data.total)}\n‣ **Free**: ${formatBytes(memory_data.free)}\n‣ **Used**: ${formatBytes(memory_data.used)}\n‣ **Active**: ${formatBytes(memory_data.active)}\n‣ **Available**: ${formatBytes(memory_data.available)}\n‣ **Swap**: ${formatBytes(memory_data.swapused)}`, true)
-            .addField("<:os:907994041524838490> OS", `‣ **Platform**: ${os_data.platform[0].toUpperCase() + os_data.platform.substring(1)}\n‣ **Distro**: ${os_data.distro}\n‣ **Release**: ${os_data.release}\n‣ **Kernel**: ${os_data.kernel}\n‣ **Arch**: ${os_data.arch}`, true)
             .addField("<:cpu:907994041436733460> Processor", `‣ **Manufacturer**: ${cpu_data.manufacturer}\n‣ **Brand**: ${cpu_data.brand}\n‣ **Speed**: ${cpu_data.speed + 'GHz'}\n‣ **Cores**: ${cpu_data.cores}`, true)
+            .addField("<:os:907994041524838490> OS", `‣ **Platform**: ${os_data.platform[0].toUpperCase() + os_data.platform.substring(1)}\n‣ **Distro**: ${os_data.distro}\n‣ **Release**: ${os_data.release}\n‣ **Kernel**: ${os_data.kernel}\n‣ **Arch**: ${os_data.arch}`, true)            
             .setFooter({ text: "This is where I live!" })
             .setTimestamp();
         await interaction.editReply({ embeds: [sysctl_embed] });

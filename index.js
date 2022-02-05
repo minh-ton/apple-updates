@@ -5,8 +5,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 global.BETA_RELEASE = false;
 global.UPDATE_MODE = false;
 global.SAVE_MODE = false;
-global.BOT_VERSION = "3.0.1";
-global.BOT_UPDATED = "February 2nd, 2022"
+global.CPU_USAGE = process.cpuUsage();
 
 const Discord = require('discord.js');
 const fs = require("fs");
@@ -45,7 +44,7 @@ for (const category of commands) {
     for (const file of cmd_files) {
         const command = require(`./secureenclave/${category}/${file}`);
         global.bot.commands.set(command.name, command);
-        if (category == "owner") continue;
+        if (category == "owner" || command.name == "sysctl") continue;
         command_collection.push(command.data.toJSON());
     }
 }
@@ -136,3 +135,4 @@ setInterval(function () {
     fetch_gdmf(true, true, true, true, true, true);
     fetch_xml();
 }, 60000);
+

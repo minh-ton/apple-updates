@@ -15,7 +15,12 @@ module.exports = {
     async execute(interaction) {
         const embed = new Discord.MessageEmbed()
             .setColor(randomColor())
-            .setDescription(`**Bot Uptime: **${ms(global.bot.uptime, { verbose: true })}\n**Bot Age: **${ms(Math.abs(new Date() - new Date(global.bot.user.createdAt)), { verbose: true })}`);
+            .setTitle(`${global.bot.user.tag} - Uptime`)
+            .addField(`Bot Uptime`, ms(global.bot.uptime).toString(), true)
+            .addField(`Bot Age`, ms(Math.abs(new Date() - new Date(global.bot.user.createdAt))), true)
+            .addField(`Status`, (!global.BOT_STATUS) ? "Starting" : global.BOT_STATUS, true)
+            .addField(`Memory Usage`, `${formatBytes(process.memoryUsage.rss())} / ${formatBytes(require('os').totalmem())}`, true)
+            .addField(`CPU Usage`, `User: ${((global.CPU_USAGE.user / process.cpuUsage().user) * 100).toFixed(0)}% - System: ${((global.CPU_USAGE.system / process.cpuUsage().system) * 100).toFixed(0)}%`, true)
         await interaction.editReply({ embeds: [embed] });
     },
 };

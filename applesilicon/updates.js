@@ -9,6 +9,8 @@ require('./error.js')();
 
 module.exports = function () {
     this.fetch_gdmf = async function (macos, ios, ipados, watchos, audioos, tvos) { // for debugging purposes
+        global.BOT_STATUS = "Working";
+
         // Beta macOS
         if (macos) await fetch_macos_updates(audiences.macos_bigsur_beta, 'beta', true); // macOS Big Sur Beta
         if (macos) await fetch_macos_updates(audiences.macos_monterey_beta, 'beta', true); // macOS Monterey Beta
@@ -41,14 +43,20 @@ module.exports = function () {
         if (tvos) await fetch_other_updates(audiences.tvos_15_beta, devices.tvos.build, devices.tvos.model, devices.tvos.prodtype, devices.tvos.version, "tvOS", "beta", true); // tvOS 15 Beta
         // Public tvOS
         if (tvos) await fetch_other_updates(audiences.tvos_release, devices.tvos.build, devices.tvos.model, devices.tvos.prodtype, devices.tvos.version, "tvOS", "public", false); // tvOS Release
+        
+        global.BOT_STATUS = "Idling";
     };
 
     this.fetch_xml = async function () {
+        global.BOT_STATUS = "Working";
+
         // Beta macOS InstallAssistant.pkg
         await fetch_macos_pkg(catalogs.macos_11_beta, true, 'beta_pkg');
         await fetch_macos_pkg(catalogs.macos_12_beta, true, 'beta_pkg');
         // Public macOS InstallAssistant.pkg
         await fetch_macos_pkg(catalogs.macos_11_public, false, 'public_pkg');
         await fetch_macos_pkg(catalogs.macos_12_public, false, 'public_pkg');
+
+        global.BOT_STATUS = "Idling";
     };
 }
