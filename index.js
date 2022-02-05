@@ -75,7 +75,7 @@ global.bot.on('interactionCreate', async interaction => {
             const exp_time = timestamps.get(interaction.member.id) + amount;
             if (now < exp_time) {
                 const remaining = (exp_time - now) / 1000;
-                return interaction.reply(error_alert(`I need to rest a little bit! Please wait **${remaining.toFixed(1)} more seconds** to use \`${cmd.name}\`!`));
+                return interaction.reply(error_alert(`I need to rest a little bit! Please wait **${remaining.toFixed(0)} more seconds** to use \`${cmd.name}\`!`));
             }
         }
         timestamps.set(interaction.member.id, now);
