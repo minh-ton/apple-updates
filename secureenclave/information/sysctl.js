@@ -2,7 +2,6 @@
 
 const Discord = require('discord.js');
 const sysctl = require('systeminformation');
-const { SlashCommandBuilder } = require('@discordjs/builders');
 
 require('../../applesilicon/misc.js')();
 
@@ -12,8 +11,7 @@ module.exports = {
     category: 'Information',
     cooldown: 5,
     description: 'Shows the host machine information.',
-    data: new SlashCommandBuilder().setName("sysctl").setDescription("Shows the host machine information."),
-    async execute(interaction) {
+    async execute(message, args) {
         const memory_data = await sysctl.mem();
         const cpu_data = await sysctl.cpu();
         const os_data = await sysctl.osInfo();
@@ -26,6 +24,6 @@ module.exports = {
             .addField("<:os:907994041524838490> OS", `‣ **Platform**: ${os_data.platform[0].toUpperCase() + os_data.platform.substring(1)}\n‣ **Distro**: ${os_data.distro}\n‣ **Release**: ${os_data.release}\n‣ **Kernel**: ${os_data.kernel}\n‣ **Arch**: ${os_data.arch}`, true)            
             .setFooter({ text: "This is where I live!" })
             .setTimestamp();
-        await interaction.editReply({ embeds: [sysctl_embed] });
+        message.channel.send({ embeds: [sysctl_embed] });
     },
 };
