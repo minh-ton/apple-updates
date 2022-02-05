@@ -30,7 +30,7 @@ global.bot.on("ready", async () => {
     console.log(`Logged in as ${global.bot.user.tag}!`);
     console.log(`Currently in ${global.bot.guilds.cache.size} servers!`);
     console.log('Bot has started!');
-    global.bot.user.setActivity(`/help`, { type: "PLAYING" });
+    global.bot.user.setActivity(`/help`, { type: "WATCHING" });
 });
 
 global.bot.commands = new Discord.Collection();
