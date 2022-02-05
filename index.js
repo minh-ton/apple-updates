@@ -101,15 +101,16 @@ global.bot.on("messageCreate", async message => {
     if (message.content.startsWith("apple!")) return message.channel.send(deprecation_notice());
 
     // Bot prefix
-    const prefix = `<@${global.bot.user.id}>`;
+    const prefixes = [`<@${global.bot.user.id}>`, `<@!${global.bot.user.id}>`];
     if (!message.mentions.has(global.bot.user)) return;
+    if (!prefixes.includes(message.content.split(" ")[0])) return;
 
     // Run bot commands with @mention - Owner only
     let isBotOwner = message.author.id == process.env.owner_id;
     if (!isBotOwner) return;
 
     // Get commands
-    const args = message.content.slice(prefix.length + 1).trim().split(/ +/g);
+    const args = message.content.substring(message.content.indexOf(" ") + 1).trim().split(/ +/g);
     const command = args.shift().toLowerCase();
     const cmd = global.bot.commands.get(command);
     if (!cmd) return; 
