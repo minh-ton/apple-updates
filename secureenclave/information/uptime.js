@@ -16,6 +16,7 @@ module.exports = {
         const embed = new Discord.MessageEmbed()
             .setColor(randomColor())
             .setTitle(`${global.bot.user.tag} - Uptime`)
+            .setThumbnail(global.bot.user.displayAvatarURL({ format: "png", dynamic: true }))
             .addField(`Bot Uptime`, ms(global.bot.uptime).toString(), true)
             .addField(`Bot Age`, ms(Math.abs(new Date() - new Date(global.bot.user.createdAt))), true)
             .addField(`Status`, (!global.BOT_STATUS) ? "Starting" : global.BOT_STATUS, true)
