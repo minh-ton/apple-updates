@@ -95,11 +95,11 @@ module.exports = {
     description: 'Gets information about an update.',
     usage: '`/info <os> <build | version>`',
     data: new SlashCommandBuilder().setName("info").setDescription("Gets information about an update.")
-        .addStringOption(option => option.setName('os').setDescription('Specify the operating system').setRequired(true)
+        .addStringOption(option => option.setName('os').setDescription('Specify the operating system, e.g. iOS').setRequired(true)
             .addChoice("macOS", "macos").addChoice("iOS", "ios").addChoice("iPadOS", "ipados")
             .addChoice("watchOS", "watchos").addChoice("tvOS", "tvos").addChoice("audioOS", "audioos"))
-        .addStringOption(option => option.setName('query').setDescription("Specify the build / version").setRequired(true))
-        .addBooleanOption(option => option.setName("option").setDescription("Toggle to show all matching results").setRequired(false)),
+        .addStringOption(option => option.setName('query').setDescription("Specify the build / version, e.g. 14.8.1").setRequired(true))
+        .addBooleanOption(option => option.setName("option").setDescription("Select 'True' to show all matching results").setRequired(false)),
     async execute(interaction) {
         const os_name = interaction.options.getString('os');
         const search_query = interaction.options.getString('query');

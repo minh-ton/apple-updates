@@ -15,7 +15,7 @@ module.exports = {
     description: 'Gets the latest signed ipsw files.',
     usage: '`/ipsw <device identifier>`',
     data: new SlashCommandBuilder().setName("ipsw").setDescription("Gets the latest signed ipsw files.")
-        .addStringOption(option => option.setName("model").setDescription("Specify device model.").setRequired(true)),
+        .addStringOption(option => option.setName("model").setDescription("Specify device model, e.g. iPhone 13 Pro Max").setRequired(true)),
     async execute(interaction) {
         let identifier = interaction.options.getString('model');
 
