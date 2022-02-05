@@ -19,7 +19,7 @@ module.exports = function () {
 		const channels_list = interaction.member.guild.channels.cache.filter(ch => ch.type === 'GUILD_TEXT' || ch.type === 'GUILD_NEWS');
 		const channel_components = [];
 
-		channels_list.forEach(channel => { channel_components.push({ "label": channel.name, "value": channel.id }); });
+		channels_list.forEach(channel => { channel_components.push({ "label": `#${channel.name}`, "value": channel.id, "description": global.bot.channels.cache.get(channel.parentId).name.toLowerCase() }); });
 
 		const channel_input = new Discord.MessageActionRow().addComponents(new Discord.MessageSelectMenu().setCustomId("channels").setPlaceholder('No channel selected').addOptions(channel_components));
 		await interaction.editReply({ embeds: [updates_part_1()], components: [channel_input] });
@@ -150,8 +150,13 @@ module.exports = function () {
 	        if (options.includes("macOS InstallAssistant.pkg Links")) await pkg_database.update({ [`${selected_channel.guild.id}`]: `${selected_channel.id}` }); 
 	        else await pkg_database.update({ [`${selected_channel.guild.id}`]: firebase.firestore.FieldValue.delete() });
 
+	        const button = new Discord.MessageActionRow().addComponents(
+	            new Discord.MessageButton()
+	                .setURL("https://discord.gg/ktHmcbpMNU")
+	                .setLabel('Join support server')
+	                .setStyle('LINK'));
 	       	const tip_embed = new Discord.MessageEmbed().setDescription(`**Helpful Tip: If you want to be pinged when a new update is available, you can set up a Notification Role.**\n- To set up a notification role, use \`/setup role add\`\n- To remove a notification role, use \`/setup role remove\`\n- To list your server's configured notification roles, use \`/setup role list\``).setColor("#f07800");
-	        return interaction.editReply({ embeds: [updates_overall(`<#${selected_channel.id}>`, options.join(", ")), tip_embed] });
+	        return interaction.editReply({ embeds: [updates_overall(`<#${selected_channel.id}>`, options.join(", ")), tip_embed], components: [button] });
 	    });
 	}
 }

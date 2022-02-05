@@ -64,7 +64,7 @@ module.exports = function () {
     	const role_components = [];
     	const role_list = interaction.member.guild.roles.cache.filter(ch => ch.name != '@everyone');
 
-    	role_list.forEach(role => { role_components.push({ "label": role.name, "value": role.id }); });
+    	role_list.forEach(role => { role_components.push({ "label": `@${role.name}`, "value": role.id }); });
 
     	const role_input = new Discord.MessageActionRow().addComponents(new Discord.MessageSelectMenu().setCustomId("roles").setPlaceholder('No role selected').addOptions(role_components));
     	var selected_role = undefined;
