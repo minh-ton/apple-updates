@@ -14,7 +14,7 @@ function help_embed(author) {
         .addField(`Apple`, '`latest` `ipsw` `info`')
         .addField(`Utilities`, '`help` `setup`')
         .setColor(randomColor());
-    if (author == process.env.owner_id) embed.addField(`Owner`, '`killall` `bash` `echo` `eval` `sysctl`');
+    if (author == process.env.owner_id) embed.addField(`Owner`, '`killall` `bash` `echo` `eval`');
     return embed;
 }
 

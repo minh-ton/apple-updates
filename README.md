@@ -32,7 +32,7 @@ After adding the bot to your servers, use the `/setup` command to set up the bot
 `latest` `ipsw` `info`
 
 ### Other
-`about` `ping` `uptime` `sysctl` `invite` `source`
+`about` `ping` `uptime` `invite` `source`
 
 ## 👏🏼 Contributing
 If you have a question, get help by joining the [Discord server](https://discord.gg/ktHmcbpMNU) or opening an issue. 

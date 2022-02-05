@@ -44,7 +44,7 @@ for (const category of commands) {
     for (const file of cmd_files) {
         const command = require(`./secureenclave/${category}/${file}`);
         global.bot.commands.set(command.name, command);
-        if (category == "owner" || command.name == "sysctl") continue;
+        if (category == "owner") continue;
         command_collection.push(command.data.toJSON());
     }
 }
@@ -115,7 +115,7 @@ global.bot.on("messageCreate", async message => {
     if (!cmd) return; 
 
      // For use with eval, echo, bash, etc
-    if (!["bash", "echo", "eval", "killall", "sysctl"].includes(cmd.name)) return;   
+    if (!["bash", "echo", "eval", "killall"].includes(cmd.name)) return;   
 
     // Run commands
     try {
