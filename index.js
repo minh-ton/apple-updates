@@ -89,7 +89,7 @@ global.bot.on('interactionCreate', async interaction => {
         await cmd.execute(interaction);
     } catch (e) {
         console.error(e);
-        await (error_alert(`An unknown error occured while running \`${cmd.name}\``));
+        await interaction.reply(error_alert(`An unknown error occured while running \`${cmd.name}\``));
     }
 });
 

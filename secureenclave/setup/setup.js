@@ -30,6 +30,7 @@ module.exports = {
             if (interaction.options.getString('option') != undefined && interaction.options.getString('option').includes("role")) await setup_roles(interaction);
             else await setup_updates(interaction);
         } catch (e) {
+            console.error(e);
             simpl.set(interaction.member.guild.id, false);
             return interaction.editReply(error_alert("An unknown error occured while running **setup** command."));
         }
