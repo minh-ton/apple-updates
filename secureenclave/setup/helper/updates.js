@@ -19,7 +19,13 @@ module.exports = function () {
 		const channels_list = interaction.member.guild.channels.cache.filter(ch => ch.type === 'GUILD_TEXT' || ch.type === 'GUILD_NEWS');
 		const channel_components = [];
 
-		channels_list.forEach(channel => { channel_components.push({ "label": `#${channel.name}`, "value": channel.id, "description": global.bot.channels.cache.get(channel.parentId).name.toLowerCase() }); });
+		channels_list.forEach(channel => { 
+			if (global.bot.channels.cache.get(channel.parentId) != undefined) {
+				channel_components.push({ "label": `#${channel.name}`, "value": channel.id, "description": global.bot.channels.cache.get(channel.parentId).name.toLowerCase() }); 
+			} else {
+				channel_components.push({ "label": `#${channel.name}`, "value": channel.id }); 
+			}
+		});
 
 		const channel_input = new Discord.MessageActionRow().addComponents(new Discord.MessageSelectMenu().setCustomId("channels").setPlaceholder('No channel selected').addOptions(channel_components));
 		await interaction.editReply({ embeds: [updates_part_1()], components: [channel_input] });
