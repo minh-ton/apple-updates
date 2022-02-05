@@ -29,7 +29,7 @@ module.exports = {
         const button = new Discord.MessageActionRow().addComponents(
             new Discord.MessageButton()
                     .setURL("https://discord.gg/ktHmcbpMNU")
-                    .setLabel('Join our support server')
+                    .setLabel('Join support server')
                     .setStyle('LINK'));
         let about_embed = new Discord.MessageEmbed()
             .setColor(randomColor())
