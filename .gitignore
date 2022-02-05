@@ -4,3 +4,5 @@ _site
 .jekyll-metadata
 vendor
 .env
+node_modules
+database.json
