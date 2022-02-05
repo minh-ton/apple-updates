@@ -35,10 +35,7 @@ module.exports = {
             let search = new MiniSearch({
                 fields: ['name', 'identifier'],
                 storeFields: ['name', 'identifier'],
-                searchOptions: {
-                    boost: { name: 2 },
-                    fuzzy: 0.2
-                }
+                searchOptions: { boost: { name: 2 } }
             });
 
             search.addAll(device_table);
