@@ -1,6 +1,6 @@
 {
   "name": "apple-updates",
-  "version": "3.0.1",
+  "version": "3.1.0",
   "description": "A Discord bot for pushing notifications about new Apple OS updates.",
   "main": "index.js",
   "scripts": {
