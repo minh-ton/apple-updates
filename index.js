@@ -61,6 +61,7 @@ const rest = new REST({ version: '9' }).setToken(process.env.bot_token);
 
 global.bot.on('interactionCreate', async interaction => {
     if (!interaction.isCommand()) return;
+    if (!interaction.guildId) return interaction.reply(error_alert(`I am unable to run this command in a DM.`));
 
     // Get command
     const cmd = global.bot.commands.get(interaction.commandName);
