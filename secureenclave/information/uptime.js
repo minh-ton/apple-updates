@@ -21,7 +21,7 @@ module.exports = {
             .addField(`Bot Age`, ms(Math.abs(new Date() - new Date(global.bot.user.createdAt))), true)
             .addField(`Status`, (!global.BOT_STATUS) ? "Starting" : global.BOT_STATUS, true)
             .addField(`Memory Usage`, `${formatBytes(process.memoryUsage.rss())} / ${formatBytes(require('os').totalmem())}`, true)
-            .addField(`CPU Usage`, `User: ${((global.CPU_USAGE.user / process.cpuUsage().user) * 100).toFixed(0)}% - System: ${((global.CPU_USAGE.system / process.cpuUsage().system) * 100).toFixed(0)}%`, true)
+            .addField(`CPU Usage`, `User: ${((global.CPU_USAGE.user / process.cpuUsage().user) * 100).toFixed(1)}% - System: ${((global.CPU_USAGE.system / process.cpuUsage().system) * 100).toFixed(1)}%`, true)
         await interaction.editReply({ embeds: [embed] });
     },
 };
