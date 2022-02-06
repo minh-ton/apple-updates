@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const firebase = require("firebase-admin");
+const uniqid = require('uniqid'); 
 
 const db = firebase.firestore();
 
@@ -20,10 +21,12 @@ const database = db.collection('discord').doc('roles').collection('servers');
 
 module.exports = function () {
 	this.setup_roles = async function (interaction) {
+		const sessionID = uniqid();
+
 		if (interaction.options.getString('option').includes("add")) {
 			const os_components = [];
 			for (let os in os_updates) { os_components.push({ "label": os_updates[os], "value": os}); }
-			const os_input = new Discord.MessageActionRow().addComponents(new Discord.MessageSelectMenu().setCustomId("os").setPlaceholder('Nothing selected').addOptions(os_components));
+			const os_input = new Discord.MessageActionRow().addComponents(new Discord.MessageSelectMenu().setCustomId(sessionID).setPlaceholder('Nothing selected').addOptions(os_components));
 
 			await interaction.editReply({ embeds: [roles_part_1()], components: [os_input] });
 
@@ -38,7 +41,7 @@ module.exports = function () {
 			}
 
         	if (arr.length < 1) return interaction.editReply(error_embed(`Your server has no notification roles configured!`));
-			const os_input = new Discord.MessageActionRow().addComponents(new Discord.MessageSelectMenu().setCustomId("os").setPlaceholder('Nothing selected').addOptions(os_components));
+			const os_input = new Discord.MessageActionRow().addComponents(new Discord.MessageSelectMenu().setCustomId(sessionID).setPlaceholder('Nothing selected').addOptions(os_components));
         	
         	await interaction.editReply({ embeds: [roles_remove(arr)], components: [os_input] });
 
@@ -53,7 +56,7 @@ module.exports = function () {
 
 		const filter = ch => {
 			ch.deferUpdate();
-			return ch.member.id == interaction.member.id;
+			return ch.member.id == interaction.member.id && ch.customId === sessionID;
 		}
 
 		const os_response = await interaction.channel.awaitMessageComponent({ filter: filter, max: 1, componentType: 'SELECT_MENU', time: 180000 }).catch(err => { return; });
@@ -66,7 +69,7 @@ module.exports = function () {
 
     	role_list.forEach(role => { role_components.push({ "label": `@${role.name}`, "value": role.id }); });
 
-    	const role_input = new Discord.MessageActionRow().addComponents(new Discord.MessageSelectMenu().setCustomId("roles").setPlaceholder('No role selected').addOptions(role_components));
+    	const role_input = new Discord.MessageActionRow().addComponents(new Discord.MessageSelectMenu().setCustomId(sessionID).setPlaceholder('No role selected').addOptions(role_components));
     	var selected_role = undefined;
 
     	if (interaction.options.getString('option').includes("add")) {
