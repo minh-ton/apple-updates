@@ -27,7 +27,7 @@ module.exports = {
             .setTitle(`${global.bot.user.tag} - About`)
             .setThumbnail(global.bot.user.displayAvatarURL({ format: "png", dynamic: true }))
             .addField(`Version`, require(path.join(__dirname, '../../package.json')).version, true)
-            .addField(`Last Updated`, `<t:${Math.floor(new Date(updated).getTime() / 1000)}>`, true)
+            .addField(`Last Updated`, `<t:${Math.floor(new Date(updated).getTime() / 1000)}:D>`, true)
             .addField(`Servers`, `${global.bot.guilds.cache.size}`, true)
             .setFooter({ text: "Join our support server: https://discord.gg/ktHmcbpMNU" });
         await interaction.editReply({ embeds: [about_embed], components: [button] });
