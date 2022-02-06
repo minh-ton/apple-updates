@@ -26,6 +26,10 @@ function isBeta(build) {
     return false;
 }
 
+function timeToEpoch(time) {
+    return Math.floor(new Date(time).getTime() / 1000);
+}
+
 async function search_build_embed(cname, data) {
     let embed = new Discord.MessageEmbed()
         // Todo: Store macOS version names in an object?
@@ -39,10 +43,14 @@ async function search_build_embed(cname, data) {
 
     if (data["size"]) embed.addField(`Size`, formatBytes(data["size"]), true);
     if (data["changelog"]) embed.setDescription(data["changelog"].toString());
+    if (data["postdate"]) {
+        if ((typeof data["postdate"]) == "string") embed.addField(`Release Date`, `<t:${timeToEpoch(data['postdate'])}:D>`, true);
+        else if ((typeof data["postdate"]) == "object") embed.addField(`Release Date`, `<t:${timeToEpoch(data['postdate'].toDate())}:D>`, true);
+    }
 
     if (data["package"]) {
         let url_status = await checker(data["package"]);
-        embed.addField("Package", `[InstallAssistant.pkg](${data["package"]}) (${(url_status == "404") ? "Expired" : formatBytes(data["packagesize"])})`);
+        embed.addField("Package", `[InstallAssistant.pkg](${data["package"]}) (${(url_status == "404") ? "Expired" : formatBytes(data["packagesize"])})`, true);
     }
     return { embeds: [embed] };
 }
@@ -64,6 +72,11 @@ async function search_version_embed(cname, query, keyword, option) {
         for (let result in data) {
             var info = `‣ **Version**: ${data[result]["version"]} ${isBeta(data[result]["build"]) ? `${(data[result]["updateid"]) ? formatUpdatesName(data[result]["updateid"], data[result]["version"], cname) : "Beta"}` : ""}\n‣ **Build**: ${data[result]["build"]}\n`;
             if (data[result]["size"]) info += `‣ **Size**: ${formatBytes(data[result]["size"])}\n`;
+
+            if (data[result]["postdate"]) {
+                if ((typeof data[result]["postdate"]) == "string") info += `‣ **Release Date**: <t:${timeToEpoch(data[result]['postdate'])}:D>\n`;
+                else if ((typeof data[result]["postdate"]) == "object") info += `‣ **Release Date**: <t:${timeToEpoch(data[result]['postdate'].toDate())}:D>\n`;
+            }
             
             if (data[result]["package"]) {
                 let url_status = await checker(data[result]["package"]);
@@ -78,10 +91,14 @@ async function search_version_embed(cname, query, keyword, option) {
 
         if (data[0]["size"]) embed.addField(`Size`, formatBytes(data[0]["size"]), true);
         if (data[0]["changelog"]) embed.setDescription(data[0]["changelog"].toString());
+        if (data[0]["postdate"]) {
+            if ((typeof data[0]["postdate"]) == "string") embed.addField(`Release Date`, `<t:${timeToEpoch(data[0]['postdate'])}:D>`, true);
+            else if ((typeof data[0]["postdate"]) == "object") embed.addField(`Release Date`, `<t:${timeToEpoch(data[0]['postdate'].toDate())}:D>`, true);
+        }
 
         if (data[0]["package"]) {
             let url_status = await checker(data[0]["package"]);
-            embed.addField("Package", `[InstallAssistant.pkg](${data[0]["package"]}) (${(url_status == "404") ? "Expired" : formatBytes(data[0]["packagesize"])})`);
+            embed.addField("Package", `[InstallAssistant.pkg](${data[0]["package"]}) (${(url_status == "404") ? "Expired" : formatBytes(data[0]["packagesize"])})`, true);
         }
     }
 
