@@ -105,7 +105,7 @@ module.exports = {
                 if (action.customId == cancel_id) collector.stop(), index = -1;
                 if (index >= 0) {
                     await interaction.editReply({ embeds: [new Discord.MessageEmbed().setDescription("Please wait...").setColor(randomColor())], components: [] });
-                    await wait(2000);
+                    await wait(1000);
                     await interaction.editReply({ embeds: [await display_results(results, index)], components: [row] });
                 }
             });
