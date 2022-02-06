@@ -31,10 +31,11 @@ module.exports = function () {
             const build = mac_update[item]['mac_build'];
             const updateid = mac_update[item]['mac_updateid'];
             const changelog = mac_update[item]['mac_changelog'];
+            const postdate = mac_update[item]['mac_postdate'];
 
             if (global.SAVE_MODE) {
                 console.log("[BUILD_DATABASE] - UPLOADING UPDATE OF MACOS");
-                return await save_update("macos", version, size, build, updateid, changelog);
+                return await save_update("macos", version, size, build, updateid, changelog, postdate);
             }
 
             if (updates.includes(build)) return;
@@ -66,10 +67,11 @@ module.exports = function () {
         const build = os_update['os_build'];
         const updateid = os_update['os_updateid'];
         const changelog = os_update['os_changelog'];
+        const postdate = os_update['os_postdate'];
 
         if (global.SAVE_MODE) {
             console.log("[BUILD_DATABASE] - UPLOADING UPDATE OF " + cname.toUpperCase());
-            return await save_update(cname, version, size, build, updateid, changelog);
+            return await save_update(cname, version, size, build, updateid, changelog, postdate);
         }
 
         if (updates.includes(build)) return;
@@ -100,10 +102,11 @@ module.exports = function () {
             let version = xml_update[update]['xml_version'];
             let build = xml_update[update]['xml_build'];
             let size = xml_update[update]['xml_size'];
+            let postdate = xml_update[update]['xml_postdate'];
 
             if (global.SAVE_MODE) {
                 console.log("[BUILD_DATABASE] - UPLOADING PACKAGE OF MACOS");
-                await save_package("macos", build, version, size, pkgurl);
+                await save_package("macos", build, version, size, pkgurl, postdate);
                 continue;
             }
 

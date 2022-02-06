@@ -34,7 +34,8 @@ module.exports = async function () {
                 xml_pkg: catalog_content.Products[product].Packages[package].URL,
                 xml_version: packageinfo['installer-gui-script'].auxinfo.dict.string[1]._text.replace('9.9.', ''),
                 xml_build: packageinfo['installer-gui-script'].auxinfo.dict.string[0]._text,
-                xml_size: catalog_content.Products[product].Packages[package].Size
+                xml_size: catalog_content.Products[product].Packages[package].Size,
+                xml_postdate: catalog_content.Products[product].PostDate
             }
 
             packages.push(xml_update);

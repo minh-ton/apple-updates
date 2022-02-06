@@ -56,7 +56,8 @@ module.exports = function () {
                 mac_build: text.Assets[asset].Build,
                 mac_size: text.Assets[asset]._DownloadSize,
                 mac_updateid: text.Assets[asset].SUDocumentationID,
-                mac_changelog: changelog
+                mac_changelog: changelog,
+                mac_postdate: text.PostingDate
             }
 
             data.push(mac_update);
@@ -102,7 +103,8 @@ module.exports = function () {
             os_build: text.Assets[0].Build,
             os_size: text.Assets[0]._DownloadSize,
             os_updateid: text.Assets[0].SUDocumentationID,
-            os_changelog: changelog
+            os_changelog: changelog,
+            os_postdate: text.PostingDate
         }
 
         return os_update;

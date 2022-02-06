@@ -9,7 +9,7 @@ let db = firebase.firestore();
 const database = db.collection('other').doc('information');
 
 module.exports = function() {
-	this.save_update = async function(cname, version, size, build, updateid, changelog) {
+	this.save_update = async function(cname, version, size, build, updateid, changelog, postdate) {
 		let information = database.collection(cname.toLowerCase());
 
 		if (!build) return;
@@ -22,7 +22,8 @@ module.exports = function() {
 			"size": size,
 			"build": build,
 			"updateid": updateid,
-			"changelog": changelog
+			"changelog": changelog,
+			"postdate": postdate
 		};
 
 		try {
@@ -33,7 +34,7 @@ module.exports = function() {
 		}
 	}
 
-	this.save_package = async function(cname, build, version, size, package) {
+	this.save_package = async function(cname, build, version, size, package, postdate) {
 		let information = database.collection(cname.toLowerCase());
 
 		if (!build) return;
@@ -45,7 +46,8 @@ module.exports = function() {
 			"version": version,
 			"build": build,
 			"package": package,
-			"packagesize": size
+			"packagesize": size,
+			"postdate": postdate
 		};
 
 		try {
