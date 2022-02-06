@@ -69,7 +69,7 @@ module.exports = {
 
             let results = search.search(identifier);
 
-            var index = 0;
+            var index = 0, embed = undefined;
 
             const next_id = uniqid('next-');
             const prev_id = uniqid('prev-');
@@ -96,22 +96,23 @@ module.exports = {
                     .setStyle('SECONDARY'),
             );
 
-            await interaction.editReply({ embeds: [await display_results(results, index)], components: [row] });
+            await interaction.editReply({ embeds: [embed = await display_results(results, index)], components: [row] });
             const collector = interaction.channel.createMessageComponentCollector({ filter, time: 180000 });
 
             collector.on('collect', async action => {
                 if (action.customId == next_id && index < results.length - 1) index++;
                 if (action.customId == prev_id && index > 0) index--;
-                if (action.customId == cancel_id) collector.stop(), index = -1;
+                if (action.customId == cancel_id) return collector.stop();
                 if (index >= 0) {
-                    await interaction.editReply({ embeds: [new Discord.MessageEmbed().setDescription("Please wait...").setColor(randomColor())], components: [] });
+                    embed = await display_results(results, index).catch(() => { collector.stop() });
+                    await interaction.editReply({ embeds: [embed], components: [] });
                     await wait(1000);
-                    await interaction.editReply({ embeds: [await display_results(results, index)], components: [row] });
+                    await interaction.editReply({ embeds: [embed], components: [row] });
                 }
             });
 
             collector.on('end', async action => {
-                await interaction.editReply({ embeds: [new Discord.MessageEmbed().setDescription("<:apple_x:869128016494751755> This command has been cancelled.").setColor("#FF0000")], components: [] });
+                await interaction.editReply({ embeds: [embed], components: [] });
             });
 
         } catch (error) {
