@@ -7,15 +7,6 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 
 require('../../applesilicon/misc.js')();
 
-function formatDate(date) {
-    const month = ["January", "February", "March", "April", 
-                    "May", "June", "July", "August", "September", 
-                    "October", "November", "December"][date.getMonth()];
-    const day = (date.getDate()).toString() + ((date.getDate() > 3 && date.getDate() < 21) ? "th" : ["st", "nd", "rd", "th"][date.getDate() % 10 - 1]).toString();
-    const year = date.getFullYear();
-    return `${month} ${day}, ${year}`;
-}
-
 module.exports = {
     name: 'about',
     command: 'about',
@@ -36,7 +27,7 @@ module.exports = {
             .setTitle(`${global.bot.user.tag} - About`)
             .setThumbnail(global.bot.user.displayAvatarURL({ format: "png", dynamic: true }))
             .addField(`Version`, require(path.join(__dirname, '../../package.json')).version, true)
-            .addField(`Last Updated`, formatDate(new Date(updated)), true)
+            .addField(`Last Updated`, `<t:${Math.floor(new Date(updated).getTime() / 1000)}>`, true)
             .addField(`Servers`, `${global.bot.guilds.cache.size}`, true)
             .setFooter({ text: "Join our support server: https://discord.gg/ktHmcbpMNU" });
         await interaction.editReply({ embeds: [about_embed], components: [button] });
