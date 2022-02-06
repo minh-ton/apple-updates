@@ -4,6 +4,7 @@ const Discord = require("discord.js");
 const axios = require('axios');
 const MiniSearch = require('minisearch')
 const uniqid = require('uniqid'); 
+const wait = require('util').promisify(setTimeout);
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
 require('../../applesilicon/misc.js')();
@@ -102,7 +103,11 @@ module.exports = {
                 if (action.customId == next_id && index < results.length - 1) index++;
                 if (action.customId == prev_id && index > 0) index--;
                 if (action.customId == cancel_id) collector.stop(), index = -1;
-                if (index >= 0) await interaction.editReply({ embeds: [await display_results(results, index)], components: [row] });
+                if (index >= 0) {
+                    await interaction.editReply({ embeds: [new Discord.MessageEmbed().setDescription("Please wait...").setColor(randomColor())], components: [] });
+                    await wait(2000);
+                    await interaction.editReply({ embeds: [await display_results(results, index)], components: [row] });
+                }
             });
 
             collector.on('end', async action => {
