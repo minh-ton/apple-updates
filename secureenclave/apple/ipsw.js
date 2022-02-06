@@ -28,7 +28,7 @@ async function display_results(results, index) {
     
     let embed = new Discord.MessageEmbed()
         .setTitle(`Signed IPSW files for ${ipsw.data.name}`)
-        .setDescription(`${data.join('\n')}\n\n*This command will timeout after 3 minutes.*`)
+        .setDescription(`${data.join('\n')}`)
         .setColor(randomColor())
         .setTimestamp();
 
@@ -116,7 +116,6 @@ module.exports = {
             });
 
         } catch (error) {
-            console.log(error);
             return interaction.editReply(error_alert('Ugh, an unknown error happened!'));
         }
     },
