@@ -15,12 +15,32 @@ const macos_database = db.collection('discord').doc('macos');
 const pkg_database = db.collection('discord').doc('pkg');
 const bot_database = db.collection('discord').doc('bot');
 
+async function get_existing_setup(guildID) {
+	const configuration = [];
+	const os = [
+		{ name: "ios", full: "iOS Updates" }, { name: "ipados", full: "iPadOS Updates" }, 
+		{ name: "watchos", full: "watchOS Updates" }, { name: "tvos", full: "tvOS Updates" }, 
+		{ name: "audioos", full: "audioOS Updates" }, { name: "macos", full: "macOS Updates" }, 
+		{ name: "pkg", full: "macOS InstallAssistant.pkg Links"}, { name: "bot", full: "Bot Updates"}
+	];
+
+	for (let i in os) {
+		const set = await db.collection('discord').doc(os[i].name).get();
+		const dataset = set.data();
+		if (dataset[guildID] != undefined) configuration.push(os[i].full);
+	}
+
+	return configuration;
+}
+
 module.exports = function () {
 	this.setup_updates = async function (interaction) {	
 		const sessionID = uniqid();
 
 		const channels_list = interaction.member.guild.channels.cache.filter(ch => ch.type === 'GUILD_TEXT' || ch.type === 'GUILD_NEWS');
 		const channel_components = [];
+
+		const existing_setup = await get_existing_setup(interaction.member.guild.id);
 
 		channels_list.forEach(channel => { 
 			if (global.bot.channels.cache.get(channel.parentId) != undefined) {
@@ -31,15 +51,15 @@ module.exports = function () {
 		});
 
 		const channel_input = new Discord.MessageActionRow().addComponents(new Discord.MessageSelectMenu().setCustomId(sessionID).setPlaceholder('No channel selected').addOptions(channel_components));
-		await interaction.editReply({ embeds: [updates_part_1()], components: [channel_input] });
+		await interaction.editReply({ embeds: [updates_part_1(existing_setup)], components: [channel_input] });
 
 		const channel_filter = ch => {
 			ch.deferUpdate();
 			return ch.member.id == interaction.member.id && ch.customId === sessionID;
 		}
 
-		const response = await interaction.channel.awaitMessageComponent({ filter: channel_filter, max: 1, componentType: 'SELECT_MENU', time: 180000 }).catch(err => { return; });
-		if (response == undefined) return interaction.editReply(error_embed("You did not select a channel within 3 minutes so the command was cancelled."));
+		const response = await interaction.channel.awaitMessageComponent({ filter: channel_filter, max: 1, componentType: 'SELECT_MENU', time: 60000 }).catch(err => { return; });
+		if (response == undefined) return interaction.editReply(error_embed("You did not select a channel within 1 minute so the command was cancelled."));
 
 		const selected_channel = global.bot.channels.cache.get(response.values[0]);
 		

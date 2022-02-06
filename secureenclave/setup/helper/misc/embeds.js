@@ -1,11 +1,12 @@
 const Discord = require('discord.js');
 
 module.exports = function () {
-	this.updates_part_1 = function() {
+	this.updates_part_1 = function(existing_setup) {
+		const setup = (existing_setup.length > 0) ? `\n:warning: Your server has already set up receiving _${ existing_setup.join(", ") }_.\n***The previous configuration will be deleted after running this command.***\n\n` : "";
 		const part1 = new Discord.MessageEmbed()  
 	        .setTitle(`Software Updates - Updates Setup Part 1`)
 	        .setColor("#00d768")
-	        .setDescription(`\n**Please select the channel that you want me to send new Apple updates to.** \n *If you don't select within 3 minutes, the command will time out.*`);
+	        .setDescription(`\n**Please select the channel that you want me to send new Apple updates to.**\n${setup}*If you don't select within 1 minute, the command will time out.*`);
 	    return part1;
 	}
 
@@ -39,7 +40,7 @@ module.exports = function () {
 		const embed = new Discord.MessageEmbed()   
 		    .setTitle(`Software Updates - Notification Roles Setup Part 1`)
 		    .setColor("#00d768")
-		    .setDescription(`\n**Please select an update name that you would like to get ping notifications for.**\n*If you don't select within 3 minutes, the command will time out.*`);
+		    .setDescription(`\n**Please select an update name that you would like to get ping notifications for.**\n*If you don't select within 1 minute, the command will time out.*`);
 		return embed;
 	}
 
@@ -47,7 +48,7 @@ module.exports = function () {
 	    const embed = new Discord.MessageEmbed()      
 	        .setTitle(`Software Updates - Notification Roles Setup Part 2`)
 	        .setColor("#00d768")
-	        .setDescription(`\n**Please select the role that you would like me to ping when a new ${os} is available.**\n*If you don't select within 3 minutes, the command will time out.*`);
+	        .setDescription(`\n**Please select the role that you would like me to ping when a new ${os} is available.**\n*If you don't select within 1 minute, the command will time out.*`);
 	    return embed;
 	}
 
@@ -71,7 +72,7 @@ module.exports = function () {
 	        .setTitle(`Software Updates - Notification Roles Removal`)
 	        .setColor("#00d768")
 	        .setDescription(`\n**Please select an update name that you would like to remove ping notifications for.**\nYour server has these notification roles configured: 
-	        - ${roles.join(`\n - `)}\n*If you don't select within 3 minutes, the command will time out.*`);
+	        - ${roles.join(`\n - `)}\n*If you don't select within 1 minute, the command will time out.*`);
 	    return embed;
 	}
 
