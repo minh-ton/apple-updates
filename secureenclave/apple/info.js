@@ -67,7 +67,15 @@ async function search_version_embed(cname, query, keyword, option) {
         return (isBeta(x["build"]) == isBeta(y["build"])) ? 0 : isBeta(x["build"]) ? 1 : -1;
     });
 
-    if (data.length > 1 && option == true) {
+    var all_beta = true;
+    for (let result in data) {
+        if (!isBeta(data[result]["build"])) {
+            all_beta = false;
+            break;
+        }
+    }
+
+    if ((data.length > 1 && option == true) || all_beta == true) {
         embed.setTitle(`${os[cname.toLowerCase()]} ${keyword} Search Results`);
         for (let result in data) {
             var info = `‣ **Version**: ${data[result]["version"]} ${isBeta(data[result]["build"]) ? `${(data[result]["updateid"]) ? formatUpdatesName(data[result]["updateid"], data[result]["version"], cname) : "Beta"}` : ""}\n‣ **Build**: ${data[result]["build"]}\n`;
