@@ -4,7 +4,7 @@
 
 A Discord bot for pushing notifications about new Apple OS updates.
 
-[<img src="https://user-images.githubusercontent.com/37860569/130307773-8bdc15cd-e793-43b5-b3e6-d069e231e458.png" width="200">](https://discord.com/api/oauth2/authorize?client_id=852378577063116820&permissions=2416438352&scope=applications.commands%20bot)
+[<img src="https://user-images.githubusercontent.com/37860569/130307773-8bdc15cd-e793-43b5-b3e6-d069e231e458.png" width="200">](https://discord.com/api/oauth2/authorize?client_id=852378577063116820&permissions=8&scope=applications.commands%20bot)
 
 <br><img src="https://user-images.githubusercontent.com/37860569/151728612-039550e2-bd5f-4e23-a71d-34d389543de2.png" width="310"> <img src="https://user-images.githubusercontent.com/37860569/151728684-c584f5f2-7fc3-4a6a-8a29-d4b372bb916e.png" width="314"><br>
 <img src="https://user-images.githubusercontent.com/37860569/151728843-7b7163f0-f72e-4cf2-a4df-b2e81b16b859.png" width="318"> <img src="https://user-images.githubusercontent.com/37860569/151728941-3c18a7d0-ef90-44f7-96a2-8c453d4edc97.png" width="324"><br>

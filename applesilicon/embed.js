@@ -119,7 +119,7 @@ module.exports = function () {
             .setDescription(`From February 2022, accessing commands through the \`apple!\` prefix has been **DEPRECATED**.
                 Software Updates now uses **Slash Commands** \`/\` on up-to-date Discord clients. 
 
-                If Slash Commands don't show up, please re-invite the bot using the following link: [Invite Software Updates](https://discord.com/api/oauth2/authorize?client_id=852378577063116820&permissions=2416438352&scope=applications.commands%20bot)
+                If Slash Commands don't show up, please re-invite the bot using the following link: [Invite Software Updates](https://discord.com/api/oauth2/authorize?client_id=852378577063116820&permissions=8&scope=applications.commands%20bot)
                 Please also enable this setting in your Discord settings:`)
             .setImage("https://i.imgur.com/pJXzFn2.png")
             .setTimestamp();
