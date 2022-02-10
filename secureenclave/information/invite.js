@@ -26,7 +26,7 @@ module.exports = {
             .setThumbnail(global.bot.user.displayAvatarURL({ format: "png", dynamic: true }))
             .setTitle(`${global.bot.user.tag} - Invite`)
             .setURL("https://discord.com/api/oauth2/authorize?client_id=852378577063116820&permissions=8&scope=applications.commands%20bot")
-            .setDescription(`Click [here](https://discord.com/api/oauth2/authorize?client_id=852378577063116820&permissions=2416438352&scope=applications.commands%20bot) to invite the bot to your server.\n\nAfter inviting the bot to your server, make sure to run the \`setup\` command to configure it to your liking!`)
+            .setDescription(`Click [here](https://discord.com/api/oauth2/authorize?client_id=852378577063116820&permissions=8&scope=applications.commands%20bot) to invite the bot to your server.\n\nAfter inviting the bot to your server, make sure to run the \`setup\` command to configure it to your liking!`)
             .setFooter({ text: "Join our support server: https://discord.gg/ktHmcbpMNU" });
         await interaction.editReply({ embeds: [invite_embed], components: [button] });
     },
