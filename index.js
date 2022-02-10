@@ -99,7 +99,7 @@ global.bot.on("messageCreate", async message => {
     if (message.channel.type === "DM") return;
 
     // Deprecation notice
-    if (message.content.startsWith("apple!")) return message.channel.send(deprecation_notice());
+    if (message.content.startsWith("apple!")) return message.channel.send(deprecation_notice()).catch();
 
     // Bot prefix
     const prefixes = [`<@${global.bot.user.id}>`, `<@!${global.bot.user.id}>`];
