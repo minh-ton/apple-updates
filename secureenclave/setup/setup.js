@@ -32,7 +32,7 @@ module.exports = {
         } catch (e) {
             console.error(e);
             simpl.set(interaction.member.guild.id, false);
-            return interaction.editReply(error_alert("An unknown error occured while running **setup** command."));
+            return interaction.editReply(error_alert("An unknown error occured while running **setup** command.\nPlease double-check my permissions so that I can run this command."));
         }
 
         simpl.set(interaction.member.guild.id, false);

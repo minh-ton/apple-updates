@@ -152,7 +152,7 @@ module.exports = function () {
 	    });
 
 	    collector.on('end', async collected => {
-	        await msg.reactions.removeAll();
+	        await msg.reactions.removeAll().catch();
 	        if (options.length < 1) return interaction.editReply(error_embed("You did not react to the message within 1 minute so the command was cancelled."));
 
 	        if (options.includes("Bot Updates")) await bot_database.update({ [`${selected_channel.guild.id}`]: `${selected_channel.id}` });
