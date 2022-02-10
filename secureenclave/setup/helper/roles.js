@@ -69,6 +69,8 @@ module.exports = function () {
 
     	role_list.forEach(role => { role_components.push({ "label": `@${role.name}`, "value": role.id }); });
 
+    	if (role_components.length < 1) return interaction.editReply(error_embed(`Seems like your server does not have any roles or I do not have the necessary permissions to get your server's role list.`));
+
     	const role_input = new Discord.MessageActionRow().addComponents(new Discord.MessageSelectMenu().setCustomId(sessionID).setPlaceholder('No role selected').addOptions(role_components));
     	var selected_role = undefined;
 

@@ -108,8 +108,13 @@ module.exports = function () {
     };
 
     this.error_alert = function (message) {
+        const button = new Discord.MessageActionRow().addComponents(
+            new Discord.MessageButton()
+                    .setURL("https://discord.gg/ktHmcbpMNU")
+                    .setLabel('Join support server to ask for help')
+                    .setStyle('LINK'));
         const embed = new Discord.MessageEmbed().setDescription("<:apple_x:869128016494751755> " + message).setColor("#FF0000");
-        return { embeds: [embed] };
+        return { embeds: [embed], components: [button] };
     }
 
     this.deprecation_notice = function () {
