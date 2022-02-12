@@ -30,8 +30,8 @@ module.exports = {
             var error = (stderr) ? stderr : "No Error";
             var output = (stdout) ? stdout : "No Output"
 
-            if (output.length > 4000) output = output.substring(0, 4000) + '...';
-            if (error.length > 4000) error = error.substring(0, 4000) + '...';
+            if (output.length > 1000) output = output.substring(0, 1000) + '...';
+            if (error.length > 1000) error = error.substring(0, 1000) + '...';
 
             const embed = new Discord.MessageEmbed()
                 .addField(`Output`, `\`\`\`${output}\`\`\``)
