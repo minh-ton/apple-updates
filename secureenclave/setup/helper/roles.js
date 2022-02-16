@@ -21,7 +21,10 @@ const database = db.collection('discord').doc('roles').collection('servers');
 
 module.exports = function () {
 	this.setup_roles = async function (interaction) {
-		const sessionID = uniqid();
+		const sessionIDs = [];
+
+		var sessionID = uniqid();
+		sessionIDs.push(sessionID);
 
 		if (interaction.options.getString('option').includes("add")) {
 			const os_components = [];
@@ -56,7 +59,7 @@ module.exports = function () {
 
 		const filter = ch => {
 			ch.deferUpdate();
-			return ch.member.id == interaction.member.id && ch.customId === sessionID;
+			return ch.member.id == interaction.member.id && sessionIDs.includes(ch.customId);
 		}
 
 		const os_response = await interaction.channel.awaitMessageComponent({ filter: filter, max: 1, componentType: 'SELECT_MENU', time: 60000 }).catch(err => { return; });
@@ -71,11 +74,17 @@ module.exports = function () {
 
     	if (role_components.length < 1) return interaction.editReply(error_embed(`Seems like your server does not have any roles or I do not have the necessary permissions to get your server's role list.`));
 
-    	const role_input = new Discord.MessageActionRow().addComponents(new Discord.MessageSelectMenu().setCustomId(sessionID).setPlaceholder('No role selected').addOptions(role_components));
+    	const role_multiple_components = [];
+
+    	while (role_components.length) {
+    		var sessionID = uniqid(); sessionIDs.push(sessionID);
+    		role_multiple_components.push(new Discord.MessageActionRow().addComponents(new Discord.MessageSelectMenu().setCustomId(sessionID).setPlaceholder('No role selected').addOptions(role_components.splice(0, 20))));
+    	}
+
     	var selected_role = undefined;
 
     	if (interaction.options.getString('option').includes("add")) {
-	        await interaction.editReply({ embeds: [roles_part_2(os_updates[selected_os].slice(0, -1))], components: [role_input] });
+	        await interaction.editReply({ embeds: [roles_part_2(os_updates[selected_os].slice(0, -1))], components: role_multiple_components });
 
 	        const role_response = await interaction.channel.awaitMessageComponent({ filter: filter, max: 1, componentType: 'SELECT_MENU', time: 60000 }).catch(err => { return; });
 	        if (role_response == undefined) return interaction.editReply(error_embed("You did not select a role within 1 minute so the command was cancelled."));

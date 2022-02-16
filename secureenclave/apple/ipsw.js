@@ -47,16 +47,14 @@ module.exports = {
         let identifier = interaction.options.getString('model');
 
         try {
-            const devices = `https://gist.githubusercontent.com/adamawolf/3048717/raw/4407bc61de88444a232f1dca6bd6b8e444698f83/Apple_mobile_device_types.txt`;
+            const devices = `https://api.ipsw.me/v4/devices`;
             const device_table = [];
 
             let device_data = await axios.get(devices);
-            let device_data_clean = device_data.data.replace(/^\s*[\r\n]/gm, "");
-            let device_table_raw = device_data_clean.split("\n");
 
-            for (let query in device_table_raw) {
-                let device = device_table_raw[query].split(":");
-                device_table.push({ id: parseInt(query) + 1, name: device[1].trim().replace('(', '').replace(')', '').replace('+', ' ').replace('-', ' ').replace(',', '').replace('inch', ''), identifier: device[0].trim() });
+            for (let query in device_data.data) {
+                let device = device_data.data[query];
+                device_table.push({ id: parseInt(query) + 1, name: device["name"], identifier: device["identifier"] });
             }
 
             let search = new MiniSearch({

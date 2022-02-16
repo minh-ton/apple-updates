@@ -35,7 +35,7 @@ async function get_existing_setup(guildID) {
 
 module.exports = function () {
 	this.setup_updates = async function (interaction) {	
-		const sessionID = uniqid();
+		const sessionIDs = [];
 
 		const channels_list = interaction.member.guild.channels.cache.filter(ch => ch.type === 'GUILD_TEXT' || ch.type === 'GUILD_NEWS');
 		const channel_components = [];
@@ -50,12 +50,18 @@ module.exports = function () {
 			}
 		});
 
-		const channel_input = new Discord.MessageActionRow().addComponents(new Discord.MessageSelectMenu().setCustomId(sessionID).setPlaceholder('No channel selected').addOptions(channel_components));
-		await interaction.editReply({ embeds: [updates_part_1(existing_setup)], components: [channel_input] });
+		const channel_multiple_components = [];
+
+		while (channel_components.length) {
+			let sessionID = uniqid(); sessionIDs.push(sessionID);
+			channel_multiple_components.push(new Discord.MessageActionRow().addComponents(new Discord.MessageSelectMenu().setCustomId(sessionID).setPlaceholder('No channel selected').addOptions(channel_components.splice(0, 20))));
+		}
+
+		await interaction.editReply({ embeds: [updates_part_1(existing_setup)], components: channel_multiple_components });
 
 		const channel_filter = ch => {
 			ch.deferUpdate();
-			return ch.member.id == interaction.member.id && ch.customId === sessionID;
+			return ch.member.id == interaction.member.id && sessionIDs.includes(ch.customId);
 		}
 
 		const response = await interaction.channel.awaitMessageComponent({ filter: channel_filter, max: 1, componentType: 'SELECT_MENU', time: 60000 }).catch(err => { return; });
