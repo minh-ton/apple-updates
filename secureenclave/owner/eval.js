@@ -34,7 +34,7 @@ module.exports = {
                 .setColor("#00d768")
                 .setTimestamp();
             try {
-                message.channel.send({ embeds: [success] });
+                if (message.channel) message.channel.send({ embeds: [success] });
             } catch(e) {
                 return console.log(e);
             }
@@ -45,7 +45,7 @@ module.exports = {
                 .setColor("#c2002a")
                 .setTimestamp();
             try {
-                message.channel.send({ embeds: [error] });
+                if (message.chanel) message.channel.send({ embeds: [error] });
             } catch(e) {
                 return console.log(e);
             }
