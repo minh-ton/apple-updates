@@ -33,14 +33,14 @@ module.exports = {
                 .setDescription(`\`SUCCESS\` \`\`\`xl\n${clean(evaled)}\n\`\`\``)
                 .setColor("#00d768")
                 .setTimestamp();
-            message.channel.send({ embeds: [success] });
+            message.channel.send({ embeds: [success] }).catch();
 
         } catch (err) {
             const error = new Discord.MessageEmbed()
                 .setDescription(`\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``)
                 .setColor("#c2002a")
                 .setTimestamp();
-            message.channel.send({ embeds: [error] });
+            message.channel.send({ embeds: [error] }).catch();
         }
 
     },
