@@ -36,7 +36,8 @@ module.exports = function () {
             if (global.SAVE_MODE) {
                 console.log("[BUILD_DATABASE] - UPLOADING UPDATE OF MACOS");
                 console.log(`[BUILD_DATABASE] MACOS ${version} (${build})`);
-                return await save_update("macos", version, size, build, updateid, changelog, postdate);
+                await save_update("macos", version, size, build, updateid, changelog, postdate);
+                continue;
             }
 
             if (updates.includes(build)) return;
