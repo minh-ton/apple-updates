@@ -30,14 +30,14 @@ function timeToEpoch(time) {
     return Math.floor(new Date(time).getTime() / 1000);
 }
 
-async function search_build_embed(cname, data) {
+async function search_build_embed(cname, data, interaction) {
     let embed = new Discord.MessageEmbed()
         // Todo: Store macOS version names in an object?
         .setTitle(`${os[cname.toLowerCase()]} ${data["version"].split(".")[0]}${(cname.toLowerCase() == "macos") ? (data["version"].split(".")[0] == "12" ? " Monterey" : " Big Sur") : ""} ${isBeta(data["build"]) ? "Beta" : ""}`)
         .addField(`Version`, data["version"].toString() + (isBeta(data["build"]) ? ` ${(data["updateid"]) ? formatUpdatesName(data["updateid"], data["version"], cname) : "Beta"}` : ""), true)
         .addField(`Build`, data["build"].toString(), true)
         .setColor(randomColor())
-        .setTimestamp();
+        .setFooter({ text: interaction.user.username, iconURL: interaction.user.displayAvatarURL() });
     if (cname.toLowerCase() == "ios" || cname.toLowerCase() == "ipados" || cname.toLowerCase() == "macos") embed.setThumbnail(getThumbnail(cname.toLowerCase() + data["version"].split(".")[0]));
     else embed.setThumbnail(getThumbnail(cname.toLowerCase()));
 
@@ -55,11 +55,11 @@ async function search_build_embed(cname, data) {
     return { embeds: [embed] };
 }
 
-async function search_version_embed(cname, query, keyword, option) {
+async function search_version_embed(cname, query, keyword, option, interaction) {
     let data = [];
     query.forEach(doc => { data.push(doc.data()) });
 
-    const embed = new Discord.MessageEmbed().setColor(randomColor()).setTimestamp();
+    const embed = new Discord.MessageEmbed().setColor(randomColor()).setFooter({ text: interaction.user.username, iconURL: interaction.user.displayAvatarURL() });
     if (cname.toLowerCase() == "ios" || cname.toLowerCase() == "ipados" || cname.toLowerCase() == "macos") embed.setThumbnail(getThumbnail(cname.toLowerCase() + keyword.split(".")[0]));
     else embed.setThumbnail(getThumbnail(cname.toLowerCase()));
 
@@ -135,9 +135,9 @@ module.exports = {
 
         if (build_query.exists) {
             let build_data = build_query.data();
-            return interaction.editReply(await search_build_embed(os_name, build_data));
+            return interaction.editReply(await search_build_embed(os_name, build_data, interaction));
         } else if (!version_query.empty) {
-            return interaction.editReply(await search_version_embed(os_name, version_query, search_query, search_option));
+            return interaction.editReply(await search_version_embed(os_name, version_query, search_query, search_option, interaction));
         } else {
             return interaction.editReply(error_alert('No results found.'));
         }

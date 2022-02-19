@@ -10,7 +10,7 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 require('../../applesilicon/misc.js')();
 require('../../applesilicon/embed.js')();
 
-async function display_results(results, index) {
+async function display_results(results, index, interaction) {
     let ipsw = await axios.get(`https://api.ipsw.me/v4/device/${results[index].identifier}?type=ipsw`);
 
     const data = [];
@@ -30,7 +30,7 @@ async function display_results(results, index) {
         .setTitle(`Signed IPSW files for ${ipsw.data.name}`)
         .setDescription(`${data.join('\n')}`)
         .setColor(randomColor())
-        .setTimestamp();
+        .setFooter({ text: interaction.user.username, iconURL: interaction.user.displayAvatarURL() });
 
     return embed;
 }
@@ -94,7 +94,7 @@ module.exports = {
                     .setStyle('SECONDARY'),
             );
 
-            await interaction.editReply({ embeds: [embed = await display_results(results, index)], components: [row] });
+            await interaction.editReply({ embeds: [embed = await display_results(results, index, interaction)], components: [row] });
             const collector = interaction.channel.createMessageComponentCollector({ filter, time: 180000 });
 
             collector.on('collect', async action => {
@@ -102,7 +102,7 @@ module.exports = {
                 if (action.customId == prev_id && index > 0) index--;
                 if (action.customId == cancel_id) return collector.stop();
                 if (index >= 0) {
-                    embed = await display_results(results, index).catch(() => { collector.stop() });
+                    embed = await display_results(results, index, interaction).catch(() => { collector.stop() });
                     await interaction.editReply({ embeds: [embed], components: [] });
                     await wait(1000);
                     await interaction.editReply({ embeds: [embed], components: [row] });

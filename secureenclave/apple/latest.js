@@ -53,7 +53,7 @@ module.exports = {
                 .setDescription(`**Public Release Installers:**\n${installers[1].join('\n')}\n\n**Beta Release Installers:**\n${installers[0].join('\n')}`)
                 .setColor(randomColor())
                 .addField('Catalogs', `[macOS 11 Big Sur Public Release Catalog](${macos_public_catalog})\n[macOS 11 Big Sur Developer Beta Catalog](${macos_beta_catalog})\n[macOS 12 Monterey Public Release Catalog](${macos_new_public_catalog})\n[macOS 12 Monterey Developer Beta Catalog](${macos_new_beta_catalog})`)
-                .setTimestamp();
+                .setFooter({ text: interaction.user.username, iconURL: interaction.user.displayAvatarURL() });
             interaction.editReply({ embeds: [embed] });
         } catch (error) {
             return interaction.editReply(error_alert("Ugh, an unknown error occurred.", error));
