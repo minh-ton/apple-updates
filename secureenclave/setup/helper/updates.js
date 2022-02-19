@@ -82,6 +82,8 @@ module.exports = function () {
 	    await msg.react("852824497202659348");
 	    await msg.react("852825269705113610");
 
+	    await interaction.editReply({ embeds: [updates_part_2(selected_channel, "Your selected options will appear here")], components: [] });
+
 	    const filter = (reaction, user) => {
         	return user.id == interaction.member.id;
     	}
