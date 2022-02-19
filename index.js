@@ -69,6 +69,8 @@ global.bot.on('interactionCreate', async interaction => {
     const cmd = global.bot.commands.get(interaction.commandName);
     if (!cmd) return;
 
+    await interaction.deferReply();
+
     // Command cooldowns
     if (interaction.member.id != process.env.owner_id) {
         const { cooldowns } = global.bot;
@@ -78,7 +80,7 @@ global.bot.on('interactionCreate', async interaction => {
             const exp_time = timestamps.get(interaction.member.id) + amount;
             if (now < exp_time) {
                 const remaining = (exp_time - now) / 1000;
-                return interaction.reply(error_alert(`I need to rest a little bit! Please wait **${remaining.toFixed(0)} more seconds** to use \`${cmd.name}\`!`));
+                return interaction.editReply(error_alert(`I need to rest a little bit! Please wait **${remaining.toFixed(0)} more seconds** to use \`${cmd.name}\`!`));
             }
         }
         timestamps.set(interaction.member.id, now);
@@ -87,11 +89,10 @@ global.bot.on('interactionCreate', async interaction => {
 
     // Execute command
     try {
-        await interaction.deferReply();
         await cmd.execute(interaction);
     } catch (e) {
         console.error(e);
-        await interaction.reply(error_alert(`An unknown error occured while running \`${cmd.name}\``));
+        await interaction.editReply(error_alert(`An unknown error occured while running \`${cmd.name}\``));
     }
 });
 
