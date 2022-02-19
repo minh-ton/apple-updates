@@ -9,7 +9,7 @@ let db = firebase.firestore();
 const database = db.collection('other').doc('information');
 
 module.exports = function() {
-	this.save_update = async function(cname, version, size, build, updateid, changelog, postdate) {
+	this.save_update = async function(cname, version, size, build, updateid, changelog, postdate, beta) {
 		let information = database.collection(cname.toLowerCase());
 
 		if (!build) return;
@@ -23,7 +23,8 @@ module.exports = function() {
 			"build": build,
 			"updateid": updateid,
 			"changelog": changelog,
-			"postdate": postdate
+			"postdate": postdate,
+			"beta": beta
 		};
 
 		try {

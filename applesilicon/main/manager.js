@@ -36,7 +36,7 @@ module.exports = function () {
             if (global.SAVE_MODE) {
                 console.log("[BUILD_DATABASE] - UPLOADING UPDATE OF MACOS");
                 console.log(`[BUILD_DATABASE] MACOS ${version} (${build})`);
-                await save_update("macos", version, size, build, updateid, changelog, postdate);
+                await save_update("macos", version, size, build, updateid, changelog, postdate, beta);
                 continue;
             }
 
@@ -74,7 +74,7 @@ module.exports = function () {
         if (global.SAVE_MODE) {
             console.log("[BUILD_DATABASE] - UPLOADING UPDATE OF " + cname.toUpperCase());
             console.log(`[BUILD_DATABASE] ${cname.toUpperCase()} ${version} (${build})`);
-            return await save_update(cname, version, size, build, updateid, changelog, postdate);
+            return await save_update(cname, version, size, build, updateid, changelog, postdate, beta);
         }
 
         if (updates.includes(build)) return;
