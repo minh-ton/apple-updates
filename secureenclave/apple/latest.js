@@ -37,6 +37,7 @@ module.exports = {
     command: 'latest',
     category: 'Apple',
     cooldown: 60,
+    ephemeral: false,
     description: 'Gets the latest macOS Full Installer Packages.',
     data: new SlashCommandBuilder().setName("latest").setDescription("Gets the latest macOS Full Installer Packages."),
     async execute(interaction) {

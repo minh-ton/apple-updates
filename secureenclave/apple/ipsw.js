@@ -39,6 +39,7 @@ module.exports = {
     name: 'ipsw',
     command: 'ipsw',
     category: 'Apple',
+    ephemeral: false,
     description: 'Gets the latest signed ipsw files.',
     usage: '`/ipsw <device identifier>`',
     data: new SlashCommandBuilder().setName("ipsw").setDescription("Gets the latest signed ipsw files.")
