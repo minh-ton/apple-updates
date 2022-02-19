@@ -69,7 +69,7 @@ global.bot.on('interactionCreate', async interaction => {
     const cmd = global.bot.commands.get(interaction.commandName);
     if (!cmd) return;
 
-    await interaction.deferReply();
+    await interaction.deferReply({ ephemeral: (cmd.ephemeral != undefined) ? cmd.ephemeral : true });
 
     // Command cooldowns
     if (interaction.member.id != process.env.owner_id) {

@@ -13,6 +13,7 @@ module.exports = {
     command: 'setup',
     category: 'Utilities',
     cooldown: 5,
+    ephemeral: false,
     description: 'Configures the bot to your liking!',
     usage: '`/setup`: Configures the bot.\n`/setup role add`: Adds a notification role.\n`/setup role remove`: Removes a notification role.\n`/setup role list`: Lists configures notification roles.',
     data: new SlashCommandBuilder().setName("setup").setDescription("Configures the bot to your liking!")
