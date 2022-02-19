@@ -130,8 +130,6 @@ module.exports = {
         const search_query = interaction.options.getString('query');
         const search_option = interaction.options.getBoolean('option');
 
-        if (!os[os_name.toLowerCase()]) return interaction.editReply(error_alert('Invalid OS name.'));
-
         let build_query = await database.collection(os_name.toLowerCase()).doc(search_query).get();
         let version_query = await database.collection(os_name.toLowerCase()).where('version', '==', search_query).get();
 
@@ -141,7 +139,7 @@ module.exports = {
         } else if (!version_query.empty) {
             return interaction.editReply(await search_version_embed(os_name, version_query, search_query, search_option));
         } else {
-            return interaction.editReply(error_alert('No matches found.'))
+            return interaction.editReply(error_alert('No results found.'));
         }
     },
 };

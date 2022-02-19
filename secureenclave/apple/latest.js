@@ -56,7 +56,7 @@ module.exports = {
                 .setTimestamp();
             interaction.editReply({ embeds: [embed] });
         } catch (error) {
-            return interaction.editReply(error_alert(error));
+            return interaction.editReply(error_alert("Ugh, an unknown error occurred.", error));
         }
     },
 };

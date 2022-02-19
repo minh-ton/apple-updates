@@ -107,14 +107,25 @@ module.exports = function () {
         send_to_servers("bot", embed);
     };
 
-    this.error_alert = function (message) {
+    this.error_alert = function (message, report) {
+        const embeds = [];
         const button = new Discord.MessageActionRow().addComponents(
             new Discord.MessageButton()
                     .setURL("https://discord.gg/ktHmcbpMNU")
                     .setLabel('Join support server to ask for help')
                     .setStyle('LINK'));
-        const embed = new Discord.MessageEmbed().setDescription("<:apple_x:869128016494751755> " + message).setColor("#FF0000");
-        return { embeds: [embed], components: [button] };
+
+        const alert = new Discord.MessageEmbed().setDescription("<:apple_x:869128016494751755> " + message).setColor("#FF0000");
+        embeds.push(alert);
+
+        if (report != undefined) {
+            const error_report = new Discord.MessageEmbed()
+                .setDescription(`Please report this incident in the support server:\n\`\`\`${report}\`\`\``)
+                .setColor("#FF0000");
+            embeds.push(error_report);
+        }
+
+        return { embeds: embeds, components: [button] };
     }
 
     this.deprecation_notice = function () {

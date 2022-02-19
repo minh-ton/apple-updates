@@ -114,7 +114,7 @@ module.exports = {
             });
 
         } catch (error) {
-            return interaction.editReply(error_alert('Ugh, an unknown error happened!'));
+            return interaction.editReply(error_alert('Ugh, an unknown error occurred.', error));
         }
     },
 };
