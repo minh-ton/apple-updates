@@ -10,7 +10,7 @@ const database = db.collection('other').doc('information');
 
 module.exports = function() {
 	this.save_update = async function(cname, version, size, build, updateid, changelog, postdate, beta) {
-		let information = database.collection(cname.toLowerCase());
+		let information = database.collection(`${cname.toLowerCase()}${(beta) ? "_beta" : "_public"}`);
 
 		if (!build) return;
 
@@ -35,8 +35,8 @@ module.exports = function() {
 		}
 	}
 
-	this.save_package = async function(cname, build, version, size, package, postdate) {
-		let information = database.collection(cname.toLowerCase());
+	this.save_package = async function(cname, build, version, size, package, postdate, beta) {
+		let information = database.collection(`${cname.toLowerCase()}${(beta) ? "_beta" : "_public"}`);
 
 		if (!build) return;
 

@@ -110,7 +110,7 @@ module.exports = function () {
             if (global.SAVE_MODE) {
                 console.log("[BUILD_DATABASE] - UPLOADING PACKAGE OF MACOS");
                 console.log(`[BUILD_DATABASE] MACOS ${version} (${build})`);
-                await save_package("macos", build, version, size, pkgurl, postdate);
+                await save_package("macos", build, version, size, pkgurl, postdate, beta);
                 continue;
             }
 
