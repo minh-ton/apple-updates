@@ -48,7 +48,8 @@ module.exports = function() {
 			"build": build,
 			"package": package,
 			"packagesize": size,
-			"postdate": postdate
+			"postdate": postdate,
+			"beta": beta
 		};
 
 		try {
