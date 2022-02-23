@@ -21,20 +21,28 @@ const os = {
     "macos": "macOS"
 }
 
-function isBeta(build) {
-    if (build.length > 6 && build.toUpperCase() != build) return true; // May break in the future
-    return false;
+const macos_names = {
+    "11": "Big Sur",
+    "12": "Monterey"
+};
+
+function isBeta(build, remote) {
+    let check = build.length > 6 && build.toUpperCase() != build;
+    if (remote != undefined && remote == false) return false;
+    if (remote != undefined && remote == true && !check) return true;
+    return check;
 }
 
 function timeToEpoch(time) {
     return Math.floor(new Date(time).getTime() / 1000);
 }
 
-async function search_build_embed(cname, data, interaction) {
-    let embed = new Discord.MessageEmbed()
-        // Todo: Store macOS version names in an object?
-        .setTitle(`${os[cname.toLowerCase()]} ${data["version"].split(".")[0]}${(cname.toLowerCase() == "macos") ? (data["version"].split(".")[0] == "12" ? " Monterey" : " Big Sur") : ""} ${isBeta(data["build"]) ? "Beta" : ""}`)
-        .addField(`Version`, data["version"].toString() + (isBeta(data["build"]) ? ` ${(data["updateid"]) ? formatUpdatesName(data["updateid"], data["version"], cname) : "Beta"}` : ""), true)
+async function search_build_embed(cname, query, interaction) {
+    let data = query[0];
+    
+    const embed = new Discord.MessageEmbed()
+        .setTitle(`${os[cname.toLowerCase()]} ${data["version"].split(".")[0]}${(cname.toLowerCase() == "macos") ? " " + macos_names[data["version"].split(".")[0]] : ""} ${isBeta(data["build"], data["beta"]) ? "Beta" : ""}`)
+        .addField(`Version`, data["version"].toString() + (isBeta(data["build"], data["beta"]) ? ` ${(data["updateid"]) ? formatUpdatesName(data["updateid"], data["version"], cname) : "Beta"}` : ""), true)
         .addField(`Build`, data["build"].toString(), true)
         .setColor(randomColor())
         .setFooter({ text: interaction.user.username, iconURL: interaction.user.displayAvatarURL() });
@@ -52,24 +60,24 @@ async function search_build_embed(cname, data, interaction) {
         let url_status = await checker(data["package"]);
         embed.addField("Package", `[InstallAssistant.pkg](${data["package"]}) (${(url_status == "404") ? "Expired" : formatBytes(data["packagesize"])})`, true);
     }
+
     return { embeds: [embed] };
 }
 
 async function search_version_embed(cname, query, keyword, option, interaction) {
-    let data = [];
-    query.forEach(doc => { data.push(doc.data()) });
+    let data = query;
 
     const embed = new Discord.MessageEmbed().setColor(randomColor()).setFooter({ text: interaction.user.username, iconURL: interaction.user.displayAvatarURL() });
     if (cname.toLowerCase() == "ios" || cname.toLowerCase() == "ipados" || cname.toLowerCase() == "macos") embed.setThumbnail(getThumbnail(cname.toLowerCase() + keyword.split(".")[0]));
     else embed.setThumbnail(getThumbnail(cname.toLowerCase()));
 
     data.sort(function(x, y) {
-        return (isBeta(x["build"]) == isBeta(y["build"])) ? 0 : isBeta(x["build"]) ? 1 : -1;
+        return (isBeta(x["build"], x["beta"]) - isBeta(y["build"]), y["beta"]);
     });
 
     var all_beta = true;
     for (let result in data) {
-        if (!isBeta(data[result]["build"])) {
+        if (!isBeta(data[result]["build"], data[result]["beta"])) {
             all_beta = false;
             break;
         }
@@ -78,7 +86,7 @@ async function search_version_embed(cname, query, keyword, option, interaction) 
     if ((data.length > 1 && option == true) || all_beta == true) {
         embed.setTitle(`${os[cname.toLowerCase()]} ${keyword} Search Results`);
         for (let result in data) {
-            var info = `‣ **Version**: ${data[result]["version"]} ${isBeta(data[result]["build"]) ? `${(data[result]["updateid"]) ? formatUpdatesName(data[result]["updateid"], data[result]["version"], cname) : "Beta"}` : ""}\n‣ **Build**: ${data[result]["build"]}\n`;
+            var info = `‣ **Version**: ${data[result]["version"]} ${isBeta(data[result]["build"], data[result]["beta"]) ? `${(data[result]["updateid"]) ? formatUpdatesName(data[result]["updateid"], data[result]["version"], cname) : "Beta"}` : ""}\n‣ **Build**: ${data[result]["build"]}\n`;
             if (data[result]["size"]) info += `‣ **Size**: ${formatBytes(data[result]["size"])}\n`;
 
             if (data[result]["postdate"]) {
@@ -93,8 +101,8 @@ async function search_version_embed(cname, query, keyword, option, interaction) 
             embed.addField(`No. #${parseInt(result) + 1}`, info);
         }
     } else {
-        embed.setTitle(`${os[cname.toLowerCase()]} ${data[0]["version"].split(".")[0]}${(cname.toLowerCase() == "macos") ? (data[0]["version"].split(".")[0] == "12" ? " Monterey" : " Big Sur") : ""} ${isBeta(data[0]["build"]) ? "Beta" : ""}`)
-            .addField(`Version`, data[0]["version"].toString() + (isBeta(data[0]["build"]) ? ` ${(data[0]["updateid"]) ? formatUpdatesName(data[0]["updateid"], data[0]["version"], cname) : "Beta"}` : ""), true)
+        embed.setTitle(`${os[cname.toLowerCase()]} ${data[0]["version"].split(".")[0]}${(cname.toLowerCase() == "macos") ? " " + macos_names[data[0]["version"].split(".")[0]] : ""} ${isBeta(data[0]["build"], data[0]["beta"]) ? "Beta" : ""}`)
+            .addField(`Version`, data[0]["version"].toString() + (isBeta(data[0]["build"], data[0]["beta"]) ? ` ${(data[0]["updateid"]) ? formatUpdatesName(data[0]["updateid"], data[0]["version"], cname) : "Beta"}` : ""), true)
             .addField(`Build`, data[0]["build"].toString(), true);
 
         if (data[0]["size"]) embed.addField(`Size`, formatBytes(data[0]["size"]), true);
@@ -131,14 +139,21 @@ module.exports = {
         const search_query = interaction.options.getString('query');
         const search_option = interaction.options.getBoolean('option');
 
-        let build_query = await database.collection(os_name.toLowerCase()).doc(search_query).get();
-        let version_query = await database.collection(os_name.toLowerCase()).where('version', '==', search_query).get();
+        let build_query_public = await database.collection(os_name.toLowerCase() + "_public").doc(search_query).get();
+        let build_query_beta = await database.collection(os_name.toLowerCase() + "_beta").doc(search_query).get();
+        let version_query_public = await database.collection(os_name.toLowerCase() + "_public").where('version', '==', search_query).get();
+        let version_query_beta = await database.collection(os_name.toLowerCase() + "_beta").where('version', '==', search_query).get();
 
-        if (build_query.exists) {
-            let build_data = build_query.data();
-            return interaction.editReply(await search_build_embed(os_name, build_data, interaction));
-        } else if (!version_query.empty) {
-            return interaction.editReply(await search_version_embed(os_name, version_query, search_query, search_option, interaction));
+        if (build_query_public.exists || build_query_beta.exists) {
+            const query_data = [];
+            if (build_query_public.exists) query_data.push(build_query_public.data());
+            if (build_query_beta.exists) query_data.push(build_query_beta.data());
+            return interaction.editReply(await search_build_embed(os_name, query_data, interaction));
+        } else if (!version_query_public.empty || !version_query_beta.empty) {
+            const query_data = [];
+            if (!version_query_public.empty) version_query_public.forEach(doc => { query_data.push(doc.data()) });
+            if (!version_query_beta.empty) version_query_beta.forEach(doc => { query_data.push(doc.data()) });
+            return interaction.editReply(await search_version_embed(os_name, query_data, search_query, search_option, interaction));
         } else {
             return interaction.editReply(error_alert('No results found.'));
         }
