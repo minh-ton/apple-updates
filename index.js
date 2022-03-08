@@ -31,7 +31,7 @@ global.bot.on("ready", async () => {
     console.log(`Currently in ${global.bot.guilds.cache.size} servers!`);
     console.log('Bot has started!');
     setInterval(() => {
-        if (!global.autoStatus) global.bot.user.setActivity(`/help | ${global.bot.guilds.cache.size}`, { type: "WATCHING" });
+        if (!global.customStatus) global.bot.user.setActivity(`/help | ${global.bot.guilds.cache.size}`, { type: "WATCHING" });
     }, 10000);
 });
 
