@@ -36,12 +36,11 @@ After adding the bot to your servers, use the `/setup` command to set up the bot
 
 ## 👏🏼 Contributing
 If you have a question, get help by joining the [Discord server](https://discord.gg/ktHmcbpMNU) or opening an issue. 
-If you wish to contribute, feel free to fork the repository and submit a pull request!
+If you wish to contribute, feel free to fork the repository and submit a pull request to the `dev` branch!
 
 
 ## 🔎 Credits
 - [ASentientBot](https://asentientbot.github.io) and [DhinakG](https://github.com/dhinakg) for many insights on Apple's Pallas server.
-- [Siguza](https://github.com/Siguza) for a [script](https://gist.github.com/Siguza/0331c183c8c59e4850cd0b62fd501424) showing how Apple devices fetch updates.
 - Several other contributors and testers on Discord for helping me with various parts of the bot. 
 
 ## 📝 License
