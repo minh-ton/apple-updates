@@ -30,7 +30,7 @@
     "@discordjs/rest": "^0.3.0",
     "adm-zip": "^0.5.9",
     "axios": "^0.26.1",
-    "discord-api-types": "^0.30.0",
+    "discord-api-types": "^0.31.0",
     "discord.js": "^13.6.0",
     "firebase-admin": "^10.0.2",
     "minisearch": "^4.0.3",
