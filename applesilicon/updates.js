@@ -19,12 +19,14 @@ module.exports = function () {
 
         // Beta iOS
         if (ios) await fetch_other_updates(audiences.ios_15_beta, devices.ios.build, devices.ios.model, devices.ios.prodtype, devices.ios.version, "iOS", "beta", true); // iOS 15 Beta
+        if (ios) await fetch_other_updates(audiences.ios_16_beta, devices.ios.build, devices.ios.model, devices.ios.prodtype, devices.ios.version, "iOS", "beta", true); // iOS 16 Beta
         // Public iOS
         if (ios) await fetch_other_updates(audiences.ios_release, devices.ios.build, devices.ios.model, devices.ios.prodtype, devices.ios.version, "iOS", "public", false); // iOS Release
         if (ios) await fetch_other_updates(audiences.ios_14_security, "18F72", devices.ios.model, devices.ios.prodtype, "14.6", "iOS", "public", false); // iOS 14 Security Updates
 
         // Beta iPadOS
         if (ipados) await fetch_other_updates(audiences.ios_15_beta, devices.ipados.build, devices.ipados.model, devices.ipados.prodtype, devices.ipados.version, "iPadOS", "beta", true); // iPadOS 15 Beta
+        if (ipados) await fetch_other_updates(audiences.ios_16_beta, devices.ipados.build, devices.ipados.model, devices.ipados.prodtype, devices.ipados.version, "iPadOS", "beta", true); // iPadOS 16 Beta
         // Public iPadOS
         if (ipados) await fetch_other_updates(audiences.ios_release, devices.ipados.build, devices.ipados.model, devices.ipados.prodtype, devices.ipados.version, "iPadOS", "public", false); // iPadOS Release
         if (ipados) await fetch_other_updates(audiences.ios_14_security, "18F72", devices.ipados.model, devices.ipados.prodtype, "14.6", "iPadOS", "public", false); // iPadOS 14 Security Updates
