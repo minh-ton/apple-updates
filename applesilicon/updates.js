@@ -12,8 +12,8 @@ module.exports = function () {
         global.BOT_STATUS = "Working";
 
         // Beta macOS
-        if (macos) await fetch_macos_updates(audiences.macos_bigsur_beta, 'beta', true); // macOS Big Sur Beta
-        if (macos) await fetch_macos_updates(audiences.macos_monterey_beta, 'beta', true); // macOS Monterey Beta
+        if (macos) await fetch_macos_updates(audiences.macos_11_beta, 'beta', true); // macOS Big Sur Beta
+        if (macos) await fetch_macos_updates(audiences.macos_12_beta, 'beta', true); // macOS Monterey Beta
         // Public macOS
         if (macos) await fetch_macos_updates(audiences.macos_release, 'public', false); // macOS Release
 
