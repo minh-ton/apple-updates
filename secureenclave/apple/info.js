@@ -130,8 +130,13 @@ module.exports = {
     usage: '`/info <os> <build | version>`',
     data: new SlashCommandBuilder().setName("info").setDescription("Gets information about an update.")
         .addStringOption(option => option.setName('os').setDescription('Specify the operating system, e.g. iOS').setRequired(true)
-            .addChoice("macOS", "macos").addChoice("iOS", "ios").addChoice("iPadOS", "ipados")
-            .addChoice("watchOS", "watchos").addChoice("tvOS", "tvos").addChoice("audioOS", "audioos"))
+        .addChoices(
+            { name: 'iOS', value: 'ios' },
+            { name: 'iPadOS', value: 'ipados' },
+            { name: 'watchOS', value: 'watchos' },
+            { name: 'tvOS', value: 'tvos' },
+            { name: 'macOS', value: 'macos' },
+            { name: 'audioOS', value: 'audioos' }))
         .addStringOption(option => option.setName('query').setDescription("Specify the build / version, e.g. 14.8.1").setRequired(true))
         .addBooleanOption(option => option.setName("option").setDescription("Select 'True' to show all matching results").setRequired(false)),
     async execute(interaction) {

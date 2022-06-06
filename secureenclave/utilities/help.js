@@ -26,9 +26,18 @@ module.exports = {
     usage: '`/help`: Shows a list of bot commands.\n`/help <command>`: Gets help on a command.',
     data: new SlashCommandBuilder().setName("help").setDescription("Gets help on a command.")
         .addStringOption(option => option.setName('command').setDescription('View more information on a command.').setRequired(false)
-            .addChoice("about", "about").addChoice("ping", "ping").addChoice("uptime", "uptime")
-            .addChoice("invite", "invite").addChoice("source", "source").addChoice("latest", "latest")
-            .addChoice("ipsw", "ipsw").addChoice("info", "info").addChoice("help", "help").addChoice("setup", "setup")),
+        .addChoices(
+            { name: "about", value: "about" }, 
+            { name: "ping", value: "ping" },
+            { name: "uptime", value: "uptime" }, 
+            { name: "invite", value: "invite" },
+            { name: "source", value: "source" }, 
+            { name: "latest", value: "latest" },
+            { name: "ipsw", value: "ipsw" }, 
+            { name: "info", value: "info" },
+            { name: "help", value: "help" }, 
+            { name: "setup", value: "setup" },
+        )),
     async execute(interaction) {
         let color = randomColor();
 
