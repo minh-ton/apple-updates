@@ -1,0 +1,18 @@
+{
+	"tvos": "https://ipsw.me/assets/devices/AppleTV6,2.png",
+	"audioos": "https://ipsw.me/assets/devices/AudioAccessory5,1.png",
+	"watchos": "https://ipsw.me/assets/devices/Watch5,4.png",
+	"pkg": "https://i.imgur.com/514ZvLh.png",
+
+	"macos11": "https://ipsw.me/assets/devices/MacBookAir10,1.png",
+	"macos12": "https://ipsw.me/assets/devices/MacBookPro18,2.png",
+	"macos13": "https://ipsw.me/assets/devices/MacBookPro18,2.png",
+
+	"ios14": "https://ipsw.me/assets/devices/iPhone13,3.png",
+	"ios15": "https://ipsw.me/assets/devices/iPhone14,3.png",
+	"ios16": "https://ipsw.me/assets/devices/iPhone14,3.png",
+
+	"ipados14": "https://ipsw.me/assets/devices/iPad13,6.png",
+	"ipados15": "https://ipsw.me/assets/devices/iPad14,2.png",
+	"ipados16": "https://ipsw.me/assets/devices/iPad14,2.png"
+}
