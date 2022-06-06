@@ -33,6 +33,7 @@ module.exports = function () {
 
         // Beta watchOS
         if (watchos) await fetch_other_updates(audiences.watchos_8_beta, devices.watchos.build, devices.watchos.model, devices.watchos.prodtype, devices.watchos.version, "watchOS", "beta", true); // watchOS 8 Beta
+        if (watchos) await fetch_other_updates(audiences.watchos_9_beta, devices.watchos.build, devices.watchos.model, devices.watchos.prodtype, devices.watchos.version, "watchOS", "beta", true); // watchOS 9 Beta
         // Public watchOS
         if (watchos) await fetch_other_updates(audiences.watchos_release, devices.watchos.build, devices.watchos.model, devices.watchos.prodtype, devices.watchos.version, "watchOS", "public", false); // watchOS Release
 
@@ -43,6 +44,7 @@ module.exports = function () {
 
         // Beta tvOS
         if (tvos) await fetch_other_updates(audiences.tvos_15_beta, devices.tvos.build, devices.tvos.model, devices.tvos.prodtype, devices.tvos.version, "tvOS", "beta", true); // tvOS 15 Beta
+        if (tvos) await fetch_other_updates(audiences.tvos_16_beta, devices.tvos.build, devices.tvos.model, devices.tvos.prodtype, devices.tvos.version, "tvOS", "beta", true); // tvOS 16 Beta
         // Public tvOS
         if (tvos) await fetch_other_updates(audiences.tvos_release, devices.tvos.build, devices.tvos.model, devices.tvos.prodtype, devices.tvos.version, "tvOS", "public", false); // tvOS Release
         
