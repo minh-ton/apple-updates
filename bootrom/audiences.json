@@ -4,6 +4,10 @@
     "macos_12_beta": "298e518d-b45e-4d36-94be-34a63d6777ec",
     "macos_13_beta": "",
 
+    "display_release": "60b55e25-a8ed-4f45-826c-c1495a4ccc65",
+    "display_15_beta": "298e518d-b45e-4d36-94be-34a63d6777ec",
+    "display_16_beta": "",
+
     "ios_release": "01c1d682-6e8f-4908-b724-5501fe3f5e5c",
     "ios_14_security": "c724cb61-e974-42d3-a911-ffd4dce11eda",
     "ios_15_beta": "ce48f60c-f590-4157-a96f-41179ca08278",

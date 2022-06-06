@@ -6,5 +6,10 @@
     "macos_12_beta": "https://swscan.apple.com/content/catalogs/others/index-12seed-12-10.16-10.15-10.14-10.13-10.12-10.11-10.10-10.9-mountainlion-lion-snowleopard-leopard.merged-1.sucatalog",
 
     "macos_13_public": "https://swscan.apple.com/content/catalogs/others/index-13-12-10.16-10.15-10.14-10.13-10.12-10.11-10.10-10.9-mountainlion-lion-snowleopard-leopard.merged-1.sucatalog",
-    "macos_13_beta": "https://swscan.apple.com/content/catalogs/others/index-13seed-13-12-10.16-10.15-10.14-10.13-10.12-10.11-10.10-10.9-mountainlion-lion-snowleopard-leopard.merged-1.sucatalog"
+    "macos_13_beta": "https://swscan.apple.com/content/catalogs/others/index-13seed-13-12-10.16-10.15-10.14-10.13-10.12-10.11-10.10-10.9-mountainlion-lion-snowleopard-leopard.merged-1.sucatalog",
+
+    "airtags": "https://mesu.apple.com/assets/com_apple_MobileAsset_MobileAccessoryUpdate_DurianFirmware/com_apple_MobileAsset_MobileAccessoryUpdate_DurianFirmware.xml",
+    "airpods": "https://mesu.apple.com/assets/com_apple_MobileAsset_MobileAccessoryUpdate_A2032_EA/com_apple_MobileAsset_MobileAccessoryUpdate_A2032_EA.xml",
+    "airpods_3": "https://mesu.apple.com/assets/com_apple_MobileAsset_MobileAccessoryUpdate_A2564_EA/com_apple_MobileAsset_MobileAccessoryUpdate_A2564_EA.xml",
+    "airpods_pro": "https://mesu.apple.com/assets/com_apple_MobileAsset_MobileAccessoryUpdate_A2084_EA/com_apple_MobileAsset_MobileAccessoryUpdate_A2084_EA.xml"
 }

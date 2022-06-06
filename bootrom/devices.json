@@ -32,5 +32,12 @@
         "build": "19K6053",
         "prodtype": "AppleTV11,1",
         "model": "J305AP"
+    },
+
+    "display": {
+        "version": "15.4",
+        "build": "19E241",
+        "prodtype": "AppleDisplay2,1",
+        "model": "J327AP"
     }
 }
