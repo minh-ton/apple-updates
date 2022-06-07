@@ -39,6 +39,7 @@ module.exports = function () {
 
         // Beta audioOS
         if (audioos) await fetch_other_updates(audiences.audioos_15_beta, devices.audioos.build, devices.audioos.model, devices.audioos.prodtype, devices.audioos.version, "audioOS", "beta", true); // audioOS 15 Beta
+        if (audioos) await fetch_other_updates(audiences.audioos_16_beta, devices.audioos.build, devices.audioos.model, devices.audioos.prodtype, devices.audioos.version, "audioOS", "beta", true); // audioOS 16 Beta
         // Public audioOS
         if (audioos) await fetch_other_updates(audiences.audioos_release, devices.audioos.build, devices.audioos.model, devices.audioos.prodtype, devices.audioos.version, "audioOS", "public", false); // audioOS Release
 
