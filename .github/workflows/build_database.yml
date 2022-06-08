@@ -23,3 +23,5 @@ jobs:
       run: node nvram/build_database.js
       env: 
         firebase: ${{ secrets.FIREBASE }}
+        error_id: ${{ secrets.WEBHOOK_ID }}
+        error_token: ${{ secrets.WEBHOOK_TOKEN }}
