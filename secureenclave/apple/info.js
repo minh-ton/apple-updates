@@ -118,7 +118,15 @@ async function create_buttons(cname, data, index, ids) {
         );
 
         return row;
+    } else if (data.length == 1) {
+        const row = new Discord.MessageActionRow().addComponents(
+            new Discord.MessageButton()
+                .setCustomId(cancel_id)
+                .setLabel('Done')
+                .setStyle('SUCCESS'),
+        );
 
+        return row;
     } else {
         let info_next = await get_info(cname, data, index + 1);
         let info_prev = await get_info(cname, data, index - 1);
