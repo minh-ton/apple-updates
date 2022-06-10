@@ -162,7 +162,7 @@ module.exports = {
 
     async execute(interaction) {
         const os_name = interaction.options.getString('os');
-        const search_query = interaction.options.getString('query');
+        const search_query = interaction.options.getString('version');
 
         try {
             let version_query_public = await database.collection(os_name.toLowerCase() + "_public").where('version', '==', search_query).get();
