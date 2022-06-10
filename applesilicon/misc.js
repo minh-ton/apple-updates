@@ -1,7 +1,6 @@
 // Some miscellaneous functions
 
 const prettyBytes = require('pretty-bytes');
-const thumbnails = require("../bootrom/thumbnails.json");
 
 module.exports = function () {
   // turn bytes into human-readable
@@ -38,7 +37,11 @@ module.exports = function () {
 
   // device icons for os updates embeds
   this.getThumbnail = function (os) {
-    return thumbnails[os.toLowerCase()];
+    let link = 'https://minh-ton.github.io/apple-updates/icons/';
+    let extension = '.png';
+
+    var thumb = link + os.toLowerCase() + extension;
+    return thumb;
   };
 
   // get time in a timezone
