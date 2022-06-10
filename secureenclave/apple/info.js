@@ -21,10 +21,7 @@ const os = {
     "macos": "macOS"
 }
 
-const macos_names = {
-    "11": "Big Sur",
-    "12": "Monterey"
-};
+let multi_icons = ['ios', 'ipados', 'watchos', 'macos'];
 
 function isBeta(build, remote) {
     let check = build.length > 6 && build.toUpperCase() != build;
@@ -41,12 +38,12 @@ async function search_build_embed(cname, query, interaction) {
     let data = query[0];
     
     const embed = new Discord.MessageEmbed()
-        .setTitle(`${os[cname.toLowerCase()]} ${data["version"].split(".")[0]}${(cname.toLowerCase() == "macos") ? " " + macos_names[data["version"].split(".")[0]] : ""} ${isBeta(data["build"], data["beta"]) ? "Beta" : ""}`)
+        .setTitle(`${os[cname.toLowerCase()]} ${data["version"].split(".")[0]} ${isBeta(data["build"], data["beta"]) ? "Beta" : ""}`)
         .addField(`Version`, data["version"].toString() + (isBeta(data["build"], data["beta"]) ? ` ${(data["updateid"]) ? formatUpdatesName(data["updateid"], data["version"], cname) : "Beta"}` : ""), true)
         .addField(`Build`, data["build"].toString(), true)
         .setColor(randomColor())
         .setFooter({ text: interaction.user.username, iconURL: interaction.user.displayAvatarURL() });
-    if (cname.toLowerCase() == "ios" || cname.toLowerCase() == "ipados" || cname.toLowerCase() == "macos") embed.setThumbnail(getThumbnail(cname.toLowerCase() + data["version"].split(".")[0]));
+    if (multi_icons.includes(cname.toLowerCase())) embed.setThumbnail(getThumbnail(cname.toLowerCase() + data["version"].split(".")[0]));
     else embed.setThumbnail(getThumbnail(cname.toLowerCase()));
 
     if (data["size"]) embed.addField(`Size`, formatBytes(data["size"]), true);
@@ -68,7 +65,7 @@ async function search_version_embed(cname, query, keyword, option, interaction) 
     let data = query;
 
     const embed = new Discord.MessageEmbed().setColor(randomColor()).setFooter({ text: interaction.user.username, iconURL: interaction.user.displayAvatarURL() });
-    if (cname.toLowerCase() == "ios" || cname.toLowerCase() == "ipados" || cname.toLowerCase() == "macos") embed.setThumbnail(getThumbnail(cname.toLowerCase() + keyword.split(".")[0]));
+    if (multi_icons.includes(cname.toLowerCase())) embed.setThumbnail(getThumbnail(cname.toLowerCase() + keyword.split(".")[0]));
     else embed.setThumbnail(getThumbnail(cname.toLowerCase()));
 
     data.sort(function(x, y) {
@@ -101,7 +98,7 @@ async function search_version_embed(cname, query, keyword, option, interaction) 
             embed.addField(`No. #${parseInt(result) + 1}`, info);
         }
     } else {
-        embed.setTitle(`${os[cname.toLowerCase()]} ${data[0]["version"].split(".")[0]}${(cname.toLowerCase() == "macos") ? " " + macos_names[data[0]["version"].split(".")[0]] : ""} ${isBeta(data[0]["build"], data[0]["beta"]) ? "Beta" : ""}`)
+        embed.setTitle(`${os[cname.toLowerCase()]} ${data[0]["version"].split(".")[0]} ${isBeta(data[0]["build"], data[0]["beta"]) ? "Beta" : ""}`)
             .addField(`Version`, data[0]["version"].toString() + (isBeta(data[0]["build"], data[0]["beta"]) ? ` ${(data[0]["updateid"]) ? formatUpdatesName(data[0]["updateid"], data[0]["version"], cname) : "Beta"}` : ""), true)
             .addField(`Build`, data[0]["build"].toString(), true);
 
