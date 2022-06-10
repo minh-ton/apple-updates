@@ -83,16 +83,16 @@ module.exports = {
             const row = new Discord.MessageActionRow().addComponents(
                 new Discord.MessageButton()
                     .setCustomId(prev_id)
-                    .setEmoji('⬅️')
-                    .setStyle('SECONDARY'),
+                    .setLabel('Previous')
+                    .setStyle('PRIMARY'),
                 new Discord.MessageButton()
                     .setCustomId(cancel_id)
-                    .setEmoji('❌')
-                    .setStyle('SECONDARY'),
+                    .setLabel('Done')
+                    .setStyle('SUCCESS'),
                 new Discord.MessageButton()
                     .setCustomId(next_id)
-                    .setEmoji('➡️')
-                    .setStyle('SECONDARY'),
+                    .setLabel('Next')
+                    .setStyle('PRIMARY'),
             );
 
             await interaction.editReply({ embeds: [embed = await display_results(results, index, interaction)], components: [row] });
