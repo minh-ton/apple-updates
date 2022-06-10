@@ -3,6 +3,8 @@
 const Discord = require('discord.js');
 const brightColor = require('randomcolor');
 
+let multi_icons = ['ios', 'ipados', 'watchos', 'macos'];
+
 require('./misc.js')();
 require('./send.js')();
 
@@ -47,7 +49,7 @@ module.exports = function () {
             .addField(`Version`, `${version} (${updateid})`, true)
             .addField(`Build`, build, true)
             .addField(`Size`, formatBytes(size), true)
-            .setThumbnail(getThumbnail("macOS" + version.toString().substring(0, 2)))
+            .setThumbnail(getThumbnail("macOS" + version.split('.')[0]))
             .setColor(brightColor())
             .setTimestamp();
         send_to_servers('macos', embed, `${version} (${updateid} - Build ${build})`);
@@ -60,7 +62,7 @@ module.exports = function () {
             .addField(`Version`, `${version}`, true)
             .addField(`Build`, build, true)
             .addField(`Size`, formatBytes(size), true)
-            .setThumbnail(getThumbnail("macOS" + version.toString().substring(0, 2)))
+            .setThumbnail(getThumbnail("macOS" + version.split('.')[0]))
             .setDescription(changelog)
             .setColor(brightColor())
             .setTimestamp();
@@ -69,7 +71,7 @@ module.exports = function () {
 
     // Send other OS updates
     this.send_other_updates = function (os, version, build, size, changelog) {
-        const thumb = (os.toLowerCase() == "ios" || os.toLowerCase() == "ipados") ? getThumbnail(os + version.toString().substring(0, 2)) : getThumbnail(os);
+        const thumb = (multi_icons.includes(os.toLowerCase())) ? getThumbnail(os + version.split('.')[0]) : getThumbnail(os);
         const embed = new Discord.MessageEmbed()
             .setTitle(`New ${os} Public Release!`)
             .addField(`Version`, `${version}`, true)
@@ -84,7 +86,7 @@ module.exports = function () {
 
     // Send other OS beta updates
     this.send_other_beta_updates = function (os, version, build, size, updateid) {
-        const thumb = (os.toLowerCase() == "ios" || os.toLowerCase() == "ipados") ? getThumbnail(os + version.toString().substring(0, 2)) : getThumbnail(os);
+        const thumb = (multi_icons.includes(os.toLowerCase())) ? getThumbnail(os + version.split('.')[0]) : getThumbnail(os);
         const embed = new Discord.MessageEmbed()
             .setTitle(`New ${os} Beta Release!`) 
             .addField(`Version`, `${version} (${updateid})`, true)
