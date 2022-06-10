@@ -87,7 +87,16 @@ async function create_buttons(cname, data, index, ids) {
     let prev_id = ids[1];
     let cancel_id = ids[2];
 
-    if (index == 0) {
+    if (data.length == 1) {
+        const row = new Discord.MessageActionRow().addComponents(
+            new Discord.MessageButton()
+                .setCustomId(cancel_id)
+                .setLabel('Done')
+                .setStyle('SUCCESS'),
+        );
+
+        return row;
+    } else if (index == 0) {
         let info_next = await get_info(cname, data, index + 1);
 
         const row = new Discord.MessageActionRow().addComponents(
@@ -111,15 +120,6 @@ async function create_buttons(cname, data, index, ids) {
                 .setCustomId(prev_id)
                 .setLabel(info_prev.version)
                 .setStyle('PRIMARY'),
-            new Discord.MessageButton()
-                .setCustomId(cancel_id)
-                .setLabel('Done')
-                .setStyle('SUCCESS'),
-        );
-
-        return row;
-    } else if (data.length == 1) {
-        const row = new Discord.MessageActionRow().addComponents(
             new Discord.MessageButton()
                 .setCustomId(cancel_id)
                 .setLabel('Done')
