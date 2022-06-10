@@ -83,15 +83,15 @@ module.exports = {
             const row = new Discord.MessageActionRow().addComponents(
                 new Discord.MessageButton()
                     .setCustomId(prev_id)
-                    .setLabel('Previous Result')
-                    .setStyle('SECONDARY'),
-                new Discord.MessageButton()
-                    .setCustomId(next_id)
-                    .setLabel('Next Result')
+                    .setEmoji('⬅️')
                     .setStyle('SECONDARY'),
                 new Discord.MessageButton()
                     .setCustomId(cancel_id)
-                    .setLabel('Cancel')
+                    .setEmoji('❌')
+                    .setStyle('SECONDARY'),
+                new Discord.MessageButton()
+                    .setCustomId(next_id)
+                    .setEmoji('➡️')
                     .setStyle('SECONDARY'),
             );
 
