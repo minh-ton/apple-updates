@@ -32,7 +32,7 @@
     "axios": "^0.27.2",
     "discord-api-types": "^0.33.5",
     "discord.js": "^13.8.0",
-    "firebase-admin": "^10.2.0",
+    "firebase-admin": "^10.3.0",
     "minisearch": "^4.0.3",
     "plist": "^3.0.5",
     "pretty-bytes": "^5.6.0",
