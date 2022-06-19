@@ -201,7 +201,7 @@ module.exports = {
             embed = await display(os_name, query_data, index, interaction);
             row = await create_buttons(os_name, query_data, index, ids)
 
-            interaction.editReply({ embeds:[embed], components: [row] });
+            await interaction.editReply({ embeds:[embed], components: [row] });
 
             const collector = interaction.channel.createMessageComponentCollector({ filter, time: 180000 });
 
@@ -222,7 +222,7 @@ module.exports = {
                 await interaction.editReply({ embeds: [embed], components: [] });
             });
         } catch(error) {
-            return interaction.editReply(error_alert('Ugh, an unknown error occurred.', error));
+            return await interaction.editReply(error_alert('Ugh, an unknown error occurred.', error));
         }
     },
 };

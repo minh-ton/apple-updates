@@ -115,7 +115,7 @@ module.exports = {
             });
 
         } catch (error) {
-            return interaction.editReply(error_alert('Ugh, an unknown error occurred.', error));
+            return await interaction.editReply(error_alert('Ugh, an unknown error occurred.', error));
         }
     },
 };
