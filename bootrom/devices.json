@@ -35,10 +35,10 @@
     },
 
     "macos": {
-        "version": "12.4",
-        "build": "21F79",
-        "prodtype": "MacBookPro18,4",
-        "model": "J314cAP"
+        "version": "11.5",
+        "build": "20G71",
+        "prodtype": "MacBookPro17,1",
+        "model": "J293AP"
     },
 
     "display": {
