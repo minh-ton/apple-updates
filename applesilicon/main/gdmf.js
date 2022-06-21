@@ -20,13 +20,16 @@ const device_name = {
 }
 
 module.exports = function () {
-    this.gdmf_macos = async function (assetaud, beta) {
+    this.gdmf_macos = async function (assetaud, build, hwm, prodtype, prodversion, beta) {
         const res = await axios.post('https://gdmf.apple.com/v2/assets', {
             AssetAudience: assetaud,
-            HWModelStr: "Mac-06F11F11946D27C5",
-            CertIssuanceDay: "2019-09-06",
+            CertIssuanceDay: "2020-09-29",
             ClientVersion: 2,
-            AssetType: "com.apple.MobileAsset.MacSoftwareUpdate"
+            AssetType: "com.apple.MobileAsset.MacSoftwareUpdate",
+            BuildVersion: build,
+            HWModelStr: hwm,
+            ProductType: prodtype,
+            ProductVersion: prodversion,
         }).catch(function (error) {
             return send_error(error, "gdmf.js", `gdmf_macos`, `politely asking gdmf.apple.com for updates`);
         });
@@ -46,7 +49,7 @@ module.exports = function () {
     
             var changelog;
     
-            if (!beta) changelog = await get_changelog(assetaud, "Mac-06F11F11946D27C5", text.Assets[asset].SUDocumentationID, "Mac", "com.apple.MobileAsset.SoftwareUpdateDocumentation");
+            if (!beta) changelog = await get_changelog(assetaud, hwm, text.Assets[asset].SUDocumentationID, "Mac", "com.apple.MobileAsset.SoftwareUpdateDocumentation");
 
             if (changelog == undefined) changelog = "Release note is not available.";
     

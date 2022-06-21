@@ -13,8 +13,8 @@ require('./info.js')();
 let db = firebase.firestore();
 
 module.exports = function () {
-    this.fetch_macos_updates = async function (assetaud, dname, beta) {
-        let mac_update = await gdmf_macos(assetaud, beta);
+    this.fetch_macos_updates = async function (assetaud, build, hwm, prodtype, prodversion, dname, beta) {
+        let mac_update = await gdmf_macos(assetaud, build, hwm, prodtype, prodversion, beta);
 
         if (!mac_update || mac_update.length == 0) return send_error(`No asset available.`, "manager.js", `fetch_macos_ota`, `update not available for ${assetaud}.`);
 

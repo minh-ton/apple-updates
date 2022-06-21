@@ -12,11 +12,11 @@ module.exports = function () {
         global.BOT_STATUS = "Working";
 
         // Beta macOS
-        if (macos) await fetch_macos_updates(audiences.macos_11_beta, 'beta', true); // macOS Big Sur Beta
-        if (macos) await fetch_macos_updates(audiences.macos_12_beta, 'beta', true); // macOS Monterey Beta
-        if (macos) await fetch_macos_updates(audiences.macos_13_beta, 'beta', true); // macOS Ventura Beta
+        if (macos) await fetch_macos_updates(audiences.macos_11_beta, devices.macos.build, devices.macos.model, devices.macos.prodtype, devices.macos.version, 'beta', true); // macOS Big Sur Beta
+        if (macos) await fetch_macos_updates(audiences.macos_12_beta, devices.macos.build, devices.macos.model, devices.macos.prodtype, devices.macos.version, 'beta', true); // macOS Monterey Beta
+        if (macos) await fetch_macos_updates(audiences.macos_13_beta, devices.macos.build, devices.macos.model, devices.macos.prodtype, devices.macos.version, 'beta', true); // macOS Ventura Beta
         // Public macOS
-        if (macos) await fetch_macos_updates(audiences.macos_release, 'public', false); // macOS Release
+        if (macos) await fetch_macos_updates(audiences.macos_release, devices.macos.build, devices.macos.model, devices.macos.prodtype, devices.macos.version, 'public', false); // macOS Release
 
         // Beta iOS
         if (ios) await fetch_other_updates(audiences.ios_15_beta, devices.ios.build, devices.ios.model, devices.ios.prodtype, devices.ios.version, "iOS", "beta", true); // iOS 15 Beta
