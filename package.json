@@ -39,7 +39,7 @@
     "pretty-ms": "^7.0.1",
     "randomcolor": "^0.6.2",
     "sanitize-html": "^2.7.0",
-    "simpl.db": "^2.8.1",
+    "simpl.db": "^2.10.2",
     "uniqid": "^5.4.0",
     "url-status-code": "^2.0.0",
     "xml-js": "^1.6.11"
