@@ -7,11 +7,13 @@ global.UPDATE_MODE = false;
 global.SAVE_MODE = false;
 global.CPU_USAGE = process.cpuUsage();
 
-const Discord = require('discord.js');
 const fs = require("fs");
 const firebase = require("firebase-admin");
 const { REST } = require('@discordjs/rest');
-const { Routes } = require('discord-api-types/v9');
+
+const { Client, GatewayIntentBits, Partials } = require('discord.js');
+const { ChannelType, InteractionType } = require('discord.js');
+const { Collection, Routes } = require('discord.js');
 
 firebase.initializeApp({
     credential: firebase.credential.cert(JSON.parse(process.env.firebase))
@@ -20,7 +22,16 @@ firebase.initializeApp({
 require("./applesilicon/updates.js")();
 require("./applesilicon/embed.js")();
 
-global.bot = new Discord.Client({ intents: [Discord.Intents.FLAGS.GUILDS, Discord.Intents.FLAGS.GUILD_MESSAGES, Discord.Intents.FLAGS.DIRECT_MESSAGES, Discord.Intents.FLAGS.GUILD_MESSAGE_REACTIONS], partials: [ 'CHANNEL' ] });
+global.bot = new Client({ 
+    intents: [
+        GatewayIntentBits.Guilds, 
+        GatewayIntentBits.GuildMessages, 
+        GatewayIntentBits.DirectMessages, 
+        GatewayIntentBits.GuildMessageReactions
+    ], 
+    partials: [Partials.Channel] 
+});
+
 global.bot.login(process.env.bot_token);
 
 // ============= DISCORD BOT ============
@@ -35,8 +46,8 @@ global.bot.on("ready", async () => {
     }, 10000);
 });
 
-global.bot.commands = new Discord.Collection();
-global.bot.cooldowns = new Discord.Collection();
+global.bot.commands = new Collection();
+global.bot.cooldowns = new Collection();
 
 const commands = fs.readdirSync('./secureenclave');
 const command_collection = [];
@@ -62,7 +73,7 @@ const rest = new REST({ version: '9' }).setToken(process.env.bot_token);
 })();
 
 global.bot.on('interactionCreate', async interaction => {
-    if (!interaction.isCommand()) return;
+    if (interaction.type != InteractionType.ApplicationCommand) return;
     if (!interaction.guildId) return interaction.reply(error_alert(`I am unable to run this command in a DM.`));
 
     // Get command
@@ -74,7 +85,7 @@ global.bot.on('interactionCreate', async interaction => {
     // Command cooldowns
     if (interaction.member.id != process.env.owner_id) {
         const { cooldowns } = global.bot;
-        if (!cooldowns.has(cmd.name)) cooldowns.set(cmd.name, new Discord.Collection());
+        if (!cooldowns.has(cmd.name)) cooldowns.set(cmd.name, new Collection());
         const now = Date.now(), timestamps = cooldowns.get(cmd.name), amount = (cmd.cooldown || 4) * 1000;
         if (timestamps.has(interaction.member.id)) {
             const exp_time = timestamps.get(interaction.member.id) + amount;
@@ -99,10 +110,7 @@ global.bot.on('interactionCreate', async interaction => {
 global.bot.on("messageCreate", async message => {
     if (message.author.bot) return;
     if (message.mentions.everyone) return;
-    if (message.channel.type === "DM") return;
-
-    // Deprecation notice
-    if (message.content.startsWith("apple!")) return message.channel.send(deprecation_notice()).catch();
+    if (message.channel.type == ChannelType.DM) return;
 
     // Bot prefix
     const prefixes = [`<@${global.bot.user.id}>`, `<@!${global.bot.user.id}>`];
