@@ -11,7 +11,7 @@ const fs = require("fs");
 const firebase = require("firebase-admin");
 const { REST } = require('@discordjs/rest');
 
-const { Client, GatewayIntentBits, Partials } = require('discord.js');
+const { Client, GatewayIntentBits, Partials, ActivityType } = require('discord.js');
 const { ChannelType, InteractionType } = require('discord.js');
 const { Collection, Routes } = require('discord.js');
 
@@ -42,7 +42,9 @@ global.bot.on("ready", async () => {
     console.log(`Currently in ${global.bot.guilds.cache.size} servers!`);
     console.log('Bot has started!');
     setInterval(() => {
-        if (!global.customStatus) global.bot.user.setActivity(`/help | ${global.bot.guilds.cache.size}`, { type: "WATCHING" });
+        if (!global.customStatus) global.bot.user.setPresence({
+            activities: [{ name: `/help | ${global.bot.guilds.cache.size}`, type: ActivityType.Watching }],
+        });
     }, 10000);
 });
 
