@@ -26,7 +26,7 @@
   },
   "homepage": "https://github.com/Minh-Ton/apple-updates",
   "dependencies": {
-    "@discordjs/rest": "^1.0.0",
+    "@discordjs/rest": "^1.1.0",
     "adm-zip": "^0.5.9",
     "axios": "^0.27.2",
     "discord-api-types": "^0.36.2",
