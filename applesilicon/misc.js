@@ -18,7 +18,9 @@ module.exports = function () {
       // Format & sanitize SUDocumentationID
       if (version.endsWith(".0")) version = version.substring(0, version.length - 2);
       let name_prefix = cname + version.replace('.', '');
-      var document_id = updateid.replace(name_prefix, '').replace(version.replace('.', ''), ''); // workaround for audioOS
+      var document_id = (updateid.includes(name_prefix)) ? updateid.replace(name_prefix, '') : updateid.replace(cname + version.split('.')[0], '');
+
+      document_id = document_id.replace(version.replace('.', ''), ''); // workaround for audioOS, weird
 
       // Get beta number from SUDocumentationID
       let beta_name = `Beta ${parseInt(document_id.replace(/[^0-9]/g, ""))}`;
