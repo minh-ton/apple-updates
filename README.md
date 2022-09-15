@@ -1,4 +1,4 @@
-<img align="right" width="15%" src="https://cdn.discordapp.com/attachments/885557954072436796/887916939937214464/update.png">
+<img align="right" width="15%" src="https://minh-ton.github.io/apple-updates/assets/logo.png">
 
 # Software Updates # 5023
 
