@@ -32,7 +32,7 @@ async function get_info(cname, data, index) {
 
     let beta = isBeta(data[index]["build"], data[index]["beta"]);
 
-    let title = `${cname.toLowerCase().replace('os', 'OS')} ${data[index]["version"]} ${(beta) ? "Beta" : ""}`;
+    let title = `${cname.toLowerCase().replace('os', 'OS').replace('ipad', 'iPad')} ${data[index]["version"]} ${(beta) ? "Beta" : ""}`;
     let update_id = (data[index]["updateid"]) ? formatUpdatesName(data[index]["updateid"], data[index]["version"], cname) : "Beta";
     let version = `${data[index]["version"]} ${(beta) ? update_id : ""}`;
     let build = data[index]["build"];
