@@ -9,14 +9,16 @@ const doc_asset_type = {
     ios: "com.apple.MobileAsset.SoftwareUpdateDocumentation",
     ipados: "com.apple.MobileAsset.SoftwareUpdateDocumentation",
     audioos: "com.apple.MobileAsset.SoftwareUpdateDocumentation",
-    watchos: "com.apple.MobileAsset.WatchSoftwareUpdateDocumentation"
+    watchos: "com.apple.MobileAsset.WatchSoftwareUpdateDocumentation",
+    macos: "com.apple.MobileAsset.SoftwareUpdateDocumentation",
 }
 
 const device_name = {
     ios: "iPhone",
     ipados: "iPad",
     audioos: "AudioAccessory",
-    watchos: "Watch"
+    watchos: "Watch",
+    macos: "Mac"
 }
 
 module.exports = function () {
