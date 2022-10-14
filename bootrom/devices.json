@@ -1,9 +1,9 @@
 {
     "ios": {
-        "version": "15.4",
-        "build": "19E241",
-        "prodtype": "iPhone13,4",
-        "model": "D54pAP"
+        "version": "16.0.2",
+        "build": "20A380",
+        "prodtype": "iPhone15,2",
+        "model": "D73AP"
     },
 
     "ipados": {
