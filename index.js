@@ -2,6 +2,10 @@
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
+require('dotenv').config()
+require("./applesilicon/updates.js")();
+require("./applesilicon/embed.js")();
+
 global.BETA_RELEASE = false;
 global.UPDATE_MODE = false;
 global.SAVE_MODE = false;
@@ -16,9 +20,6 @@ const { Routes } = require('discord-api-types/v9');
 firebase.initializeApp({
     credential: firebase.credential.cert(JSON.parse(process.env.firebase))
 });
-
-require("./applesilicon/updates.js")();
-require("./applesilicon/embed.js")();
 
 global.bot = new Discord.Client({ intents: [Discord.Intents.FLAGS.GUILDS, Discord.Intents.FLAGS.GUILD_MESSAGES, Discord.Intents.FLAGS.DIRECT_MESSAGES, Discord.Intents.FLAGS.GUILD_MESSAGE_REACTIONS], partials: [ 'CHANNEL' ] });
 global.bot.login(process.env.bot_token);
