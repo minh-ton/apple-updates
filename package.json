@@ -39,7 +39,7 @@
     "pretty-bytes": "^5.6.0",
     "pretty-ms": "^7.0.1",
     "randomcolor": "^0.6.2",
-    "sanitize-html": "^2.7.1",
+    "sanitize-html": "^2.9.0",
     "simpl.db": "^2.8.1",
     "uniqid": "^5.4.0",
     "url-status-code": "^2.0.0",
