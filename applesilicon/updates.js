@@ -56,14 +56,8 @@ module.exports = function () {
     this.fetch_xml = async function () {
         global.BOT_STATUS = "Working";
 
-        // Beta macOS InstallAssistant.pkg
-        await fetch_macos_pkg(catalogs.macos_11_beta, true, 'beta_pkg');
-        await fetch_macos_pkg(catalogs.macos_12_beta, true, 'beta_pkg');
-        await fetch_macos_pkg(catalogs.macos_13_beta, true, 'beta_pkg');
-        // Public macOS InstallAssistant.pkg
-        await fetch_macos_pkg(catalogs.macos_11_public, false, 'public_pkg');
-        await fetch_macos_pkg(catalogs.macos_12_public, false, 'public_pkg');
-        await fetch_macos_pkg(catalogs.macos_13_public, false, 'public_pkg');
+        await fetch_macos_pkg(catalogs.macos_beta, true, 'beta_pkg');
+        await fetch_macos_pkg(catalogs.macos_public, false, 'public_pkg');
 
         global.BOT_STATUS = "Idling";
     };

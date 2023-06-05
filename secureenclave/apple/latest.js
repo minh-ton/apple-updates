@@ -8,11 +8,6 @@ require('../../applesilicon/main/manager.js')();
 require('../../applesilicon/embed.js')();
 require('../../applesilicon/misc.js')();
 
-let macos_public_catalog = catalogs.macos_11_public;
-let macos_beta_catalog = catalogs.macos_11_beta;
-let macos_new_public_catalog = catalogs.macos_12_public;
-let macos_new_beta_catalog = catalogs.macos_12_beta;
-
 function isBeta(build) {
     if (build.length > 6 && build.toUpperCase() != build) return true; // May break in the future
     return false;
@@ -45,7 +40,7 @@ module.exports = {
             const processing = new Discord.MessageEmbed().setColor(randomColor());
             await interaction.editReply({ embeds: [processing.setDescription("Hang on, I'm fetching data from Apple...")] });
 
-            let pkg_catalog = await get_pkg_assets(macos_new_beta_catalog, 'beta_pkg');
+            let pkg_catalog = await get_pkg_assets(catalogs.macos_beta, 'beta_pkg');
 
             let installers = get_links(pkg_catalog);
 
@@ -53,7 +48,6 @@ module.exports = {
                 .setTitle("macOS Full Installer Packages")
                 .setDescription(`**Public Release Installers:**\n${installers[1].join('\n')}\n\n**Beta Release Installers:**\n${installers[0].join('\n')}`)
                 .setColor(randomColor())
-                .addField('Catalogs', `[macOS 11 Big Sur Public Release Catalog](${macos_public_catalog})\n[macOS 11 Big Sur Developer Beta Catalog](${macos_beta_catalog})\n[macOS 12 Monterey Public Release Catalog](${macos_new_public_catalog})\n[macOS 12 Monterey Developer Beta Catalog](${macos_new_beta_catalog})`)
                 .setFooter({ text: interaction.user.username, iconURL: interaction.user.displayAvatarURL() });
             interaction.editReply({ embeds: [embed] });
         } catch (error) {
