@@ -36,7 +36,7 @@ After adding the bot to your servers, use the `/setup` command to set up the bot
 
 ## 👏🏼 Contributing
 If you have a question, get help by joining the [Discord server](https://discord.gg/ktHmcbpMNU) or opening an issue. 
-If you wish to contribute, feel free to fork the repository and submit a pull request to the `dev` branch!
+If you wish to contribute, feel free to fork the repository and submit a pull request!
 
 
 ## 🔎 Credits
