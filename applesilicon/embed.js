@@ -129,18 +129,4 @@ module.exports = function () {
 
         return { embeds: embeds, components: [button] };
     }
-
-    this.deprecation_notice = function () {
-        const deprecation_embed = new Discord.MessageEmbed()
-            .setTitle("Deprecation Notice")
-            .setColor("#f07800")
-            .setDescription(`From February 2022, accessing commands through the \`apple!\` prefix has been **DEPRECATED**.
-                Software Updates now uses **Slash Commands** \`/\` on up-to-date Discord clients. 
-
-                If Slash Commands don't show up, please re-invite the bot using the following link: [Invite Software Updates](https://discord.com/api/oauth2/authorize?client_id=852378577063116820&permissions=8&scope=applications.commands%20bot)
-                Please also enable this setting in your Discord settings:`)
-            .setImage("https://i.imgur.com/pJXzFn2.png")
-            .setTimestamp();
-        return { embeds: [deprecation_embed] };
-    }
 }
