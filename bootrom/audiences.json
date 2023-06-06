@@ -3,10 +3,12 @@
     "macos_11_beta": "ca60afc6-5954-46fd-8cb9-60dde6ac39fd",
     "macos_12_beta": "298e518d-b45e-4d36-94be-34a63d6777ec",
     "macos_13_beta": "683e9586-8a82-4e5f-b0e7-767541864b8b",
+    "macos_14_beta": "77c3bd36-d384-44e8-b550-05122d7da438",
 
     "display_release": "60b55e25-a8ed-4f45-826c-c1495a4ccc65",
     "display_15_beta": "298e518d-b45e-4d36-94be-34a63d6777ec",
     "display_16_beta": "683e9586-8a82-4e5f-b0e7-767541864b8b",
+    "display_17_beta": "77c3bd36-d384-44e8-b550-05122d7da438",
 
     "ios_release": "01c1d682-6e8f-4908-b724-5501fe3f5e5c",
     "ios_14_security": "c724cb61-e974-42d3-a911-ffd4dce11eda",

@@ -15,6 +15,7 @@ module.exports = function () {
         if (macos) await fetch_macos_updates(audiences.macos_11_beta, devices.macos.build, devices.macos.model, devices.macos.prodtype, devices.macos.version, 'beta', true); // macOS Big Sur Beta
         if (macos) await fetch_macos_updates(audiences.macos_12_beta, devices.macos.build, devices.macos.model, devices.macos.prodtype, devices.macos.version, 'beta', true); // macOS Monterey Beta
         if (macos) await fetch_macos_updates(audiences.macos_13_beta, devices.macos.build, devices.macos.model, devices.macos.prodtype, devices.macos.version, 'beta', true); // macOS Ventura Beta
+        if (macos) await fetch_macos_updates(audiences.macos_14_beta, devices.macos.build, devices.macos.model, devices.macos.prodtype, devices.macos.version, 'beta', true); // macOS Sonoma Beta
         // Public macOS
         if (macos) await fetch_macos_updates(audiences.macos_release, devices.macos.build, devices.macos.model, devices.macos.prodtype, devices.macos.version, 'public', false); // macOS Release
 
