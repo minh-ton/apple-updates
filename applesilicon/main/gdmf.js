@@ -39,7 +39,7 @@ module.exports = function () {
         var arr = res.data.split(".");
         let buff = new Buffer.from(arr[1], 'base64');
         let text = JSON.parse(buff.toString('utf8'));
-
+        
         let data = [];
 
         for (let asset in text.Assets) {
@@ -60,7 +60,8 @@ module.exports = function () {
                 mac_size: text.Assets[asset]._DownloadSize,
                 mac_updateid: text.Assets[asset].SUDocumentationID,
                 mac_changelog: changelog,
-                mac_postdate: text.PostingDate
+                mac_postdate: text.PostingDate,
+                mac_raw_response: JSON.stringify(text.Assets[asset])
             }
 
             data.push(mac_update);
@@ -92,7 +93,7 @@ module.exports = function () {
         if (!text.Assets[0]) {
             return send_error(`Missing text.Asset[0]`, "gdmf.js", `gdmf_other`, `update not available for ${assetaud}.`);
         }
-
+        
         var changelog;
 
         if (!beta) {
@@ -107,7 +108,8 @@ module.exports = function () {
             os_size: text.Assets[0]._DownloadSize,
             os_updateid: text.Assets[0].SUDocumentationID,
             os_changelog: changelog,
-            os_postdate: text.PostingDate
+            os_postdate: text.PostingDate,
+            os_raw_response: JSON.stringify(text.Assets[0])
         }
 
         return os_update;

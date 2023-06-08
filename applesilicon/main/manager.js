@@ -32,11 +32,12 @@ module.exports = function () {
             const updateid = mac_update[item]['mac_updateid'];
             const changelog = mac_update[item]['mac_changelog'];
             const postdate = mac_update[item]['mac_postdate'];
+            const raw_response = mac_update[item]['mac_raw_response'];
 
             if (global.SAVE_MODE) {
                 console.log("[BUILD_DATABASE] - UPLOADING UPDATE OF MACOS");
                 console.log(`[BUILD_DATABASE] MACOS ${version} (${build})`);
-                await save_update("macos", version, size, build, updateid, changelog, postdate, beta);
+                await save_update("macos", version, size, build, updateid, changelog, postdate, raw_response, beta);
                 continue;
             }
 
@@ -70,11 +71,12 @@ module.exports = function () {
         const updateid = os_update['os_updateid'];
         const changelog = os_update['os_changelog'];
         const postdate = os_update['os_postdate'];
+        const raw_response = os_update['os_raw_response'];
 
         if (global.SAVE_MODE) {
             console.log("[BUILD_DATABASE] - UPLOADING UPDATE OF " + cname.toUpperCase());
             console.log(`[BUILD_DATABASE] ${cname.toUpperCase()} ${version} (${build})`);
-            return await save_update(cname, version, size, build, updateid, changelog, postdate, beta);
+            return await save_update(cname, version, size, build, updateid, changelog, postdate, raw_response, beta);
         }
 
         if (updates.includes(build)) return;
