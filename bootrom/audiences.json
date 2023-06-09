@@ -19,7 +19,7 @@
     "watchos_release": "b82fcf9c-c284-41c9-8eb2-e69bf5a5269f",
     "watchos_8_beta": "b407c130-d8af-42fc-ad7a-171efea5a3d0",
     "watchos_9_beta": "341f2a17-0024-46cd-968d-b4444ec3699f",
-    "watchos_10_beta": "77c3bd36-d384-44e8-b550-05122d7da438",
+    "watchos_10_beta": "7ae7f3b9-886a-437f-9b22-e9f017431b0e",
 
     "tvos_release": "356d9da0-eee4-4c6c-bbe5-99b60eadddf0",
     "tvos_15_beta": "4d0dcdf7-12f2-4ebf-9672-ac4a4459a8bc",
@@ -29,5 +29,5 @@
     "audioos_release": "0322d49d-d558-4ddf-bdff-c0443d0e6fac",
     "audioos_15_beta": "58ff8d56-1d77-4473-ba88-ee1690475e40",
     "audioos_16_beta": "59377047-7b3f-45b9-8e99-294c0daf3c85",
-    "audioos_17_beta": "77c3bd36-d384-44e8-b550-05122d7da438"
+    "audioos_17_beta": "17536d4c-1a9d-4169-bc62-920a3873f7a5"
 }
