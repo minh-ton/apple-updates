@@ -52,9 +52,15 @@ module.exports = {
             
             let embed_color = randomColor();
 
-            const public = new Discord.MessageEmbed()
+            let items_count = Math.floor(installers[1].length / 2);
+
+            const public1 = new Discord.MessageEmbed()
                 .setTitle("macOS Full Installer Packages")
-                .setDescription(`**Public Release Installers:**\n${installers[1].sort().join('\n')}`)
+                .setDescription(`**Public Release Installers:**\n${installers[1].sort().slice(0, items_count).join('\n')}`)
+                .setColor(embed_color);
+
+            const public2 = new Discord.MessageEmbed()
+                .setDescription(`${installers[1].sort().slice(items_count, installers[1].length).join('\n')}`)
                 .setColor(embed_color);
 
             const beta = new Discord.MessageEmbed()
@@ -62,7 +68,7 @@ module.exports = {
                 .setColor(embed_color)
                 .setFooter({ text: interaction.user.username, iconURL: interaction.user.displayAvatarURL() });
             
-            interaction.editReply({ embeds: [public, beta] });
+            interaction.editReply({ embeds: [public1, public2, beta] });
         } catch (error) {
             return interaction.editReply(error_alert("Ugh, an unknown error occurred.", error));
         }
