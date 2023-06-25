@@ -36,8 +36,12 @@ global.bot.on("ready", async () => {
     console.log(`Currently in ${global.bot.guilds.cache.size} servers!`);
     console.log('Bot has started!');
     setInterval(() => {
-        if (!global.customStatus) global.bot.user.setActivity(`/help | ${global.bot.guilds.cache.size}`, { type: "WATCHING" });
-    }, 10000);
+        if (global.BOT_STATUS == "Working") {
+            global.bot.user.setActivity(`for updates`, { type: "WATCHING" });
+        } else {
+            global.bot.user.setActivity(`/help | ${global.bot.guilds.cache.size}`, { type: "WATCHING" });
+        }        
+    }, 5000);
 });
 
 global.bot.commands = new Discord.Collection();
