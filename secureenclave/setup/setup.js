@@ -1,5 +1,4 @@
 const Discord = require('discord.js');
-const { SlashCommandBuilder } = require('@discordjs/builders');
 const { Database } = require('simpl.db');
 
 require("./helper/roles.js")();
@@ -16,7 +15,7 @@ module.exports = {
     ephemeral: false,
     description: 'Configures the bot to your liking!',
     usage: '`/setup`: Configures the bot.\n`/setup role add`: Adds a notification role.\n`/setup role remove`: Removes a notification role.\n`/setup role list`: Lists configures notification roles.',
-    data: new SlashCommandBuilder().setName("setup").setDescription("Configures the bot to your liking!")
+    data: new Discord.SlashCommandBuilder().setName("setup").setDescription("Configures the bot to your liking!")
         .addStringOption(option => option.setName("option").setDescription("Configures notification roles").setRequired(false)
             .addChoices(
                 { name: 'role add', value: 'role add' },

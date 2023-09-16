@@ -10,10 +10,8 @@ global.SAVE_MODE = false;
 global.CPU_USAGE = process.cpuUsage();
 
 const Discord = require('discord.js');
-const fs = require("fs");
 const firebase = require("firebase-admin");
-const { REST } = require('@discordjs/rest');
-const { Routes } = require('discord-api-types/v9');
+const fs = require("fs");
 
 var firebase_token = (BETA_RELEASE) ? process.env.firebase_beta : process.env.firebase;
 var bot_token = (BETA_RELEASE) ? process.env.bot_beta_token : process.env.bot_token;
@@ -25,7 +23,18 @@ firebase.initializeApp({
 require("./applesilicon/updates.js")();
 require("./applesilicon/embed.js")();
 
-global.bot = new Discord.Client({ intents: [Discord.Intents.FLAGS.GUILDS, Discord.Intents.FLAGS.GUILD_MESSAGES, Discord.Intents.FLAGS.DIRECT_MESSAGES, Discord.Intents.FLAGS.GUILD_MESSAGE_REACTIONS], partials: [ 'CHANNEL' ] });
+global.bot = new Discord.Client({ 
+    intents: [
+        Discord.GatewayIntentBits.Guilds, 
+        Discord.GatewayIntentBits.GuildMessages, 
+        Discord.GatewayIntentBits.DirectMessages, 
+        Discord.GatewayIntentBits.GuildMessageReactions
+    ], 
+    partials: [
+        Discord.Partials.Channel
+    ] 
+});
+
 global.bot.login(bot_token);
 
 // ============= DISCORD BOT ============

@@ -2,7 +2,6 @@
 
 const Discord = require('discord.js');
 const ms = require("pretty-ms");
-const { SlashCommandBuilder } = require('@discordjs/builders');
 
 require('../../applesilicon/misc.js')();
 
@@ -11,7 +10,7 @@ module.exports = {
     command: 'uptime',
     category: 'Information',
     description: 'Shows the bot uptime.',
-    data: new SlashCommandBuilder().setName("uptime").setDescription("Shows the bot uptime."),
+    data: new Discord.SlashCommandBuilder().setName("uptime").setDescription("Shows the bot uptime."),
     async execute(interaction) {
         const embed = new Discord.MessageEmbed()
             .setColor(randomColor())

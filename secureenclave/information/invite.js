@@ -1,7 +1,6 @@
 // Show bot info
 
 const Discord = require('discord.js');
-const { SlashCommandBuilder } = require('@discordjs/builders');
 
 require('../../applesilicon/misc.js')();
 
@@ -10,7 +9,7 @@ module.exports = {
     command: 'invite',
     category: 'Information',
     description: 'Shows the bot invite link.',
-    data: new SlashCommandBuilder().setName("invite").setDescription("Shows the bot invite link."),
+    data: new Discord.SlashCommandBuilder().setName("invite").setDescription("Shows the bot invite link."),
     async execute(interaction) {
         const button = new Discord.MessageActionRow().addComponents(
             new Discord.MessageButton()

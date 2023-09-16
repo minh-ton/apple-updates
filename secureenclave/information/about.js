@@ -3,7 +3,6 @@
 const Discord = require('discord.js');
 const path = require('path');
 const axios = require('axios');
-const { SlashCommandBuilder } = require('@discordjs/builders');
 
 require('../../applesilicon/misc.js')();
 
@@ -12,7 +11,7 @@ module.exports = {
     command: 'about',
     category: 'Information',
     description: 'Displays bot information.',
-    data: new SlashCommandBuilder().setName("about").setDescription("Displays bot information."),
+    data: new Discord.SlashCommandBuilder().setName("about").setDescription("Displays bot information."),
     async execute(interaction) {
         let updated = (await axios.get("https://api.github.com/repos/minh-ton/apple-updates", { 
             headers: { 'Authorization': `token ${process.env.github_token}` } 

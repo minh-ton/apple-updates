@@ -1,7 +1,6 @@
 // Get bot help / command help
 
 const Discord = require('discord.js');
-const { SlashCommandBuilder } = require('@discordjs/builders');
 
 require('../../applesilicon/embed.js')();
 require('../../applesilicon/misc.js')();
@@ -24,7 +23,7 @@ module.exports = {
     category: 'Utilities',
     description: 'Gets help on a command.',
     usage: '`/help`: Shows a list of bot commands.\n`/help <command>`: Gets help on a command.',
-    data: new SlashCommandBuilder().setName("help").setDescription("Gets help on a command.")
+    data: new Discord.SlashCommandBuilder().setName("help").setDescription("Gets help on a command.")
         .addStringOption(option => option.setName('command').setDescription('View more information on a command.').setRequired(false)
         .addChoices(
             { name: "about", value: "about" }, 

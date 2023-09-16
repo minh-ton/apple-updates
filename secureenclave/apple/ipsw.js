@@ -5,7 +5,6 @@ const axios = require('axios');
 const MiniSearch = require('minisearch')
 const uniqid = require('uniqid'); 
 const wait = require('util').promisify(setTimeout);
-const { SlashCommandBuilder } = require('@discordjs/builders');
 
 require('../../applesilicon/misc.js')();
 require('../../applesilicon/embed.js')();
@@ -42,7 +41,7 @@ module.exports = {
     ephemeral: false,
     description: 'Gets the latest signed ipsw files.',
     usage: '`/ipsw <device identifier>`',
-    data: new SlashCommandBuilder().setName("ipsw").setDescription("Gets the latest signed ipsw files.")
+    data: new Discord.SlashCommandBuilder().setName("ipsw").setDescription("Gets the latest signed ipsw files.")
         .addStringOption(option => option.setName("model").setDescription("Specify device model, e.g. iPhone 13 Pro Max").setRequired(true)),
     async execute(interaction) {
         let identifier = interaction.options.getString('model');

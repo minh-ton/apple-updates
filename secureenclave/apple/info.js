@@ -5,7 +5,6 @@ const firebase = require("firebase-admin");
 const checker = require('url-status-code');
 const uniqid = require('uniqid');
 const wait = require('util').promisify(setTimeout);
-const { SlashCommandBuilder } = require('@discordjs/builders');
 
 let db = firebase.firestore();
 
@@ -157,7 +156,7 @@ module.exports = {
     description: 'Gets information about an update.',
     ephemeral: false,
     usage: '`/info <os> <build | version>`',
-    data: new SlashCommandBuilder().setName("info").setDescription("Gets information about an update.")
+    data: new Discord.SlashCommandBuilder().setName("info").setDescription("Gets information about an update.")
         .addStringOption(option => option.setName('os').setDescription('Specify the operating system, e.g. iOS').setRequired(true)
         .addChoices(
             { name: 'iOS', value: 'ios' },

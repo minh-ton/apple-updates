@@ -2,7 +2,6 @@
 
 const Discord = require("discord.js");
 const axios = require('axios');
-const { SlashCommandBuilder } = require('@discordjs/builders');
 
 require('../../applesilicon/misc.js')();
 
@@ -11,7 +10,7 @@ module.exports = {
     command: 'source',
     category: 'Information',
     description: 'Shows the bot\'s source code link.',
-    data: new SlashCommandBuilder().setName("source").setDescription("Shows the bot's source code link."),
+    data: new Discord.SlashCommandBuilder().setName("source").setDescription("Shows the bot's source code link."),
     async execute(interaction) {
         let repo_data = (await axios.get("https://api.github.com/repos/minh-ton/apple-updates", { 
             headers: { 'Authorization': `token ${process.env.github_token}` } 

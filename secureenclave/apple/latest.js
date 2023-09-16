@@ -2,7 +2,6 @@
 
 const Discord = require("discord.js");
 const catalogs = require("../../bootrom/catalogs.json");
-const { SlashCommandBuilder } = require('@discordjs/builders');
 
 require('../../applesilicon/main/manager.js')();
 require('../../applesilicon/embed.js')();
@@ -34,7 +33,7 @@ module.exports = {
     cooldown: 60,
     ephemeral: false,
     description: 'Gets the latest macOS Full Installer Packages.',
-    data: new SlashCommandBuilder().setName("latest").setDescription("Gets the latest macOS Full Installer Packages."),
+    data: new Discord.SlashCommandBuilder().setName("latest").setDescription("Gets the latest macOS Full Installer Packages."),
     async execute(interaction) {
         try {
             const processing = new Discord.MessageEmbed().setColor(randomColor());
