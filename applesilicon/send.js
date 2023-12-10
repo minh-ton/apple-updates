@@ -19,6 +19,17 @@ const role_database = db.collection('discord').doc('roles').collection('servers'
 module.exports = function () {
     this.send_to_servers = async function (os, embed, version) {
         if (global.UPDATE_MODE) return;
+
+        function sendRelease(channel, role, message, releaseType) {
+            const roleMention = role ? `<@&${role}> ` : '';
+            channel.send(
+                `${roleMention}${message}`,
+                { embeds: [embed.setAuthor({ name: server.name, iconURL: server.iconURL() })] }
+            ).catch(function (error) {
+                send_error(error, "send.js", `send_${releaseType}`, `send ${releaseType} update to channels`);
+            });
+        }
+
         switch (os.toLowerCase()) {
             case "tvos":
                 const tvos = await tvos_database.get();
@@ -30,13 +41,21 @@ module.exports = function () {
                         let role_data = role.data();
                         let server = global.bot.guilds.cache.get(channel);
 
-                        chn.send({ embeds: [embed.setAuthor({ name: server.name, iconURL: server.iconURL() })] }).catch(function (error) {
-                            send_error(error, "send.js", `send_tvos`, `send tvos update to channels`);
-                        });
+                        const has_pingable_roles =
+                            role_data &&
+                            role_data["tvos"] &&
+                            server.roles.cache.get(role_data["tvos"]);
 
-                        if (role_data != undefined && server != undefined && role_data['tvos'] != undefined) if (server.roles.cache.get(role_data['tvos']) != undefined) chn.send(`<@&${role_data['tvos']}> **tvOS ${version}** has been released!`).catch(function (error) {
-                            send_error(error, "send.js", `send_tvos`, `send tvos roles to channels`);
-                        });
+                        if (server) {
+                            sendRelease(
+                                chn,
+                                has_pingable_roles
+                                    ? role_data["tvos"]
+                                    : null,
+                                `**tvOS ${version}** has been released!`,
+                                "tvos"
+                            )
+                        }
                     }
                 }
                 break;
@@ -50,13 +69,21 @@ module.exports = function () {
                         let role_data = role.data();
                         let server = global.bot.guilds.cache.get(channel);
 
-                        chn.send({ embeds: [embed.setAuthor({ name: server.name, iconURL: server.iconURL() })] }).catch(function (error) { 
-                            send_error(error, "send.js", `send_audioos`, `send audioos update to channels`); 
-                        });
+                        const has_pingable_roles =
+                            role_data &&
+                            role_data["audioos"] &&
+                            server.roles.cache.get(role_data["audioos"]);
 
-                        if (role_data != undefined && server != undefined && role_data['audioos'] != undefined) if (server.roles.cache.get(role_data['audioos']) != undefined) chn.send(`<@&${role_data['audioos']}> **audioOS ${version}** has been released!`).catch(function (error) { 
-                            send_error(error, "send.js", `send_audioos`, `send audioos roles to channels`); 
-                        });
+                        if (server) {
+                            sendRelease(
+                                chn,
+                                has_pingable_roles
+                                    ? role_data["audioos"]
+                                    : null,
+                                `**audioOS ${version}** has been released!`,
+                                "audioos"
+                            )
+                        }
                     }
                 }
                 break;
@@ -70,13 +97,21 @@ module.exports = function () {
                         let role_data = role.data();
                         let server = global.bot.guilds.cache.get(channel);
 
-                        chn.send({ embeds: [embed.setAuthor({ name: server.name, iconURL: server.iconURL() })] }).catch(function (error) { 
-                            send_error(error, "send.js", `send_macos`, `send macos update to channels`); 
-                        });
+                        const has_pingable_roles =
+                            role_data &&
+                            role_data["macos"] &&
+                            server.roles.cache.get(role_data["macos"]);
 
-                        if (role_data != undefined && server != undefined && role_data['macos'] != undefined) if (server.roles.cache.get(role_data['macos']) != undefined) chn.send(`<@&${role_data['macos']}> **macOS ${version}** has been released!`).catch(function (error) { 
-                            send_error(error, "send.js", `send_macos`, `send macos roles to channels`); 
-                        });
+                        if (server) {
+                            sendRelease(
+                                chn,
+                                has_pingable_roles
+                                    ? role_data["macos"]
+                                    : null,
+                                `**macOS ${version}** has been released!`,
+                                "macos"
+                            )
+                        }
                     }
                 }
                 break;
@@ -90,13 +125,21 @@ module.exports = function () {
                         let role_data = role.data();
                         let server = global.bot.guilds.cache.get(channel);
 
-                        chn.send({ embeds: [embed.setAuthor({ name: server.name, iconURL: server.iconURL() })] }).catch(function (error) { 
-                            send_error(error, "send.js", `send_ios`, `send ios update to channels`); 
-                        });
+                        const has_pingable_roles =
+                            role_data &&
+                            role_data["ios"] &&
+                            server.roles.cache.get(role_data["ios"]);
 
-                        if (role_data != undefined && server != undefined && role_data['ios'] != undefined) if (server.roles.cache.get(role_data['ios']) != undefined) chn.send(`<@&${role_data['ios']}> **iOS ${version}** has been released!`).catch(function (error) { 
-                            send_error(error, "send.js", `send_ios`, `send ios roles to channels`); 
-                        });
+                        if (server) {
+                            sendRelease(
+                                chn,
+                                has_pingable_roles
+                                    ? role_data["ios"]
+                                    : null,
+                                `**iOS ${version}** has been released!`,
+                                "ios"
+                            )
+                        }
                     }
                 }
                 break;
@@ -110,13 +153,21 @@ module.exports = function () {
                         let role_data = role.data();
                         let server = global.bot.guilds.cache.get(channel);
 
-                        chn.send({ embeds: [embed.setAuthor({ name: server.name, iconURL: server.iconURL() })] }).catch(function (error) { 
-                            send_error(error, "send.js", `send_ipados`, `send ipados update to channels`); 
-                        });
+                        const has_pingable_roles =
+                            role_data &&
+                            role_data["ipados"] &&
+                            server.roles.cache.get(role_data["ipados"]);
 
-                        if (role_data != undefined && server != undefined && role_data['ipados'] != undefined) if (server.roles.cache.get(role_data['ipados']) != undefined) chn.send(`<@&${role_data['ipados']}> **iPadOS ${version}** has been released!`).catch(function (error) { 
-                            send_error(error, "send.js", `send_ipados`, `send ipados roles to channels`); 
-                        });
+                        if (server) {
+                            sendRelease(
+                                chn,
+                                has_pingable_roles
+                                    ? role_data["ipados"]
+                                    : null,
+                                `**iPadOS ${version}** has been released!`,
+                                "ipados"
+                            )
+                        }
                     }
                 }
                 break;
@@ -130,13 +181,22 @@ module.exports = function () {
                         let role_data = role.data();
                         let server = global.bot.guilds.cache.get(channel);
 
-                        chn.send({ embeds: [embed.setAuthor({ name: server.name, iconURL: server.iconURL() })] }).catch(function (error) { 
-                            send_error(error, "send.js", `send_watchos`, `send watchos update to channels`); 
-                        });
+                        const has_pingable_roles =
+                            role_data &&
+                            role_data["watchos"] &&
+                            server.roles.cache.get(role_data["watchos"]);
 
-                        if (role_data != undefined && server != undefined && role_data['watchos'] != undefined) if (server.roles.cache.get(role_data['watchos']) != undefined) chn.send(`<@&${role_data['watchos']}> **watchOS ${version}** has been released!`).catch(function (error) { 
-                            send_error(error, "send.js", `send_watchos`, `send watchos roles to channels`); 
-                        });
+                        if (server) {
+                            sendRelease(
+                                chn,
+                                has_pingable_roles
+                                    ? role_data["watchos"]
+                                    : null,
+                                `**watchOS ${version}** has been released!`,
+                                "watchos"
+                            )
+                        }
+
                     }
                 }
                 break;
@@ -150,13 +210,21 @@ module.exports = function () {
                         let role_data = role.data();
                         let server = global.bot.guilds.cache.get(channel);
 
-                        chn.send({ embeds: [embed.setAuthor({ name: server.name, iconURL: server.iconURL() })] }).catch(function (error) { 
-                            send_error(error, "send.js", `send_pkg`, `send pkg link to channels`); 
-                        });
+                        const has_pingable_roles =
+                            role_data &&
+                            role_data["pkg"] &&
+                            server.roles.cache.get(role_data["pkg"]);
 
-                        if (role_data != undefined && server != undefined && role_data['pkg'] != undefined) if (server.roles.cache.get(role_data['pkg']) != undefined) chn.send(`<@&${role_data['pkg']}> **macOS ${version}** Full Installer Package is available!`).catch(function (error) { 
-                            send_error(error, "send.js", `send_pkg`, `send pkg roles to channels`); 
-                        });
+                        if (server) {
+                            sendRelease(
+                                chn,
+                                has_pingable_roles
+                                    ? role_data["pkg"]
+                                    : null,
+                                `**macOS ${version}** Full Installer Package is available!`,
+                                "pkg"
+                            )
+                        }
                     }
                 }
                 break;
@@ -170,13 +238,21 @@ module.exports = function () {
                         let role_data = role.data();
                         let server = global.bot.guilds.cache.get(channel);
 
-                        chn.send({ embeds: [embed.setAuthor({ name: server.name, iconURL: server.iconURL() })] }).catch(function (error) { 
-                            send_error(error, "send.js", `send_bot`, `send bot update to channels`); 
-                        });
+                        const has_pingable_roles =
+                            role_data &&
+                            role_data["bot"] &&
+                            server.roles.cache.get(role_data["bot"]);
 
-                        if (role_data != undefined && server != undefined && role_data['bot'] != undefined) if (server.roles.cache.get(role_data['bot']) != undefined) chn.send(`<@&${role_data['bot']}> New announcements!`).catch(function (error) { 
-                            send_error(error, "send.js", `send_bot`, `send bot roles to channels`); 
-                        });
+                        if (server) {
+                            sendRelease(
+                                chn,
+                                has_pingable_roles
+                                    ? role_data["bot"]
+                                    : null,
+                                `New announcements!`,
+                                "bot"
+                            )
+                        }
                     }
                 }
                 break;
