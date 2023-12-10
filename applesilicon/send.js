@@ -19,6 +19,17 @@ const role_database = db.collection('discord').doc('roles').collection('servers'
 module.exports = function () {
     this.send_to_servers = async function (os, embed, version) {
         if (global.UPDATE_MODE) return;
+
+        function sendRelease(channel, role, message, releaseType) {
+            const roleMention = role ? `<@&${role}> ` : '';
+            channel.send(
+                `${roleMention}${message}`,
+                { embeds: [embed.setAuthor({ name: server.name, iconURL: server.iconURL() })] }
+            ).catch(function (error) {
+                send_error(error, "send.js", `send_${releaseType}`, `send ${releaseType} update to channels`);
+            });
+        }
+
         switch (os.toLowerCase()) {
             case "tvos":
                 const tvos = await tvos_database.get();
@@ -36,16 +47,14 @@ module.exports = function () {
                             server.roles.cache.get(role_data["tvos"]);
 
                         if (server) {
-                            chn.send(
+                            sendRelease(
+                                chn,
                                 has_pingable_roles
-                                    ? `<@&${role_data["tvos"]}> **tvOS ${version}** has been released!`
+                                    ? role_data["tvos"]
                                     : null,
-                                {
-                                    embeds: [embed.setAuthor({ name: server.name, iconURL: server.iconURL() }),],
-                                }
-                            ).catch(function (error) {
-                                send_error(error, "send.js", `send_tvos`, `send tvos update to channels`);
-                            });
+                                `**tvOS ${version}** has been released!`,
+                                "tvos"
+                            )
                         }
                     }
                 }
@@ -66,9 +75,14 @@ module.exports = function () {
                             server.roles.cache.get(role_data["audioos"]);
 
                         if (server) {
-                            chn.send(has_pingable_roles ? `<@&${role_data['audioos']}> **audioOS ${version}** has been released!` : null { embeds: [embed.setAuthor({ name: server.name, iconURL: server.iconURL() })] }).catch(function (error) {
-                                send_error(error, "send.js", `send_audioos`, `send audioos update to channels`);
-                            });
+                            sendRelease(
+                                chn,
+                                has_pingable_roles
+                                    ? role_data["audioos"]
+                                    : null,
+                                `**audioOS ${version}** has been released!`,
+                                "audioos"
+                            )
                         }
                     }
                 }
@@ -89,14 +103,14 @@ module.exports = function () {
                             server.roles.cache.get(role_data["macos"]);
 
                         if (server) {
-                            chn.send(
+                            sendRelease(
+                                chn,
                                 has_pingable_roles
-                                    ? `<@&${role_data['macos']}> **macOS ${version}** has been released!`
+                                    ? role_data["macos"]
                                     : null,
-                                { embeds: [embed.setAuthor({ name: server.name, iconURL: server.iconURL() })] }
-                            ).catch(function (error) {
-                                send_error(error, "send.js", `send_macos`, `send macos update to channels`);
-                            });
+                                `**macOS ${version}** has been released!`,
+                                "macos"
+                            )
                         }
                     }
                 }
@@ -117,14 +131,14 @@ module.exports = function () {
                             server.roles.cache.get(role_data["ios"]);
 
                         if (server) {
-                            chn.send(
+                            sendRelease(
+                                chn,
                                 has_pingable_roles
-                                    ? `<@&${role_data['ios']}> **iOS ${version}** has been released!`
+                                    ? role_data["ios"]
                                     : null,
-                                { embeds: [embed.setAuthor({ name: server.name, iconURL: server.iconURL() })] }
-                            ).catch(function (error) {
-                                send_error(error, "send.js", `send_ios`, `send ios update to channels`);
-                            });
+                                `**iOS ${version}** has been released!`,
+                                "ios"
+                            )
                         }
                     }
                 }
@@ -145,13 +159,14 @@ module.exports = function () {
                             server.roles.cache.get(role_data["ipados"]);
 
                         if (server) {
-                            chn.send(
+                            sendRelease(
+                                chn,
                                 has_pingable_roles
-                                    ? `<@&${role_data['ipados']}> **iPadOS ${version}** has been released!`
-                                    : null, { embeds: [embed.setAuthor({ name: server.name, iconURL: server.iconURL() })] }
-                            ).catch(function (error) {
-                                send_error(error, "send.js", `send_ipados`, `send ipados update to channels`);
-                            });
+                                    ? role_data["ipados"]
+                                    : null,
+                                `**iPadOS ${version}** has been released!`,
+                                "ipados"
+                            )
                         }
                     }
                 }
@@ -172,14 +187,14 @@ module.exports = function () {
                             server.roles.cache.get(role_data["watchos"]);
 
                         if (server) {
-                            chn.send(
+                            sendRelease(
+                                chn,
                                 has_pingable_roles
-                                    ? `<@&${role_data['watchos']}> **watchOS ${version}** has been released!`
+                                    ? role_data["watchos"]
                                     : null,
-                                { embeds: [embed.setAuthor({ name: server.name, iconURL: server.iconURL() })] }
-                            ).catch(function (error) {
-                                send_error(error, "send.js", `send_watchos`, `send watchos update to channels`);
-                            });
+                                `**watchOS ${version}** has been released!`,
+                                "watchos"
+                            )
                         }
 
                     }
@@ -201,14 +216,14 @@ module.exports = function () {
                             server.roles.cache.get(role_data["pkg"]);
 
                         if (server) {
-                            chn.send(
+                            sendRelease(
+                                chn,
                                 has_pingable_roles
-                                    ? `<@&${role_data['pkg']}> **macOS ${version}** Full Installer Package is available!`
+                                    ? role_data["pkg"]
                                     : null,
-                                { embeds: [embed.setAuthor({ name: server.name, iconURL: server.iconURL() })] }
-                            ).catch(function (error) {
-                                send_error(error, "send.js", `send_pkg`, `send pkg link to channels`);
-                            });
+                                `**macOS ${version}** Full Installer Package is available!`,
+                                "pkg"
+                            )
                         }
                     }
                 }
@@ -229,14 +244,14 @@ module.exports = function () {
                             server.roles.cache.get(role_data["bot"]);
 
                         if (server) {
-                            chn.send(
+                            sendRelease(
+                                chn,
                                 has_pingable_roles
-                                    ? `<@&${role_data['bot']}> New announcements!`
+                                    ? role_data["bot"]
                                     : null,
-                                { embeds: [embed.setAuthor({ name: server.name, iconURL: server.iconURL() })] }
-                            ).catch(function (error) {
-                                send_error(error, "send.js", `send_bot`, `send bot update to channels`);
-                            });
+                                `New announcements!`,
+                                "bot"
+                            )
                         }
                     }
                 }
