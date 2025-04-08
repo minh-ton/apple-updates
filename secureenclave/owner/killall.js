@@ -1,6 +1,6 @@
 // Crash the bot
 
-const Discord = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 
 require('../../applesilicon/embed.js')();
 
@@ -15,7 +15,7 @@ module.exports = {
 
         global.bot.user.setStatus("invisible");
 
-        const embed = new Discord.MessageEmbed()
+        const embed = new EmbedBuilder()
             .setDescription(':skull: **Cr4shed successfully!**')
             .setTimestamp();
 

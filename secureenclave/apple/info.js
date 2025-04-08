@@ -1,6 +1,6 @@
 // Gets info for an update
 
-const Discord = require("discord.js");
+const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
 const firebase = require("firebase-admin");
 const checker = require('url-status-code');
 const uniqid = require('uniqid');
@@ -66,18 +66,20 @@ async function display(cname, query, index, interaction) {
     let data = query;
     let info = await get_info(cname, data, index);
 
-    const embed = new Discord.MessageEmbed()
+    const embed = new EmbedBuilder()
         .setTitle(info.title)
-        .addField("Version", info.version, true)
-        .addField("Build", info.build, true)
-        .addField("Size", info.size, true)
-        .addField("Release Date", `<t:${info.postdate}:D>`, true)
+        .addFields(
+            { name: "Version", value: info.version, inline: true },
+            { name: "Build", value: info.build, inline: true },
+            { name: "Size", value: info.size, inline: true },
+            { name: "Release Date", value: `<t:${info.postdate}:D>`, inline: true }
+        )
         .setDescription(info.changelog)
         .setThumbnail(info.thumbnail)
         .setColor(randomColor())
         .setFooter({ text: interaction.user.username, iconURL: interaction.user.displayAvatarURL() });
 
-    if (info.package) embed.addField("Package", info.package, true);
+    if (info.package) embed.addFields({ name: "Package", value: info.package, inline: true });
 
     return embed;
 }
@@ -88,26 +90,26 @@ async function create_buttons(cname, data, index, ids) {
     let cancel_id = ids[2];
 
     if (data.length == 1) {
-        const row = new Discord.MessageActionRow().addComponents(
-            new Discord.MessageButton()
+        const row = new ActionRowBuilder().addComponents(
+            new ButtonBuilder()
                 .setCustomId(cancel_id)
                 .setLabel('Done')
-                .setStyle('SUCCESS'),
+                .setStyle(ButtonStyle.Success),
         );
 
         return row;
     } else if (index == 0) {
         let info_next = await get_info(cname, data, index + 1);
 
-        const row = new Discord.MessageActionRow().addComponents(
-            new Discord.MessageButton()
+        const row = new ActionRowBuilder().addComponents(
+            new ButtonBuilder()
                 .setCustomId(cancel_id)
                 .setLabel('Done')
-                .setStyle('SUCCESS'),
-            new Discord.MessageButton()
+                .setStyle(ButtonStyle.Success),
+            new ButtonBuilder()
                 .setCustomId(next_id)
                 .setLabel(`${info_next.version}`)
-                .setStyle('PRIMARY'),
+                .setStyle(ButtonStyle.Primary),
         );
 
         return row;
@@ -115,15 +117,15 @@ async function create_buttons(cname, data, index, ids) {
     } else if (index == data.length - 1) {
         let info_prev = await get_info(cname, data, index - 1);
 
-        const row = new Discord.MessageActionRow().addComponents(
-            new Discord.MessageButton()
+        const row = new ActionRowBuilder().addComponents(
+            new ButtonBuilder()
                 .setCustomId(prev_id)
                 .setLabel(info_prev.version)
-                .setStyle('PRIMARY'),
-            new Discord.MessageButton()
+                .setStyle(ButtonStyle.Primary),
+            new ButtonBuilder()
                 .setCustomId(cancel_id)
                 .setLabel('Done')
-                .setStyle('SUCCESS'),
+                .setStyle(ButtonStyle.Success),
         );
 
         return row;
@@ -131,19 +133,19 @@ async function create_buttons(cname, data, index, ids) {
         let info_next = await get_info(cname, data, index + 1);
         let info_prev = await get_info(cname, data, index - 1);
 
-        const row = new Discord.MessageActionRow().addComponents(
-            new Discord.MessageButton()
+        const row = new ActionRowBuilder().addComponents(
+            new ButtonBuilder()
                 .setCustomId(prev_id)
                 .setLabel(info_prev.version)
-                .setStyle('PRIMARY'),
-            new Discord.MessageButton()
+                .setStyle(ButtonStyle.Primary),
+            new ButtonBuilder()
                 .setCustomId(cancel_id)
                 .setLabel('Done')
-                .setStyle('SUCCESS'),
-            new Discord.MessageButton()
+                .setStyle(ButtonStyle.Success),
+            new ButtonBuilder()
                 .setCustomId(next_id)
                 .setLabel(info_next.version)
-                .setStyle('PRIMARY'),
+                .setStyle(ButtonStyle.Primary),
         );
 
         return row;

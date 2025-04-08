@@ -1,4 +1,4 @@
-const Discord = require('discord.js');
+const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, PermissionFlagsBits } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { Database } = require('simpl.db');
 
@@ -24,8 +24,13 @@ module.exports = {
                 { name: 'role list', value: 'role list' },
             )),
     async execute(interaction) {
-        if (!interaction.member.permissions.has("MANAGE_GUILD")) return interaction.editReply(error_alert("You do not have the `MANAGE SERVER` permission to use this command!"));
-        if (!interaction.member.guild.me.permissions.has(["VIEW_CHANNEL", "ADD_REACTIONS", "USE_EXTERNAL_EMOJIS", "MANAGE_MESSAGES"])) return interaction.editReply(error_alert("I do not have the necessary permissions to work properly! \n\n ***Please make sure I have the following permissions:*** \n- View Channels\n- Add Reactions\n- Use External Emojis\n- Manage Messages"));
+        if (!interaction.member.permissions.has(PermissionFlagsBits.ManageGuild)) return interaction.editReply(error_alert("You do not have the `MANAGE SERVER` permission to use this command!"));
+        if (!interaction.guild.members.me.permissions.has([
+            PermissionFlagsBits.ViewChannel, 
+            PermissionFlagsBits.AddReactions, 
+            PermissionFlagsBits.UseExternalEmojis, 
+            PermissionFlagsBits.ManageMessages
+        ])) return interaction.editReply(error_alert("I do not have the necessary permissions to work properly! \n\n ***Please make sure I have the following permissions:*** \n- View Channels\n- Add Reactions\n- Use External Emojis\n- Manage Messages"));
 
         if (!global.BETA_RELEASE && simpl.get(interaction.member.guild.id) == true) return interaction.editReply(error_alert("Another `setup` instance is already running."));
 

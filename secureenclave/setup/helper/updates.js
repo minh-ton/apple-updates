@@ -1,4 +1,4 @@
-const Discord = require('discord.js');
+const { ActionRowBuilder, StringSelectMenuBuilder, EmbedBuilder, ChannelType, ButtonBuilder, ButtonStyle, ComponentType } = require('discord.js');
 const firebase = require("firebase-admin");
 const uniqid = require('uniqid'); 
 
@@ -37,7 +37,7 @@ module.exports = function () {
 	this.setup_updates = async function (interaction) {	
 		const sessionIDs = [];
 
-		const channels_list = interaction.member.guild.channels.cache.filter(ch => ch.type === 'GUILD_TEXT' || ch.type === 'GUILD_NEWS');
+		const channels_list = interaction.member.guild.channels.cache.filter(ch => ch.type === ChannelType.GuildText || ch.type === ChannelType.GuildNews);
 		const channel_components = [];
 
 		const existing_setup = await get_existing_setup(interaction.member.guild.id);
@@ -54,7 +54,7 @@ module.exports = function () {
 
 		while (channel_components.length) {
 			let sessionID = uniqid(); sessionIDs.push(sessionID);
-			channel_multiple_components.push(new Discord.MessageActionRow().addComponents(new Discord.MessageSelectMenu().setCustomId(sessionID).setPlaceholder('No channel selected').addOptions(channel_components.splice(0, 20))));
+			channel_multiple_components.push(new ActionRowBuilder().addComponents(new StringSelectMenuBuilder().setCustomId(sessionID).setPlaceholder('No channel selected').addOptions(channel_components.splice(0, 20))));
 		}
 
 		await interaction.editReply({ embeds: [updates_part_1(existing_setup)], components: channel_multiple_components });
@@ -64,12 +64,17 @@ module.exports = function () {
 			return ch.member.id == interaction.member.id && sessionIDs.includes(ch.customId);
 		}
 
-		const response = await interaction.channel.awaitMessageComponent({ filter: channel_filter, max: 1, componentType: 'SELECT_MENU', time: 60000 }).catch(err => { return; });
+		const response = await interaction.channel.awaitMessageComponent({ 
+			filter: channel_filter, 
+			max: 1, 
+			componentType: ComponentType.StringSelect, 
+			time: 60000 
+		}).catch(err => { return; });
 		if (response == undefined) return interaction.editReply(error_embed("You did not select a channel within 1 minute so the command was cancelled."));
 
 		const selected_channel = global.bot.channels.cache.get(response.values[0]);
 		
-		const warning_embed = new Discord.MessageEmbed().setDescription("**PLEASE WAIT FOR THE REACTIONS TO FULLY-LOAD BEFORE REACTING TO THE MESSAGE OR YOUR OPTIONS WON'T BE RECORDED.**").setColor("#f07800");
+		const warning_embed = new EmbedBuilder().setDescription("**PLEASE WAIT FOR THE REACTIONS TO FULLY-LOAD BEFORE REACTING TO THE MESSAGE OR YOUR OPTIONS WON'T BE RECORDED.**").setColor("#f07800");
 
 		const msg = await interaction.editReply({ embeds: [updates_part_2(selected_channel, "Your selected options will appear here"), warning_embed], components: [] });
 
@@ -187,12 +192,12 @@ module.exports = function () {
 	        if (options.includes("macOS InstallAssistant.pkg Links")) await pkg_database.update({ [`${selected_channel.guild.id}`]: `${selected_channel.id}` }); 
 	        else await pkg_database.update({ [`${selected_channel.guild.id}`]: firebase.firestore.FieldValue.delete() });
 
-	        const button = new Discord.MessageActionRow().addComponents(
-	            new Discord.MessageButton()
+	        const button = new ActionRowBuilder().addComponents(
+	            new ButtonBuilder()
 	                .setURL("https://discord.gg/ktHmcbpMNU")
 	                .setLabel('Join support server')
-	                .setStyle('LINK'));
-	       	const tip_embed = new Discord.MessageEmbed().setDescription(`**Helpful Tip: If you want to be pinged when a new update is available, you can set up a Notification Role.**\n- To set up a notification role, use \`/setup role add\`\n- To remove a notification role, use \`/setup role remove\`\n- To list your server's configured notification roles, use \`/setup role list\``).setColor("#f07800");
+	                .setStyle(ButtonStyle.Link));
+	       	const tip_embed = new EmbedBuilder().setDescription(`**Helpful Tip: If you want to be pinged when a new update is available, you can set up a Notification Role.**\n- To set up a notification role, use \`/setup role add\`\n- To remove a notification role, use \`/setup role remove\`\n- To list your server's configured notification roles, use \`/setup role list\``).setColor("#f07800");
 	        return interaction.editReply({ embeds: [updates_overall(`<#${selected_channel.id}>`, options.join(", ")), tip_embed], components: [button] });
 	    });
 	}

@@ -1,7 +1,7 @@
 // Run shell commands on the host machine 
 
 const { exec } = require('child_process');
-const Discord = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 
 require('../../applesilicon/embed.js')();
 
@@ -16,11 +16,11 @@ module.exports = {
 
         if (!args.join(" ")) return message.channel.send(error_alert('Empty bash command, interesting!'));
 
-        const m_embed = new Discord.MessageEmbed().setDescription(`Executing \`${args.join(" ")}\`...`);
+        const m_embed = new EmbedBuilder().setDescription(`Executing \`${args.join(" ")}\`...`);
         const m = await message.channel.send({ embeds: [m_embed] });
         exec(args.join(" "), (err, stdout, stderr) => {
             if (err) {
-                const embed = new Discord.MessageEmbed()
+                const embed = new EmbedBuilder()
                     .setDescription(`**Command exited with error:** \n \`\`\`${err}\`\`\``)
                     .setTimestamp();
                 m.edit({ embeds: [embed] });
@@ -33,9 +33,11 @@ module.exports = {
             if (output.length > 1000) output = output.substring(0, 1000) + '...';
             if (error.length > 1000) error = error.substring(0, 1000) + '...';
 
-            const embed = new Discord.MessageEmbed()
-                .addField(`Output`, `\`\`\`${output}\`\`\``)
-                .addField(`Error`, `\`\`\`${error}\`\`\``)
+            const embed = new EmbedBuilder()
+                .addFields(
+                    { name: `Output`, value: `\`\`\`${output}\`\`\`` },
+                    { name: `Error`, value: `\`\`\`${error}\`\`\`` }
+                )
                 .setTimestamp();
             m.edit({ embeds: [embed] });
         });

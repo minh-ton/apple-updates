@@ -1,6 +1,6 @@
 // Get device ipsw files
 
-const Discord = require("discord.js");
+const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
 const axios = require('axios');
 const MiniSearch = require('minisearch')
 const uniqid = require('uniqid'); 
@@ -26,7 +26,7 @@ async function display_results(results, index, interaction) {
         }
     }
     
-    let embed = new Discord.MessageEmbed()
+    let embed = new EmbedBuilder()
         .setTitle(`Signed IPSW files for ${ipsw.data.name}`)
         .setDescription(`${data.join('\n')}`)
         .setColor(randomColor())
@@ -80,19 +80,19 @@ module.exports = {
                 return ch.member.id == interaction.member.id && ids.includes(ch.customId);
             }
 
-            const row = new Discord.MessageActionRow().addComponents(
-                new Discord.MessageButton()
+            const row = new ActionRowBuilder().addComponents(
+                new ButtonBuilder()
                     .setCustomId(prev_id)
                     .setLabel('Previous')
-                    .setStyle('PRIMARY'),
-                new Discord.MessageButton()
+                    .setStyle(ButtonStyle.Primary),
+                new ButtonBuilder()
                     .setCustomId(cancel_id)
                     .setLabel('Done')
-                    .setStyle('SUCCESS'),
-                new Discord.MessageButton()
+                    .setStyle(ButtonStyle.Success),
+                new ButtonBuilder()
                     .setCustomId(next_id)
                     .setLabel('Next')
-                    .setStyle('PRIMARY'),
+                    .setStyle(ButtonStyle.Primary),
             );
 
             await interaction.editReply({ embeds: [embed = await display_results(results, index, interaction)], components: [row] });

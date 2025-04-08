@@ -1,4 +1,4 @@
-const Discord = require('discord.js');
+const { ActionRowBuilder, StringSelectMenuBuilder, PermissionFlagsBits, ComponentType } = require('discord.js');
 const firebase = require("firebase-admin");
 const uniqid = require('uniqid'); 
 
@@ -29,7 +29,7 @@ module.exports = function () {
 		if (interaction.options.getString('option').includes("add")) {
 			const os_components = [];
 			for (let os in os_updates) { os_components.push({ "label": os_updates[os], "value": os}); }
-			const os_input = new Discord.MessageActionRow().addComponents(new Discord.MessageSelectMenu().setCustomId(sessionID).setPlaceholder('Nothing selected').addOptions(os_components));
+			const os_input = new ActionRowBuilder().addComponents(new StringSelectMenuBuilder().setCustomId(sessionID).setPlaceholder('Nothing selected').addOptions(os_components));
 
 			await interaction.editReply({ embeds: [roles_part_1()], components: [os_input] });
 
@@ -44,7 +44,7 @@ module.exports = function () {
 			}
 
         	if (arr.length < 1) return interaction.editReply(error_embed(`Your server has no notification roles configured!`));
-			const os_input = new Discord.MessageActionRow().addComponents(new Discord.MessageSelectMenu().setCustomId(sessionID).setPlaceholder('Nothing selected').addOptions(os_components));
+			const os_input = new ActionRowBuilder().addComponents(new StringSelectMenuBuilder().setCustomId(sessionID).setPlaceholder('Nothing selected').addOptions(os_components));
         	
         	await interaction.editReply({ embeds: [roles_remove(arr)], components: [os_input] });
 
@@ -62,7 +62,12 @@ module.exports = function () {
 			return ch.member.id == interaction.member.id && sessionIDs.includes(ch.customId);
 		}
 
-		const os_response = await interaction.channel.awaitMessageComponent({ filter: filter, max: 1, componentType: 'SELECT_MENU', time: 60000 }).catch(err => { return; });
+		const os_response = await interaction.channel.awaitMessageComponent({ 
+			filter: filter, 
+			max: 1, 
+			componentType: ComponentType.StringSelect, 
+			time: 60000 
+		}).catch(err => { return; });
 		if (os_response == undefined) return interaction.editReply(error_embed("You did not select an update name within 1 minute so the command was cancelled."));
 
 		const selected_os = os_response.values[0];
@@ -78,7 +83,7 @@ module.exports = function () {
 
     	while (role_components.length) {
     		var sessionID = uniqid(); sessionIDs.push(sessionID);
-    		role_multiple_components.push(new Discord.MessageActionRow().addComponents(new Discord.MessageSelectMenu().setCustomId(sessionID).setPlaceholder('No role selected').addOptions(role_components.splice(0, 20))));
+    		role_multiple_components.push(new ActionRowBuilder().addComponents(new StringSelectMenuBuilder().setCustomId(sessionID).setPlaceholder('No role selected').addOptions(role_components.splice(0, 20))));
     	}
 
     	var selected_role = undefined;
@@ -86,7 +91,12 @@ module.exports = function () {
     	if (interaction.options.getString('option').includes("add")) {
 	        await interaction.editReply({ embeds: [roles_part_2(os_updates[selected_os].slice(0, -1))], components: role_multiple_components });
 
-	        const role_response = await interaction.channel.awaitMessageComponent({ filter: filter, max: 1, componentType: 'SELECT_MENU', time: 60000 }).catch(err => { return; });
+	        const role_response = await interaction.channel.awaitMessageComponent({ 
+                filter: filter, 
+                max: 1, 
+                componentType: ComponentType.StringSelect, 
+                time: 60000 
+            }).catch(err => { return; });
 	        if (role_response == undefined) return interaction.editReply(error_embed("You did not select a role within 1 minute so the command was cancelled."));
 
 	        selected_role = interaction.member.guild.roles.cache.get(role_response.values[0]);

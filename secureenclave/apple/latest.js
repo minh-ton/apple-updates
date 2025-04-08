@@ -1,6 +1,6 @@
 // Send macOS Installers
 
-const Discord = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const catalogs = require("../../bootrom/catalogs.json");
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
@@ -37,7 +37,7 @@ module.exports = {
     data: new SlashCommandBuilder().setName("latest").setDescription("Gets the latest macOS Full Installer Packages."),
     async execute(interaction) {
         try {
-            const processing = new Discord.MessageEmbed().setColor(randomColor());
+            const processing = new EmbedBuilder().setColor(randomColor());
             await interaction.editReply({ embeds: [processing.setDescription("Hang on, I'm fetching data from Apple...")] });
 
             let installers = get_links(await get_pkg_assets(catalogs.macos_beta, 'beta_pkg'));
@@ -54,16 +54,16 @@ module.exports = {
 
             let items_count = Math.floor(installers[1].length / 2);
 
-            const public1 = new Discord.MessageEmbed()
+            const public1 = new EmbedBuilder()
                 .setTitle("macOS Full Installer Packages")
                 .setDescription(`**Public Release Installers:**\n${installers[1].sort().slice(0, items_count).join('\n')}`)
                 .setColor(embed_color);
 
-            const public2 = new Discord.MessageEmbed()
+            const public2 = new EmbedBuilder()
                 .setDescription(`${installers[1].sort().slice(items_count, installers[1].length).join('\n')}`)
                 .setColor(embed_color);
 
-            const beta = new Discord.MessageEmbed()
+            const beta = new EmbedBuilder()
                 .setDescription(`**Beta Release Installers:**\n${installers_beta}`)
                 .setColor(embed_color)
                 .setFooter({ text: interaction.user.username, iconURL: interaction.user.displayAvatarURL() });

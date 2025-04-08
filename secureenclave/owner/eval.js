@@ -1,6 +1,6 @@
 // Run arbitrary JS code
 
-const Discord = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 
 require('../../applesilicon/embed.js')();
 
@@ -29,7 +29,7 @@ module.exports = {
 
             if (typeof evaled !== "string") evaled = require("util").inspect(evaled);
 
-            const success = new Discord.MessageEmbed()
+            const success = new EmbedBuilder()
                 .setDescription(`\`SUCCESS\` \`\`\`xl\n${clean(evaled)}\n\`\`\``)
                 .setColor("#00d768")
                 .setTimestamp();
@@ -40,12 +40,12 @@ module.exports = {
             }
 
         } catch (err) {
-            const error = new Discord.MessageEmbed()
+            const error = new EmbedBuilder()
                 .setDescription(`\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``)
                 .setColor("#c2002a")
                 .setTimestamp();
             try {
-                if (message.chanel) message.channel.send({ embeds: [error] });
+                if (message.channel) message.channel.send({ embeds: [error] });
             } catch(e) {
                 return console.log(e);
             }

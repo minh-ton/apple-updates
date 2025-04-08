@@ -9,11 +9,11 @@ global.UPDATE_MODE = false;
 global.SAVE_MODE = false;
 global.CPU_USAGE = process.cpuUsage();
 
-const Discord = require('discord.js');
+const { Client, Collection, GatewayIntentBits, Partials, ActivityType } = require('discord.js');
 const fs = require("fs");
 const firebase = require("firebase-admin");
 const { REST } = require('@discordjs/rest');
-const { Routes } = require('discord-api-types/v9');
+const { Routes } = require('discord-api-types/v10');
 
 var firebase_token = (BETA_RELEASE) ? process.env.firebase_beta : process.env.firebase;
 var bot_token = (BETA_RELEASE) ? process.env.bot_beta_token : process.env.bot_token;
@@ -25,7 +25,15 @@ firebase.initializeApp({
 require("./applesilicon/updates.js")();
 require("./applesilicon/embed.js")();
 
-global.bot = new Discord.Client({ intents: [Discord.Intents.FLAGS.GUILDS, Discord.Intents.FLAGS.GUILD_MESSAGES, Discord.Intents.FLAGS.DIRECT_MESSAGES, Discord.Intents.FLAGS.GUILD_MESSAGE_REACTIONS], partials: [ 'CHANNEL' ] });
+global.bot = new Client({ 
+    intents: [
+        GatewayIntentBits.Guilds, 
+        GatewayIntentBits.GuildMessages, 
+        GatewayIntentBits.DirectMessages, 
+        GatewayIntentBits.GuildMessageReactions
+    ], 
+    partials: [Partials.Channel] 
+});
 global.bot.login(bot_token);
 
 // ============= DISCORD BOT ============
@@ -37,15 +45,15 @@ global.bot.on("ready", async () => {
     console.log('Bot has started!');
     setInterval(() => {
         if (global.BOT_STATUS == "Working") {
-            global.bot.user.setActivity(`for updates`, { type: "WATCHING" });
+            global.bot.user.setActivity(`for updates`, { type: ActivityType.Watching });
         } else {
-            global.bot.user.setActivity(`/help | ${global.bot.guilds.cache.size}`, { type: "WATCHING" });
+            global.bot.user.setActivity(`/help | ${global.bot.guilds.cache.size}`, { type: ActivityType.Watching });
         }        
     }, 5000);
 });
 
-global.bot.commands = new Discord.Collection();
-global.bot.cooldowns = new Discord.Collection();
+global.bot.commands = new Collection();
+global.bot.cooldowns = new Collection();
 
 const commands = fs.readdirSync('./secureenclave');
 const command_collection = [];
@@ -60,7 +68,7 @@ for (const category of commands) {
     }
 }
 
-const rest = new REST({ version: '9' }).setToken(bot_token);
+const rest = new REST({ version: '10' }).setToken(bot_token);
 (async() => {
     try { 
         if (global.BETA_RELEASE) await rest.put(Routes.applicationGuildCommands(process.env.beta_id, process.env.server_id), { body: command_collection });
@@ -83,7 +91,7 @@ global.bot.on('interactionCreate', async interaction => {
     // Command cooldowns
     if (interaction.member.id != process.env.owner_id) {
         const { cooldowns } = global.bot;
-        if (!cooldowns.has(cmd.name)) cooldowns.set(cmd.name, new Discord.Collection());
+        if (!cooldowns.has(cmd.name)) cooldowns.set(cmd.name, new Collection());
         const now = Date.now(), timestamps = cooldowns.get(cmd.name), amount = (cmd.cooldown || 4) * 1000;
         if (timestamps.has(interaction.member.id)) {
             const exp_time = timestamps.get(interaction.member.id) + amount;
@@ -108,7 +116,7 @@ global.bot.on('interactionCreate', async interaction => {
 global.bot.on("messageCreate", async message => {
     if (message.author.bot) return;
     if (message.mentions.everyone) return;
-    if (message.channel.type === "DM") return;
+    if (message.channel.isDMBased()) return;
 
     // Bot prefix
     const prefixes = [`<@${global.bot.user.id}>`, `<@!${global.bot.user.id}>`];

@@ -1,6 +1,6 @@
 // Create update embeds
 
-const Discord = require('discord.js');
+const { EmbedBuilder, ButtonBuilder, ActionRowBuilder, ButtonStyle } = require('discord.js');
 const brightColor = require('randomcolor');
 
 let multi_icons = ['ios', 'ipados', 'watchos', 'macos'];
@@ -16,11 +16,13 @@ function isBeta(build) {
 module.exports = function () {
     // Send macOS public InstallAssistant.pkg link
     this.send_macos_pkg_public = function (pkgurl, version, build, size) {
-        const embed = new Discord.MessageEmbed()
+        const embed = new EmbedBuilder()
             .setTitle(`New macOS Full Installer Package!`)
-            .addField(`Version`, `${version}`, true)
-            .addField(`Build`, build, true)
-            .addField(`Size`, formatBytes(size), true)
+            .addFields(
+                { name: `Version`, value: `${version}`, inline: true },
+                { name: `Build`, value: build, inline: true },
+                { name: `Size`, value: formatBytes(size), inline: true }
+            )
             .setDescription(`**Installer Package**: [InstallAssistant.pkg](${pkgurl})`)
             .setThumbnail(getThumbnail("pkg"))
             .setColor(brightColor())
@@ -30,11 +32,13 @@ module.exports = function () {
 
     // Send macOS beta InstallAssistant.pkg link
     this.send_macos_pkg_beta = function (pkgurl, version, build, size) {
-        const embed = new Discord.MessageEmbed()
+        const embed = new EmbedBuilder()
             .setTitle(`New macOS Full Installer Package!`)
-            .addField(`Version`, `${version} ${isBeta(build) ? "(Beta)" : "(RC)"}`, true)
-            .addField(`Build`, build, true)
-            .addField(`Size`, formatBytes(size), true)
+            .addFields(
+                { name: `Version`, value: `${version} ${isBeta(build) ? "(Beta)" : "(RC)"}`, inline: true },
+                { name: `Build`, value: build, inline: true },
+                { name: `Size`, value: formatBytes(size), inline: true }
+            )
             .setDescription(`**Installer Package**: [InstallAssistant.pkg](${pkgurl})`)
             .setThumbnail(getThumbnail("pkg"))
             .setColor(brightColor())
@@ -44,11 +48,13 @@ module.exports = function () {
 
     // Send new macOS beta releases
     this.send_macos_beta = function (version, build, size, updateid, changelog) {
-        const embed = new Discord.MessageEmbed()
+        const embed = new EmbedBuilder()
             .setTitle(`New macOS Beta Release!`) 
-            .addField(`Version`, `${version} (${updateid})`, true)
-            .addField(`Build`, build, true)
-            .addField(`Size`, formatBytes(size), true)
+            .addFields(
+                { name: `Version`, value: `${version} (${updateid})`, inline: true },
+                { name: `Build`, value: build, inline: true },
+                { name: `Size`, value: formatBytes(size), inline: true }
+            )
             .setThumbnail(getThumbnail("macOS" + version.split('.')[0]))
             .setColor(brightColor())
             .setTimestamp();
@@ -57,11 +63,13 @@ module.exports = function () {
 
     // Send new macOS public releases
     this.send_macos_public = function (version, build, size, changelog) {
-        const embed = new Discord.MessageEmbed()
+        const embed = new EmbedBuilder()
             .setTitle(`New macOS Public Release!`) 
-            .addField(`Version`, `${version}`, true)
-            .addField(`Build`, build, true)
-            .addField(`Size`, formatBytes(size), true)
+            .addFields(
+                { name: `Version`, value: `${version}`, inline: true },
+                { name: `Build`, value: build, inline: true },
+                { name: `Size`, value: formatBytes(size), inline: true }
+            )
             .setThumbnail(getThumbnail("macOS" + version.split('.')[0]))
             .setDescription(changelog)
             .setColor(brightColor())
@@ -72,11 +80,13 @@ module.exports = function () {
     // Send other OS updates
     this.send_other_updates = function (os, version, build, size, changelog) {
         const thumb = (multi_icons.includes(os.toLowerCase())) ? getThumbnail(os + version.split('.')[0]) : getThumbnail(os);
-        const embed = new Discord.MessageEmbed()
+        const embed = new EmbedBuilder()
             .setTitle(`New ${os} Public Release!`)
-            .addField(`Version`, `${version}`, true)
-            .addField(`Build`, build, true)
-            .addField(`Size`, formatBytes(size), true)
+            .addFields(
+                { name: `Version`, value: `${version}`, inline: true },
+                { name: `Build`, value: build, inline: true },
+                { name: `Size`, value: formatBytes(size), inline: true }
+            )
             .setThumbnail(thumb)
             .setDescription(changelog)
             .setColor(brightColor())
@@ -87,11 +97,13 @@ module.exports = function () {
     // Send other OS beta updates
     this.send_other_beta_updates = function (os, version, build, size, updateid) {
         const thumb = (multi_icons.includes(os.toLowerCase())) ? getThumbnail(os + version.split('.')[0]) : getThumbnail(os);
-        const embed = new Discord.MessageEmbed()
+        const embed = new EmbedBuilder()
             .setTitle(`New ${os} Beta Release!`) 
-            .addField(`Version`, `${version} (${updateid})`, true)
-            .addField(`Build`, build, true)
-            .addField(`Size`, formatBytes(size), true)
+            .addFields(
+                { name: `Version`, value: `${version} (${updateid})`, inline: true },
+                { name: `Build`, value: build, inline: true },
+                { name: `Size`, value: formatBytes(size), inline: true }
+            )
             .setThumbnail(thumb)
             .setColor(brightColor())
             .setTimestamp();
@@ -100,7 +112,7 @@ module.exports = function () {
 
     // Send announcements
     this.send_announcements = function (title, message) {
-        const embed = new Discord.MessageEmbed()
+        const embed = new EmbedBuilder()
             .setTitle(title)
             .setColor(brightColor())
             .setDescription(message)
@@ -111,17 +123,17 @@ module.exports = function () {
 
     this.error_alert = function (message, report) {
         const embeds = [];
-        const button = new Discord.MessageActionRow().addComponents(
-            new Discord.MessageButton()
+        const button = new ActionRowBuilder().addComponents(
+            new ButtonBuilder()
                     .setURL("https://discord.gg/ktHmcbpMNU")
                     .setLabel('Join support server to ask for help')
-                    .setStyle('LINK'));
+                    .setStyle(ButtonStyle.Link));
 
-        const alert = new Discord.MessageEmbed().setDescription("<:apple_x:869128016494751755> " + message).setColor("#FF0000");
+        const alert = new EmbedBuilder().setDescription("<:apple_x:869128016494751755> " + message).setColor("#FF0000");
         embeds.push(alert);
 
         if (report != undefined) {
-            const error_report = new Discord.MessageEmbed()
+            const error_report = new EmbedBuilder()
                 .setDescription(`Please report this incident in the support server:\n\`\`\`${report}\`\`\``)
                 .setColor("#FF0000");
             embeds.push(error_report);
