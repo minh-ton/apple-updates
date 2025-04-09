@@ -4,7 +4,7 @@ const { Database } = require('simpl.db');
 
 require("./helper/roles.js")();
 require("./helper/updates.js")();
-require("../../applesilicon/embed.js")();
+require("../../core/embed.js")();
 
 const simpl = new Database();
 

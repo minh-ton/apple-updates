@@ -4,7 +4,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 require('dotenv').config()
 
-global.BETA_RELEASE = false;
+global.BETA_RELEASE = process.env.NODE_ENV != "production";
 global.UPDATE_MODE = false;
 global.SAVE_MODE = false;
 global.CPU_USAGE = process.cpuUsage();
@@ -22,8 +22,8 @@ firebase.initializeApp({
     credential: firebase.credential.cert(JSON.parse(firebase_token))
 });
 
-require("./applesilicon/updates.js")();
-require("./applesilicon/embed.js")();
+require("./core/updates.js")();
+require("./core/embed.js")();
 
 global.bot = new Client({ 
     intents: [
@@ -55,13 +55,13 @@ global.bot.on("ready", async () => {
 global.bot.commands = new Collection();
 global.bot.cooldowns = new Collection();
 
-const commands = fs.readdirSync('./secureenclave');
+const commands = fs.readdirSync('./cmds');
 const command_collection = [];
 
 for (const category of commands) {
-    const cmd_files = fs.readdirSync(`./secureenclave/${category}`).filter(file => file.endsWith('.js'));
+    const cmd_files = fs.readdirSync(`./cmds/${category}`).filter(file => file.endsWith('.js'));
     for (const file of cmd_files) {
-        const command = require(`./secureenclave/${category}/${file}`);
+        const command = require(`./cmds/${category}/${file}`);
         global.bot.commands.set(command.name, command);
         if (category == "owner") continue;
         command_collection.push(command.data.toJSON());

@@ -11,8 +11,8 @@ let db = firebase.firestore();
 
 const database = db.collection('other').doc('information');
 
-require('../../applesilicon/misc.js')();
-require('../../applesilicon/embed.js')();
+require('../../core/misc.js')();
+require('../../core/embed.js')();
 
 let multi_icons = ['ios', 'ipados', 'watchos', 'macos'];
 
@@ -153,13 +153,13 @@ async function create_buttons(cname, data, index, ids) {
 }
 
 module.exports = {
-    name: 'info',
-    command: 'info',
+    name: 'update_information',
+    command: 'update_information',
     category: 'Apple',
     description: 'Gets information about an update.',
     ephemeral: false,
-    usage: '`/info <os> <build | version>`',
-    data: new SlashCommandBuilder().setName("info").setDescription("Gets information about an update.")
+    usage: '`/update_information <os> <build | version>`',
+    data: new SlashCommandBuilder().setName("update_information").setDescription("Gets information about an update.")
         .addStringOption(option => option.setName('os').setDescription('Specify the operating system, e.g. iOS').setRequired(true)
         .addChoices(
             { name: 'iOS', value: 'ios' },

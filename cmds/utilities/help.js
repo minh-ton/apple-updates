@@ -3,8 +3,8 @@
 const { EmbedBuilder, PermissionFlagsBits } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
-require('../../applesilicon/embed.js')();
-require('../../applesilicon/misc.js')();
+require('../../core/embed.js')();
+require('../../core/misc.js')();
 
 function help_embed(author) {
     const embed = new EmbedBuilder()
@@ -12,7 +12,7 @@ function help_embed(author) {
         .setDescription(`To view more information on a command, use \`/help <command>\`. \nNeed more help? Join our support server: https://discord.gg/ktHmcbpMNU`)
         .addFields(
             { name: `Information`, value: '`about` `ping` `uptime` `invite` `source`' },
-            { name: `Apple`, value: '`latest` `ipsw` `info`' },
+            { name: `Apple`, value: '`macos_installers` `ipsw` `update_information`' },
             { name: `Utilities`, value: '`help` `setup`' }
         )
         .setColor(randomColor());
@@ -34,9 +34,9 @@ module.exports = {
             { name: "uptime", value: "uptime" }, 
             { name: "invite", value: "invite" },
             { name: "source", value: "source" }, 
-            { name: "latest", value: "latest" },
+            { name: "macos_installers", value: "macos_installers" },
             { name: "ipsw", value: "ipsw" }, 
-            { name: "info", value: "info" },
+            { name: "update_information", value: "update_information" },
             { name: "help", value: "help" }, 
             { name: "setup", value: "setup" },
         )),

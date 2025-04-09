@@ -8,7 +8,7 @@ firebase.initializeApp({
     credential: firebase.credential.cert(JSON.parse(process.env.firebase))
 });
 
-require("../applesilicon/updates.js")();
+require("../core/updates.js")();
 
 (async() => {
 	await fetch_gdmf(true, true, true, true, true, true);

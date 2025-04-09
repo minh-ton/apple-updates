@@ -1,10 +1,10 @@
 // Fetch updates for each Apple OS
 
-const devices = require("../bootrom/devices.json");
-const catalogs = require("../bootrom/catalogs.json");
-const audiences = require("../bootrom/audiences.json");
+const devices = require("../assets/devices.json");
+const catalogs = require("../assets/catalogs.json");
+const audiences = require("../assets/audiences.json");
 
-require('./main/manager.js')();
+require('./apple/manager.js')();
 require('./error.js')();
 
 module.exports = function () {

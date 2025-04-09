@@ -4,7 +4,7 @@ const { EmbedBuilder } = require('discord.js');
 const ms = require("pretty-ms");
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
-require('../../applesilicon/misc.js')();
+require('../../core/misc.js')();
 
 module.exports = {
     name: 'uptime',

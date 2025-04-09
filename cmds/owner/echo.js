@@ -1,6 +1,6 @@
 // Send bot announcements to servers
 
-require('../../applesilicon/embed.js')();
+require('../../core/embed.js')();
 
 module.exports = {
     name: 'echo',

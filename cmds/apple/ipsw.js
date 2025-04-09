@@ -7,8 +7,8 @@ const uniqid = require('uniqid');
 const wait = require('util').promisify(setTimeout);
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
-require('../../applesilicon/misc.js')();
-require('../../applesilicon/embed.js')();
+require('../../core/misc.js')();
+require('../../core/embed.js')();
 
 async function display_results(results, index, interaction) {
     let ipsw = await axios.get(`https://api.ipsw.me/v4/device/${results[index].identifier}?type=ipsw`);
@@ -40,9 +40,9 @@ module.exports = {
     command: 'ipsw',
     category: 'Apple',
     ephemeral: false,
-    description: 'Gets the latest signed ipsw files.',
+    description: 'Gets the latest signed ipsw files for a device.',
     usage: '`/ipsw <device identifier>`',
-    data: new SlashCommandBuilder().setName("ipsw").setDescription("Gets the latest signed ipsw files.")
+    data: new SlashCommandBuilder().setName("ipsw").setDescription("Gets the latest signed ipsw files for a device.")
         .addStringOption(option => option.setName("model").setDescription("Specify device model, e.g. iPhone 13 Pro Max").setRequired(true)),
     async execute(interaction) {
         let identifier = interaction.options.getString('model');

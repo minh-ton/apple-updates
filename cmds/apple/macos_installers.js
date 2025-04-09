@@ -1,12 +1,12 @@
 // Send macOS Installers
 
 const { EmbedBuilder } = require("discord.js");
-const catalogs = require("../../bootrom/catalogs.json");
+const catalogs = require("../../assets/catalogs.json");
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
-require('../../applesilicon/main/manager.js')();
-require('../../applesilicon/embed.js')();
-require('../../applesilicon/misc.js')();
+require('../../core/apple/manager.js')();
+require('../../core/embed.js')();
+require('../../core/misc.js')();
 
 function isBeta(build) {
     if (build.length > 6 && build.toUpperCase() != build) return true; // May break in the future
@@ -28,13 +28,13 @@ function get_links(xml_update) {
 }
 
 module.exports = {
-    name: 'latest',
-    command: 'latest',
+    name: 'macos_installers',
+    command: 'macos_installers',
     category: 'Apple',
     cooldown: 60,
     ephemeral: false,
     description: 'Gets the latest macOS Full Installer Packages.',
-    data: new SlashCommandBuilder().setName("latest").setDescription("Gets the latest macOS Full Installer Packages."),
+    data: new SlashCommandBuilder().setName("macos_installers").setDescription("Gets the latest macOS Full Installer Packages."),
     async execute(interaction) {
         try {
             const processing = new EmbedBuilder().setColor(randomColor());

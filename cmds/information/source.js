@@ -4,7 +4,7 @@ const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("
 const axios = require('axios');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
-require('../../applesilicon/misc.js')();
+require('../../core/misc.js')();
 
 module.exports = {
     name: 'source',

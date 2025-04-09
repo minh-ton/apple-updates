@@ -2,7 +2,7 @@
 
 const { EmbedBuilder } = require('discord.js');
 
-require('../../applesilicon/embed.js')();
+require('../../core/embed.js')();
 
 module.exports = {
     name: 'killall',

@@ -20,7 +20,7 @@ jobs:
     - run: npm install
 
     - name: Build database
-      run: node nvram/build_database.js
+      run: node tasks/build_database.js
       env: 
         firebase: ${{ secrets.FIREBASE }}
         error_id: ${{ secrets.WEBHOOK_ID }}
