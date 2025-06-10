@@ -3,7 +3,7 @@
 const { EmbedBuilder, ButtonBuilder, ActionRowBuilder, ButtonStyle } = require('discord.js');
 const brightColor = require('randomcolor');
 
-let multi_icons = ['ios', 'ipados', 'watchos', 'macos'];
+let multi_icons = ['ios', 'ipados', 'watchos', 'macos', 'tvos'];
 
 require('./misc.js')();
 require('./send.js')();

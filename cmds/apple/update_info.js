@@ -14,7 +14,7 @@ const database = db.collection('other').doc('information');
 require('../../core/misc.js')();
 require('../../core/embed.js')();
 
-let multi_icons = ['ios', 'ipados', 'watchos', 'macos'];
+let multi_icons = ['ios', 'ipados', 'watchos', 'macos', 'tvos'];
 
 function isBeta(build, remote) {
     let check = build.length > 6 && build.toUpperCase() != build;
