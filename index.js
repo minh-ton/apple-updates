@@ -25,14 +25,14 @@ firebase.initializeApp({
 require("./core/updates.js")();
 require("./core/embed.js")();
 
-global.bot = new Client({ 
+global.bot = new Client({
     intents: [
-        GatewayIntentBits.Guilds, 
-        GatewayIntentBits.GuildMessages, 
-        GatewayIntentBits.DirectMessages, 
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.DirectMessages,
         GatewayIntentBits.GuildMessageReactions
-    ], 
-    partials: [Partials.Channel] 
+    ],
+    partials: [Partials.Channel]
 });
 global.bot.login(bot_token);
 
@@ -48,7 +48,7 @@ global.bot.on("ready", async () => {
             global.bot.user.setActivity(`for updates`, { type: ActivityType.Watching });
         } else {
             global.bot.user.setActivity(`/help | ${global.bot.guilds.cache.size}`, { type: ActivityType.Watching });
-        }        
+        }
     }, 5000);
 });
 
@@ -69,8 +69,8 @@ for (const category of commands) {
 }
 
 const rest = new REST({ version: '10' }).setToken(bot_token);
-(async() => {
-    try { 
+(async () => {
+    try {
         if (global.BETA_RELEASE) await rest.put(Routes.applicationGuildCommands(process.env.beta_id, process.env.server_id), { body: command_collection });
         else await rest.put(Routes.applicationCommands(process.env.client_id), { body: command_collection });
     } catch (error) {
@@ -131,10 +131,10 @@ global.bot.on("messageCreate", async message => {
     const args = message.content.substring(message.content.indexOf(" ") + 1).trim().split(/ +/g);
     const command = args.shift().toLowerCase();
     const cmd = global.bot.commands.get(command);
-    if (!cmd) return; 
+    if (!cmd) return;
 
-     // For use with eval, echo, bash, etc
-    if (!["bash", "echo", "eval", "killall"].includes(cmd.name)) return;   
+    // For use with eval, echo, bash, etc
+    if (!["bash", "echo", "eval", "killall"].includes(cmd.name)) return;
 
     // Run commands
     try {
@@ -150,8 +150,5 @@ global.bot.on("messageCreate", async message => {
 fetch_gdmf(true, true, true, true, true, true);
 fetch_xml();
 
-setInterval(function () {
-    fetch_gdmf(true, true, true, true, true, true);
-    fetch_xml();
-}, 60000);
-
+setInterval(() => fetch_gdmf(true, true, true, true, true, true), 60000);
+setInterval(() => fetch_xml(), 180000);
