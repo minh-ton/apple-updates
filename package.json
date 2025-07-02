@@ -30,7 +30,7 @@
     "adm-zip": "^0.5.10",
     "axios": "^1.9.0",
     "discord.js": "^14.19.3",
-    "dotenv": "^16.5.0",
+    "dotenv": "^17.0.1",
     "firebase-admin": "^13.4.0",
     "minisearch": "^7.1.2",
     "plist": "^3.1.0",
