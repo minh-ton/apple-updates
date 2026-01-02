@@ -1,6 +1,7 @@
 // Send macOS Installers
 
 const { EmbedBuilder } = require("discord.js");
+const formatBytes = require('pretty-bytes');
 const catalogs = require("../../assets/catalogs.json");
 const { SlashCommandBuilder } = require('@discordjs/builders');
 

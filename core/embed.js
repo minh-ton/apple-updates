@@ -1,7 +1,7 @@
 // Create update embeds
 
 const { EmbedBuilder, ButtonBuilder, ActionRowBuilder, ButtonStyle } = require('discord.js');
-const brightColor = require('randomcolor');
+const formatBytes = require('pretty-bytes');
 
 let multi_icons = ['ios', 'ipados', 'watchos', 'macos', 'tvos'];
 
@@ -25,7 +25,7 @@ module.exports = function () {
             )
             .setDescription(`**Installer Package**: [InstallAssistant.pkg](${pkgurl})`)
             .setThumbnail(getThumbnail("pkg"))
-            .setColor(brightColor())
+            .setColor(randomColor())
             .setTimestamp();
         send_to_servers('pkg', embed, `${version} (${build})`);
     };
@@ -41,7 +41,7 @@ module.exports = function () {
             )
             .setDescription(`**Installer Package**: [InstallAssistant.pkg](${pkgurl})`)
             .setThumbnail(getThumbnail("pkg"))
-            .setColor(brightColor())
+            .setColor(randomColor())
             .setTimestamp();
         send_to_servers('pkg', embed, `${version} Beta (${build})`);
     };
@@ -56,7 +56,7 @@ module.exports = function () {
                 { name: `Size`, value: formatBytes(size), inline: true }
             )
             .setThumbnail(getThumbnail("macOS" + version.split('.')[0]))
-            .setColor(brightColor())
+            .setColor(randomColor())
             .setTimestamp();
         send_to_servers('macos', embed, `${version} (${updateid} - Build ${build})`);
     };
@@ -72,7 +72,7 @@ module.exports = function () {
             )
             .setThumbnail(getThumbnail("macOS" + version.split('.')[0]))
             .setDescription(changelog)
-            .setColor(brightColor())
+            .setColor(randomColor())
             .setTimestamp();
         send_to_servers('macos', embed, `${version} (${build})`);
     };
@@ -89,7 +89,7 @@ module.exports = function () {
             )
             .setThumbnail(thumb)
             .setDescription(changelog)
-            .setColor(brightColor())
+            .setColor(randomColor())
             .setTimestamp();
         send_to_servers(os, embed, `${version} (${build})`);
     };
@@ -105,7 +105,7 @@ module.exports = function () {
                 { name: `Size`, value: formatBytes(size), inline: true }
             )
             .setThumbnail(thumb)
-            .setColor(brightColor())
+            .setColor(randomColor())
             .setTimestamp();
         send_to_servers(os, embed, `${version} (${updateid} - Build ${build})`);
     };
@@ -114,7 +114,7 @@ module.exports = function () {
     this.send_announcements = function (title, message) {
         const embed = new EmbedBuilder()
             .setTitle(title)
-            .setColor(brightColor())
+            .setColor(randomColor())
             .setDescription(message)
             .setThumbnail(global.bot.user.displayAvatarURL())
             .setTimestamp();

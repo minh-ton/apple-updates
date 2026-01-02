@@ -3,7 +3,7 @@
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
 const axios = require('axios');
 const MiniSearch = require('minisearch')
-const uniqid = require('uniqid'); 
+const crypto = require('crypto');
 const wait = require('util').promisify(setTimeout);
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
@@ -70,9 +70,9 @@ module.exports = {
 
             var index = 0, embed = undefined;
 
-            const next_id = uniqid('next-');
-            const prev_id = uniqid('prev-');
-            const cancel_id = uniqid('cancel-');
+            const next_id = crypto.randomUUID();
+            const prev_id = crypto.randomUUID();
+            const cancel_id = crypto.randomUUID();
             const ids = [next_id, prev_id, cancel_id];            
 
             const filter = ch => {

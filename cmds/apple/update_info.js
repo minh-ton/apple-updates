@@ -2,8 +2,9 @@
 
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
 const firebase = require("firebase-admin");
-const checker = require('url-status-code');
-const uniqid = require('uniqid');
+const formatBytes = require('pretty-bytes');
+const axios = require('axios');
+const crypto = require('crypto');
 const wait = require('util').promisify(setTimeout);
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
@@ -44,9 +45,14 @@ async function get_info(cname, data, index) {
     var package = undefined;
 
     if (data[index]["package"]) {
-        let code = await checker(data[index]["package"]);
-        let status = (code == "404") ? "Expired" : formatBytes(data[index]["packagesize"]);
-        package = `[InstallAssistant.pkg](${data[index]["package"]}) (${status})`
+        try {
+            const response = await axios.head(data[index]["package"], { timeout: 5000 });
+            let status = (response.status === 404) ? "Expired" : formatBytes(data[index]["packagesize"]);
+            package = `[InstallAssistant.pkg](${data[index]["package"]}) (${status})`;
+        } catch (error) {
+            let status = (error.response && error.response.status === 404) ? "Expired" : "Unavailable";
+            package = `[InstallAssistant.pkg](${data[index]["package"]}) (${status})`;
+        }
     }
 
     info.beta = beta;
@@ -188,9 +194,9 @@ module.exports = {
                 return (isBeta(x["build"], x["beta"]) - isBeta(y["build"]), y["beta"]);
             });
 
-            const next_id = uniqid('next-');
-            const prev_id = uniqid('prev-');
-            const cancel_id = uniqid('cancel-');
+            const next_id = crypto.randomUUID();
+            const prev_id = crypto.randomUUID();
+            const cancel_id = crypto.randomUUID();
             const ids = [next_id, prev_id, cancel_id];            
 
             const filter = ch => {

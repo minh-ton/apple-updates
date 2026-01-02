@@ -1,6 +1,6 @@
 const { ActionRowBuilder, StringSelectMenuBuilder, PermissionFlagsBits, ComponentType } = require('discord.js');
 const firebase = require("firebase-admin");
-const uniqid = require('uniqid'); 
+const crypto = require('crypto'); 
 
 const db = firebase.firestore();
 
@@ -23,7 +23,7 @@ module.exports = function () {
 	this.setup_roles = async function (interaction) {
 		const sessionIDs = [];
 
-		var sessionID = uniqid();
+		var sessionID = crypto.randomUUID();
 		sessionIDs.push(sessionID);
 
 		if (interaction.options.getString('option').includes("add")) {
@@ -82,7 +82,7 @@ module.exports = function () {
     	const role_multiple_components = [];
 
     	while (role_components.length) {
-    		var sessionID = uniqid(); sessionIDs.push(sessionID);
+    		var sessionID = crypto.randomUUID(); sessionIDs.push(sessionID);
     		role_multiple_components.push(new ActionRowBuilder().addComponents(new StringSelectMenuBuilder().setCustomId(sessionID).setPlaceholder('No role selected').addOptions(role_components.splice(0, 20))));
     	}
 

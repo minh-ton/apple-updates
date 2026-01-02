@@ -17,10 +17,10 @@ module.exports = function () {
             DeviceName: device,
             AssetType: assettype,
         }).catch(function (error) {
-            return send_error(error, "doc.js", `${device} changelog`, `getting changelog from apple server.`);
+            return log_error(error, "doc.js", `${device} changelog`, `getting changelog from apple server.`);
         });
 
-        if (!res) return send_error("No data available", "doc.js", `${device} changelog`, `getting changelog from apple server.`);
+        if (!res) return log_error("No data available", "doc.js", `${device} changelog`, `getting changelog from apple server.`);
 
         var arr = res.data.split(".");
         let buff = new Buffer.from(arr[1], 'base64');
@@ -36,10 +36,10 @@ module.exports = function () {
             responseType: 'arraybuffer',
             responseEncoding: null,
         }).catch(function (error) {
-            return send_error(error, "doc.js", `extract changelog files`, `url: ${file_url}`);
+            return log_error(error, "doc.js", `extract changelog files`, `url: ${file_url}`);
         });
 
-        if (!file) return send_error("No changelog file available", "doc.js", `${device} changelog`, `cannot download changelog zip file.`);
+        if (!file) return log_error("No changelog file available", "doc.js", `${device} changelog`, `cannot download changelog zip file.`);
 
         var zip = new admzip(file.data);
         var zipEntries = zip.getEntries();

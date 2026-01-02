@@ -31,11 +31,11 @@ module.exports = function () {
                         let server = global.bot.guilds.cache.get(channel);
 
                         chn.send({ embeds: [embed.setAuthor({ name: server.name, iconURL: server.iconURL() })] }).catch(function (error) {
-                            send_error(error, "send.js", `send_tvos`, `send tvos update to channels`);
+                            log_error(error, "send.js", `send_tvos`, `send tvos update to channels`);
                         });
 
                         if (role_data != undefined && server != undefined && role_data['tvos'] != undefined) if (server.roles.cache.get(role_data['tvos']) != undefined) chn.send(`<@&${role_data['tvos']}> **tvOS ${version}** has been released!`).catch(function (error) {
-                            send_error(error, "send.js", `send_tvos`, `send tvos roles to channels`);
+                            log_error(error, "send.js", `send_tvos`, `send tvos roles to channels`);
                         });
                     }
                 }
@@ -51,11 +51,11 @@ module.exports = function () {
                         let server = global.bot.guilds.cache.get(channel);
 
                         chn.send({ embeds: [embed.setAuthor({ name: server.name, iconURL: server.iconURL() })] }).catch(function (error) { 
-                            send_error(error, "send.js", `send_audioos`, `send audioos update to channels`); 
+                            log_error(error, "send.js", `send_audioos`, `send audioos update to channels`); 
                         });
 
                         if (role_data != undefined && server != undefined && role_data['audioos'] != undefined) if (server.roles.cache.get(role_data['audioos']) != undefined) chn.send(`<@&${role_data['audioos']}> **audioOS ${version}** has been released!`).catch(function (error) { 
-                            send_error(error, "send.js", `send_audioos`, `send audioos roles to channels`); 
+                            log_error(error, "send.js", `send_audioos`, `send audioos roles to channels`); 
                         });
                     }
                 }
@@ -71,11 +71,11 @@ module.exports = function () {
                         let server = global.bot.guilds.cache.get(channel);
 
                         chn.send({ embeds: [embed.setAuthor({ name: server.name, iconURL: server.iconURL() })] }).catch(function (error) { 
-                            send_error(error, "send.js", `send_macos`, `send macos update to channels`); 
+                            log_error(error, "send.js", `send_macos`, `send macos update to channels`); 
                         });
 
                         if (role_data != undefined && server != undefined && role_data['macos'] != undefined) if (server.roles.cache.get(role_data['macos']) != undefined) chn.send(`<@&${role_data['macos']}> **macOS ${version}** has been released!`).catch(function (error) { 
-                            send_error(error, "send.js", `send_macos`, `send macos roles to channels`); 
+                            log_error(error, "send.js", `send_macos`, `send macos roles to channels`); 
                         });
                     }
                 }
@@ -91,11 +91,11 @@ module.exports = function () {
                         let server = global.bot.guilds.cache.get(channel);
 
                         chn.send({ embeds: [embed.setAuthor({ name: server.name, iconURL: server.iconURL() })] }).catch(function (error) { 
-                            send_error(error, "send.js", `send_ios`, `send ios update to channels`); 
+                            log_error(error, "send.js", `send_ios`, `send ios update to channels`); 
                         });
 
                         if (role_data != undefined && server != undefined && role_data['ios'] != undefined) if (server.roles.cache.get(role_data['ios']) != undefined) chn.send(`<@&${role_data['ios']}> **iOS ${version}** has been released!`).catch(function (error) { 
-                            send_error(error, "send.js", `send_ios`, `send ios roles to channels`); 
+                            log_error(error, "send.js", `send_ios`, `send ios roles to channels`); 
                         });
                     }
                 }
@@ -111,11 +111,11 @@ module.exports = function () {
                         let server = global.bot.guilds.cache.get(channel);
 
                         chn.send({ embeds: [embed.setAuthor({ name: server.name, iconURL: server.iconURL() })] }).catch(function (error) { 
-                            send_error(error, "send.js", `send_ipados`, `send ipados update to channels`); 
+                            log_error(error, "send.js", `send_ipados`, `send ipados update to channels`); 
                         });
 
                         if (role_data != undefined && server != undefined && role_data['ipados'] != undefined) if (server.roles.cache.get(role_data['ipados']) != undefined) chn.send(`<@&${role_data['ipados']}> **iPadOS ${version}** has been released!`).catch(function (error) { 
-                            send_error(error, "send.js", `send_ipados`, `send ipados roles to channels`); 
+                            log_error(error, "send.js", `send_ipados`, `send ipados roles to channels`); 
                         });
                     }
                 }
@@ -131,11 +131,11 @@ module.exports = function () {
                         let server = global.bot.guilds.cache.get(channel);
 
                         chn.send({ embeds: [embed.setAuthor({ name: server.name, iconURL: server.iconURL() })] }).catch(function (error) { 
-                            send_error(error, "send.js", `send_watchos`, `send watchos update to channels`); 
+                            log_error(error, "send.js", `send_watchos`, `send watchos update to channels`); 
                         });
 
                         if (role_data != undefined && server != undefined && role_data['watchos'] != undefined) if (server.roles.cache.get(role_data['watchos']) != undefined) chn.send(`<@&${role_data['watchos']}> **watchOS ${version}** has been released!`).catch(function (error) { 
-                            send_error(error, "send.js", `send_watchos`, `send watchos roles to channels`); 
+                            log_error(error, "send.js", `send_watchos`, `send watchos roles to channels`); 
                         });
                     }
                 }
@@ -151,11 +151,11 @@ module.exports = function () {
                         let server = global.bot.guilds.cache.get(channel);
 
                         chn.send({ embeds: [embed.setAuthor({ name: server.name, iconURL: server.iconURL() })] }).catch(function (error) { 
-                            send_error(error, "send.js", `send_pkg`, `send pkg link to channels`); 
+                            log_error(error, "send.js", `send_pkg`, `send pkg link to channels`); 
                         });
 
                         if (role_data != undefined && server != undefined && role_data['pkg'] != undefined) if (server.roles.cache.get(role_data['pkg']) != undefined) chn.send(`<@&${role_data['pkg']}> **macOS ${version}** Full Installer Package is available!`).catch(function (error) { 
-                            send_error(error, "send.js", `send_pkg`, `send pkg roles to channels`); 
+                            log_error(error, "send.js", `send_pkg`, `send pkg roles to channels`); 
                         });
                     }
                 }
@@ -171,11 +171,11 @@ module.exports = function () {
                         let server = global.bot.guilds.cache.get(channel);
 
                         chn.send({ embeds: [embed.setAuthor({ name: server.name, iconURL: server.iconURL() })] }).catch(function (error) { 
-                            send_error(error, "send.js", `send_bot`, `send bot update to channels`); 
+                            log_error(error, "send.js", `send_bot`, `send bot update to channels`); 
                         });
 
                         if (role_data != undefined && server != undefined && role_data['bot'] != undefined) if (server.roles.cache.get(role_data['bot']) != undefined) chn.send(`<@&${role_data['bot']}> New announcements!`).catch(function (error) { 
-                            send_error(error, "send.js", `send_bot`, `send bot roles to channels`); 
+                            log_error(error, "send.js", `send_bot`, `send bot roles to channels`); 
                         });
                     }
                 }

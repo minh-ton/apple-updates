@@ -1,6 +1,6 @@
 const { ActionRowBuilder, StringSelectMenuBuilder, EmbedBuilder, ChannelType, ButtonBuilder, ButtonStyle, ComponentType } = require('discord.js');
 const firebase = require("firebase-admin");
-const uniqid = require('uniqid'); 
+const crypto = require('crypto'); 
 
 const db = firebase.firestore();
 
@@ -53,7 +53,7 @@ module.exports = function () {
 		const channel_multiple_components = [];
 
 		while (channel_components.length) {
-			let sessionID = uniqid(); sessionIDs.push(sessionID);
+			let sessionID = crypto.randomUUID(); sessionIDs.push(sessionID);
 			channel_multiple_components.push(new ActionRowBuilder().addComponents(new StringSelectMenuBuilder().setCustomId(sessionID).setPlaceholder('No channel selected').addOptions(channel_components.splice(0, 20))));
 		}
 

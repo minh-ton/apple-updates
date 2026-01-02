@@ -32,7 +32,7 @@ module.exports = function() {
 			if (cache_data == undefined) await information.doc(build).set(data);
 			else await information.doc(build).update(data);
 		} catch(error) {
-			return send_error(`Cannot update information`, "info.js", `save_update`, `uploading for ${cname}.`);
+			return log_error(`Cannot update information`, "info.js", `save_update`, `uploading for ${cname}.`);
 		}
 	}
 
@@ -57,7 +57,7 @@ module.exports = function() {
 			if (cache_data == undefined) await information.doc(build).set(data);
 			else await information.doc(build).update(data);
 		} catch(error) {
-			return send_error(`Cannot update information`, "info.js", `save_package`, `uploading for ${cname}.`);
+			return log_error(`Cannot update information`, "info.js", `save_package`, `uploading for ${cname}.`);
 		}
 	}
 }

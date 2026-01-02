@@ -1,6 +1,23 @@
 // Fetch updates from Apple's Pallas server (gdmf.apple.com)
 
 const axios = require('axios');
+const http = require('http');
+const https = require('https');
+
+const axiosInstance = axios.create({
+    timeout: 15000,
+    maxRedirects: 5,
+    httpAgent: new http.Agent({ 
+        keepAlive: true,
+        maxSockets: 10,
+        keepAliveMsecs: 30000
+    }),
+    httpsAgent: new https.Agent({ 
+        keepAlive: true,
+        maxSockets: 10,
+        keepAliveMsecs: 30000
+    })
+});
 
 require('../error.js')();
 require('./doc.js')();
@@ -21,7 +38,7 @@ const device_name = {
 
 module.exports = function () {
     this.gdmf_macos = async function (assetaud, build, hwm, prodtype, prodversion, beta) {
-        const res = await axios.post('https://gdmf.apple.com/v2/assets', {
+        const res = await axiosInstance.post('https://gdmf.apple.com/v2/assets', {
             AssetAudience: assetaud,
             CertIssuanceDay: "2020-09-29",
             ClientVersion: 2,
@@ -31,10 +48,10 @@ module.exports = function () {
             ProductType: prodtype,
             ProductVersion: prodversion,
         }).catch(function (error) {
-            return send_error(error, "gdmf.js", `gdmf_macos`, `politely asking gdmf.apple.com for updates`);
+            return log_error(error, "gdmf.js", `gdmf_macos`, `politely asking gdmf.apple.com for updates`);
         });
 
-        if (!res) return send_error("No data available.", "gdmf.js", `gdmf_macos`, `politely asking gdmf.apple.com for updates`);
+        if (!res) return log_error("No data available.", "gdmf.js", `gdmf_macos`, `politely asking gdmf.apple.com for updates`);
 
         var arr = res.data.split(".");
         let buff = new Buffer.from(arr[1], 'base64');
@@ -44,7 +61,7 @@ module.exports = function () {
 
         for (let asset in text.Assets) {
             if (!text.Assets[asset]) {
-                return send_error(`Missing text.Asset[${asset}]`, "gdmf.js", `gdmf_macos`, `update not available for ${assetaud}.`);
+                return log_error(`Missing text.Asset[${asset}]`, "gdmf.js", `gdmf_macos`, `update not available for ${assetaud}.`);
             }
     
             var changelog;
@@ -71,7 +88,7 @@ module.exports = function () {
     };
 
     this.gdmf_other = async function (assetaud, build, hwm, prodtype, prodversion, cname, dname, beta) {
-        const res = await axios.post('https://gdmf.apple.com/v2/assets', {
+        const res = await axiosInstance.post('https://gdmf.apple.com/v2/assets', {
             AssetAudience: assetaud,
             CertIssuanceDay: "2020-09-29",
             ClientVersion: 2,
@@ -81,17 +98,17 @@ module.exports = function () {
             ProductType: prodtype,
             ProductVersion: prodversion,
         }).catch(function (error) {
-            return send_error(error, "gdmf.js", `fetch_other_updates - ${cname} ${dname}`, `politely asking gdmf.apple.com for updates`);
+            return log_error(error, "gdmf.js", `fetch_other_updates - ${cname} ${dname}`, `politely asking gdmf.apple.com for updates`);
         });
 
-        if (!res) return send_error("No data available.", "gdmf.js", `fetch_other_updates - ${cname} ${dname}`, `politely asking gdmf.apple.com for updates`);;
+        if (!res) return log_error("No data available.", "gdmf.js", `fetch_other_updates - ${cname} ${dname}`, `politely asking gdmf.apple.com for updates`);;
 
         var arr = res.data.split(".");
         let buff = new Buffer.from(arr[1], 'base64');
         let text = JSON.parse(buff.toString('utf8'));
 
         if (!text.Assets[0]) {
-            return send_error(`Missing text.Asset[0]`, "gdmf.js", `gdmf_other`, `update not available for ${assetaud}.`);
+            return log_error(`Missing text.Asset[0]`, "gdmf.js", `gdmf_other`, `update not available for ${assetaud}.`);
         }
         
         var changelog;

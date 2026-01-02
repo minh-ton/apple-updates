@@ -9,8 +9,6 @@ require('./error.js')();
 
 module.exports = function () {
     this.fetch_gdmf = async function (macos, ios, ipados, watchos, audioos, tvos) { // for debugging purposes
-        global.BOT_STATUS = "Working";
-
         // Beta macOS
         if (macos) await fetch_macos_updates(audiences.macos_13_beta, devices.macos.build, devices.macos.model, devices.macos.prodtype, devices.macos.version, 'beta', true); // macOS Ventura Beta
         if (macos) await fetch_macos_updates(audiences.macos_14_beta, devices.macos.build, devices.macos.model, devices.macos.prodtype, devices.macos.version, 'beta', true); // macOS Sonoma Beta
@@ -56,16 +54,10 @@ module.exports = function () {
 
         // Public tvOS
         if (tvos) await fetch_other_updates(audiences.tvos_release, devices.tvos.build, devices.tvos.model, devices.tvos.prodtype, devices.tvos.version, "tvOS", "public", false); // tvOS Release
-        
-        global.BOT_STATUS = "Idling";
     };
 
     this.fetch_xml = async function () {
-        global.BOT_STATUS = "Working";
-
         await fetch_macos_pkg(catalogs.macos_beta, true, 'beta_pkg');
         await fetch_macos_pkg(catalogs.macos_public, false, 'public_pkg');
-
-        global.BOT_STATUS = "Idling";
     };
 }

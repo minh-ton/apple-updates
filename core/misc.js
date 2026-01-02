@@ -1,13 +1,6 @@
 // Some miscellaneous functions
 
-const prettyBytes = require('pretty-bytes');
-
 module.exports = function () {
-  // turn bytes into human-readable
-  this.formatBytes = function (bytes) {
-    return prettyBytes(bytes);
-  };
-
   this.formatUpdatesName = function (updateid, version, cname) {
     // tvOS SUDocumentationID is always "PreRelease"...
     if (cname.toLowerCase() === "tvos") {
@@ -31,10 +24,33 @@ module.exports = function () {
     }
   }
 
-  // generate random colors for the embeds
+  // generate bright/vibrant colors for embeds
   this.randomColor = function () {
-    var color = Math.floor(Math.random() * 16777215).toString(16);
-    return color;
+    // Generate RGB values with high saturation and brightness
+    const hue = Math.random() * 360;
+    const saturation = 70 + Math.random() * 30; // 70-100%
+    const lightness = 50 + Math.random() * 20; // 50-70%
+    
+    // Convert HSL to RGB
+    const c = (1 - Math.abs(2 * lightness / 100 - 1)) * saturation / 100;
+    const x = c * (1 - Math.abs((hue / 60) % 2 - 1));
+    const m = lightness / 100 - c / 2;
+    
+    let r, g, b;
+    if (hue < 60) { r = c; g = x; b = 0; }
+    else if (hue < 120) { r = x; g = c; b = 0; }
+    else if (hue < 180) { r = 0; g = c; b = x; }
+    else if (hue < 240) { r = 0; g = x; b = c; }
+    else if (hue < 300) { r = x; g = 0; b = c; }
+    else { r = c; g = 0; b = x; }
+    
+    // Convert to hex
+    const toHex = (val) => {
+      const hex = Math.round((val + m) * 255).toString(16);
+      return hex.length === 1 ? '0' + hex : hex;
+    };
+    
+    return parseInt(toHex(r) + toHex(g) + toHex(b), 16);
   };
 
   // device icons for os updates embeds

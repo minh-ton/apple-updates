@@ -9,7 +9,7 @@ global.UPDATE_MODE = false;
 global.SAVE_MODE = false;
 global.CPU_USAGE = process.cpuUsage();
 
-const { Client, Collection, GatewayIntentBits, Partials, ActivityType } = require('discord.js');
+const { Client, Collection, GatewayIntentBits, Partials, ActivityType, Options } = require('discord.js');
 const fs = require("fs");
 const firebase = require("firebase-admin");
 const { REST } = require('@discordjs/rest');
@@ -32,7 +32,23 @@ global.bot = new Client({
         GatewayIntentBits.DirectMessages,
         GatewayIntentBits.GuildMessageReactions
     ],
-    partials: [Partials.Channel]
+    partials: [Partials.Channel],
+    sweepers: {
+        messages: {
+            interval: 300,
+            lifetime: 180,
+        },
+    },
+    makeCache: Options.cacheWithLimits({
+        MessageManager: 50,
+        PresenceManager: 0,
+        GuildMemberManager: 0,
+        ReactionManager: 50,
+        GuildBanManager: 0,
+        VoiceStateManager: 0,
+        StageInstanceManager: 0,
+        GuildScheduledEventManager: 0,
+    }),
 });
 global.bot.login(bot_token);
 
@@ -43,13 +59,7 @@ global.bot.on("ready", async () => {
     console.log(`Logged in as ${global.bot.user.tag}!`);
     console.log(`Currently in ${global.bot.guilds.cache.size} servers!`);
     console.log('Bot has started!');
-    setInterval(() => {
-        if (global.BOT_STATUS == "Working") {
-            global.bot.user.setActivity(`for updates`, { type: ActivityType.Watching });
-        } else {
-            global.bot.user.setActivity(`/help | ${global.bot.guilds.cache.size}`, { type: ActivityType.Watching });
-        }
-    }, 5000);
+    global.bot.user.setActivity(`/help`, { type: ActivityType.Listening });
 });
 
 global.bot.commands = new Collection();
@@ -152,3 +162,13 @@ fetch_xml();
 
 setInterval(() => fetch_gdmf(true, true, true, true, true, true), 60000);
 setInterval(() => fetch_xml(), 180000);
+
+// ============= PERIODIC CLEANUP =============
+
+setInterval(() => {
+    const now = Date.now();
+    global.bot.cooldowns.forEach((timestamps, commandName) => {
+        timestamps.sweep((timestamp, userId) => { return (now - timestamp) > 300000 });
+        if (timestamps.size === 0) global.bot.cooldowns.delete(commandName)
+    });
+}, 600000);

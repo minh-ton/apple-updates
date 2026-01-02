@@ -16,7 +16,7 @@ module.exports = function () {
     this.fetch_macos_updates = async function (assetaud, build, hwm, prodtype, prodversion, dname, beta) {
         let mac_update = await gdmf_macos(assetaud, build, hwm, prodtype, prodversion, beta);
 
-        if (!mac_update || mac_update.length == 0) return send_error(`No asset available.`, "manager.js", `fetch_macos_ota`, `update not available for ${assetaud}.`);
+        if (!mac_update || mac_update.length == 0) return log_error(`No asset available.`, "manager.js", `fetch_macos_ota`, `update not available for ${assetaud}.`);
 
         for (let item in mac_update) {
             const macos_database = db.collection("macos").doc(dname);
@@ -48,7 +48,7 @@ module.exports = function () {
             db.collection("macos").doc(dname).update({
                 [`${build}`]: `${build}`
             }).catch(err => {
-                send_error(err, "manager.js", `fetch_macos_ota`, `adding new build number to the database`);
+                log_error(err, "manager.js", `fetch_macos_ota`, `adding new build number to the database`);
             });
         }
     };
@@ -56,7 +56,7 @@ module.exports = function () {
     this.fetch_other_updates = async function (assetaud, os_build, hwm, prodtype, prodversion, cname, dname, beta) {
         let os_update = await gdmf_other(assetaud, os_build, hwm, prodtype, prodversion, cname, dname, beta);
 
-        if (!os_update) return send_error(`No asset (${cname} - ${dname}) available.`, "manager.js", `fetch_other_updates`, `update not available for ${assetaud}.`);
+        if (!os_update) return log_error(`No asset (${cname} - ${dname}) available.`, "manager.js", `fetch_other_updates`, `update not available for ${assetaud}.`);
 
         const os_database = db.collection(cname.toLowerCase()).doc(dname);
         const os_data = await os_database.get();
@@ -86,14 +86,14 @@ module.exports = function () {
         db.collection(cname.toLowerCase()).doc(dname).update({
             [`${build}`]: `${build}`
         }).catch(err => {
-            send_error(err, "manager.js", `fetch_other_updates - ${cname} ${dname}`, `adding new build number to the database`);
+            log_error(err, "manager.js", `fetch_other_updates - ${cname} ${dname}`, `adding new build number to the database`);
         });
     };
 
     this.fetch_macos_pkg = async function (url, beta, dname) {
         let xml_update = await fetch_macos_xml(url, dname);
 
-        if (!xml_update || xml_update.length == 0) return send_error(`No asset (macos - ${dname}) available.`, "manager.js", `fetch_macos_pkg`, `update not available for ${url}.`);
+        if (!xml_update || xml_update.length == 0) return log_error(`No asset (macos - ${dname}) available.`, "manager.js", `fetch_macos_pkg`, `update not available for ${url}.`);
 
         const os_database = db.collection("macos").doc(dname);
         const os_data = await os_database.get();
@@ -123,7 +123,7 @@ module.exports = function () {
             db.collection("macos").doc(dname).update({
                 [`${build}`]: `${build}`
             }).catch(err => {
-                send_error(err, "manager.js", `fetch_macos_pkg - ${dname}`, `adding new build number to the database`);
+                log_error(err, "manager.js", `fetch_macos_pkg - ${dname}`, `adding new build number to the database`);
             });
 
         }
