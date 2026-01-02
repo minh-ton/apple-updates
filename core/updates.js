@@ -4,60 +4,276 @@ const devices = require("../assets/devices.json");
 const catalogs = require("../assets/catalogs.json");
 const audiences = require("../assets/audiences.json");
 
-require('./apple/manager.js')();
-require('./error.js')();
+require('./fetch/fetch.js')();
+require('./utils/error.js')();
+
+const UPDATE_CONFIGS = [
+    // -------------------------------------------------------------------------
+    // macOS Updates
+    // -------------------------------------------------------------------------
+    {
+        os: 'macOS',
+        audience: audiences.macos_13_beta,
+        device: devices.macos,
+        dname: 'beta',
+        beta: true,
+        enabled: true,
+        description: 'macOS Ventura Beta'
+    },
+    {
+        os: 'macOS',
+        audience: audiences.macos_14_beta,
+        device: devices.macos,
+        dname: 'beta',
+        beta: true,
+        enabled: true,
+        description: 'macOS Sonoma Beta'
+    },
+    {
+        os: 'macOS',
+        audience: audiences.macos_15_beta,
+        device: devices.macos,
+        dname: 'beta',
+        beta: true,
+        enabled: true,
+        description: 'macOS Sequoia Beta'
+    },
+    {
+        os: 'macOS',
+        audience: audiences.macos_26_beta,
+        device: devices.macos,
+        dname: 'beta',
+        beta: true,
+        enabled: true,
+        description: 'macOS Tahoe Beta'
+    },
+    {
+        os: 'macOS',
+        audience: audiences.macos_release,
+        device: devices.macos,
+        dname: 'public',
+        beta: false,
+        enabled: true,
+        description: 'macOS Release'
+    },
+
+    // -------------------------------------------------------------------------
+    // iOS Updates
+    // -------------------------------------------------------------------------
+    {
+        os: 'iOS',
+        audience: audiences.ios_18_beta,
+        device: devices.ios,
+        dname: 'beta',
+        beta: true,
+        enabled: true,
+        description: 'iOS 18 Beta'
+    },
+    {
+        os: 'iOS',
+        audience: audiences.ios_26_beta,
+        device: devices.ios,
+        dname: 'beta',
+        beta: true,
+        enabled: true,
+        description: 'iOS 26 Beta'
+    },
+    {
+        os: 'iOS',
+        audience: audiences.ios_release,
+        device: { build: "19G71", model: "D101AP", prodtype: "iPhone9,3", version: "15.6" },
+        dname: 'public',
+        beta: false,
+        enabled: true,
+        description: 'iOS 15 (Legacy)'
+    },
+    {
+        os: 'iOS',
+        audience: audiences.ios_release,
+        device: devices.ios,
+        dname: 'public',
+        beta: false,
+        enabled: true,
+        description: 'iOS Release'
+    },
+
+    // -------------------------------------------------------------------------
+    // iPadOS Updates
+    // -------------------------------------------------------------------------
+    {
+        os: 'iPadOS',
+        audience: audiences.ios_18_beta,
+        device: devices.ipados,
+        dname: 'beta',
+        beta: true,
+        enabled: true,
+        description: 'iPadOS 18 Beta'
+    },
+    {
+        os: 'iPadOS',
+        audience: audiences.ios_26_beta,
+        device: devices.ipados,
+        dname: 'beta',
+        beta: true,
+        enabled: true,
+        description: 'iPadOS 26 Beta'
+    },
+    {
+        os: 'iPadOS',
+        audience: audiences.ios_release,
+        device: { build: "19G71", model: "J81AP", prodtype: "iPad5,3", version: "15.6" },
+        dname: 'public',
+        beta: false,
+        enabled: true,
+        description: 'iPadOS 15 (Legacy)'
+    },
+    {
+        os: 'iPadOS',
+        audience: audiences.ios_release,
+        device: devices.ipados,
+        dname: 'public',
+        beta: false,
+        enabled: true,
+        description: 'iPadOS Release'
+    },
+
+    // -------------------------------------------------------------------------
+    // watchOS Updates
+    // -------------------------------------------------------------------------
+    {
+        os: 'watchOS',
+        audience: audiences.watchos_11_beta,
+        device: devices.watchos,
+        dname: 'beta',
+        beta: true,
+        enabled: true,
+        description: 'watchOS 11 Beta'
+    },
+    {
+        os: 'watchOS',
+        audience: audiences.watchos_26_beta,
+        device: devices.watchos,
+        dname: 'beta',
+        beta: true,
+        enabled: true,
+        description: 'watchOS 26 Beta'
+    },
+    {
+        os: 'watchOS',
+        audience: audiences.watchos_release,
+        device: devices.watchos,
+        dname: 'public',
+        beta: false,
+        enabled: true,
+        description: 'watchOS Release'
+    },
+
+    // -------------------------------------------------------------------------
+    // audioOS Updates
+    // -------------------------------------------------------------------------
+    {
+        os: 'audioOS',
+        audience: audiences.audioos_18_beta,
+        device: devices.audioos,
+        dname: 'beta',
+        beta: true,
+        enabled: true,
+        description: 'audioOS 18 Beta'
+    },
+    {
+        os: 'audioOS',
+        audience: audiences.audioos_26_beta,
+        device: devices.audioos,
+        dname: 'beta',
+        beta: true,
+        enabled: true,
+        description: 'audioOS 26 Beta'
+    },
+    {
+        os: 'audioOS',
+        audience: audiences.audioos_release,
+        device: devices.audioos,
+        dname: 'public',
+        beta: false,
+        enabled: true,
+        description: 'audioOS Release'
+    },
+
+    // -------------------------------------------------------------------------
+    // tvOS Updates
+    // -------------------------------------------------------------------------
+    {
+        os: 'tvOS',
+        audience: audiences.tvos_18_beta,
+        device: devices.tvos,
+        dname: 'beta',
+        beta: true,
+        enabled: true,
+        description: 'tvOS 18 Beta'
+    },
+    {
+        os: 'tvOS',
+        audience: audiences.tvos_26_beta,
+        device: devices.tvos,
+        dname: 'beta',
+        beta: true,
+        enabled: true,
+        description: 'tvOS 26 Beta'
+    },
+    {
+        os: 'tvOS',
+        audience: audiences.tvos_release,
+        device: devices.tvos,
+        dname: 'public',
+        beta: false,
+        enabled: true,
+        description: 'tvOS Release'
+    }
+];
+
+const INSTALLER_CONFIGS = [
+    {
+        catalog: catalogs.macos_beta,
+        beta: true,
+        dname: 'beta_pkg',
+        enabled: true,
+        description: 'macOS Beta Installers'
+    },
+    {
+        catalog: catalogs.macos_public,
+        beta: false,
+        dname: 'public_pkg',
+        enabled: true,
+        description: 'macOS Public Installers'
+    }
+];
+
+// =============================================================================
+// POLLING FUNCTIONS
+// =============================================================================
 
 module.exports = function () {
-    this.fetch_gdmf = async function (macos, ios, ipados, watchos, audioos, tvos) { // for debugging purposes
-        // Beta macOS
-        if (macos) await fetch_macos_updates(audiences.macos_13_beta, devices.macos.build, devices.macos.model, devices.macos.prodtype, devices.macos.version, 'beta', true); // macOS Ventura Beta
-        if (macos) await fetch_macos_updates(audiences.macos_14_beta, devices.macos.build, devices.macos.model, devices.macos.prodtype, devices.macos.version, 'beta', true); // macOS Sonoma Beta
-        if (macos) await fetch_macos_updates(audiences.macos_15_beta, devices.macos.build, devices.macos.model, devices.macos.prodtype, devices.macos.version, 'beta', true); // macOS Squoia Beta
-        if (macos) await fetch_macos_updates(audiences.macos_26_beta, devices.macos.build, devices.macos.model, devices.macos.prodtype, devices.macos.version, 'beta', true); // macOS Tahoe Beta
+    this.updates_polling = async function () {
+        for (const config of UPDATE_CONFIGS) {
+            if (!config.enabled) continue;
 
-        // Public macOS
-        if (macos) await fetch_macos_updates(audiences.macos_release, devices.macos.build, devices.macos.model, devices.macos.prodtype, devices.macos.version, 'public', false); // macOS Release
-
-        // Beta iOS
-        if (ios) await fetch_other_updates(audiences.ios_18_beta, devices.ios.build, devices.ios.model, devices.ios.prodtype, devices.ios.version, "iOS", "beta", true); // iOS 18 Beta
-        if (ios) await fetch_other_updates(audiences.ios_26_beta, devices.ios.build, devices.ios.model, devices.ios.prodtype, devices.ios.version, "iOS", "beta", true); // iOS 26 Beta
-
-        // Public iOS
-        if (ios) await fetch_other_updates(audiences.ios_release, "19G71", "D101AP", "iPhone9,3", "15.6", "iOS", "public", false); // iOS 15
-        if (ios) await fetch_other_updates(audiences.ios_release, devices.ios.build, devices.ios.model, devices.ios.prodtype, devices.ios.version, "iOS", "public", false); // iOS Release
-
-        // Beta iPadOS
-        if (ipados) await fetch_other_updates(audiences.ios_18_beta, devices.ipados.build, devices.ipados.model, devices.ipados.prodtype, devices.ipados.version, "iPadOS", "beta", true); // iPadOS 18 Beta
-        if (ipados) await fetch_other_updates(audiences.ios_26_beta, devices.ipados.build, devices.ipados.model, devices.ipados.prodtype, devices.ipados.version, "iPadOS", "beta", true); // iPadOS 26 Beta
-
-        // Public iPadOS
-        if (ipados) await fetch_other_updates(audiences.ios_release, "19G71", "J81AP", "iPad5,3", "15.6", "iPadOS", "public", false); // iPadOS 15
-        if (ipados) await fetch_other_updates(audiences.ios_release, devices.ipados.build, devices.ipados.model, devices.ipados.prodtype, devices.ipados.version, "iPadOS", "public", false); // iPadOS Release
-
-        // Beta watchOS
-        if (watchos) await fetch_other_updates(audiences.watchos_11_beta, devices.watchos.build, devices.watchos.model, devices.watchos.prodtype, devices.watchos.version, "watchOS", "beta", true); // watchOS 11 Beta
-        if (watchos) await fetch_other_updates(audiences.watchos_26_beta, devices.watchos.build, devices.watchos.model, devices.watchos.prodtype, devices.watchos.version, "watchOS", "beta", true); // watchOS 26 Beta
-
-        // Public watchOS
-        if (watchos) await fetch_other_updates(audiences.watchos_release, devices.watchos.build, devices.watchos.model, devices.watchos.prodtype, devices.watchos.version, "watchOS", "public", false); // watchOS Release
-
-        // Beta audioOS
-        if (audioos) await fetch_other_updates(audiences.audioos_18_beta, devices.audioos.build, devices.audioos.model, devices.audioos.prodtype, devices.audioos.version, "audioOS", "beta", true); // audioOS 18 Beta
-        if (audioos) await fetch_other_updates(audiences.audioos_26_beta, devices.audioos.build, devices.audioos.model, devices.audioos.prodtype, devices.audioos.version, "audioOS", "beta", true); // audioOS 26 Beta
-
-        // Public audioOS
-        if (audioos) await fetch_other_updates(audiences.audioos_release, devices.audioos.build, devices.audioos.model, devices.audioos.prodtype, devices.audioos.version, "audioOS", "public", false); // audioOS Release
-
-        // Beta tvOS
-        if (tvos) await fetch_other_updates(audiences.tvos_18_beta, devices.tvos.build, devices.tvos.model, devices.tvos.prodtype, devices.tvos.version, "tvOS", "beta", true); // tvOS 18 Beta
-        if (tvos) await fetch_other_updates(audiences.tvos_26_beta, devices.tvos.build, devices.tvos.model, devices.tvos.prodtype, devices.tvos.version, "tvOS", "beta", true); // tvOS 26 Beta
-
-        // Public tvOS
-        if (tvos) await fetch_other_updates(audiences.tvos_release, devices.tvos.build, devices.tvos.model, devices.tvos.prodtype, devices.tvos.version, "tvOS", "public", false); // tvOS Release
+            await check_for_updates(
+                config.os,
+                config.audience,
+                config.device.build,
+                config.device.model,
+                config.device.prodtype,
+                config.device.version,
+                config.dname,
+                config.beta
+            );
+        }
     };
 
-    this.fetch_xml = async function () {
-        await fetch_macos_pkg(catalogs.macos_beta, true, 'beta_pkg');
-        await fetch_macos_pkg(catalogs.macos_public, false, 'public_pkg');
+    this.installers_polling = async function () {
+        for (const config of INSTALLER_CONFIGS) {
+            if (!config.enabled) continue;
+            await check_for_installers(config.catalog, config.beta, config.dname);
+        }
     };
 }

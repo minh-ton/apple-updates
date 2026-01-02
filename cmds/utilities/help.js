@@ -3,8 +3,8 @@
 const { EmbedBuilder, PermissionFlagsBits } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
-require('../../core/embed.js')();
-require('../../core/misc.js')();
+require('../../core/notification/staging.js')();
+require('../../core/utils/utils.js')();
 
 function help_embed(author) {
     const embed = new EmbedBuilder()

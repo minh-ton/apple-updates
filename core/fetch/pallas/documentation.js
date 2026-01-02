@@ -1,14 +1,31 @@
 // Get update documentation/changelog
 
+const http = require('http'); 
+const https = require('https');
 const axios = require('axios');
 const admzip = require('adm-zip');
 const sanitizeHtml = require('sanitize-html');
 
-require('../error.js')();
+require('../../utils/error.js')();
+
+const axiosInstance = axios.create({
+    timeout: 15000,
+    maxRedirects: 5,
+    httpAgent: new http.Agent({ 
+        keepAlive: true,
+        maxSockets: 10,
+        keepAliveMsecs: 30000
+    }),
+    httpsAgent: new https.Agent({ 
+        keepAlive: true,
+        maxSockets: 10,
+        keepAliveMsecs: 30000
+    })
+});
 
 module.exports = function () {
-    this.get_changelog = async function (audience, hw, sudocumentationid, device, assettype) {
-        const res = await axios.post('https://gdmf.apple.com/v2/assets', {
+    this.get_documentation = async function (audience, hw, sudocumentationid, device, assettype) {
+        const res = await axiosInstance.post('https://gdmf.apple.com/v2/assets', {
             AssetAudience: audience,
             HWModelStr: hw,
             SUDocumentationID: sudocumentationid,

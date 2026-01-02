@@ -1,6 +1,6 @@
 // Send bot announcements to servers
 
-require('../../core/embed.js')();
+require('../../core/notification/staging.js')();
 
 module.exports = {
     name: 'echo',

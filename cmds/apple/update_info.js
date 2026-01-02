@@ -12,8 +12,8 @@ let db = firebase.firestore();
 
 const database = db.collection('other').doc('information');
 
-require('../../core/misc.js')();
-require('../../core/embed.js')();
+require('../../core/utils/utils.js')();
+require('../../core/notification/staging.js')();
 
 let multi_icons = ['ios', 'ipados', 'watchos', 'macos', 'tvos'];
 

@@ -5,7 +5,7 @@ const path = require('path');
 const axios = require('axios');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
-require('../../core/misc.js')();
+require('../../core/utils/utils.js')();
 
 module.exports = {
     name: 'about',

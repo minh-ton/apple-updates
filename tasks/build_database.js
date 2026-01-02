@@ -11,7 +11,7 @@ firebase.initializeApp({
 require("../core/updates.js")();
 
 (async() => {
-	await fetch_gdmf(true, true, true, true, true, true);
-	await fetch_xml();
+	await updates_polling();
+	await installers_polling();
 })();
 

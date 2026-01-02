@@ -5,7 +5,7 @@ const formatBytes = require('pretty-bytes');
 const ms = require("pretty-ms");
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
-require('../../core/misc.js')();
+require('../../core/utils/utils.js')();
 
 module.exports = {
     name: 'uptime',

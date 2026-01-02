@@ -2,7 +2,7 @@
 
 const firebase = require("firebase-admin");
 
-require('../error.js')();
+require('./error.js')();
 
 let db = firebase.firestore();
 

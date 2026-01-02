@@ -3,7 +3,7 @@
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
-require('../../core/misc.js')();
+require('../../core/utils/utils.js')();
 
 module.exports = {
     name: 'invite',

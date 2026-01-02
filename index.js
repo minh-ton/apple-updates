@@ -23,7 +23,7 @@ firebase.initializeApp({
 });
 
 require("./core/updates.js")();
-require("./core/embed.js")();
+require("./core/notification/staging.js")();
 
 global.bot = new Client({
     intents: [
@@ -54,7 +54,7 @@ global.bot.login(bot_token);
 
 // ============= DISCORD BOT ============
 
-global.bot.on("ready", async () => {
+global.bot.on("clientReady", async () => {
     if (global.bot.user.id == process.env.beta_id) console.log("[RUNNING BETA BOT INSTANCE]");
     console.log(`Logged in as ${global.bot.user.tag}!`);
     console.log(`Currently in ${global.bot.guilds.cache.size} servers!`);
@@ -157,11 +157,11 @@ global.bot.on("messageCreate", async message => {
 
 // ============= UPDATES FETCH =============
 
-fetch_gdmf(true, true, true, true, true, true);
-fetch_xml();
+updates_polling();
+installers_polling();
 
-setInterval(() => fetch_gdmf(true, true, true, true, true, true), 60000);
-setInterval(() => fetch_xml(), 180000);
+setInterval(() => updates_polling(), 60000);
+setInterval(() => installers_polling(), 180000);
 
 // ============= PERIODIC CLEANUP =============
 

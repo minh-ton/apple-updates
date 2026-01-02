@@ -1,5 +1,5 @@
 // Send error messages to stderr in an organized format for debugging
-require('./misc.js')();
+require('./utils.js')();
 
 module.exports = function () {
     this.log_error = function (message, location, process, task) {

@@ -5,9 +5,9 @@ const formatBytes = require('pretty-bytes');
 const catalogs = require("../../assets/catalogs.json");
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
-require('../../core/apple/manager.js')();
-require('../../core/embed.js')();
-require('../../core/misc.js')();
+require('../../core/fetch/fetch.js')();
+require('../../core/notification/staging.js')();
+require('../../core/utils/utils.js')();
 
 function isBeta(build) {
     if (build.length > 6 && build.toUpperCase() != build) return true; // May break in the future
@@ -41,10 +41,10 @@ module.exports = {
             const processing = new EmbedBuilder().setColor(randomColor());
             await interaction.editReply({ embeds: [processing.setDescription("Hang on, I'm fetching data from Apple...")] });
 
-            let installers = get_links(await get_pkg_assets(catalogs.macos_beta, 'beta_pkg'));
-            let installers13 = get_links(await get_pkg_assets(catalogs.macos_beta_13, 'beta_pkg'));
-            let installers12 = get_links(await get_pkg_assets(catalogs.macos_beta_12, 'beta_pkg'));
-            let installers11 = get_links(await get_pkg_assets(catalogs.macos_beta_11, 'beta_pkg'));
+            let installers = get_links(await get_sucatalog_installers(catalogs.macos_beta, 'beta_pkg'));
+            let installers13 = get_links(await get_sucatalog_installers(catalogs.macos_beta_13, 'beta_pkg'));
+            let installers12 = get_links(await get_sucatalog_installers(catalogs.macos_beta_12, 'beta_pkg'));
+            let installers11 = get_links(await get_sucatalog_installers(catalogs.macos_beta_11, 'beta_pkg'));
 
             let installers_beta = `${installers11[0].sort().join('\n')}
                                     ${installers12[0].sort().join('\n')}

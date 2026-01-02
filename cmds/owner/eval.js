@@ -2,7 +2,7 @@
 
 const { EmbedBuilder } = require('discord.js');
 
-require('../../core/embed.js')();
+require('../../core/notification/staging.js')();
 
 const clean = text => {
     if (typeof(text) === "string")
