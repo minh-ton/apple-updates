@@ -27,19 +27,16 @@
   },
   "homepage": "https://github.com/Minh-Ton/apple-updates",
   "dependencies": {
-    "adm-zip": "^0.5.10",
-    "axios": "^1.9.0",
-    "discord.js": "^14.19.3",
-    "dotenv": "^16.5.0",
-    "firebase-admin": "^13.4.0",
-    "minisearch": "^7.1.2",
+    "adm-zip": "^0.5.16",
+    "axios": "^1.13.2",
+    "discord.js": "^14.25.1",
+    "dotenv": "^16.6.1",
+    "firebase-admin": "^13.6.0",
+    "minisearch": "^7.2.0",
     "plist": "^3.1.0",
     "pretty-bytes": "^5.6.0",
     "pretty-ms": "^7.0.1",
-    "randomcolor": "^0.6.2",
     "sanitize-html": "^2.17.0",
-    "uniqid": "^5.4.0",
-    "url-status-code": "^2.0.0",
     "xml-js": "^1.6.11"
   }
 }
