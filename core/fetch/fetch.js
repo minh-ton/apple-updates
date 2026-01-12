@@ -1,6 +1,7 @@
 // Monitor the updates check process.
 
 const firebase = require("firebase-admin");
+const { DOCUMENTATION_ASSET_TYPES, DEVICE_NAMES } = require('../constants.js');
 
 require('../notification/staging.js')();
 require('../utils/error.js')();
@@ -21,19 +22,20 @@ module.exports = function () {
             return log_error(`No asset (${os} - ${doc_name}) available.`, "fetch.js", `check_for_updates`, `update not available for ${asset_audience}.`);
         }
 
-        const doc_ref = db.collection(os).doc(doc_name);
-        const doc_snapshot = await doc_ref.get();
-        const stored_builds = doc_snapshot.data();
-
         var existing_builds = [];
-        for (let build in stored_builds) existing_builds.push(build);
+        var doc_ref;
+        if (!global.SAVE_MODE) {
+            doc_ref = db.collection(os).doc(doc_name);
+            const doc_snapshot = await doc_ref.get();
+            const stored_builds = doc_snapshot.data();
+            for (let build in stored_builds) existing_builds.push(build);
+        }
 
         for (let update_data of updates_array) {
             const version = update_data['os_version'];
             const size = update_data['os_size'];
             const build_number = update_data['os_build'];
             const update_id = update_data['os_updateid'];
-            const changelog = update_data['os_changelog'];
             const post_date = update_data['os_postdate'];
 
             if (target_version !== null && target_version !== undefined) {
@@ -41,6 +43,14 @@ module.exports = function () {
                 if (major_version !== target_version) {
                     continue;
                 }
+            }
+
+            var changelog = undefined;
+            if (global.SAVE_MODE || !existing_builds.includes(build_number)) {
+                if (!is_beta && os !== "tvos") {
+                    changelog = await get_documentation(asset_audience, hw_model, update_id, DEVICE_NAMES[os], DOCUMENTATION_ASSET_TYPES[os]);
+                }
+                if (changelog == undefined) changelog = "Release note is not available.";
             }
 
             if (global.SAVE_MODE) {
@@ -54,7 +64,7 @@ module.exports = function () {
 
             send_os_updates(os, version, build_number, size, is_beta, is_beta ? format_documentation_id(update_id, version, os) : null, is_beta ? null : changelog);
 
-            db.collection(os).doc(doc_name).update({
+            doc_ref.update({
                 [`${build_number}`]: `${build_number}`
             }).catch(err => {
                 log_error(err, "fetch.js", `check_for_updates - ${os} ${doc_name}`, `adding new build number to the database`);
@@ -68,12 +78,14 @@ module.exports = function () {
 
         if (!installer_packages || installer_packages.length == 0) return log_error(`No asset (macos - ${doc_name}) available.`, "fetch.js", `check_for_installers`, `update not available for ${catalog_url}.`);
 
-        const doc_ref = db.collection("macos").doc(doc_name);
-        const doc_snapshot = await doc_ref.get();
-        const stored_builds = doc_snapshot.data();
-
         var existing_builds = [];
-        for (let build in stored_builds) existing_builds.push(build);
+        var doc_ref;
+        if (!global.SAVE_MODE) {
+            doc_ref = db.collection("macos").doc(doc_name);
+            const doc_snapshot = await doc_ref.get();
+            const stored_builds = doc_snapshot.data();
+            for (let build in stored_builds) existing_builds.push(build);
+        }
 
         for (let installer in installer_packages) {
             let pkg_url = installer_packages[installer]['xml_pkg'];
@@ -93,7 +105,7 @@ module.exports = function () {
 
             send_macos_installer(pkg_url, version, build, size, is_beta);
 
-            db.collection("macos").doc(doc_name).update({
+            doc_ref.update({
                 [`${build}`]: `${build}`
             }).catch(err => {
                 log_error(err, "fetch.js", `check_for_installers - ${doc_name}`, `adding new build number to the database`);

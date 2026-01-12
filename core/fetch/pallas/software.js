@@ -1,7 +1,7 @@
 // Fetch updates from Apple's Pallas server (gdmf.apple.com)
 
 const axios_instance = require('../axios.js');
-const { DOCUMENTATION_ASSET_TYPES, DEVICE_NAMES, ASSET_TYPES } = require('../../constants.js');
+const { ASSET_TYPES } = require('../../constants.js');
 
 require('../../utils/error.js')();
 require('./documentation.js')();
@@ -38,7 +38,6 @@ module.exports = function () {
             return log_error(`No assets available`, "software.js", context, `update not available for ${asset_audience}.`);
         }
 
-        // Group assets by build number and select best asset for each build
         const builds_map = {};
         
         for (let asset_index = 0; asset_index < asset_data.Assets.length; asset_index++) {
@@ -48,7 +47,6 @@ module.exports = function () {
             if (!builds_map[build_number]) {
                 builds_map[build_number] = asset;
             } else {
-                // Prioritize: Long > Short > any
                 const current_doc_id = builds_map[build_number].SUDocumentationID;
                 const new_doc_id = asset.SUDocumentationID;
                 
@@ -57,36 +55,24 @@ module.exports = function () {
                 const new_has_long = new_doc_id && new_doc_id.includes('Long');
                 const new_has_short = new_doc_id && new_doc_id.includes('Short');
                 
-                // Replace if new has Long and current doesn't
                 if (new_has_long && !current_has_long) {
                     builds_map[build_number] = asset;
-                }
-                // Replace if new has neither Long/Short and current has Short
-                else if (!new_has_long && !new_has_short && current_has_short) {
+                } else if (!new_has_long && !new_has_short && current_has_short) {
                     builds_map[build_number] = asset;
                 }
             }
         }
 
-        // Build updates array from selected assets
         let updates = [];
 
         for (let build_number in builds_map) {
             const asset = builds_map[build_number];
-            var changelog = undefined;
-
-            if (!is_beta && os !== "tvos") {
-                changelog = await get_documentation(asset_audience, hw_model, asset.SUDocumentationID, DEVICE_NAMES[os], DOCUMENTATION_ASSET_TYPES[os]);
-            }
-
-            if (changelog == undefined) changelog = "Release note is not available.";
 
             let update = {
                 os_version: asset.OSVersion.replace('9.9.', ''),
                 os_build: asset.Build,
                 os_size: asset._DownloadSize,
                 os_updateid: asset.SUDocumentationID,
-                os_changelog: changelog,
                 os_postdate: asset_data.PostingDate,
             }
 
