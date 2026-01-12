@@ -34,7 +34,7 @@ const os_role_messages = {
     'tvos': (version) => `**tvOS ${version}** has been released!`,
     'audioos': (version) => `**HomePod Software ${version}** has been released!`,
     'macos': (version) => `**macOS ${version}** has been released!`,
-    'pkg': (version) => `**macOS ${version}** Full Installer Package is available!`,
+    'pkg': (version) => `**macOS ${version}** Installer Package is available!`,
     'bot': () => `New announcements!`
 };
 
@@ -42,8 +42,7 @@ module.exports = function () {
     this.notify_all_servers = async function (os, embed, version) {
         if (global.UPDATE_MODE) return;
         
-        const os_key = os.toLowerCase();
-        const database = os_databases[os_key];
+        const database = os_databases[os];
         
         if (!database) {
             log_error(`Unknown OS type: ${os}`, "notify.js", `notify_all_servers`, `invalid OS type`);
@@ -68,19 +67,19 @@ module.exports = function () {
                 channel.send({ 
                     embeds: [embed.setAuthor({ name: server.name, iconURL: server.iconURL() })] 
                 }).catch(error => {
-                    log_error(error, "notify.js", `notify_all_servers`, `send ${os_key} update to channel ${channel_id}`);
+                    log_error(error, "notify.js", `notify_all_servers`, `send ${os} update to channel ${channel_id}`);
                 });
                 
                 try {
                     const role_doc = await role_database.doc(guild_id).get();
                     const role_data = role_doc.data();
                     
-                    if (role_data && role_data[os_key]) {
-                        const role = server.roles.cache.get(role_data[os_key]);
+                    if (role_data && role_data[os]) {
+                        const role = server.roles.cache.get(role_data[os]);
                         if (role && version) {
-                            const message = os_role_messages[os_key](version);
-                            channel.send(`<@&${role_data[os_key]}> ${message}`).catch(error => {
-                                log_error(error, "notify.js", `notify_all_servers`, `send ${os_key} role mention to channel ${channel_id}`);
+                            const message = os_role_messages[os](version);
+                            channel.send(`<@&${role_data[os]}> ${message}`).catch(error => {
+                                log_error(error, "notify.js", `notify_all_servers`, `send ${os} role mention to channel ${channel_id}`);
                             });
                         }
                     }
@@ -89,7 +88,7 @@ module.exports = function () {
                 }
             }
         } catch (error) {
-            log_error(error, "notify.js", `notify_all_servers`, `fetch ${os_key} database`);
+            log_error(error, "notify.js", `notify_all_servers`, `fetch ${os} database`);
         }
     }
 }

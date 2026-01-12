@@ -22,7 +22,7 @@ module.exports = {
                     .setLabel('Join support server')
                     .setStyle(ButtonStyle.Link));
         let invite_embed = new EmbedBuilder()
-            .setColor(randomColor())
+            .setColor(random_color())
             .setThumbnail(global.bot.user.displayAvatarURL({ format: "png", dynamic: true }))
             .setTitle(`${global.bot.user.tag} - Invite`)
             .setURL("https://discord.com/api/oauth2/authorize?client_id=852378577063116820&permissions=8&scope=applications.commands%20bot")

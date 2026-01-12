@@ -15,7 +15,7 @@ module.exports = {
     data: new SlashCommandBuilder().setName("uptime").setDescription("Shows the bot uptime."),
     async execute(interaction) {
         const embed = new EmbedBuilder()
-            .setColor(randomColor())
+            .setColor(random_color())
             .setTitle(`${global.bot.user.tag} - Uptime`)
             .setThumbnail(global.bot.user.displayAvatarURL({ format: "png", dynamic: true }))
             .addFields(

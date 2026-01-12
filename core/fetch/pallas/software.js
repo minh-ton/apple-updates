@@ -8,8 +8,7 @@ require('./documentation.js')();
 
 module.exports = function () {
     this.get_pallas_updates = async function (os, asset_audience, build, hw_model, product_type, product_version, is_beta) {
-        const os_lower = os.toLowerCase();
-        const asset_type = ASSET_TYPES[os_lower];
+        const asset_type = ASSET_TYPES[os];
         const doc_name = is_beta ? "beta" : "public";
 
         const response = await axios_instance.post('https://gdmf.apple.com/v2/assets', {
@@ -21,12 +20,12 @@ module.exports = function () {
             ProductType: product_type,
             ProductVersion: product_version,
         }).catch(function (error) {
-            const context = `get_pallas_updates ${os.toLowerCase()} ${doc_name}`;
+            const context = `get_pallas_updates ${os} ${doc_name}`;
             return log_error(error, "software.js", context, `politely asking gdmf.apple.com for updates`);
         });
 
         if (!response) {
-            const context = `get_pallas_updates ${os.toLowerCase()} ${doc_name}`;
+            const context = `get_pallas_updates ${os} ${doc_name}`;
             return log_error("No data available.", "software.js", context, `politely asking gdmf.apple.com for updates`);
         }
 
@@ -35,7 +34,7 @@ module.exports = function () {
         let asset_data = JSON.parse(jwt_payload_buffer.toString('utf8'));
 
         if (!asset_data.Assets || asset_data.Assets.length === 0) {
-            const context = `get_pallas_updates ${os.toLowerCase()} ${doc_name}`;
+            const context = `get_pallas_updates ${os} ${doc_name}`;
             return log_error(`No assets available`, "software.js", context, `update not available for ${asset_audience}.`);
         }
 
@@ -76,8 +75,8 @@ module.exports = function () {
             const asset = builds_map[build_number];
             var changelog = undefined;
 
-            if (!is_beta && os_lower !== "tvos") {
-                changelog = await get_documentation(asset_audience, hw_model, asset.SUDocumentationID, DEVICE_NAMES[os_lower], DOCUMENTATION_ASSET_TYPES[os_lower]);
+            if (!is_beta && os !== "tvos") {
+                changelog = await get_documentation(asset_audience, hw_model, asset.SUDocumentationID, DEVICE_NAMES[os], DOCUMENTATION_ASSET_TYPES[os]);
             }
 
             if (changelog == undefined) changelog = "Release note is not available.";

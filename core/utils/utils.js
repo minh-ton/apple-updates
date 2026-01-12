@@ -1,9 +1,9 @@
 // Some miscellaneous functions
 
 module.exports = function () {
-  this.formatUpdatesName = function (update_id, version, os) {
+  this.format_documentation_id = function (update_id, version, os) {
     // tvOS SUDocumentationID is always "PreRelease"...
-    if (os.toLowerCase() === "tvos") return "Beta";
+    if (os === "tvos") return "Beta";
 
     if (!update_id.includes('Long') && !update_id.includes('Short') && !update_id.includes('RC')) {
       // Format & sanitize SUDocumentationID
@@ -23,7 +23,7 @@ module.exports = function () {
   }
 
   // generate bright/vibrant colors for embeds
-  this.randomColor = function () {
+  this.random_color = function () {
     // Generate RGB values with high saturation and brightness
     const hue = Math.random() * 360;
     const saturation = 70 + Math.random() * 30; // 70-100%
@@ -52,16 +52,17 @@ module.exports = function () {
   };
 
   // device icons for os updates embeds
-  this.getThumbnail = function (os) {
+  this.get_thumbnail = function (os) {
     let base_url = 'https://minh-ton.github.io/apple-updates/icons/';
     let extension = '.png';
 
-    var icon_url = base_url + os.toLowerCase() + extension;
+    // TODO: Check if URL is valid here
+    var icon_url = base_url + os + extension;
     return icon_url;
   };
 
   // get time in a timezone
-  this.getCurrentTime = function (timezone) {
+  this.get_current_time = function (timezone) {
     let nz_date_string = new Date().toLocaleString("en-US", { timeZone: timezone });
     let parsed_date = new Date(nz_date_string);
     let year = parsed_date.getFullYear();

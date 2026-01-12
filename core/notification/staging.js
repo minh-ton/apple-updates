@@ -18,15 +18,15 @@ module.exports = function () {
         const notification_text = is_beta ? `${version} Beta (${build})` : `${version} (${build})`;
         
         const embed = new EmbedBuilder()
-            .setTitle(`New macOS Full Installer Package!`)
+            .setTitle(`New macOS Installer Package!`)
             .addFields(
                 { name: `Version`, value: version_label, inline: true },
                 { name: `Build`, value: build, inline: true },
                 { name: `Size`, value: formatBytes(size), inline: true }
             )
             .setDescription(`**Installer Package**: [InstallAssistant.pkg](${pkg_url})`)
-            .setThumbnail(getThumbnail("pkg"))
-            .setColor(randomColor())
+            .setThumbnail(get_thumbnail("pkg"))
+            .setColor(random_color())
             .setTimestamp();
         notify_all_servers('pkg', embed, notification_text);
     };
@@ -36,17 +36,17 @@ module.exports = function () {
         const version_label = is_beta ? `${version} (${update_id})` : version;
         const notification_text = is_beta ? `${version} (${update_id} - Build ${build})` : `${version} (${build})`;
         
-        const thumbnail = multi_icons.includes(os.toLowerCase()) ? getThumbnail(os + version.split('.')[0]) : getThumbnail(os);
+        const thumbnail = multi_icons.includes(os) ? get_thumbnail(os + version.split('.')[0]) : get_thumbnail(os);
         
         const embed = new EmbedBuilder()
-            .setTitle(`New ${os == 'audioOS' ? 'HomePod Software' : os} ${release_type} Release!`)
+            .setTitle(`New ${os == 'audioos' ? 'HomePod Software' : os.replace('os', 'OS').replace('pad', 'Pad')} ${release_type} Release!`) // Hacky title formatting fix
             .addFields(
                 { name: `Version`, value: version_label, inline: true },
                 { name: `Build`, value: build, inline: true },
                 { name: `Size`, value: formatBytes(size), inline: true }
             )
             .setThumbnail(thumbnail)
-            .setColor(randomColor())
+            .setColor(random_color())
             .setTimestamp();
         
         if (!is_beta && changelog) embed.setDescription(changelog);
@@ -57,7 +57,7 @@ module.exports = function () {
     this.send_announcements = function (title, message) {
         const embed = new EmbedBuilder()
             .setTitle(title)
-            .setColor(randomColor())
+            .setColor(random_color())
             .setDescription(message)
             .setThumbnail(global.bot.user.displayAvatarURL())
             .setTimestamp();

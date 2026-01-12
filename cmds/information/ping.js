@@ -12,7 +12,7 @@ module.exports = {
     description: 'Checks the bot\'s connection.',
     data: new SlashCommandBuilder().setName("ping").setDescription("Check the bot's connection."),
     async execute(interaction) {
-        const embed = new EmbedBuilder().setColor(randomColor());
+        const embed = new EmbedBuilder().setColor(random_color());
         const time_past = new Date().getTime();
         await interaction.editReply({ embeds: [embed.setDescription("Ping?")] });
         const time_now = new Date().getTime();

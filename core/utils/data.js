@@ -10,7 +10,7 @@ const info_collection_ref = db.collection('other').doc('information');
 
 module.exports = function() {
 	this.save_update = async function(os, version, size, build, update_id, changelog, post_date, raw_response, is_beta) {
-		let os_collection = info_collection_ref.collection(`${os.toLowerCase()}${(is_beta) ? "_beta" : "_public"}`);
+		let os_collection = info_collection_ref.collection(`${os}${(is_beta) ? "_beta" : "_public"}`);
 
 		if (!build) return;
 
@@ -37,7 +37,7 @@ module.exports = function() {
 	}
 
 	this.save_package = async function(os, build, version, size, package_url, post_date, is_beta) {
-		let os_collection = info_collection_ref.collection(`${os.toLowerCase()}${(is_beta) ? "_beta" : "_public"}`);
+		let os_collection = info_collection_ref.collection(`${os}${(is_beta) ? "_beta" : "_public"}`);
 
 		if (!build) return;
 

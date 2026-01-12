@@ -26,7 +26,7 @@ module.exports = {
                     .setLabel('Join support server')
                     .setStyle(ButtonStyle.Link));
         const source_embed = new EmbedBuilder()
-            .setColor(randomColor())
+            .setColor(random_color())
             .setTitle(`${global.bot.user.tag} - Source Code`)
             .setURL("https://github.com/Minh-Ton/apple-updates")
             .setThumbnail(global.bot.user.displayAvatarURL({ format: "png", dynamic: true }))

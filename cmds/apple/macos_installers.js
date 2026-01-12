@@ -38,7 +38,7 @@ module.exports = {
     data: new SlashCommandBuilder().setName("macos_installers").setDescription("Gets the latest macOS Full Installer Packages."),
     async execute(interaction) {
         try {
-            const processing = new EmbedBuilder().setColor(randomColor());
+            const processing = new EmbedBuilder().setColor(random_color());
             await interaction.editReply({ embeds: [processing.setDescription("Hang on, I'm fetching data from Apple...")] });
 
             let installers = get_links(await get_sucatalog_installers(catalogs.macos_beta, 'beta_pkg'));
@@ -51,7 +51,7 @@ module.exports = {
                                     ${installers13[0].sort().join('\n')}
                                     ${installers[0].sort()}`;
             
-            let embed_color = randomColor();
+            let embed_color = random_color();
 
             let items_count = Math.floor(installers[1].length / 2);
 

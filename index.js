@@ -9,7 +9,7 @@ global.UPDATE_MODE = false;
 global.SAVE_MODE = false;
 global.CPU_USAGE = process.cpuUsage();
 
-const { Client, Collection, GatewayIntentBits, Partials, ActivityType, Options } = require('discord.js');
+const { Client, Collection, GatewayIntentBits, Partials, Options } = require('discord.js');
 const fs = require("fs");
 const firebase = require("firebase-admin");
 const { REST } = require('@discordjs/rest');
@@ -52,14 +52,13 @@ global.bot = new Client({
 });
 global.bot.login(bot_token);
 
-// ============= DISCORD BOT ============
-
 global.bot.on("clientReady", async () => {
     if (global.bot.user.id == process.env.beta_id) console.log("[RUNNING BETA BOT INSTANCE]");
     console.log(`Logged in as ${global.bot.user.tag}!`);
     console.log(`Currently in ${global.bot.guilds.cache.size} servers!`);
     console.log('Bot has started!');
-    global.bot.user.setActivity(`/help`, { type: ActivityType.Listening });
+    global.bot.user.setActivity(`/help`);
+    start_polling();
 });
 
 global.bot.commands = new Collection();
@@ -154,12 +153,6 @@ global.bot.on("messageCreate", async message => {
         message.reply(error_alert(error));
     }
 });
-
-// ============= UPDATES FETCH =============
-
-start_polling();
-
-// ============= PERIODIC CLEANUP =============
 
 setInterval(() => {
     const now = Date.now();

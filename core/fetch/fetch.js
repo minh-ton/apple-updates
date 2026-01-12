@@ -21,7 +21,7 @@ module.exports = function () {
             return log_error(`No asset (${os} - ${doc_name}) available.`, "fetch.js", `check_for_updates`, `update not available for ${asset_audience}.`);
         }
 
-        const doc_ref = db.collection(os.toLowerCase()).doc(doc_name);
+        const doc_ref = db.collection(os).doc(doc_name);
         const doc_snapshot = await doc_ref.get();
         const stored_builds = doc_snapshot.data();
 
@@ -53,9 +53,9 @@ module.exports = function () {
 
             if (existing_builds.includes(build_number)) continue;
 
-            send_os_updates(os, version, build_number, size, is_beta, is_beta ? formatUpdatesName(update_id, version, os) : null, is_beta ? null : changelog);
+            send_os_updates(os, version, build_number, size, is_beta, is_beta ? format_documentation_id(update_id, version, os) : null, is_beta ? null : changelog);
 
-            db.collection(os.toLowerCase()).doc(doc_name).update({
+            db.collection(os).doc(doc_name).update({
                 [`${build_number}`]: `${build_number}`
             }).catch(err => {
                 log_error(err, "fetch.js", `check_for_updates - ${os} ${doc_name}`, `adding new build number to the database`);

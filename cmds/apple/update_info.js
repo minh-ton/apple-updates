@@ -34,13 +34,13 @@ async function get_info(cname, data, index) {
     let beta = isBeta(data[index]["build"], data[index]["beta"]);
 
     let title = `${cname.toLowerCase().replace('os', 'OS').replace('ipad', 'iPad')} ${data[index]["version"]} ${(beta) ? "Beta" : ""}`;
-    let update_id = (data[index]["updateid"]) ? formatUpdatesName(data[index]["updateid"], data[index]["version"], cname) : "Beta";
+    let update_id = (data[index]["updateid"]) ? format_documentation_id(data[index]["updateid"], data[index]["version"], cname) : "Beta";
     let version = `${data[index]["version"]} ${(beta) ? update_id : ""}`;
     let build = data[index]["build"];
     let size = (data[index]["size"]) ? formatBytes(data[index]["size"]) : "N/A";
     let changelog = (data[index]["changelog"]) ? data[index]["changelog"] : "Release note is not available.";
     let postdate = ((typeof data[index]["postdate"]) == "string") ? timeToEpoch(data[index]['postdate']) : timeToEpoch(data[index]['postdate'].toDate());
-    let thumbnail = (multi_icons.includes(cname.toLowerCase())) ? getThumbnail(cname.toLowerCase() + version.split(".")[0]) : getThumbnail(cname.toLowerCase());
+    let thumbnail = (multi_icons.includes(cname.toLowerCase())) ? get_thumbnail(cname.toLowerCase() + version.split(".")[0]) : get_thumbnail(cname.toLowerCase());
 
     var package = undefined;
 
@@ -82,7 +82,7 @@ async function display(cname, query, index, interaction) {
         )
         .setDescription(info.changelog)
         .setThumbnail(info.thumbnail)
-        .setColor(randomColor())
+        .setColor(random_color())
         .setFooter({ text: interaction.user.username, iconURL: interaction.user.displayAvatarURL() });
 
     if (info.package) embed.addFields({ name: "Package", value: info.package, inline: true });

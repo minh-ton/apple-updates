@@ -3,7 +3,7 @@ require('./utils.js')();
 
 module.exports = function () {
     this.log_error = function (message, location, process, task) {
-        let time = getCurrentTime("Asia/Ho_Chi_Minh");
+        let time = get_current_time("Asia/Ho_Chi_Minh");
         let mode = (global.BETA_RELEASE) ? "BETA" : "PROD";
         const is_error = (message instanceof Error);
         const msg = is_error ? message.message : String(message);

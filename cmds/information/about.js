@@ -23,7 +23,7 @@ module.exports = {
                     .setLabel('Join support server')
                     .setStyle(ButtonStyle.Link));
         let about_embed = new EmbedBuilder()
-            .setColor(randomColor())
+            .setColor(random_color())
             .setTitle(`${global.bot.user.tag} - About`)
             .setThumbnail(global.bot.user.displayAvatarURL({ format: "png", dynamic: true }))
             .addFields(

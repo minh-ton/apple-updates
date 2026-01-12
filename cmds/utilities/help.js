@@ -15,7 +15,7 @@ function help_embed(author) {
             { name: `Apple`, value: '`macos_installers` `ipsw` `update_information`' },
             { name: `Utilities`, value: '`help` `setup`' }
         )
-        .setColor(randomColor());
+        .setColor(random_color());
     if (author == process.env.owner_id) embed.addFields({ name: `Owner`, value: '`killall` `bash` `echo` `eval`' });
     return embed;
 }
@@ -41,7 +41,7 @@ module.exports = {
             { name: "setup", value: "setup" },
         )),
     async execute(interaction) {
-        let color = randomColor();
+        let color = random_color();
 
         if (!interaction.options.getString('command')) {
             const embed = new EmbedBuilder().setDescription(':wave: **Hey there! If you haven\'t configured this bot, just use the `setup` command to set it up! Don\'t worry, the process is very simple and user-friendly!**').setColor(color);

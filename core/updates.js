@@ -29,7 +29,7 @@ const POLLING_INTERVALS = {
     base: 120000,            // 2 minutes base for older versions
     maxInterval: 1800000,    // 30 minutes max interval for very old versions
     installer: 300000,       // 5 minutes for installers
-    stagger: 3000            // 3 seconds stagger between configs
+    stagger: 5000            // 5 seconds stagger between configs
 };
 
 // I noticed that Apple tends to release updates at
@@ -121,8 +121,9 @@ module.exports = function () {
     function start_pallas_polling(task) {
         const poll = async () => {
             try {
+                console.log(`[${Date.now()}][Polling] Checking for updates: ${task.config.description}`);
                 await check_for_updates(
-                    task.os_key.replace('os', 'OS'),
+                    task.os_key,
                     task.config.asset_audience,
                     task.config.device.build,
                     task.config.device.model,
@@ -159,6 +160,7 @@ module.exports = function () {
             
             const poll = async () => {
                 try {
+                    console.log(`[${Date.now()}][Polling] Checking for installers: ${config.description}`);
                     await check_for_installers(config.catalog_url, config.is_beta);
                 } catch (error) {
                     log_error(error, 'updates.js', 'start_installers_polling', config.description);
@@ -187,7 +189,7 @@ module.exports = function () {
                 if (!config.enabled) continue;
 
                 await check_for_updates(
-                    os_key.replace('os', 'OS'),
+                    os_key,
                     config.asset_audience,
                     config.device.build,
                     config.device.model,

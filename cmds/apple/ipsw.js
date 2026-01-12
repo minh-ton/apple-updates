@@ -29,7 +29,7 @@ async function display_results(results, index, interaction) {
     let embed = new EmbedBuilder()
         .setTitle(`Signed IPSW files for ${ipsw.data.name}`)
         .setDescription(`${data.join('\n')}`)
-        .setColor(randomColor())
+        .setColor(random_color())
         .setFooter({ text: interaction.user.username, iconURL: interaction.user.displayAvatarURL() });
 
     return embed;

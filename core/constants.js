@@ -12,7 +12,7 @@ module.exports = {
                     prodtype: 'MacBookPro18,3',
                     model: 'J314sAP'
                 },
-                description: 'macOS Big Sur Release',
+                description: 'macOS 11 Release',
                 asset_audience: '60b55e25-a8ed-4f45-826c-c1495a4ccc65'
             },
             {
@@ -26,7 +26,7 @@ module.exports = {
                     prodtype: 'MacBookPro18,3',
                     model: 'J314sAP'
                 },
-                description: 'macOS Big Sur Developer Beta',
+                description: 'macOS 11 Dev Beta',
                 asset_audience: 'ca60afc6-5954-46fd-8cb9-60dde6ac39fd'
             },
             {
@@ -40,7 +40,7 @@ module.exports = {
                     prodtype: 'MacBookPro18,3',
                     model: 'J314sAP'
                 },
-                description: 'macOS Monterey Release',
+                description: 'macOS 12 Release',
                 asset_audience: '60b55e25-a8ed-4f45-826c-c1495a4ccc65'
             },
             {
@@ -54,7 +54,7 @@ module.exports = {
                     prodtype: 'MacBookPro18,3',
                     model: 'J314sAP'
                 },
-                description: 'macOS Monterey Developer Beta',
+                description: 'macOS 12 Dev Beta',
                 asset_audience: '298e518d-b45e-4d36-94be-34a63d6777ec'
             },
             {
@@ -68,7 +68,7 @@ module.exports = {
                     prodtype: 'MacBookPro18,3',
                     model: 'J314sAP'
                 },
-                description: 'macOS Ventura Release',
+                description: 'macOS 13 Release',
                 asset_audience: '60b55e25-a8ed-4f45-826c-c1495a4ccc65'
             },
             {
@@ -82,7 +82,7 @@ module.exports = {
                     prodtype: 'MacBookPro18,3',
                     model: 'J314sAP'
                 },
-                description: 'macOS Ventura Developer Beta',
+                description: 'macOS 13 Dev Beta',
                 asset_audience: '683e9586-8a82-4e5f-b0e7-767541864b8b'
             },
             {
@@ -96,7 +96,7 @@ module.exports = {
                     prodtype: 'MacBookPro18,3',
                     model: 'J314sAP'
                 },
-                description: 'macOS Sonoma Release',
+                description: 'macOS 14 Release',
                 asset_audience: '60b55e25-a8ed-4f45-826c-c1495a4ccc65'
             },
             {
@@ -110,7 +110,7 @@ module.exports = {
                     prodtype: 'MacBookPro18,3',
                     model: 'J314sAP'
                 },
-                description: 'macOS Sonoma Developer Beta',
+                description: 'macOS 14 Dev Beta',
                 asset_audience: '77c3bd36-d384-44e8-b550-05122d7da438'
             },
             {
@@ -124,7 +124,7 @@ module.exports = {
                     prodtype: 'MacBookPro18,3',
                     model: 'J314sAP'
                 },
-                description: 'macOS Sequoia Release',
+                description: 'macOS 15 Release',
                 asset_audience: '60b55e25-a8ed-4f45-826c-c1495a4ccc65'
             },
             {
@@ -138,7 +138,7 @@ module.exports = {
                     prodtype: 'MacBookPro18,3',
                     model: 'J314sAP'
                 },
-                description: 'macOS Sequoia Developer Beta',
+                description: 'macOS 15 Dev Beta',
                 asset_audience: '98df7800-8378-4469-93bf-5912da21a1e1'
             },
             {
@@ -152,7 +152,7 @@ module.exports = {
                     prodtype: 'MacBookPro18,3',
                     model: 'J314sAP'
                 },
-                description: 'macOS Tahoe Release',
+                description: 'macOS 26 Release',
                 asset_audience: '60b55e25-a8ed-4f45-826c-c1495a4ccc65'
             },
             {
@@ -166,7 +166,7 @@ module.exports = {
                     prodtype: 'MacBookPro18,3',
                     model: 'J314sAP'
                 },
-                description: 'macOS Tahoe Developer Beta',
+                description: 'macOS 26 Dev Beta',
                 asset_audience: '832afda4-7283-41da-a95b-75f4a151e473'
             }
         ],
@@ -197,7 +197,7 @@ module.exports = {
                     prodtype: 'iPhone9,3',
                     model: 'D101AP'
                 },
-                description: 'iOS 15 Developer Beta',
+                description: 'iOS 15 Dev Beta',
                 asset_audience: 'ce48f60c-f590-4157-a96f-41179ca08278'
             },
             {
@@ -224,7 +224,7 @@ module.exports = {
                     prodtype: 'iPhone10,6',
                     model: 'D221AP'
                 },
-                description: 'iOS 16 Developer Beta',
+                description: 'iOS 16 Dev Beta',
                 asset_audience: 'a6050bca-50d8-4e45-adc2-f7333396a42c'
             },
             {
@@ -251,7 +251,7 @@ module.exports = {
                     prodtype: 'iPhone11,8',
                     model: 'N841AP'
                 },
-                description: 'iOS 17 Developer Beta',
+                description: 'iOS 17 Dev Beta',
                 asset_audience: '9dcdaf87-801d-42f6-8ec6-307bd2ab9955'
             },
             {
@@ -279,7 +279,7 @@ module.exports = {
                     prodtype: 'iPhone11,8',
                     model: 'N841AP'
                 },
-                description: 'iOS 18 Developer Beta',
+                description: 'iOS 18 Dev Beta',
                 asset_audience: '41651cee-d0e2-442f-b786-85682ff6db86'
             },
             {
@@ -306,7 +306,7 @@ module.exports = {
                     prodtype: 'iPhone12,1',
                     model: 'N104AP'
                 },
-                description: 'iOS 26 Developer Beta',
+                description: 'iOS 26 Dev Beta',
                 asset_audience: 'da1941f6-9822-4347-b771-fb09c3509052'
             }
         ],
@@ -337,7 +337,7 @@ module.exports = {
                     prodtype: 'iPad5,1',
                     model: 'J96AP'
                 },
-                description: 'iPadOS 15 Developer Beta',
+                description: 'iPadOS 15 Dev Beta',
                 asset_audience: 'ce48f60c-f590-4157-a96f-41179ca08278'
             },
             {
@@ -365,7 +365,7 @@ module.exports = {
                     prodtype: 'iPad6,12',
                     model: 'J72tAP'
                 },
-                description: 'iPadOS 16 Developer Beta',
+                description: 'iPadOS 16 Dev Beta',
                 asset_audience: 'a6050bca-50d8-4e45-adc2-f7333396a42c'
             },
             {
@@ -393,7 +393,7 @@ module.exports = {
                     prodtype: 'iPad7,6',
                     model: 'J72bAP'
                 },
-                description: 'iPadOS 17 Developer Beta',
+                description: 'iPadOS 17 Dev Beta',
                 asset_audience: '9dcdaf87-801d-42f6-8ec6-307bd2ab9955'
             },
             {
@@ -421,7 +421,7 @@ module.exports = {
                     prodtype: 'iPad7,12',
                     model: 'J172AP'
                 },
-                description: 'iPadOS 18 Developer Beta',
+                description: 'iPadOS 18 Dev Beta',
                 asset_audience: '41651cee-d0e2-442f-b786-85682ff6db86'
             },
             {
@@ -449,7 +449,7 @@ module.exports = {
                     prodtype: 'iPad16,5',
                     model: 'J720AP'
                 },
-                description: 'iPadOS 26 Developer Beta',
+                description: 'iPadOS 26 Dev Beta',
                 asset_audience: 'da1941f6-9822-4347-b771-fb09c3509052'
             }
         ],
@@ -480,7 +480,7 @@ module.exports = {
                     prodtype: 'Watch6,9',
                     model: 'N188bAP'
                 },
-                description: 'watchOS 8 Developer Beta',
+                description: 'watchOS 8 Dev Beta',
                 asset_audience: 'b407c130-d8af-42fc-ad7a-171efea5a3d0'
             },
             {
@@ -508,7 +508,7 @@ module.exports = {
                     prodtype: 'Watch6,18',
                     model: 'N199AP'
                 },
-                description: 'watchOS 9 Developer Beta',
+                description: 'watchOS 9 Dev Beta',
                 asset_audience: '341f2a17-0024-46cd-968d-b4444ec3699f'
             },
             {
@@ -536,7 +536,7 @@ module.exports = {
                     prodtype: 'Watch6,18',
                     model: 'N199AP'
                 },
-                description: 'watchOS 10 Developer Beta',
+                description: 'watchOS 10 Dev Beta',
                 asset_audience: '7ae7f3b9-886a-437f-9b22-e9f017431b0e'
             },
             {
@@ -564,7 +564,7 @@ module.exports = {
                     prodtype: 'Watch6,18',
                     model: 'N199AP'
                 },
-                description: 'watchOS 11 Developer Beta',
+                description: 'watchOS 11 Dev Beta',
                 asset_audience: '23d7265b-1000-47cf-8d0a-07144942db9e'
             },
             {
@@ -592,7 +592,7 @@ module.exports = {
                     prodtype: 'Watch6,18',
                     model: 'N199AP'
                 },
-                description: 'watchOS 26 Developer Beta',
+                description: 'watchOS 26 Dev Beta',
                 asset_audience: 'e73d2741-8003-45cd-b909-86b9840f2ea2'
             }
         ],
@@ -623,7 +623,7 @@ module.exports = {
                     prodtype: 'AudioAccessory5,1',
                     model: 'B520AP'
                 },
-                description: 'audioOS 15 Developer Beta',
+                description: 'audioOS 15 Dev Beta',
                 asset_audience: '58ff8d56-1d77-4473-ba88-ee1690475e40'
             },
             {
@@ -651,7 +651,7 @@ module.exports = {
                     prodtype: 'AudioAccessory5,1',
                     model: 'B520AP'
                 },
-                description: 'audioOS 16 Developer Beta',
+                description: 'audioOS 16 Dev Beta',
                 asset_audience: '59377047-7b3f-45b9-8e99-294c0daf3c85'
             },
             {
@@ -679,7 +679,7 @@ module.exports = {
                     prodtype: 'AudioAccessory5,1',
                     model: 'B520AP'
                 },
-                description: 'audioOS 17 Developer Beta',
+                description: 'audioOS 17 Dev Beta',
                 asset_audience: '17536d4c-1a9d-4169-bc62-920a3873f7a5'
             },
             {
@@ -707,7 +707,7 @@ module.exports = {
                     prodtype: 'AudioAccessory5,1',
                     model: 'B520AP'
                 },
-                description: 'audioOS 18 Developer Beta',
+                description: 'audioOS 18 Dev Beta',
                 asset_audience: 'bedbd9c7-738a-4060-958b-79da54a1f7ad'
             },
             {
@@ -735,7 +735,7 @@ module.exports = {
                     prodtype: 'AudioAccessory5,1',
                     model: 'B520AP'
                 },
-                description: 'audioOS 26 Developer Beta',
+                description: 'audioOS 26 Dev Beta',
                 asset_audience: '47ed08e9-bd89-454e-938c-664029863ee8'
             }
         ],
@@ -766,7 +766,7 @@ module.exports = {
                     prodtype: 'AppleTV11,1',
                     model: 'J305AP'
                 },
-                description: 'tvOS 15 Developer Beta',
+                description: 'tvOS 15 Dev Beta',
                 asset_audience: '4d0dcdf7-12f2-4ebf-9672-ac4a4459a8bc'
             },
             {
@@ -794,7 +794,7 @@ module.exports = {
                     prodtype: 'AppleTV14,1',
                     model: 'J255AP'
                 },
-                description: 'tvOS 16 Developer Beta',
+                description: 'tvOS 16 Dev Beta',
                 asset_audience: 'd6bac98b-9e2a-4f87-9aba-22c898b25d84'
             },
             {
@@ -822,7 +822,7 @@ module.exports = {
                     prodtype: 'AppleTV14,1',
                     model: 'J255AP'
                 },
-                description: 'tvOS 17 Developer Beta',
+                description: 'tvOS 17 Dev Beta',
                 asset_audience: '61693fed-ab18-49f3-8983-7c3adf843913'
             },
             {
@@ -850,7 +850,7 @@ module.exports = {
                     prodtype: 'AppleTV14,1',
                     model: 'J255AP'
                 },
-                description: 'tvOS 18 Developer Beta',
+                description: 'tvOS 18 Dev Beta',
                 asset_audience: '98847ed4-1c37-445c-9e7b-5b95d29281f2'
             },
             {
@@ -878,7 +878,7 @@ module.exports = {
                     prodtype: 'AppleTV14,1',
                     model: 'J255AP'
                 },
-                description: 'tvOS 26 Developer Beta',
+                description: 'tvOS 26 Dev Beta',
                 asset_audience: '69cc7bd5-9ff2-4f5e-8b4f-30955542a81d'
             }
         ]
@@ -889,13 +889,13 @@ module.exports = {
             {
                 enabled: true,
                 is_beta: true,
-                description: 'macOS Beta Installers',
+                description: 'macOS Beta',
                 catalog_url: 'https://swscan.apple.com/content/catalogs/others/index-16seed-16-15-14-13-12-10.16-10.15-10.14-10.13-10.12-10.11-10.10-10.9-mountainlion-lion-snowleopard-leopard.merged-1.sucatalog'
             },
             {
                 enabled: true,
                 is_beta: false,
-                description: 'macOS Public Installers',
+                description: 'macOS Public',
                 catalog_url: 'https://swscan.apple.com/content/catalogs/others/index-26seed-26-15-14-13-12-10.16-10.15-10.14-10.13-10.12-10.11-10.10-10.9-mountainlion-lion-snowleopard-leopard.merged-1.sucatalog.gz'
             }
         ]

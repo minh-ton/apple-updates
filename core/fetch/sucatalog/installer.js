@@ -1,6 +1,7 @@
 // Fetch updates from Apple's XML Catalog
 
 const axios_instance = require('../axios.js');
+const axios = require('axios');
 const xmljs = require('xml-js');
 const plist = require('plist');
 
