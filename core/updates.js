@@ -76,7 +76,6 @@ module.exports = function () {
             
             release_configs.forEach((config, index) => {
                 polling_tasks.push({
-                    type: 'pallas',
                     os_key: os_key,
                     config: config,
                     is_latest: index === 0,
@@ -88,7 +87,6 @@ module.exports = function () {
             
             beta_configs.forEach((config, index) => {
                 polling_tasks.push({
-                    type: 'pallas',
                     os_key: os_key,
                     config: config,
                     is_latest: index === 0,
@@ -99,21 +97,6 @@ module.exports = function () {
             });
         }
 
-        console.log(`[Polling] Starting ${polling_tasks.length} PALLAS polling tasks:`);
-        polling_tasks.forEach(task => {
-            const interval = get_polling_interval(task.version_index, task.is_latest);
-            const interval_str = interval < 60000 ? `${interval / 1000}s` : `${interval / 60000}m`;
-            console.log(`  - ${task.config.description}: ${interval_str} (${task.is_latest ? 'latest' : 'v' + task.version_index})`);
-        });
-
-        const enabled_installers = SUCATALOG_CONFIGS.macos.filter(c => c.enabled);
-        if (enabled_installers.length > 0) {
-            console.log(`[Polling] Starting ${enabled_installers.length} SUCATALOG polling tasks:`);
-            enabled_installers.forEach(config => {
-                console.log(`  - ${config.description}: ${POLLING_INTERVALS.installer / 60000}m`);
-            });
-        }
-
         polling_tasks.forEach(task => start_pallas_polling(task));
         start_installers_polling();
     };
@@ -121,7 +104,6 @@ module.exports = function () {
     function start_pallas_polling(task) {
         const poll = async () => {
             try {
-                console.log(`[${Date.now()}][Polling] Checking for updates: ${task.config.description}`);
                 await check_for_updates(
                     task.os_key,
                     task.config.asset_audience,
@@ -160,7 +142,6 @@ module.exports = function () {
             
             const poll = async () => {
                 try {
-                    console.log(`[${Date.now()}][Polling] Checking for installers: ${config.description}`);
                     await check_for_installers(config.catalog_url, config.is_beta);
                 } catch (error) {
                     log_error(error, 'updates.js', 'start_installers_polling', config.description);
