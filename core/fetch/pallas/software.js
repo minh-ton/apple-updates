@@ -88,7 +88,6 @@ module.exports = function () {
                 os_updateid: asset.SUDocumentationID,
                 os_changelog: changelog,
                 os_postdate: asset_data.PostingDate,
-                os_raw_response: JSON.stringify(asset)
             }
 
             updates.push(update);

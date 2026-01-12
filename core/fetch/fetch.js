@@ -35,7 +35,6 @@ module.exports = function () {
             const update_id = update_data['os_updateid'];
             const changelog = update_data['os_changelog'];
             const post_date = update_data['os_postdate'];
-            const raw_response = update_data['os_raw_response'];
 
             if (target_version !== null && target_version !== undefined) {
                 const major_version = parseInt(version.split('.')[0]);
@@ -47,7 +46,7 @@ module.exports = function () {
             if (global.SAVE_MODE) {
                 console.log("[BUILD_DATABASE] - UPLOADING UPDATE OF " + os.toUpperCase());
                 console.log(`[BUILD_DATABASE] ${os.toUpperCase()} ${version} (${build_number})`);
-                await save_update(os, version, size, build_number, update_id, changelog, post_date, raw_response, is_beta);
+                await save_update(os, version, size, build_number, update_id, changelog, post_date, is_beta);
                 continue;
             }
 

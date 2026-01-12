@@ -3,7 +3,7 @@
 const axios_instance = require('../axios.js');
 const axios = require('axios');
 const xmljs = require('xml-js');
-const plist = require('plist');
+const plist = require('apple-plist');
 
 require('../../utils/error.js')();
 
@@ -15,7 +15,7 @@ module.exports = async function () {
 
         if (!response) return log_error("No XML response availble.", "installer.js", `get_sucatalog_installers`, `fetching the catalog for new updates`);
 
-        let catalog_content = plist.parse(response.data);
+        let catalog_content = plist.parse(response.data).data;
 
         let packages = [];
 

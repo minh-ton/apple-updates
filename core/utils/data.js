@@ -9,7 +9,7 @@ let db = firebase.firestore();
 const info_collection_ref = db.collection('other').doc('information');
 
 module.exports = function() {
-	this.save_update = async function(os, version, size, build, update_id, changelog, post_date, raw_response, is_beta) {
+	this.save_update = async function(os, version, size, build, update_id, changelog, post_date, is_beta) {
 		let os_collection = info_collection_ref.collection(`${os}${(is_beta) ? "_beta" : "_public"}`);
 
 		if (!build) return;
@@ -24,7 +24,6 @@ module.exports = function() {
 			"updateid": update_id,
 			"changelog": changelog,
 			"postdate": post_date,
-			"raw_response": raw_response,
 			"beta": is_beta
 		};
 
