@@ -1,79 +1,65 @@
 // Get update documentation/changelog
 
-const http = require('http'); 
-const https = require('https');
+const axios_instance = require('../axios.js');
 const axios = require('axios');
 const admzip = require('adm-zip');
 const sanitizeHtml = require('sanitize-html');
 
 require('../../utils/error.js')();
 
-const axiosInstance = axios.create({
-    timeout: 15000,
-    maxRedirects: 5,
-    httpAgent: new http.Agent({ 
-        keepAlive: true,
-        maxSockets: 10,
-        keepAliveMsecs: 30000
-    }),
-    httpsAgent: new https.Agent({ 
-        keepAlive: true,
-        maxSockets: 10,
-        keepAliveMsecs: 30000
-    })
-});
-
 module.exports = function () {
-    this.get_documentation = async function (audience, hw, sudocumentationid, device, assettype) {
-        const res = await axiosInstance.post('https://gdmf.apple.com/v2/assets', {
-            AssetAudience: audience,
-            HWModelStr: hw,
-            SUDocumentationID: sudocumentationid,
-            CertIssuanceDay: "2019-09-06",
+    this.get_documentation = async function (asset_audience, hw_model, su_documentation_id, device, asset_type) {
+        const response = await axios_instance.post('https://gdmf.apple.com/v2/assets', {
+            AssetAudience: asset_audience,
+            HWModelStr: hw_model,
+            SUDocumentationID: su_documentation_id,
             ClientVersion: 2,
             DeviceName: device,
-            AssetType: assettype,
+            AssetType: asset_type,
         }).catch(function (error) {
-            return log_error(error, "doc.js", `${device} changelog`, `getting changelog from apple server.`);
+            log_error(error, "doc.js", `${device} changelog`, `getting changelog from apple server.`);
         });
 
-        if (!res) return log_error("No data available", "doc.js", `${device} changelog`, `getting changelog from apple server.`);
+        if (!response) {
+            log_error("No data available", "doc.js", `${device} changelog`, `getting changelog from apple server.`);
+            return "Release note is not available.";
+        }
 
-        var arr = res.data.split(".");
-        let buff = new Buffer.from(arr[1], 'base64');
-        let text = JSON.parse(buff.toString('utf8'));
+        var jwt_parts = response.data.split(".");
+        let jwt_payload_buffer = new Buffer.from(jwt_parts[1], 'base64');
+        let asset_data = JSON.parse(jwt_payload_buffer.toString('utf8'));
 
-        if (!text.Assets[0]) return "Release note is not available."
+        if (!asset_data.Assets[0]) return "Release note is not available."
 
-        var file_url = `${text.Assets[0].__BaseURL}${text.Assets[0].__RelativePath}`;
+        var documentation_url = `${asset_data.Assets[0].__BaseURL}${asset_data.Assets[0].__RelativePath}`;
 
-        const file = await axios.request({
+        const documentation_file = await axios.request({
             method: 'GET',
-            url: file_url,
+            url: documentation_url,
             responseType: 'arraybuffer',
             responseEncoding: null,
         }).catch(function (error) {
-            return log_error(error, "doc.js", `extract changelog files`, `url: ${file_url}`);
+            return log_error(error, "doc.js", `extract changelog files`, `url: ${documentation_url}`);
         });
 
-        if (!file) return log_error("No changelog file available", "doc.js", `${device} changelog`, `cannot download changelog zip file.`);
+        if (!documentation_file) return log_error("No changelog file available", "doc.js", `${device} changelog`, `cannot download changelog zip file.`);
 
-        var zip = new admzip(file.data);
-        var zipEntries = zip.getEntries();
+        var zip_archive = new admzip(documentation_file.data);
+        var zip_entries = zip_archive.getEntries();
 
-        let changelog = zipEntries.map(function (entry) {
+        let changelog_entry = zip_entries.map(function (entry) {
             if (entry.entryName == "AssetData/en.lproj/ReadMeSummary.html") return entry;
         }).filter(function (entry) { return entry; })[0];
 
-        const clean = sanitizeHtml(zip.readAsText(changelog).replace(/(.|\n)*<body.*>/, '').replace(/<\/body(.|\n)*/g, ''), {
+        const sanitized_html = sanitizeHtml(zip_archive.readAsText(changelog_entry).replace(/(.|\n)*<body.*>/, '').replace(/<\/body(.|\n)*/g, ''), {
             allowedTags: ['li'],
         });
 
-        var arr = clean.split("\r\n");
+        var changelog_lines = sanitized_html.split("\r\n");
 
-        for (var i = 0; i < arr.length; i++) arr[i] = arr[i].replace(/\t/g, "").replace(/<li>/g, "- ").replace(/<[^>]+>/g, '').replace(/\&amp;/g,'&').trimStart();
+        for (var i = 0; i < changelog_lines.length; i++) changelog_lines[i] = changelog_lines[i].replace(/\t/g, "").replace(/<li>/g, "- ").replace(/<[^>]+>/g, '').replace(/\&amp;/g, '&').trimStart();
 
-        let notes = arr.join('\n').replace(/\n\s*\n\s*\n/g, '\n\n');
+        let notes = changelog_lines.join('\n').replace(/\n\s*\n\s*\n/g, '\n\n');
 
         if (notes.length > 4000) notes = notes.substring(0, 4000) + '...\n\n*[Release notes have been truncated]*';
 

@@ -32,7 +32,7 @@ const os_role_messages = {
     'ipados': (version) => `**iPadOS ${version}** has been released!`,
     'watchos': (version) => `**watchOS ${version}** has been released!`,
     'tvos': (version) => `**tvOS ${version}** has been released!`,
-    'audioos': (version) => `**audioOS ${version}** has been released!`,
+    'audioos': (version) => `**HomePod Software ${version}** has been released!`,
     'macos': (version) => `**macOS ${version}** has been released!`,
     'pkg': (version) => `**macOS ${version}** Full Installer Package is available!`,
     'bot': () => `New announcements!`
@@ -42,8 +42,8 @@ module.exports = function () {
     this.notify_all_servers = async function (os, embed, version) {
         if (global.UPDATE_MODE) return;
         
-        const osKey = os.toLowerCase();
-        const database = os_databases[osKey];
+        const os_key = os.toLowerCase();
+        const database = os_databases[os_key];
         
         if (!database) {
             log_error(`Unknown OS type: ${os}`, "notify.js", `notify_all_servers`, `invalid OS type`);
@@ -51,45 +51,45 @@ module.exports = function () {
         }
         
         try {
-            const snapshot = await database.get();
-            const guilds = snapshot.data();
+            const guild_snapshot = await database.get();
+            const guilds = guild_snapshot.data();
             
             if (!guilds) return;
             
-            for (let guildId in guilds) {
-                const channelId = guilds[guildId];
-                const channel = global.bot.channels.cache.get(channelId);
+            for (let guild_id in guilds) {
+                const channel_id = guilds[guild_id];
+                const channel = global.bot.channels.cache.get(channel_id);
                 
                 if (!channel) continue;
                 
-                const server = global.bot.guilds.cache.get(guildId);
+                const server = global.bot.guilds.cache.get(guild_id);
                 if (!server) continue;
                 
                 channel.send({ 
                     embeds: [embed.setAuthor({ name: server.name, iconURL: server.iconURL() })] 
                 }).catch(error => {
-                    log_error(error, "notify.js", `notify_all_servers`, `send ${osKey} update to channel ${channelId}`);
+                    log_error(error, "notify.js", `notify_all_servers`, `send ${os_key} update to channel ${channel_id}`);
                 });
                 
                 try {
-                    const roleDoc = await role_database.doc(guildId).get();
-                    const roleData = roleDoc.data();
+                    const role_doc = await role_database.doc(guild_id).get();
+                    const role_data = role_doc.data();
                     
-                    if (roleData && roleData[osKey]) {
-                        const role = server.roles.cache.get(roleData[osKey]);
+                    if (role_data && role_data[os_key]) {
+                        const role = server.roles.cache.get(role_data[os_key]);
                         if (role && version) {
-                            const message = os_role_messages[osKey](version);
-                            channel.send(`<@&${roleData[osKey]}> ${message}`).catch(error => {
-                                log_error(error, "notify.js", `notify_all_servers`, `send ${osKey} role mention to channel ${channelId}`);
+                            const message = os_role_messages[os_key](version);
+                            channel.send(`<@&${role_data[os_key]}> ${message}`).catch(error => {
+                                log_error(error, "notify.js", `notify_all_servers`, `send ${os_key} role mention to channel ${channel_id}`);
                             });
                         }
                     }
                 } catch (error) {
-                    log_error(error, "notify.js", `notify_all_servers`, `fetch role data for guild ${guildId}`);
+                    log_error(error, "notify.js", `notify_all_servers`, `fetch role data for guild ${guild_id}`);
                 }
             }
         } catch (error) {
-            log_error(error, "notify.js", `notify_all_servers`, `fetch ${osKey} database`);
+            log_error(error, "notify.js", `notify_all_servers`, `fetch ${os_key} database`);
         }
     }
 }

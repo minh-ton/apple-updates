@@ -8,46 +8,40 @@ let multi_icons = ['ios', 'ipados', 'watchos', 'macos', 'tvos'];
 require('../utils/utils.js')();
 require('./notify.js')();
 
-function isBeta(build) { return build.length > 6 && build.toUpperCase() !== build; }
+function is_beta_build(build) { 
+    return build.length > 6 && build.toUpperCase() !== build; 
+}
 
 module.exports = function () {
-    this.send_macos_installer = function (pkgurl, version, build, size, beta) {
-        const versionLabel = beta ? `${version} ${isBeta(build) ? "(Beta)" : "(RC)"}` : version;
-        const notificationText = beta ? `${version} Beta (${build})` : `${version} (${build})`;
+    this.send_macos_installer = function (pkg_url, version, build, size, is_beta) {
+        const version_label = is_beta ? `${version} ${is_beta_build(build) ? "(Beta)" : "(RC)"}` : version;
+        const notification_text = is_beta ? `${version} Beta (${build})` : `${version} (${build})`;
         
         const embed = new EmbedBuilder()
             .setTitle(`New macOS Full Installer Package!`)
             .addFields(
-                { name: `Version`, value: versionLabel, inline: true },
+                { name: `Version`, value: version_label, inline: true },
                 { name: `Build`, value: build, inline: true },
                 { name: `Size`, value: formatBytes(size), inline: true }
             )
-            .setDescription(`**Installer Package**: [InstallAssistant.pkg](${pkgurl})`)
+            .setDescription(`**Installer Package**: [InstallAssistant.pkg](${pkg_url})`)
             .setThumbnail(getThumbnail("pkg"))
             .setColor(randomColor())
             .setTimestamp();
-        notify_all_servers('pkg', embed, notificationText);
+        notify_all_servers('pkg', embed, notification_text);
     };
 
-    this.send_os_updates = function (os, version, build, size, beta, updateid = null, changelog = null) {
-        const isMacOS = os.toLowerCase() === 'macos';
-        const releaseType = beta ? 'Beta' : 'Public';
-        const versionLabel = beta ? `${version} (${updateid})` : version;
-        const notificationText = beta ? `${version} (${updateid} - Build ${build})` : `${version} (${build})`;
+    this.send_os_updates = function (os, version, build, size, is_beta, update_id = null, changelog = null) {
+        const release_type = is_beta ? 'Beta' : 'Public';
+        const version_label = is_beta ? `${version} (${update_id})` : version;
+        const notification_text = is_beta ? `${version} (${update_id} - Build ${build})` : `${version} (${build})`;
         
-        let thumbnail;
-        if (isMacOS) {
-            thumbnail = getThumbnail("macOS" + version.split('.')[0]);
-        } else {
-            thumbnail = multi_icons.includes(os.toLowerCase()) 
-                ? getThumbnail(os + version.split('.')[0]) 
-                : getThumbnail(os);
-        }
+        const thumbnail = multi_icons.includes(os.toLowerCase()) ? getThumbnail(os + version.split('.')[0]) : getThumbnail(os);
         
         const embed = new EmbedBuilder()
-            .setTitle(`New ${os} ${releaseType} Release!`)
+            .setTitle(`New ${os == 'audioOS' ? 'HomePod Software' : os} ${release_type} Release!`)
             .addFields(
-                { name: `Version`, value: versionLabel, inline: true },
+                { name: `Version`, value: version_label, inline: true },
                 { name: `Build`, value: build, inline: true },
                 { name: `Size`, value: formatBytes(size), inline: true }
             )
@@ -55,9 +49,9 @@ module.exports = function () {
             .setColor(randomColor())
             .setTimestamp();
         
-        if (!beta && changelog) embed.setDescription(changelog);
+        if (!is_beta && changelog) embed.setDescription(changelog);
         
-        notify_all_servers(os, embed, notificationText);
+        notify_all_servers(os, embed, notification_text);
     };
 
     this.send_announcements = function (title, message) {
@@ -70,6 +64,7 @@ module.exports = function () {
         notify_all_servers("bot", embed);
     };
 
+    // TODO: Move this to somewhere else
     this.error_alert = function (message, report) {
         const embeds = [];
         const button = new ActionRowBuilder().addComponents(

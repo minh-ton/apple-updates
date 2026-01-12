@@ -157,11 +157,7 @@ global.bot.on("messageCreate", async message => {
 
 // ============= UPDATES FETCH =============
 
-updates_polling();
-installers_polling();
-
-setInterval(() => updates_polling(), 60000);
-setInterval(() => installers_polling(), 180000);
+start_polling();
 
 // ============= PERIODIC CLEANUP =============
 
