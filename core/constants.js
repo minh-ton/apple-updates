@@ -889,14 +889,51 @@ module.exports = {
             {
                 enabled: true,
                 is_beta: true,
+                target_version: 26,
                 description: 'macOS Beta',
-                catalog_url: 'https://swscan.apple.com/content/catalogs/others/index-16seed-16-15-14-13-12-10.16-10.15-10.14-10.13-10.12-10.11-10.10-10.9-mountainlion-lion-snowleopard-leopard.merged-1.sucatalog'
+                catalog_url: 'https://swscan.apple.com/content/catalogs/others/index-26seed-26-15-14-13-12-10.16-10.15-10.14-10.13-10.12-10.11-10.10-10.9-mountainlion-lion-snowleopard-leopard.merged-1.sucatalog.gz'
             },
             {
                 enabled: true,
                 is_beta: false,
+                target_version: 26,
                 description: 'macOS Public',
-                catalog_url: 'https://swscan.apple.com/content/catalogs/others/index-26seed-26-15-14-13-12-10.16-10.15-10.14-10.13-10.12-10.11-10.10-10.9-mountainlion-lion-snowleopard-leopard.merged-1.sucatalog.gz'
+                catalog_url: 'https://swscan.apple.com/content/catalogs/others/index-26-15-14-13-12-10.16-10.15-10.14-10.13-10.12-10.11-10.10-10.9-mountainlion-lion-snowleopard-leopard.merged-1.sucatalog'
+            },
+            {
+                enabled: false,
+                is_beta: true,
+                target_version: 15,
+                description: 'macOS 15 Beta',
+                catalog_url: 'https://swscan.apple.com/content/catalogs/others/index-15seed-15-14-13-12-10.16-10.15-10.14-10.13-10.12-10.11-10.10-10.9-mountainlion-lion-snowleopard-leopard.merged-1.sucatalog'
+            },
+            {
+                enabled: false,
+                is_beta: true,
+                target_version: 14,
+                description: 'macOS 14 Beta',
+                catalog_url: 'https://swscan.apple.com/content/catalogs/others/index-14seed-14-13-12-10.16-10.15-10.14-10.13-10.12-10.11-10.10-10.9-mountainlion-lion-snowleopard-leopard.merged-1.sucatalog'
+            },
+            {
+                enabled: false,
+                is_beta: true,
+                target_version: 13,
+                description: 'macOS 13 Beta',
+                catalog_url: 'https://swscan.apple.com/content/catalogs/others/index-13seed-13-12-10.16-10.15-10.14-10.13-10.12-10.11-10.10-10.9-mountainlion-lion-snowleopard-leopard.merged-1.sucatalog'
+            },
+            {
+                enabled: false,
+                is_beta: true,
+                target_version: 12,
+                description: 'macOS 12 Beta',
+                catalog_url: 'https://swscan.apple.com/content/catalogs/others/index-12seed-12-10.16-10.15-10.14-10.13-10.12-10.11-10.10-10.9-mountainlion-lion-snowleopard-leopard.merged-1.sucatalog'
+            },
+            {
+                enabled: false,
+                is_beta: true,
+                target_version: 11,
+                description: 'macOS 11 Beta',
+                catalog_url: 'https://swscan.apple.com/content/catalogs/others/index-10.16seed-10.16-10.15-10.14-10.13-10.12-10.11-10.10-10.9-mountainlion-lion-snowleopard-leopard.merged-1.sucatalog'
             }
         ]
     },
