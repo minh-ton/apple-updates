@@ -4,7 +4,6 @@ const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("
 const axios = require('axios');
 const MiniSearch = require('minisearch')
 const crypto = require('crypto');
-const wait = require('util').promisify(setTimeout);
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
 require('../../core/utils/utils.js')();
@@ -76,14 +75,13 @@ module.exports = {
             const ids = [next_id, prev_id, cancel_id];            
 
             const filter = ch => {
-                ch.deferUpdate();
                 return ch.member.id == interaction.member.id && ids.includes(ch.customId);
             }
 
             const row = new ActionRowBuilder().addComponents(
                 new ButtonBuilder()
                     .setCustomId(prev_id)
-                    .setLabel('Previous')
+                    .setLabel('❮')
                     .setStyle(ButtonStyle.Primary),
                 new ButtonBuilder()
                     .setCustomId(cancel_id)
@@ -91,7 +89,7 @@ module.exports = {
                     .setStyle(ButtonStyle.Success),
                 new ButtonBuilder()
                     .setCustomId(next_id)
-                    .setLabel('Next')
+                    .setLabel('❯')
                     .setStyle(ButtonStyle.Primary),
             );
 
@@ -99,14 +97,21 @@ module.exports = {
             const collector = interaction.channel.createMessageComponentCollector({ filter, time: 180000 });
 
             collector.on('collect', async action => {
-                if (action.customId == next_id && index < results.length - 1) index++;
-                if (action.customId == prev_id && index > 0) index--;
-                if (action.customId == cancel_id) return collector.stop();
-                if (index >= 0) {
-                    embed = await display_results(results, index, interaction).catch(() => { collector.stop() });
-                    await interaction.editReply({ embeds: [embed], components: [] });
-                    await wait(1000);
-                    await interaction.editReply({ embeds: [embed], components: [row] });
+                try {
+                    if (action.customId == next_id && index < results.length - 1) index++;
+                    if (action.customId == prev_id && index > 0) index--;
+                    if (action.customId == cancel_id) return collector.stop();
+                    if (index >= 0) {
+                        embed = await display_results(results, index, interaction).catch(() => { collector.stop() });
+                        
+                        row.components.forEach(button => button.setDisabled(true));
+                        await action.update({ embeds: [embed], components: [row] });
+                        
+                        row.components.forEach(button => button.setDisabled(false));
+                        await action.editReply({ embeds: [embed], components: [row] });
+                    }
+                } catch (error) {
+                    if (error.code !== 40060) console.error(error);
                 }
             });
 

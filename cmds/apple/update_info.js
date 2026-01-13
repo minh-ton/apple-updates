@@ -5,7 +5,6 @@ const firebase = require("firebase-admin");
 const formatBytes = require('pretty-bytes');
 const axios = require('axios');
 const crypto = require('crypto');
-const wait = require('util').promisify(setTimeout);
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
 let db = firebase.firestore();
@@ -173,7 +172,7 @@ module.exports = {
             { name: 'watchOS', value: 'watchos' },
             { name: 'tvOS', value: 'tvos' },
             { name: 'macOS', value: 'macos' },
-            { name: 'audioOS', value: 'audioos' }))
+            { name: 'HomePod Software', value: 'audioos' }))
         .addStringOption(option => option.setName('version').setDescription("Specify the version, e.g. 14.8.1").setRequired(true)),
 
     async execute(interaction) {
@@ -200,7 +199,6 @@ module.exports = {
             const ids = [next_id, prev_id, cancel_id];            
 
             const filter = ch => {
-                ch.deferUpdate();
                 return ch.member.id == interaction.member.id && ids.includes(ch.customId);
             }
 
@@ -214,16 +212,22 @@ module.exports = {
             const collector = interaction.channel.createMessageComponentCollector({ filter, time: 180000 });
 
             collector.on('collect', async action => {
-                if (action.customId == next_id) index++;
-                if (action.customId == prev_id) index--;
-                if (action.customId == cancel_id) return collector.stop();
+                try {
+                    if (action.customId == next_id) index++;
+                    if (action.customId == prev_id) index--;
+                    if (action.customId == cancel_id) return collector.stop();
 
-                embed = await display(os_name, query_data, index, interaction);
-                row = await create_buttons(os_name, query_data, index, ids)
+                    embed = await display(os_name, query_data, index, interaction);
+                    row = await create_buttons(os_name, query_data, index, ids);
 
-                await interaction.editReply({ embeds: [embed], components: [] });
-                await wait(1000);
-                await interaction.editReply({ embeds: [embed], components: [await create_buttons(os_name, query_data, index, ids)] });
+                    row.components.forEach(button => button.setDisabled(true));
+                    await action.update({ embeds: [embed], components: [row] });
+                    
+                    row = await create_buttons(os_name, query_data, index, ids);
+                    await action.editReply({ embeds: [embed], components: [row] });
+                } catch (error) {
+                    if (error.code !== 40060) console.error(error);
+                }
             });
 
             collector.on('end', async action => {
