@@ -40,7 +40,7 @@ async function get_info(cname, data, index) {
     let size = (data[index]["size"]) ? formatBytes(data[index]["size"]) : "N/A";
     let changelog = (data[index]["changelog"]) ? data[index]["changelog"] : "Release note is not available.";
     let postdate = ((typeof data[index]["postdate"]) == "string") ? timeToEpoch(data[index]['postdate']) : timeToEpoch(data[index]['postdate'].toDate());
-    let thumbnail = (multi_icons.includes(cname.toLowerCase())) ? get_thumbnail(cname.toLowerCase() + version.split(".")[0]) : get_thumbnail(cname.toLowerCase());
+    let thumbnail = (multi_icons.includes(cname.toLowerCase())) ? await get_thumbnail(cname.toLowerCase(), version.split(".")[0]) : await get_thumbnail(cname.toLowerCase());
 
     var package = undefined;
 

@@ -1,4 +1,5 @@
 // Some miscellaneous functions
+const axios = require('axios');
 
 module.exports = function () {
   this.format_documentation_id = function (update_id, version, os) {
@@ -52,13 +53,21 @@ module.exports = function () {
   };
 
   // device icons for os updates embeds
-  this.get_thumbnail = function (os) {
+  this.get_thumbnail = async function (os, version = null) {
     let base_url = 'https://minh-ton.github.io/apple-updates/icons/';
     let extension = '.png';
 
-    // TODO: Check if URL is valid here
-    var icon_url = base_url + os + extension;
-    return icon_url;
+    var icon_url = base_url + os + (version ? version : '') + extension;
+    
+    // I just want to update the icon for new OS versions
+    // later after WWDC, so we'll just use a generic icon
+    // for newly-added asset audiences.
+    try {
+      await axios.head(icon_url, { timeout: 5000 });
+      return icon_url;
+    } catch (error) {
+      return base_url + os + extension;
+    }
   };
 
   // get time in a timezone
