@@ -4,7 +4,7 @@ const { SUCATALOG_CONFIGS } = require("../../core/constants.js");
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
 require('../../core/fetch/fetch.js')();
-require('../../core/notification/staging.js')();
+require('../../core/utils/error.js')();
 require('../../core/utils/utils.js')();
 
 function is_beta_build(build) {

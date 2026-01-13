@@ -8,7 +8,7 @@ const wait = require('util').promisify(setTimeout);
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
 require('../../core/utils/utils.js')();
-require('../../core/notification/staging.js')();
+require('../../core/utils/error.js')();
 
 async function display_results(results, index, interaction) {
     let ipsw = await axios.get(`https://api.ipsw.me/v4/device/${results[index].identifier}?type=ipsw`);

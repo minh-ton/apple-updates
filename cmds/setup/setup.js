@@ -3,7 +3,7 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 
 require("./helper/roles.js")();
 require("./helper/updates.js")();
-require("../../core/notification/staging.js")();
+require("../../core/utils/error.js")();
 
 module.exports = {
     name: 'setup',

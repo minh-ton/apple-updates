@@ -13,7 +13,7 @@ let db = firebase.firestore();
 const database = db.collection('other').doc('information');
 
 require('../../core/utils/utils.js')();
-require('../../core/notification/staging.js')();
+require('../../core/utils/error.js')();
 
 let multi_icons = ['ios', 'ipados', 'watchos', 'macos', 'tvos'];
 

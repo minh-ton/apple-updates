@@ -23,7 +23,7 @@ firebase.initializeApp({
 });
 
 require("./core/updates.js")();
-require("./core/notification/staging.js")();
+require("./core/utils/error.js")();
 
 global.bot = new Client({
     intents: [

@@ -3,7 +3,7 @@
 const { exec } = require('child_process');
 const { EmbedBuilder } = require('discord.js');
 
-require('../../core/notification/staging.js')();
+require('../../core/utils/error.js')();
 
 module.exports = {
     name: 'bash',
