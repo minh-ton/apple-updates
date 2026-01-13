@@ -14,23 +14,10 @@ const database = db.collection('other').doc('information');
 require('../../core/utils/utils.js')();
 require('../../core/utils/error.js')();
 
-let multi_icons = ['ios', 'ipados', 'watchos', 'macos', 'tvos'];
-
-function isBeta(build, remote) {
-    let check = build.length > 6 && build.toUpperCase() != build;
-    if (remote != undefined && remote == false) return false;
-    if (remote != undefined && remote == true && !check) return true;
-    return check;
-}
-
-function timeToEpoch(time) {
-    return Math.floor(new Date(time).getTime() / 1000);
-}
-
 async function get_info(cname, data, index) {
     var info = {};
 
-    let beta = isBeta(data[index]["build"], data[index]["beta"]);
+    let beta = is_beta_build(data[index]["build"], data[index]["beta"]);
 
     let title = `${cname.toLowerCase().replace('os', 'OS').replace('ipad', 'iPad')} ${data[index]["version"]} ${(beta) ? "Beta" : ""}`;
     let update_id = (data[index]["updateid"]) ? format_documentation_id(data[index]["updateid"], data[index]["version"], cname) : "Beta";
@@ -38,8 +25,7 @@ async function get_info(cname, data, index) {
     let build = data[index]["build"];
     let size = (data[index]["size"]) ? formatBytes(data[index]["size"]) : "N/A";
     let changelog = (data[index]["changelog"]) ? data[index]["changelog"] : "Release note is not available.";
-    let postdate = ((typeof data[index]["postdate"]) == "string") ? timeToEpoch(data[index]['postdate']) : timeToEpoch(data[index]['postdate'].toDate());
-    let thumbnail = (multi_icons.includes(cname.toLowerCase())) ? await get_thumbnail(cname.toLowerCase(), version.split(".")[0]) : await get_thumbnail(cname.toLowerCase());
+    let postdate = ((typeof data[index]["postdate"]) == "string") ? convert_date_to_epoch(data[index]['postdate']) : convert_date_to_epoch(data[index]['postdate'].toDate());
 
     var package = undefined;
 
@@ -61,7 +47,7 @@ async function get_info(cname, data, index) {
     info.size = size;
     info.changelog = changelog;
     info.postdate = postdate;
-    info.thumbnail = thumbnail;
+    info.thumbnail = await get_os_icon(cname.toLowerCase(), version.split(".")[0]);
     info.package = package;
 
     return info;
@@ -190,7 +176,7 @@ module.exports = {
             if (!version_query_beta.empty) version_query_beta.forEach(doc => { query_data.push(doc.data()) });
 
             query_data.sort(function(x, y) {
-                return (isBeta(x["build"], x["beta"]) - isBeta(y["build"]), y["beta"]);
+                return (is_beta_build(x["build"], x["beta"]) - is_beta_build(y["build"]), y["beta"]);
             });
 
             const next_id = crypto.randomUUID();

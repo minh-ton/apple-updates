@@ -6,41 +6,7 @@ require('../../core/fetch/pallas/software.js')();
 require('../../core/utils/error.js')();
 require('../../core/utils/utils.js')();
 
-if (!global.latest_cache) global.latest_cache = {};
-
-function is_beta_build(build) {
-    return build.length > 6 && build.toUpperCase() != build;
-}
-
-function parse_version(version_str) {
-    const parts = version_str.split('.').map(p => parseInt(p));
-    return {
-        major: parts[0] || 0,
-        minor: parts[1] || null,
-        patch: parts[2] || null
-    };
-}
-
-function compare_versions(v1, v2) {
-    const p1 = parse_version(v1);
-    const p2 = parse_version(v2);
-    
-    if (p1.major !== p2.major) return p1.major - p2.major;
-    if (p1.minor !== p2.minor) return (p1.minor || 0) - (p2.minor || 0);
-    return (p1.patch || 0) - (p2.patch || 0);
-}
-
-function capitalize_os_name(os) {
-    switch(os) {
-        case 'ios': return 'iOS';
-        case 'ipados': return 'iPadOS';
-        case 'macos': return 'macOS';
-        case 'tvos': return 'tvOS';
-        case 'watchos': return 'watchOS';
-        case 'audioos': return 'HomePod Software';
-        default: return os.charAt(0).toUpperCase() + os.slice(1);
-    }
-}
+if (!global.pallas_cache) global.pallas_cache = {};
 
 module.exports = {
     name: 'latest_updates',
@@ -71,8 +37,8 @@ module.exports = {
                     const cache_key = `${os}_${config.is_beta ? 'beta' : 'public'}_${config.target_version}`;
                     let updates;
                     
-                    if (global.latest_cache[cache_key]) {
-                        updates = global.latest_cache[cache_key];
+                    if (global.pallas_cache[cache_key]) {
+                        updates = global.pallas_cache[cache_key];
                     } else {
                         updates = await get_pallas_updates(
                             os,
@@ -84,7 +50,7 @@ module.exports = {
                             config.is_beta
                         );
                         
-                        if (updates) global.latest_cache[cache_key] = updates;
+                        if (updates) global.pallas_cache[cache_key] = updates;
                     }
                     
                     if (!updates || updates.length === 0) continue;
@@ -121,7 +87,7 @@ module.exports = {
             for (const os of os_order) {
                 if (!os_versions[os] || Object.keys(os_versions[os]).length === 0) continue;
                 
-                const os_name = capitalize_os_name(os);
+                const os_name = get_os_displayname(os);
                 const major = Object.keys(os_versions[os])[0];
                 
                 let field_value = '';

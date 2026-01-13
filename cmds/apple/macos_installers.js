@@ -9,29 +9,6 @@ require('../../core/utils/utils.js')();
 
 if (!global.sucatalog_cache) global.sucatalog_cache = {};
 
-function is_beta_build(build) {
-    if (build.length > 6 && build.toUpperCase() != build) return true;
-    return false;
-}
-
-function parse_version(version_str) {
-    const parts = version_str.split('.').map(p => parseInt(p));
-    return {
-        major: parts[0] || 0,
-        minor: parts[1] || null,
-        patch: parts[2] || null
-    };
-}
-
-function compare_versions(v1, v2) {
-    const p1 = parse_version(v1);
-    const p2 = parse_version(v2);
-    
-    if (p1.major !== p2.major) return p1.major - p2.major;
-    if (p1.minor !== p2.minor) return (p1.minor || 0) - (p2.minor || 0);
-    return (p1.patch || 0) - (p2.patch || 0);
-}
-
 function matches_version_filter(version, filter) {
     const v = parse_version(version);
     const f = parse_version(filter);

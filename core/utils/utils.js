@@ -53,11 +53,13 @@ module.exports = function () {
   };
 
   // device icons for os updates embeds
-  this.get_thumbnail = async function (os, version = null) {
-    let base_url = 'https://minh-ton.github.io/apple-updates/icons/';
-    let extension = '.png';
+  this.get_os_icon = async function (os, version = null) {
+    const base_url = 'https://minh-ton.github.io/apple-updates/icons/';
+    const extension = '.png';
 
-    var icon_url = base_url + os + (version ? version : '') + extension;
+    const multiple_icon_os = ['ios', 'ipados', 'macos', 'watchos', 'tvos'];
+
+    var icon_url = base_url + os + (version && multiple_icon_os.includes(os) ? version : '') + extension;
     
     // I just want to update the icon for new OS versions
     // later after WWDC, so we'll just use a generic icon
@@ -67,6 +69,18 @@ module.exports = function () {
       return icon_url;
     } catch (error) {
       return base_url + os + extension;
+    }
+  };
+
+  this.get_os_displayname = function (os) {
+    switch (os.toLowerCase()) {
+      case 'ios': return 'iOS';
+      case 'ipad': return 'iPadOS';
+      case 'macos': return 'macOS';
+      case 'tvos': return 'tvOS';
+      case 'watchos': return 'watchOS';
+      case 'audioos': return 'HomePod Software';
+      default: return os;
     }
   };
 
@@ -82,5 +96,43 @@ module.exports = function () {
     let seconds = ("0" + parsed_date.getSeconds()).slice(-2);
     let formatted_datetime = date + "/" + month + "/" + year + " " + hours + ":" + minutes + ":" + seconds;
     return formatted_datetime;
-  }
+  };
+
+  this.convert_date_to_epoch = function (date_string) {
+    return Math.floor(new Date(date_string).getTime() / 1000);
+  };
+
+  this.is_beta_build = function (build, source = null) {
+    let is_beta = build.length > 6 && build.toUpperCase() != build;
+    
+    if (typeof source === 'boolean') {
+      // 'source' here is the type of catalog or asset audience
+      // the update was fetched from. In the update_info command,
+      // it passed the 'beta' boolean value from the saved update
+      // info in the database.
+      // So source == true means beta, false means public.
+      if (source === false) return false; // not fetched from a beta catalog
+      if (source === true && !is_beta) return true; // categorize this as a RC build
+    }
+
+    return is_beta;
+  };
+
+  this.parse_version = function (version_str) {
+    const parts = version_str.split('.').map(p => parseInt(p));
+    return {
+        major: parts[0] || 0,
+        minor: parts[1] || 0,
+        patch: parts[2] || 0
+    };
+  };
+
+  this.compare_versions = function (v1, v2) {
+    const p1 = parse_version(v1);
+    const p2 = parse_version(v2);
+    
+    if (p1.major !== p2.major) return p1.major - p2.major;
+    if (p1.minor !== p2.minor) return (p1.minor || 0) - (p2.minor || 0);
+    return (p1.patch || 0) - (p2.patch || 0);
+  };
 }

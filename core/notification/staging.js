@@ -3,14 +3,8 @@
 const { EmbedBuilder } = require('discord.js');
 const formatBytes = require('pretty-bytes');
 
-let multi_icons = ['ios', 'ipados', 'watchos', 'macos', 'tvos'];
-
 require('../utils/utils.js')();
 require('./notify.js')();
-
-function is_beta_build(build) { 
-    return build.length > 6 && build.toUpperCase() !== build; 
-}
 
 module.exports = function () {
     this.send_macos_installer = async function (pkg_url, version, build, size, is_beta) {
@@ -25,7 +19,7 @@ module.exports = function () {
                 { name: `Size`, value: formatBytes(size), inline: true }
             )
             .setDescription(`**Installer Package**: [InstallAssistant.pkg](${pkg_url})`)
-            .setThumbnail(await get_thumbnail("pkg"))
+            .setThumbnail(await get_os_icon("pkg"))
             .setColor(random_color())
             .setTimestamp();
         notify_all_servers('pkg', embed, notification_text);
@@ -35,9 +29,7 @@ module.exports = function () {
         const release_type = is_beta ? 'Beta' : 'Public';
         const version_label = is_beta ? `${version} (${update_id})` : version;
         const notification_text = is_beta ? `${version} (${update_id} - Build ${build})` : `${version} (${build})`;
-        
-        const thumbnail = multi_icons.includes(os) ? await get_thumbnail(os, version.split('.')[0]) : await get_thumbnail(os);
-        
+
         const embed = new EmbedBuilder()
             .setTitle(`New ${os == 'audioos' ? 'HomePod Software' : os.replace('os', 'OS').replace('pad', 'Pad')} ${release_type} Release!`) // Hacky title formatting fix
             .addFields(
@@ -45,7 +37,7 @@ module.exports = function () {
                 { name: `Build`, value: build, inline: true },
                 { name: `Size`, value: formatBytes(size), inline: true }
             )
-            .setThumbnail(thumbnail)
+            .setThumbnail(await get_os_icon(os, version.split('.')[0]))
             .setColor(random_color())
             .setTimestamp();
         
