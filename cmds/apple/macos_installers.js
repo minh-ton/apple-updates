@@ -7,6 +7,8 @@ require('../../core/fetch/fetch.js')();
 require('../../core/utils/error.js')();
 require('../../core/utils/utils.js')();
 
+if (!global.sucatalog_cache) global.sucatalog_cache = {};
+
 function is_beta_build(build) {
     if (build.length > 6 && build.toUpperCase() != build) return true;
     return false;
@@ -88,7 +90,15 @@ module.exports = {
             let all_installers = [];
             
             for (const catalog of catalogs) {
-                const catalog_data = await get_sucatalog_installers(catalog.catalog_url);
+                let catalog_data;
+                
+                if (global.sucatalog_cache[catalog.catalog_url]) {
+                    catalog_data = global.sucatalog_cache[catalog.catalog_url];
+                } else {
+                    catalog_data = await get_sucatalog_installers(catalog.catalog_url);
+                    global.sucatalog_cache[catalog.catalog_url] = catalog_data;
+                }
+                
                 for (const item of catalog_data) {
                     all_installers.push({
                         version: item.xml_version,
@@ -110,7 +120,15 @@ module.exports = {
                     no_match = true;
                     
                     for (const catalog of base_catalogs) {
-                        const catalog_data = await get_sucatalog_installers(catalog.catalog_url);
+                        let catalog_data;
+                        
+                        if (global.sucatalog_cache[catalog.catalog_url]) {
+                            catalog_data = global.sucatalog_cache[catalog.catalog_url];
+                        } else {
+                            catalog_data = await get_sucatalog_installers(catalog.catalog_url);
+                            global.sucatalog_cache[catalog.catalog_url] = catalog_data;
+                        }
+                        
                         for (const item of catalog_data) {
                             all_installers.push({
                                 version: item.xml_version,
