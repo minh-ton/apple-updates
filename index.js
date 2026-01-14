@@ -29,8 +29,7 @@ global.bot = new Client({
     intents: [
         GatewayIntentBits.Guilds,
         GatewayIntentBits.GuildMessages,
-        GatewayIntentBits.DirectMessages,
-        GatewayIntentBits.GuildMessageReactions
+        GatewayIntentBits.DirectMessages
     ],
     partials: [Partials.Channel],
     sweepers: {
@@ -43,7 +42,7 @@ global.bot = new Client({
         MessageManager: 50,
         PresenceManager: 0,
         GuildMemberManager: 0,
-        ReactionManager: 50,
+        ReactionManager: 0,
         GuildBanManager: 0,
         VoiceStateManager: 0,
         StageInstanceManager: 0,
