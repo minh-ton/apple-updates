@@ -75,7 +75,7 @@ module.exports = function () {
   this.get_os_displayname = function (os) {
     switch (os.toLowerCase()) {
       case 'ios': return 'iOS';
-      case 'ipad': return 'iPadOS';
+      case 'ipados': return 'iPadOS';
       case 'macos': return 'macOS';
       case 'tvos': return 'tvOS';
       case 'watchos': return 'watchOS';
