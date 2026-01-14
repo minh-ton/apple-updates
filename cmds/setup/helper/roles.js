@@ -11,9 +11,9 @@ const os_updates = {
     watchos: "watchOS Updates",
     macos: "macOS Updates",
     tvos: "tvOS Updates",
-    audioos: "audioOS Updates",
-    bot: "Bot Announcements",
-    pkg: "macOS InstallAssistant.pkg Links",
+    audioos: "HomePod Software Updates",
+    pkg: "macOS Installer Package Releases",
+	bot: "Bot Announcements",
 };
  
 const database = db.collection('discord').doc('roles').collection('servers');
@@ -115,7 +115,7 @@ module.exports = function () {
 			for (let os in data) {
 				const role = interaction.guild.roles.cache.get(data[os]);
 				const role_name = role ? role.name : "Unknown Role";
-				arr.push(`**${os_updates[os]}**: <@&${data[os]}>`);
+				arr.push(`${os_updates[os]}: <@&${data[os]}>`);
 				os_components.push({ 
 					label: os_updates[os], 
 					value: os, 
@@ -169,7 +169,7 @@ module.exports = function () {
 
 			const arr = [];
 			for (let os in data) {
-				arr.push(`**${os_updates[os]}**: <@&${data[os]}>`);
+				arr.push(`${os_updates[os]}: <@&${data[os]}>`);
 			}
 
 			return interaction.editReply(roles_list(arr));

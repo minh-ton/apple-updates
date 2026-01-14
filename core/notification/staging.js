@@ -22,7 +22,7 @@ module.exports = function () {
             .setThumbnail(await get_os_icon("pkg"))
             .setColor(random_color())
             .setTimestamp();
-        notify_all_servers('pkg', embed, notification_text);
+        notify_all_servers('pkg', embed, notification_text, is_beta);
     };
 
     this.send_os_updates = async function (os, version, build, size, is_beta, update_id = null, changelog = null) {
@@ -43,7 +43,7 @@ module.exports = function () {
         
         if (!is_beta && changelog) embed.setDescription(changelog);
         
-        notify_all_servers(os, embed, notification_text);
+        notify_all_servers(os, embed, notification_text, is_beta);
     };
 
     this.send_announcements = function (title, message) {
