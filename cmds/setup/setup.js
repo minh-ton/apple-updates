@@ -1,9 +1,29 @@
-const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, PermissionFlagsBits } = require('discord.js');
-const { SlashCommandBuilder } = require('@discordjs/builders');
+const { PermissionFlagsBits, SlashCommandBuilder } = require('discord.js');
 
 require("./helper/roles.js")();
 require("./helper/updates.js")();
 require("../../core/utils/error.js")();
+
+const active_setups = new Map();
+
+function is_setup_locked(guild_id) {
+    if (!active_setups.has(guild_id)) return false;
+    
+    const lock_time = active_setups.get(guild_id);
+    if (Date.now() - lock_time > 5 * 60 * 1000) {
+        active_setups.delete(guild_id);
+        return false;
+    }
+    return true;
+}
+
+function lock_setup(guild_id) {
+    active_setups.set(guild_id, Date.now());
+}
+
+function unlock_setup(guild_id) {
+    active_setups.delete(guild_id);
+}
 
 module.exports = {
     name: 'setup',
@@ -21,20 +41,36 @@ module.exports = {
                 { name: 'role list', value: 'role list' },
             )),
     async execute(interaction) {
-        if (!interaction.member.permissions.has(PermissionFlagsBits.ManageGuild)) return interaction.editReply(error_alert("You do not have the `MANAGE SERVER` permission to use this command!"));
-        if (!interaction.guild.members.me.permissions.has([
-            PermissionFlagsBits.ViewChannel,
-            PermissionFlagsBits.AddReactions,
-            PermissionFlagsBits.UseExternalEmojis,
-            PermissionFlagsBits.ManageMessages
-        ])) return interaction.editReply(error_alert("I do not have the necessary permissions to work properly! \n\n ***Please make sure I have the following permissions:*** \n- View Channels\n- Add Reactions\n- Use External Emojis\n- Manage Messages"));
+        if (!interaction.guild) {
+            return interaction.editReply(error_alert("This command can only be used in a server!"));
+        }
+
+        if (!interaction.member || !interaction.member.permissions.has(PermissionFlagsBits.ManageGuild)) {
+            return interaction.editReply(error_alert("You do not have the `MANAGE SERVER` permission to use this command!"));
+        }
+        
+        const bot_member = interaction.guild.members.me || await interaction.guild.members.fetch(interaction.client.user.id).catch(() => null);
+        if (!bot_member || !bot_member.permissions.has(PermissionFlagsBits.ViewChannel)) {
+            return interaction.editReply(error_alert("I do not have the necessary permissions to work properly! \n\n ***Please make sure I have the following permissions:*** \n- View Channels"));
+        }
+
+        if (is_setup_locked(interaction.guild.id)) {
+            return interaction.editReply(error_alert("A setup command is already in progress in this server. Please wait for it to complete before starting a new one."));
+        }
 
         try {
-            if (interaction.options.getString('option') != undefined && interaction.options.getString('option').includes("role")) await setup_roles(interaction);
-            else await setup_updates(interaction);
+            lock_setup(interaction.guild.id);
+
+            if (interaction.options.getString('option') != undefined && interaction.options.getString('option').includes("role")) {
+                await setup_roles(interaction);
+            } else {
+                await setup_updates(interaction);
+            }
         } catch (e) {
             console.error(e);
             return interaction.editReply(error_alert("An unknown error occurred while running **setup** command.", e));
+        } finally {
+            unlock_setup(interaction.guild.id);
         }
     },
 };
