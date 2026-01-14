@@ -46,12 +46,10 @@ module.exports = function () {
         notify_all_servers(os, embed, notification_text, is_beta);
     };
 
-    this.send_announcements = function (title, message) {
+    this.send_announcements = function (message) {
         const embed = new EmbedBuilder()
-            .setTitle(title)
             .setColor(random_color())
             .setDescription(message)
-            .setThumbnail(global.bot.user.displayAvatarURL())
             .setTimestamp();
         notify_all_servers("bot", embed);
     };
