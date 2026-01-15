@@ -60,6 +60,8 @@ module.exports = function () {
         for (var i = 0; i < changelog_lines.length; i++) changelog_lines[i] = changelog_lines[i].replace(/\t/g, "").replace(/<li>/g, "- ").replace(/<[^>]+>/g, '').replace(/\&amp;/g, '&').trimStart();
 
         let notes = changelog_lines.join('\n').replace(/\n\s*\n\s*\n/g, '\n\n');
+        
+        notes = notes.replace(/\s*\n*\s*For information on the security content[^\n]*(\n\s*https?:\/\/[^\s\n]*)?/gi, '').trim();
 
         if (notes.length > 4000) notes = notes.substring(0, 4000) + '...\n\n*[Release notes have been truncated]*';
 
