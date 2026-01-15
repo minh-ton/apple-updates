@@ -136,14 +136,17 @@ async function get_existing_setup(guild_id) {
 		{ name: "bot", full: "Bot Announcements", is_legacy: false }
 	];
 
-	for (let i in os_docs) {
-		const set = await db.collection('discord').doc(os_docs[i].name).get();
-		const dataset = set.data();
+	const snapshots = await Promise.all(
+		os_docs.map(doc => db.collection('discord').doc(doc.name).get())
+	);
+
+	snapshots.forEach((snapshot, index) => {
+		const dataset = snapshot.data();
 		if (dataset && dataset[guild_id] != undefined) {
-			configuration.push(os_docs[i].full);
-			if (os_docs[i].is_legacy) legacy_guilds.push(os_docs[i].name);
+			configuration.push(os_docs[index].full);
+			if (os_docs[index].is_legacy) legacy_guilds.push(os_docs[index].name);
 		}
-	}
+	});
 
 	return { configuration, legacy_guilds };
 }
