@@ -144,7 +144,7 @@ module.exports = {
             {
                 enabled: true,
                 is_beta: false,
-                target_version: 16,
+                target_version: 26,
                 device: {
                     // M1 Pro MacBook Pro (14")
                     version: '26.0.1',
@@ -158,7 +158,7 @@ module.exports = {
             {
                 enabled: true,
                 is_beta: true,
-                target_version: 16,
+                target_version: 26,
                 device: {
                     // M1 Pro MacBook Pro (14")
                     version: '26.0.1',
