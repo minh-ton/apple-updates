@@ -56,7 +56,9 @@ global.bot.on("clientReady", async () => {
     console.log(`Logged in as ${global.bot.user.tag}!`);
     console.log(`Currently in ${global.bot.guilds.cache.size} servers!`);
     console.log('Bot has started!');
-    global.bot.user.setActivity(`/help`);
+    setInterval(() => {
+        global.bot.user.setActivity(`/help | working for ${global.bot.guilds.cache.size} servers...`, { type: 3 });
+    }, 5000);
     start_polling();
 });
 
