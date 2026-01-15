@@ -34,14 +34,14 @@ const POLLING_INTERVALS = {
 
 // I noticed that Apple tends to release updates at
 // around 0 AM UTC+7, so I just use a release window of
-// ± 1 hour around that time to poll more frequently.
+// ± 1-2 hours around that time to poll more frequently.
 
 // I really want the code to look clean, but at the same
 // time I don't want to deal with timezones as well, so
 // UTC+7 is used here directly.
 
 const RELEASE_WINDOW_START = 23;
-const RELEASE_WINDOW_END = 1;
+const RELEASE_WINDOW_END = 2;
 
 function is_release_window() {
     const utc_hour = new Date().getUTCHours();
