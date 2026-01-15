@@ -9,6 +9,7 @@ require('../utils/utils.js')();
 require('./pallas/documentation.js')();
 require('./pallas/software.js')();
 require('./sucatalog/installer.js')();
+require('./webpage/tvos_docs.js')();
 require('../utils/data.js')();
 
 let db = firebase.firestore();
@@ -47,8 +48,8 @@ module.exports = function () {
 
             var changelog = undefined;
             if (global.SAVE_MODE || !existing_builds.includes(build_number)) {
-                if (!is_beta && os !== "tvos") {
-                    changelog = await get_documentation(asset_audience, hw_model, update_id, DEVICE_NAMES[os], DOCUMENTATION_ASSET_TYPES[os]);
+                if (!is_beta) {
+                    changelog = os === "tvos" ? await get_tvos_documentation(version) : await get_documentation(asset_audience, hw_model, update_id, DEVICE_NAMES[os], DOCUMENTATION_ASSET_TYPES[os]);
                 }
                 if (changelog == undefined) changelog = "Release note is not available.";
             }
