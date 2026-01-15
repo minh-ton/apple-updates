@@ -28,6 +28,7 @@ const watchos_beta_database = db.collection('discord').doc('watchos_beta');
 const tvos_beta_database = db.collection('discord').doc('tvos_beta');
 const audioos_beta_database = db.collection('discord').doc('audioos_beta');
 const macos_beta_database = db.collection('discord').doc('macos_beta');
+const visionos_beta_database = db.collection('discord').doc('visionos_beta');
 
 // New public databases
 const ios_public_database = db.collection('discord').doc('ios_public');
@@ -36,6 +37,7 @@ const watchos_public_database = db.collection('discord').doc('watchos_public');
 const tvos_public_database = db.collection('discord').doc('tvos_public');
 const audioos_public_database = db.collection('discord').doc('audioos_public');
 const macos_public_database = db.collection('discord').doc('macos_public');
+const visionos_public_database = db.collection('discord').doc('visionos_public');
 
 // Special databases (no beta/public separation)
 const pkg_database = db.collection('discord').doc('pkg');
@@ -55,12 +57,14 @@ const os_databases = {
 	'tvos_beta': tvos_beta_database,
 	'audioos_beta': audioos_beta_database,
 	'macos_beta': macos_beta_database,
+	'visionos_beta': visionos_beta_database,
 	'ios_public': ios_public_database,
 	'ipados_public': ipados_public_database,
 	'watchos_public': watchos_public_database,
 	'tvos_public': tvos_public_database,
 	'audioos_public': audioos_public_database,
 	'macos_public': macos_public_database,
+	'visionos_public': visionos_public_database,
 	'pkg': pkg_database,
 	'bot': bot_database
 };
@@ -74,6 +78,8 @@ const os_options = [
 	{ label: "watchOS Updates (Public)", value: "watchos_public" },
 	{ label: "macOS Updates (Beta)", value: "macos_beta" },
 	{ label: "macOS Updates (Public)", value: "macos_public" },
+	{ label: "visionOS Updates (Beta)", value: "visionos_beta" },
+	{ label: "visionOS Updates (Public)", value: "visionos_public" },
 	{ label: "tvOS Updates (Beta)", value: "tvos_beta" },
 	{ label: "tvOS Updates (Public)", value: "tvos_public" },
 	{ label: "HomePod Software Updates (Beta)", value: "audioos_beta" },
@@ -93,6 +99,8 @@ const os_value_to_name = {
 	macos_public: "macOS Updates (Public)",
 	tvos_beta: "tvOS Updates (Beta)",
 	tvos_public: "tvOS Updates (Public)",
+	visionos_beta: "visionOS Updates (Beta)",
+	visionos_public: "visionOS Updates (Public)",
 	audioos_beta: "HomePod Software Updates (Beta)",
 	audioos_public: "HomePod Software Updates (Public)",
 	pkg: "macOS Installer Package Releases",
@@ -116,12 +124,14 @@ async function get_existing_setup(guild_id) {
 		{ name: "tvos_beta", full: "tvOS Updates (Beta)", is_legacy: false },
 		{ name: "audioos_beta", full: "HomePod Software Updates (Beta)", is_legacy: false },
 		{ name: "macos_beta", full: "macOS Updates (Beta)", is_legacy: false },
+		{ name: "visionos_beta", full: "visionOS Updates (Beta)", is_legacy: false },
 		{ name: "ios_public", full: "iOS Updates (Public)", is_legacy: false },
 		{ name: "ipados_public", full: "iPadOS Updates (Public)", is_legacy: false },
 		{ name: "watchos_public", full: "watchOS Updates (Public)", is_legacy: false },
 		{ name: "tvos_public", full: "tvOS Updates (Public)", is_legacy: false },
 		{ name: "audioos_public", full: "HomePod Software Updates (Public)", is_legacy: false },
 		{ name: "macos_public", full: "macOS Updates (Public)", is_legacy: false },
+		{ name: "visionos_public", full: "visionOS Updates (Public)", is_legacy: false },
 		{ name: "pkg", full: "macOS Installer Package Releases", is_legacy: false },
 		{ name: "bot", full: "Bot Announcements", is_legacy: false }
 	];
@@ -219,6 +229,7 @@ module.exports = function () {
 			'macos_beta', 'macos_public',
 			'tvos_beta', 'tvos_public',
 			'audioos_beta', 'audioos_public',
+			'visionos_beta', 'visionos_public',
 			'pkg', 'bot'
 		];
 

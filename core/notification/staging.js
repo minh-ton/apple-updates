@@ -31,7 +31,7 @@ module.exports = function () {
         const notification_text = is_beta ? `${version} (${update_id} - Build ${build})` : `${version} (${build})`;
 
         const embed = new EmbedBuilder()
-            .setTitle(`New ${os == 'audioos' ? 'HomePod Software' : os.replace('os', 'OS').replace('pad', 'Pad')} ${release_type} Release!`) // Hacky title formatting fix
+            .setTitle(`New ${get_os_displayname(os)} ${release_type} Release!`)
             .addFields(
                 { name: `Version`, value: version_label, inline: true },
                 { name: `Build`, value: build, inline: true },

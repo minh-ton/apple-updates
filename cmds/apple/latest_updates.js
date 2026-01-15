@@ -82,7 +82,7 @@ module.exports = {
                 .setFooter({ text: interaction.user.username, iconURL: interaction.user.displayAvatarURL() })
                 .setTimestamp();
             
-            const os_order = ['ios', 'ipados', 'macos', 'watchos', 'tvos', 'audioos'];
+            const os_order = ['ios', 'ipados', 'macos', 'watchos', 'tvos', 'audioos', 'visionos'];
             
             for (const os of os_order) {
                 if (!os_versions[os] || Object.keys(os_versions[os]).length === 0) continue;

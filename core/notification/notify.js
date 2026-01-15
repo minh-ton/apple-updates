@@ -21,6 +21,7 @@ const watchos_beta_database = db.collection('discord').doc('watchos_beta');
 const tvos_beta_database = db.collection('discord').doc('tvos_beta');
 const audioos_beta_database = db.collection('discord').doc('audioos_beta');
 const macos_beta_database = db.collection('discord').doc('macos_beta');
+const visionos_beta_database = db.collection('discord').doc('visionos_beta');
 
 // New public databases
 const ios_public_database = db.collection('discord').doc('ios_public');
@@ -29,6 +30,7 @@ const watchos_public_database = db.collection('discord').doc('watchos_public');
 const tvos_public_database = db.collection('discord').doc('tvos_public');
 const audioos_public_database = db.collection('discord').doc('audioos_public');
 const macos_public_database = db.collection('discord').doc('macos_public');
+const visionos_public_database = db.collection('discord').doc('visionos_public');
 
 // Special databases (no beta/public separation)
 const pkg_database = db.collection('discord').doc('pkg');
@@ -49,12 +51,14 @@ const os_databases = {
     'tvos_beta': tvos_beta_database,
     'audioos_beta': audioos_beta_database,
     'macos_beta': macos_beta_database,
+    'visionos_beta': visionos_beta_database,
     'ios_public': ios_public_database,
     'ipados_public': ipados_public_database,
     'watchos_public': watchos_public_database,
     'tvos_public': tvos_public_database,
     'audioos_public': audioos_public_database,
     'macos_public': macos_public_database,
+    'visionos_public': visionos_public_database,
     'pkg': pkg_database,
     'bot': bot_database
 };
@@ -66,6 +70,7 @@ const os_role_messages = {
     'tvos': (version) => `**tvOS ${version}** has been released!`,
     'audioos': (version) => `**HomePod Software ${version}** has been released!`,
     'macos': (version) => `**macOS ${version}** has been released!`,
+    'visionos': (version) => `**visionOS ${version}** has been released!`,
     'pkg': (version) => `**macOS ${version}** Installer Package is available!`,
     'bot': () => `New announcements!`
 };
@@ -110,10 +115,6 @@ module.exports = function () {
         // Handle special cases that don't have beta/public separation
         if (os === 'pkg' || os === 'bot') {
             const database = os_databases[os];
-            if (!database) {
-                log_error(`Unknown OS type: ${os}`, "notify.js", `notify_all_servers`, `invalid OS type`);
-                return;
-            }
             
             try {
                 const guild_snapshot = await database.get();
@@ -135,11 +136,6 @@ module.exports = function () {
         const new_database = os_databases[new_doc_key];
         const legacy_database = os_databases[os];
         
-        if (!new_database || !legacy_database) {
-            log_error(`Unknown OS type: ${os}`, "notify.js", `notify_all_servers`, `invalid OS type`);
-            return;
-        }
-        
         const notified_guilds = new Set();
         
         try {
@@ -154,6 +150,7 @@ module.exports = function () {
             
             // Then, fetch from legacy document (non-migrated servers)
             // Skip guilds that were already notified from new document
+            if (!legacy_database) return;
             const legacy_snapshot = await legacy_database.get();
             const legacy_guilds = legacy_snapshot.data() || {};
             

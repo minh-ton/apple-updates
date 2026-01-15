@@ -158,8 +158,9 @@ module.exports = {
             { name: 'watchOS', value: 'watchos' },
             { name: 'tvOS', value: 'tvos' },
             { name: 'macOS', value: 'macos' },
-            { name: 'HomePod Software', value: 'audioos' }))
-        .addStringOption(option => option.setName('version').setDescription("Specify the version, e.g. 14.8.1").setRequired(true)),
+            { name: 'visionOS', value: 'visionos' },
+            { name: 'HomePod Software', value: 'audioos' },
+        )).addStringOption(option => option.setName('version').setDescription("Specify the version, e.g. 14.8.1").setRequired(true)),
 
     async execute(interaction) {
         const os_name = interaction.options.getString('os');

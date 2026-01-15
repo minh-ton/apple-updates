@@ -79,6 +79,7 @@ module.exports = function () {
       case 'macos': return 'macOS';
       case 'tvos': return 'tvOS';
       case 'watchos': return 'watchOS';
+      case 'visionos': return 'visionOS';
       case 'audioos': return 'HomePod Software';
       default: return os;
     }

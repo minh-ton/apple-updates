@@ -11,6 +11,7 @@ const os_updates = {
     watchos: "watchOS Updates",
     macos: "macOS Updates",
     tvos: "tvOS Updates",
+	visionos: "visionOS Updates",
     audioos: "HomePod Software Updates",
     pkg: "macOS Installer Package Releases",
 	bot: "Bot Announcements",

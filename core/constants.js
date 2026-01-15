@@ -175,6 +175,34 @@ module.exports = {
             {
                 enabled: true,
                 is_beta: false,
+                target_version: 12,
+                device: {
+                    // iPhone 6+
+                    version: '12.5.6',
+                    build: '16H71',
+                    prodtype: 'iPhone7,1',
+                    model: 'N56AP'
+                },
+                description: 'iOS 12 Release',
+                asset_audience: '01c1d682-6e8f-4908-b724-5501fe3f5e5c'
+            },
+            {
+                enabled: false,
+                is_beta: true,
+                target_version: 12,
+                device: {
+                    // iPhone 6+
+                    version: '12.5.6',
+                    build: '16H71',
+                    prodtype: 'iPhone7,1',
+                    model: 'N56AP'
+                },
+                description: 'iOS 12 Dev Beta',
+                asset_audience: 'ef473147-b8e7-4004-988e-0ae20e2532ef'
+            },
+            {
+                enabled: true,
+                is_beta: false,
                 target_version: 15,
                 device: {
                     // iPhone 7
@@ -881,6 +909,93 @@ module.exports = {
                 description: 'tvOS 26 Dev Beta',
                 asset_audience: '69cc7bd5-9ff2-4f5e-8b4f-30955542a81d'
             }
+        ],
+
+        visionos: [
+            {
+                enabled: false,
+                is_beta: false,
+                target_version: 1,
+                device: {
+                    // Apple Vision Pro
+                    version: '1.2',
+                    build: '21O589',
+                    prodtype: 'RealityDevice14,1',
+                    model: 'N301AP'
+                },
+                description: 'visionOS 1 Release',
+                asset_audience: 'c59ff9d1-5468-4f6c-9e54-f68d5eeab93b'
+            },
+            {
+                enabled: false,
+                is_beta: true,
+                target_version: 1,
+                device: {
+                    // Apple Vision Pro
+                    version: '1.2',
+                    build: '21O589',
+                    prodtype: 'RealityDevice14,1',
+                    model: 'N301AP'
+                },
+                description: 'visionOS 1 Dev Beta',
+                asset_audience: '4d282764-95fe-4e0e-b7da-ea218fd1f75a'
+            },
+            {
+                enabled: false,
+                is_beta: false,
+                target_version: 2,
+                device: {
+                    // Apple Vision Pro
+                    version: '2.5',
+                    build: '22O473',
+                    prodtype: 'RealityDevice14,1',
+                    model: 'N301AP'
+                },
+                description: 'visionOS 2 Release',
+                asset_audience: 'c59ff9d1-5468-4f6c-9e54-f68d5eeab93b'
+            },
+            {
+                enabled: false,
+                is_beta: true,
+                target_version: 2,
+                device: {
+                    // Apple Vision Pro
+                    version: '2.5',
+                    build: '22O473',
+                    prodtype: 'RealityDevice14,1',
+                    model: 'N301AP'
+                },
+                description: 'visionOS 2 Dev Beta',
+                asset_audience: '0bef3239-79ad-4d2a-99c3-2c05df2becf8'
+            },
+            {
+                enabled: true,
+                is_beta: false,
+                target_version: 26,
+                device: {
+                    // Apple Vision Pro
+                    version: '26.0.1',
+                    build: '23M341',
+                    prodtype: 'RealityDevice14,1',
+                    model: 'N301AP'
+                },
+                description: 'visionOS 26 Release',
+                asset_audience: 'c59ff9d1-5468-4f6c-9e54-f68d5eeab93b'
+            },
+            {
+                enabled: true,
+                is_beta: true,
+                target_version: 26,
+                device: {
+                    // Apple Vision Pro
+                    version: '26.0.1',
+                    build: '23M341',
+                    prodtype: 'RealityDevice14,1',
+                    model: 'N301AP'
+                },
+                description: 'visionOS 26 Dev Beta',
+                asset_audience: '6cc62786-ab10-4911-bbc3-ebb7815972f6'
+            }
         ]
     },
 
@@ -945,6 +1060,7 @@ module.exports = {
         macos: "com.apple.MobileAsset.MacSoftwareUpdate",
         watchos: "com.apple.MobileAsset.SoftwareUpdate",
         tvos: "com.apple.MobileAsset.SoftwareUpdate",
+        visionos: "com.apple.MobileAsset.SoftwareUpdate",
     },
 
     DOCUMENTATION_ASSET_TYPES: {
@@ -953,6 +1069,7 @@ module.exports = {
         audioos: "com.apple.MobileAsset.SoftwareUpdateDocumentation",
         macos: "com.apple.MobileAsset.SoftwareUpdateDocumentation",
         watchos: "com.apple.MobileAsset.WatchSoftwareUpdateDocumentation",
+        visionos: "com.apple.MobileAsset.SoftwareUpdateDocumentation",
     },
 
     DEVICE_NAMES: {
@@ -961,5 +1078,6 @@ module.exports = {
         audioos: "AudioAccessory",
         watchos: "Watch",
         macos: "Mac",
+        visionos: "RealityDevice",
     }
 }
