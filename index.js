@@ -32,22 +32,6 @@ global.bot = new Client({
         GatewayIntentBits.DirectMessages
     ],
     partials: [Partials.Channel],
-    sweepers: {
-        messages: {
-            interval: 300,
-            lifetime: 180,
-        },
-    },
-    makeCache: Options.cacheWithLimits({
-        MessageManager: 50,
-        PresenceManager: 0,
-        GuildMemberManager: 0,
-        ReactionManager: 0,
-        GuildBanManager: 0,
-        VoiceStateManager: 0,
-        StageInstanceManager: 0,
-        GuildScheduledEventManager: 0,
-    }),
 });
 global.bot.login(bot_token);
 
