@@ -229,7 +229,7 @@ module.exports = {
                 asset_audience: 'ce48f60c-f590-4157-a96f-41179ca08278'
             },
             {
-                enabled: false,
+                enabled: true,
                 is_beta: false,
                 target_version: 16,
                 device: {
@@ -369,7 +369,7 @@ module.exports = {
                 asset_audience: 'ce48f60c-f590-4157-a96f-41179ca08278'
             },
             {
-                enabled: false,
+                enabled: true,
                 is_beta: false,
                 target_version: 16,
                 device: {
