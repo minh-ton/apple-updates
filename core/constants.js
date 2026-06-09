@@ -168,6 +168,34 @@ module.exports = {
                 },
                 description: 'macOS 26 Dev Beta',
                 asset_audience: '832afda4-7283-41da-a95b-75f4a151e473'
+            },
+            {
+                enabled: false,
+                is_beta: false,
+                target_version: 27,
+                device: {
+                    // M1 Pro MacBook Pro (14")
+                    version: '26.5',
+                    build: '25F71',
+                    prodtype: 'MacBookPro18,3',
+                    model: 'J314sAP'
+                },
+                description: 'macOS 27 Release',
+                asset_audience: '60b55e25-a8ed-4f45-826c-c1495a4ccc65'
+            },
+            {
+                enabled: true,
+                is_beta: true,
+                target_version: 27,
+                device: {
+                    // M1 Pro MacBook Pro (14")
+                    version: '26.5',
+                    build: '25F71',
+                    prodtype: 'MacBookPro18,3',
+                    model: 'J314sAP'
+                },
+                description: 'macOS 27 Dev Beta',
+                asset_audience: '621ba5ab-54b6-4a71-891a-425ac0ce4551'
             }
         ],
 
@@ -336,6 +364,33 @@ module.exports = {
                 },
                 description: 'iOS 26 Dev Beta',
                 asset_audience: 'da1941f6-9822-4347-b771-fb09c3509052'
+            },
+            {
+                enabled: false,
+                is_beta: false,
+                target_version: 27,
+                // iPhone 11
+                device: {
+                    version: '26.5',
+                    build: '23F77',
+                    prodtype: 'iPhone12,1',
+                    model: 'N104AP'
+                },
+                description: 'iOS 27 Release',
+                asset_audience: '01c1d682-6e8f-4908-b724-5501fe3f5e5c'
+            },
+            {
+                enabled: true,
+                is_beta: true,
+                target_version: 27,
+                device: {
+                    version: '26.5',
+                    build: '23F77',
+                    prodtype: 'iPhone12,1',
+                    model: 'N104AP'
+                },
+                description: 'iOS 27 Dev Beta',
+                asset_audience: 'a5f921db-50af-448c-8f7e-3f093ca2c954'
             }
         ],
 
@@ -479,6 +534,34 @@ module.exports = {
                 },
                 description: 'iPadOS 26 Dev Beta',
                 asset_audience: 'da1941f6-9822-4347-b771-fb09c3509052'
+            },
+            {
+                enabled: false,
+                is_beta: false,
+                target_version: 27,
+                device: {
+                    // iPad Pro 7
+                    version: '26.5',
+                    build: '23F77',
+                    prodtype: 'iPad16,5',
+                    model: 'J720AP'
+                },
+                description: 'iPadOS 27 Release',
+                asset_audience: '01c1d682-6e8f-4908-b724-5501fe3f5e5c'
+            },
+            {
+                enabled: true,
+                is_beta: true,
+                target_version: 27,
+                device: {
+                    // iPad Pro 7
+                    version: '26.5',
+                    build: '23F77',
+                    prodtype: 'iPad16,5',
+                    model: 'J720AP'
+                },
+                description: 'iPadOS 27 Dev Beta',
+                asset_audience: 'a5f921db-50af-448c-8f7e-3f093ca2c954'
             }
         ],
 
@@ -622,6 +705,34 @@ module.exports = {
                 },
                 description: 'watchOS 26 Dev Beta',
                 asset_audience: 'e73d2741-8003-45cd-b909-86b9840f2ea2'
+            },
+            {
+                enabled: false,
+                is_beta: false,
+                target_version: 27,
+                device: {
+                    // Apple Watch Ultra 2
+                    version: '26.5',
+                    build: '23T570',
+                    prodtype: 'Watch7,5',
+                    model: 'N210AP'
+                },
+                description: 'watchOS 27 Release',
+                asset_audience: 'b82fcf9c-c284-41c9-8eb2-e69bf5a5269f'
+            },
+            {
+                enabled: true,
+                is_beta: true,
+                target_version: 27,
+                device: {
+                    // Apple Watch Ultra 2
+                    version: '26.5',
+                    build: '23T570',
+                    prodtype: 'Watch7,5',
+                    model: 'N210AP'
+                },
+                description: 'watchOS 27 Dev Beta',
+                asset_audience: '973a069a-8d0c-4247-8239-9493f14ee56e'
             }
         ],
 
@@ -908,6 +1019,34 @@ module.exports = {
                 },
                 description: 'tvOS 26 Dev Beta',
                 asset_audience: '69cc7bd5-9ff2-4f5e-8b4f-30955542a81d'
+            },
+            {
+                enabled: false,
+                is_beta: false,
+                target_version: 27,
+                device: {
+                    // Apple TV 4K (3rd generation)
+                    version: '26.5',
+                    build: '23L471',
+                    prodtype: 'AppleTV14,1',
+                    model: 'J255AP'
+                },
+                description: 'tvOS 27 Release',
+                asset_audience: '356d9da0-eee4-4c6c-bbe5-99b60eadddf0'
+            },
+            {
+                enabled: true,
+                is_beta: true,
+                target_version: 27,
+                device: {
+                    // Apple TV 4K (3rd generation)
+                    version: '26.5',
+                    build: '23L471',
+                    prodtype: 'AppleTV14,1',
+                    model: 'J255AP'
+                },
+                description: 'tvOS 27 Dev Beta',
+                asset_audience: '6ca2978e-e976-48b5-9b85-cba646d5dea8'
             }
         ],
 
@@ -995,6 +1134,34 @@ module.exports = {
                 },
                 description: 'visionOS 26 Dev Beta',
                 asset_audience: '6cc62786-ab10-4911-bbc3-ebb7815972f6'
+            },
+            {
+                enabled: false,
+                is_beta: false,
+                target_version: 27,
+                device: {
+                    // Apple Vision Pro
+                    version: '26.5',
+                    build: '23O471',
+                    prodtype: 'RealityDevice14,1',
+                    model: 'N301AP'
+                },
+                description: 'visionOS 27 Release',
+                asset_audience: 'c59ff9d1-5468-4f6c-9e54-f68d5eeab93b'
+            },
+            {
+                enabled: true,
+                is_beta: true,
+                target_version: 27,
+                device: {
+                    // Apple Vision Pro
+                    version: '26.5',
+                    build: '23O471',
+                    prodtype: 'RealityDevice14,1',
+                    model: 'N301AP'
+                },
+                description: 'visionOS 27 Dev Beta',
+                asset_audience: '3796f01d-bf07-45c2-8df6-ad7300055ed9'
             }
         ]
     },
@@ -1004,9 +1171,9 @@ module.exports = {
             {
                 enabled: true,
                 is_beta: true,
-                target_version: 26,
+                target_version: 27,
                 description: 'macOS Beta',
-                catalog_url: 'https://swscan.apple.com/content/catalogs/others/index-26seed-26-15-14-13-12-10.16-10.15-10.14-10.13-10.12-10.11-10.10-10.9-mountainlion-lion-snowleopard-leopard.merged-1.sucatalog.gz'
+                catalog_url: 'https://swscan.apple.com/content/catalogs/others/index-27seed-27-26-15-14-13-12-10.16-10.15-10.14-10.13-10.12-10.11-10.10-10.9-mountainlion-lion-snowleopard-leopard.merged-1.sucatalog'
             },
             {
                 enabled: true,
@@ -1014,6 +1181,13 @@ module.exports = {
                 target_version: 26,
                 description: 'macOS Public',
                 catalog_url: 'https://swscan.apple.com/content/catalogs/others/index-26-15-14-13-12-10.16-10.15-10.14-10.13-10.12-10.11-10.10-10.9-mountainlion-lion-snowleopard-leopard.merged-1.sucatalog'
+            },
+            {
+                enabled: false,
+                is_beta: true,
+                target_version: 26,
+                description: 'macOS 26 Beta',
+                catalog_url: 'https://swscan.apple.com/content/catalogs/others/index-26seed-26-15-14-13-12-10.16-10.15-10.14-10.13-10.12-10.11-10.10-10.9-mountainlion-lion-snowleopard-leopard.merged-1.sucatalog'
             },
             {
                 enabled: false,
