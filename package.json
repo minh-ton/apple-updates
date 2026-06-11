@@ -36,7 +36,7 @@
     "minisearch": "^7.2.0",
     "pretty-bytes": "^5.6.0",
     "pretty-ms": "^7.0.1",
-    "sanitize-html": "^2.17.4",
+    "sanitize-html": "^2.17.5",
     "xml-js": "^1.6.11"
   }
 }
