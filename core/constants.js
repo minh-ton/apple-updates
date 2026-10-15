@@ -366,7 +366,7 @@ module.exports = {
                 asset_audience: 'da1941f6-9822-4347-b771-fb09c3509052'
             },
             {
-                enabled: false,
+                enabled: true,
                 is_beta: false,
                 target_version: 27,
                 // iPhone 11
@@ -536,7 +536,7 @@ module.exports = {
                 asset_audience: 'da1941f6-9822-4347-b771-fb09c3509052'
             },
             {
-                enabled: false,
+                enabled: true,
                 is_beta: false,
                 target_version: 27,
                 device: {
@@ -707,7 +707,7 @@ module.exports = {
                 asset_audience: 'e73d2741-8003-45cd-b909-86b9840f2ea2'
             },
             {
-                enabled: false,
+                enabled: true,
                 is_beta: false,
                 target_version: 27,
                 device: {
@@ -876,6 +876,34 @@ module.exports = {
                 },
                 description: 'audioOS 26 Dev Beta',
                 asset_audience: '47ed08e9-bd89-454e-938c-664029863ee8'
+            },
+            {
+                enabled: true,
+                is_beta: false,
+                target_version: 27,
+                device: {
+                    // HomePod Mini
+                    version: '26.5',
+                    build: '23L471',
+                    prodtype: 'AudioAccessory5,1',
+                    model: 'B520AP'
+                },
+                description: 'audioOS 27 Release',
+                asset_audience: '0322d49d-d558-4ddf-bdff-c0443d0e6fac'
+            },
+            {
+                enabled: true,
+                is_beta: true,
+                target_version: 27,
+                device: {
+                    // HomePod Mini
+                    version: '26.5',
+                    build: '23L471',
+                    prodtype: 'AudioAccessory5,1',
+                    model: 'B520AP'
+                },
+                description: 'audioOS 27 Dev Beta',
+                asset_audience: '377d5d3a-03bc-41ae-b1d9-96694d79d5c3'
             }
         ],
 
@@ -1021,7 +1049,7 @@ module.exports = {
                 asset_audience: '69cc7bd5-9ff2-4f5e-8b4f-30955542a81d'
             },
             {
-                enabled: false,
+                enabled: true,
                 is_beta: false,
                 target_version: 27,
                 device: {
@@ -1136,7 +1164,7 @@ module.exports = {
                 asset_audience: '6cc62786-ab10-4911-bbc3-ebb7815972f6'
             },
             {
-                enabled: false,
+                enabled: true,
                 is_beta: false,
                 target_version: 27,
                 device: {
